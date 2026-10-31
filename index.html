@@ -129,6 +129,21 @@
             <button id="btnLoadPages" onclick="loadPageRange()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 rounded-lg transition-all">Load Pages</button>
             <p id="pageModeNote" class="hidden mt-2 text-[11px] text-emerald-300 leading-snug"></p>
           </div>
+
+          <!-- View Mode Toggle -->
+          <div class="pt-3 border-t border-dark-emerald">
+            <label id="lblViewMode" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-2">
+              View Mode (نمط العرض)
+            </label>
+            <div class="flex rounded-lg bg-dark-emerald-light p-1 border border-dark-emerald">
+              <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
+                Verses (آيات)
+              </button>
+              <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
+                Mus'haf Page (مصحف)
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -356,7 +371,12 @@
         btnLoadPages: "Load Pages",
         pageShort: "Page",
         pageModeNote: "Showing your daily page range. Changing the surah or verses switches back.",
-        pageRangeTooLong: "Please choose at most 20 pages at a time."
+        pageRangeTooLong: "Please choose at most 20 pages at a time.",
+        lblViewMode: "View Mode",
+        btnVerseMode: "Verses",
+        btnMushafMode: "Mus'haf Page",
+        mushafFullRes: "Full Resolution",
+        mushafLoadFailed: "This page image could not be loaded. Please check your connection."
       },
       ar: {
         pageTitle: "متابع حفظ القرآن",
@@ -436,7 +456,12 @@
         btnLoadPages: "عرض الصفحات",
         pageShort: "صفحة",
         pageModeNote: "يتم عرض نطاق الصفحات اليومي. تغيير السورة أو الآيات يعيدك إلى الوضع العادي.",
-        pageRangeTooLong: "اختر 20 صفحة كحد أقصى في المرة الواحدة."
+        pageRangeTooLong: "اختر 20 صفحة كحد أقصى في المرة الواحدة.",
+        lblViewMode: "نمط العرض",
+        btnVerseMode: "آيات",
+        btnMushafMode: "صفحات المصحف",
+        mushafFullRes: "الدقة الكاملة",
+        mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت."
       },
       ml: {
         pageTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
@@ -516,7 +541,12 @@
         btnLoadPages: "പേജുകൾ ലോഡ് ചെയ്യുക",
         pageShort: "പേജ്",
         pageModeNote: "ദൈനംദിന പേജ് പരിധി കാണിക്കുന്നു. സൂറത്തോ ആയത്തോ മാറ്റിയാൽ തിരികെ പോകും.",
-        pageRangeTooLong: "ഒരു സമയം പരമാവധി 20 പേജുകൾ തിരഞ്ഞെടുക്കുക."
+        pageRangeTooLong: "ഒരു സമയം പരമാവധി 20 പേജുകൾ തിരഞ്ഞെടുക്കുക.",
+        lblViewMode: "കാഴ്ചാ മോഡ്",
+        btnVerseMode: "ആയത്തുകൾ",
+        btnMushafMode: "മുസ്ഹഫ് പേജ്",
+        mushafFullRes: "പൂർണ്ണ റെസല്യൂഷൻ",
+        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക."
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
@@ -596,7 +626,12 @@
         btnLoadPages: "صفحات لوڈ کریں",
         pageShort: "صفحہ",
         pageModeNote: "روزانہ صفحات کی حد دکھائی جا رہی ہے۔ سورۃ یا آیات بدلنے پر واپس چلا جائے گا۔",
-        pageRangeTooLong: "ایک وقت میں زیادہ سے زیادہ 20 صفحات منتخب کریں۔"
+        pageRangeTooLong: "ایک وقت میں زیادہ سے زیادہ 20 صفحات منتخب کریں۔",
+        lblViewMode: "منظر کا انداز",
+        btnVerseMode: "آیات",
+        btnMushafMode: "مصحف صفحہ",
+        mushafFullRes: "مکمل ریزولوشن",
+        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
@@ -676,7 +711,12 @@
         btnLoadPages: "পৃষ্ঠা লোড করুন",
         pageShort: "পৃষ্ঠা",
         pageModeNote: "দৈনিক পৃষ্ঠা পরিসীমা দেখানো হচ্ছে। সুরা বা আয়াত বদলালে আগের অবস্থায় ফিরবে।",
-        pageRangeTooLong: "একবারে সর্বোচ্চ 20টি পৃষ্ঠা নির্বাচন করুন।"
+        pageRangeTooLong: "একবারে সর্বোচ্চ 20টি পৃষ্ঠা নির্বাচন করুন।",
+        lblViewMode: "দেখার মোড",
+        btnVerseMode: "আয়াত",
+        btnMushafMode: "মুসহাফ পৃষ্ঠা",
+        mushafFullRes: "পূর্ণ রেজোলিউশন",
+        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"
       }
     };
 
@@ -704,6 +744,7 @@
     let repCounts = loadJSON(STORE.counts, {});   // { "2:5": 7, ... } repetitions actually done
     let preferredReciter = null;
     let viewMode = 'surah';                       // 'surah' = surah + verse range | 'pages' = daily page range
+    let currentViewMode = 'verse';                // HOW verses are shown: 'verse' (cards) | 'mushaf' (page images)
     let loadedPages = null;                       // {from, to} of the page range currently shown                  // what the USER picked (the dropdown may temporarily show the fallback)
 
     // ---------- small helpers ----------
@@ -732,7 +773,7 @@
     // ids whose element id equals the translation key
     const LABEL_IDS = [
       'brandTitle', 'brandSub', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
-      'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
+      'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
       'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy'
@@ -777,6 +818,7 @@
         repetition: $('repetitionTarget').value,
         reciter: preferredReciter || $('reciterSelect').value,
         mode: viewMode,
+        view: currentViewMode,
         fromPage: $('fromPage').value,
         toPage: $('toPage').value
       });
@@ -791,6 +833,7 @@
       if (st.fromPage) $('fromPage').value = st.fromPage;
       if (st.toPage) $('toPage').value = st.toPage;
       if (st.mode === 'pages') viewMode = 'pages';
+      if (st.view === 'mushaf') currentViewMode = 'mushaf';
       const sel = $('reciterSelect');
       if (st.reciter && [...sel.options].some(o => o.value === st.reciter)) {
         sel.value = st.reciter;
@@ -806,6 +849,7 @@
       applyLanguage();
 
       const st = restoreInputs();
+      updateViewToggleUI();
       await fetchSurahList(st ? st.surah : 1);
       await refreshVerses();
       renderLogsTable();
@@ -921,6 +965,7 @@
             surah: surahNum,
             numberInSurah: n,
             globalNumber: allAr[i].number,
+            page: allAr[i].page,
             arabic: allAr[i].text,
             translation: allTrans && allTrans[i] ? allTrans[i].text : null,
             repetitionCount: repCounts[repKey(surahNum, n)] || 0     // keeps progress across language/range changes
@@ -930,7 +975,7 @@
         $('verseCountBadge').innerText = currentVerses.length;
         $('surahMetaHeader').innerText =
           `${surahData ? surahData.englishName : ''} (${t.verseRange.replace('{from}', fromV).replace('{to}', toV)})`;
-        renderVerseCards();
+        renderCurrentView();
         updateSessionSummary();
       } catch (err) {
         console.error('Error fetching verses:', err);
@@ -1128,7 +1173,7 @@
 
         $('verseCountBadge').innerText = verses.length;
         $('surahMetaHeader').innerText = `${t.pageShort} ${pagesLabel()} · ${portionLabel()}`;
-        renderVerseCards();
+        renderCurrentView();
         updateSessionSummary();
       } catch (err) {
         console.error('Error fetching pages:', err);
@@ -1138,6 +1183,154 @@
             ${escapeHtml(t.loadFailed)}
           </div>`;
       }
+    }
+
+
+    // ==================================================================
+    // VIEW MODE: Verses (cards) | Mus'haf Page (page images)
+    // ==================================================================
+    // currentViewMode = how the loaded verses are DISPLAYED ('viewMode' above = where they come from).
+    // Audio, repetition counters, the log and sharing work the same in both views.
+    // Image sources are tried in order; if one fails for a page the next one is used automatically.
+    const MUSHAF_IMAGE_SOURCES = [
+      p => `https://android.quran.com/data/width_1024/page${String(p).padStart(3, '0')}.png`,  // Madani mushaf page images
+      p => `https://mushaf.quran.com/png/page${String(p).padStart(3, '0')}.png`,
+      p => `https://api.islamic.app/v1/mushaf/page/${p}.svg?width=1000`                         // typeset Madani layout (SVG)
+    ];
+    let mushafSourceStart = 0;           // index of the first source that has worked; later pages start there
+
+    function updateViewToggleUI() {
+      const on = 'flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all';
+      const off = 'flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all';
+      const bv = $('btnVerseMode'), bm = $('btnMushafMode');
+      if (bv) bv.className = currentViewMode === 'verse' ? on : off;
+      if (bm) bm.className = currentViewMode === 'mushaf' ? on : off;
+    }
+
+    function setViewMode(mode) {
+      if (mode !== 'verse' && mode !== 'mushaf') return;
+      currentViewMode = mode;
+      updateViewToggleUI();
+      saveState();
+      if (currentVerses.length) renderCurrentView();
+    }
+
+    function renderCurrentView() {
+      if (currentViewMode === 'mushaf') renderMushafPages(); else renderVerseCards();
+      // switched views while audio is playing: put the "now playing" highlight back
+      if (isRunning && activeVerseIndex !== -1) {
+        const i = activeVerseIndex;
+        activeVerseIndex = -1;
+        markActive(i);
+      }
+    }
+
+    // "Al-Baqarah 6-24" (or "Al-Baqarah 280-286 + Aal-Imran 1-3") for the given verse indexes
+    function describeVerses(indexes) {
+      const parts = [];
+      indexes.forEach(i => {
+        const v = currentVerses[i];
+        const last = parts[parts.length - 1];
+        if (last && last.surah === v.surah) last.to = v.numberInSurah;
+        else parts.push({ surah: v.surah, from: v.numberInSurah, to: v.numberInSurah });
+      });
+      return parts.map(p => {
+        const sd = surahList.find(x => x.number === p.surah);
+        return `${sd ? sd.englishName : 'Surah ' + p.surah} ${p.from}-${p.to}`;
+      }).join(' + ');
+    }
+
+    // Small control for one verse under its page: listen button + repetition counter.
+    // Uses the same element ids as the verse cards, so playback highlighting and counters keep working.
+    function mushafVerseChip(idx, targetReps) {
+      const v = currentVerses[idx];
+      const t = T();
+      return `
+        <div id="verse-card-${idx}" class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2 py-1 text-xs transition-all">
+          <button onclick="onListenClick(${idx})" title="${escapeHtml(t.playBtnText)}" class="text-emerald-700 hover:text-emerald-900">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+            </svg>
+          </button>
+          <span class="font-semibold text-slate-700">${v.surah}:${v.numberInSurah}</span>
+          <button onclick="bumpRep(${idx})" class="bg-white border border-slate-200 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <span id="rep-count-${idx}" class="font-bold text-emerald-800">${v.repetitionCount}</span>
+            <span id="tgt-total-${idx}" class="text-slate-400">/ ${targetReps}</span>
+          </button>
+          <span id="play-text-${idx}" class="hidden">${escapeHtml(t.playBtnText)}</span>
+        </div>`;
+    }
+
+    function renderMushafPages() {
+      const container = $('versesList');
+      const t = T();
+      container.innerHTML = '';
+      if (!currentVerses.length) return;
+
+      // pages that contain the loaded verses (works for a surah/verse selection and for a page range)
+      const known = currentVerses.map(v => v.page).filter(Boolean);
+      let from, to;
+      if (known.length) { from = Math.min(...known); to = Math.max(...known); }
+      else { from = parseInt($('fromPage').value) || 1; to = parseInt($('toPage').value) || from; }
+      from = Math.min(Math.max(from, 1), MAX_PAGE);
+      to = Math.min(Math.max(to, from), MAX_PAGE);
+
+      const targetReps = getTarget();
+      for (let page = from; page <= to; page++) {
+        let onPage = [];
+        currentVerses.forEach((v, idx) => { if (v.page === page) onPage.push(idx); });
+        if (!known.length && page === from) onPage = currentVerses.map((_, idx) => idx);   // no page info at all
+
+        const url = MUSHAF_IMAGE_SOURCES[mushafSourceStart](page);
+        const caption = onPage.length ? describeVerses(onPage) : '';
+        const chips = onPage.length
+          ? `<div class="flex flex-wrap justify-center gap-2 mt-4">${onPage.map(i => mushafVerseChip(i, targetReps)).join('')}</div>`
+          : '';
+
+        const pageCard = document.createElement('div');
+        pageCard.className = 'bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 text-center';
+        pageCard.innerHTML = `
+          <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+            <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-3 py-1 rounded-lg">
+              ${escapeHtml(t.pageShort)} ${page}${currentLang === 'ar' ? '' : ` (صفحة ${page})`}
+            </span>
+            <a id="mushaf-full-${page}" href="${escapeHtml(url)}" target="_blank" rel="noopener" class="text-xs text-emerald-700 font-medium hover:underline">
+              🔍 ${escapeHtml(t.mushafFullRes)}
+            </a>
+          </div>
+          ${caption ? `<p class="text-xs text-slate-500 mb-3">${escapeHtml(caption)}</p>` : ''}
+          <div class="flex justify-center bg-amber-50/30 p-2 md:p-4 rounded-xl border border-amber-100/50">
+            <img src="${escapeHtml(url)}" data-page="${page}" data-src="${mushafSourceStart}"
+                 alt="${escapeHtml(t.pageShort)} ${page}" loading="lazy"
+                 onerror="mushafImgError(this)" onload="mushafImgLoaded(this)"
+                 class="w-full max-w-xl h-auto rounded-lg shadow-sm border border-slate-200 bg-white">
+          </div>
+          <div id="mushaf-err-${page}" class="hidden text-xs text-rose-600 mt-2">${escapeHtml(t.mushafLoadFailed)}</div>
+          ${chips}`;
+        container.appendChild(pageCard);
+      }
+    }
+
+    // A page image failed: try the next source, or show a message once all have failed.
+    function mushafImgError(img) {
+      const page = img.dataset.page;
+      const next = parseInt(img.dataset.src) + 1;
+      if (next < MUSHAF_IMAGE_SOURCES.length) {
+        img.dataset.src = next;
+        const url = MUSHAF_IMAGE_SOURCES[next](page);
+        img.src = url;
+        const link = $(`mushaf-full-${page}`);
+        if (link) link.href = url;
+      } else {
+        img.style.display = 'none';
+        const err = $(`mushaf-err-${page}`);
+        if (err) err.classList.remove('hidden');
+      }
+    }
+
+    function mushafImgLoaded(img) {
+      const k = parseInt(img.dataset.src);
+      if (k > mushafSourceStart) mushafSourceStart = k;   // skip the sources that failed for the next pages
     }
 
     // ==================================================================
