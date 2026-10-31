@@ -307,7 +307,14 @@
         resumeText: "Pause",
         deleteText: "Delete",
         saveText: "Save",
-        cancelText: "Cancel"
+        cancelText: "Cancel",
+        verseLabel: "Verse",
+        verseRange: "Verse {from} to {to}",
+        loadFailed: "Failed to load data. Please check your internet connection.",
+        placeholderPortion: "e.g. Al-Fatihah (1-7)",
+        placeholderNotes: "Write notes...",
+        audioFallbackToast: "Selected reciter's audio is unavailable - switched to Mishary Alafasy",
+        audioFailed: "Audio could not be loaded. Please check your connection."
       },
       ar: {
         pageTitle: "متابع حفظ القرآن",
@@ -357,7 +364,14 @@
         resumeText: "إيقاف مؤقت",
         deleteText: "حذف",
         saveText: "حفظ",
-        cancelText: "إلغاء"
+        cancelText: "إلغاء",
+        verseLabel: "آية",
+        verseRange: "الآيات {from} إلى {to}",
+        loadFailed: "تعذّر تحميل البيانات. تحقق من اتصالك بالإنترنت.",
+        placeholderPortion: "مثال: الفاتحة (1-7)",
+        placeholderNotes: "اكتب ملاحظات...",
+        audioFallbackToast: "تعذّر تشغيل صوت القارئ المختار - تم التبديل إلى مشاري العفاسي",
+        audioFailed: "تعذّر تحميل الصوت. تحقق من اتصالك بالإنترنت."
       },
       ml: {
         pageTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
@@ -407,7 +421,14 @@
         resumeText: "പോസ്",
         deleteText: "നീക്കം ചെയ്യുക",
         saveText: "സേവ്",
-        cancelText: "റദ്ദാക്കുക"
+        cancelText: "റദ്ദാക്കുക",
+        verseLabel: "ആയത്ത്",
+        verseRange: "ആയത്ത് {from} മുതൽ {to} വരെ",
+        loadFailed: "ഡാറ്റ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
+        placeholderPortion: "ഉദാ: അൽ-ഫാതിഹ (1-7)",
+        placeholderNotes: "കുറിപ്പുകൾ എഴുതുക...",
+        audioFallbackToast: "തിരഞ്ഞെടുത്ത ഖാരിഅിന്റെ ഓഡിയോ ലഭ്യമല്ല - മിഷാരി അൽ-അഫാസിയിലേക്ക് മാറ്റി",
+        audioFailed: "ഓഡിയോ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക."
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
@@ -457,7 +478,14 @@
         resumeText: "وقفہ",
         deleteText: "حذف کریں",
         saveText: "محفوظ",
-        cancelText: "منسوخ"
+        cancelText: "منسوخ",
+        verseLabel: "آیت",
+        verseRange: "آیت {from} تا {to}",
+        loadFailed: "ڈیٹا لوڈ نہیں ہو سکا۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
+        placeholderPortion: "مثلاً: الفاتحہ (1-7)",
+        placeholderNotes: "نوٹس لکھیں...",
+        audioFallbackToast: "منتخب قاری کی آڈیو دستیاب نہیں - مشاری العفاسی پر منتقل کر دیا گیا",
+        audioFailed: "آڈیو لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
@@ -507,7 +535,14 @@
         resumeText: "বিরতি",
         deleteText: "মুছে ফেলুন",
         saveText: "সংরক্ষণ",
-        cancelText: "বাতিল"
+        cancelText: "বাতিল",
+        verseLabel: "আয়াত",
+        verseRange: "আয়াত {from} থেকে {to}",
+        loadFailed: "ডেটা লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।",
+        placeholderPortion: "যেমন: আল-ফাতিহা (1-7)",
+        placeholderNotes: "নোট লিখুন...",
+        audioFallbackToast: "নির্বাচিত কারীর অডিও পাওয়া যায়নি - মিশারী আলাফাসিতে পরিবর্তন করা হয়েছে",
+        audioFailed: "অডিও লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"
       }
     };
 
@@ -539,7 +574,8 @@
       document.getElementById('lblActiveVerseTitle').innerText = t.lblActiveVerseTitle;
       document.getElementById('activeVerseIndicator').innerText = activeVerseIndex === -1 ? t.notPlaying : document.getElementById('activeVerseIndicator').innerText;
       document.getElementById('lblSelectedVersesHeading').innerText = t.lblSelectedVersesHeading;
-      document.getElementById('loadingVersesText').innerText = t.loadingVersesText;
+      // (#loadingVersesText lives inside #versesList and is destroyed once verses render,
+      //  so it must NOT be looked up here - doing so threw an error and stopped the rest of this function)
       document.getElementById('lblWeeklyLogTitle').innerText = t.lblWeeklyLogTitle;
       document.getElementById('lblWeeklyLogDesc').innerText = t.lblWeeklyLogDesc;
       document.getElementById('btnClearHistory').innerText = t.btnClearHistory;
@@ -622,7 +658,9 @@
       input.value = current;
     }
 
+    let versesFetchId = 0;
     async function validateAndFetchVerses() {
+      const fetchId = ++versesFetchId; // lets us ignore out-of-date responses
       stopAudio();
       const surahNum = document.getElementById('surahSelect').value || 1;
       const surahData = surahList.find(s => s.number == surahNum);
@@ -680,6 +718,8 @@
           }
         }
 
+        if (fetchId !== versesFetchId) return; // a newer request (e.g. language change) took over
+
         if (arData.code === 200) {
           const allArAyahs = arData.data.ayahs;
           const allTransAyahs = transData && transData.code === 200 ? transData.data.ayahs : null;
@@ -696,15 +736,16 @@
           }
 
           document.getElementById('verseCountBadge').innerText = currentVerses.length;
-          document.getElementById('surahMetaHeader').innerText = `${surahData ? surahData.englishName : ''} (Verse ${fromV} to ${toV})`;
+          document.getElementById('surahMetaHeader').innerText = `${surahData ? surahData.englishName : ''} (${t.verseRange.replace('{from}', fromV).replace('{to}', toV)})`;
 
           renderVerseCards();
         }
       } catch (err) {
         console.error('Error fetching verses:', err);
+        if (fetchId !== versesFetchId) return;
         container.innerHTML = `
           <div class="bg-white p-6 rounded-2xl border border-rose-200 text-center text-rose-600">
-            Failed to load data. Please check your internet connection.
+            ${t.loadFailed}
           </div>`;
       }
     }
@@ -735,7 +776,7 @@
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
             <div class="flex items-center space-x-2">
               <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-2.5 py-1 rounded-lg">
-                Verse ${verse.numberInSurah}
+                ${t.verseLabel} ${verse.numberInSurah}
               </span>
               <span class="text-xs text-slate-400">${t.repsLabel} ${targetReps}</span>
             </div>
@@ -767,9 +808,21 @@
       });
     }
 
-    function getAudioSourceUrl(surahNum, verseNumInSurah, globalVerseNum) {
-      const reciter = document.getElementById('reciterSelect').value;
-      if (reciter.includes('_128kbps') || reciter.includes('_64kbps') || reciter.includes('_192kbps')) {
+    // ------------------------------------------------------------------
+    // AUDIO SOURCES, AVAILABILITY CHECK & FALLBACK
+    // ------------------------------------------------------------------
+    const FALLBACK_RECITER = 'ar.alafasy';   // Mishary Alafasy (Quran API / islamic.network CDN)
+    const AUDIO_START_TIMEOUT = 8000;        // ms to wait for a file to actually start playing
+    let playToken = 0;                       // invalidates stale async work when user clicks around
+    let confirmedUrl = null;                 // URL that has successfully started playing
+
+    // everyayah.com reciters look like "Husary_Muallim_128kbps"; Quran API ones like "ar.alafasy"
+    function isEveryAyahReciter(reciter) {
+      return /_\d+kbps$/.test(reciter);
+    }
+
+    function getAudioSourceUrl(reciter, surahNum, verseNumInSurah, globalVerseNum) {
+      if (isEveryAyahReciter(reciter)) {
         const sStr = String(surahNum).padStart(3, '0');
         const aStr = String(verseNumInSurah).padStart(3, '0');
         return `https://everyayah.com/data/${reciter}/${sStr}${aStr}.mp3`;
@@ -777,32 +830,96 @@
       return `https://cdn.islamic.network/quran/audio/128/${reciter}/${globalVerseNum}.mp3`;
     }
 
-    function playVerseAudio(index) {
+    // Loads `url` into the shared player and starts it. Resolves with:
+    //   'ok'      -> the file is available and playback has started
+    //   'failed'  -> network/404/decode error, or it never started within AUDIO_START_TIMEOUT
+    //   'aborted' -> superseded / paused by the user (NOT an availability problem)
+    function attemptPlay(url) {
+      return new Promise(resolve => {
+        let settled = false;
+        const settle = result => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          audioPlayer.removeEventListener('playing', onPlaying);
+          audioPlayer.removeEventListener('error', onError);
+          resolve(result);
+        };
+        const onPlaying = () => settle('ok');
+        const onError = () => settle('failed');
+        const timer = setTimeout(() => settle('failed'), AUDIO_START_TIMEOUT);
+
+        audioPlayer.addEventListener('playing', onPlaying);
+        audioPlayer.addEventListener('error', onError);
+        audioPlayer.src = url;
+        audioPlayer.play().catch(err => {
+          // AbortError = src changed / paused meanwhile; NotAllowedError = autoplay policy.
+          // Neither means the file is missing, so don't trigger the fallback.
+          if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) settle('aborted');
+          else settle('failed');
+        });
+      });
+    }
+
+    function switchToFallbackReciter() {
+      const select = document.getElementById('reciterSelect');
+      if (select.value === FALLBACK_RECITER) return;
+      select.value = FALLBACK_RECITER;   // programmatic change: does not fire onchange
+      showToast(translations[currentLang].audioFallbackToast, true);
+    }
+
+    async function playVerseAudio(index, forceFallback = false) {
       if (index < 0 || index >= currentVerses.length) return;
       if (activeVerseIndex !== -1 && activeVerseIndex !== index) {
         resetCardUI(activeVerseIndex);
       }
       activeVerseIndex = index;
+      confirmedUrl = null;
+      const token = ++playToken;
       const verse = currentVerses[index];
       const surahNum = document.getElementById('surahSelect').value || 1;
       const t = translations[currentLang];
 
-      audioPlayer.src = getAudioSourceUrl(surahNum, verse.numberInSurah, verse.globalNumber);
-      audioPlayer.play().catch(() => {
-        const sStr = String(surahNum).padStart(3, '0');
-        const aStr = String(verse.numberInSurah).padStart(3, '0');
-        audioPlayer.src = `https://everyayah.com/data/Husary_Muallim_128kbps/${sStr}${aStr}.mp3`;
-        audioPlayer.play();
-      });
-
       const card = document.getElementById(`verse-card-${index}`);
       if (card) card.classList.add('active-verse');
-
       const playText = document.getElementById(`play-text-${index}`);
       if (playText) playText.innerText = t.playingText;
+      document.getElementById('activeVerseIndicator').innerText = `${t.verseLabel} ${verse.numberInSurah}`;
 
-      document.getElementById('activeVerseIndicator').innerText = `Verse ${verse.numberInSurah}`;
+      // 1) Try the reciter the user selected (default: Husary Muallim on everyayah.com)
+      if (forceFallback) switchToFallbackReciter();
+      const reciter = document.getElementById('reciterSelect').value;
+      let url = getAudioSourceUrl(reciter, surahNum, verse.numberInSurah, verse.globalNumber);
+      let result = await attemptPlay(url);
+      if (token !== playToken) return;           // user moved on while we were loading
+
+      // 2) Not available -> switch to Mishary Alafasy from the Quran API CDN
+      if (result === 'failed' && reciter !== FALLBACK_RECITER) {
+        switchToFallbackReciter();
+        url = getAudioSourceUrl(FALLBACK_RECITER, surahNum, verse.numberInSurah, verse.globalNumber);
+        result = await attemptPlay(url);
+        if (token !== playToken) return;
+      }
+
+      if (result === 'ok') {
+        confirmedUrl = audioPlayer.src;
+      } else if (result === 'failed') {
+        showToast(t.audioFailed, true);          // even the fallback is unreachable
+        stopAudio();
+      }
     }
+
+    // Safety net: file started fine but the connection died mid-playback -> fall back too.
+    audioPlayer.addEventListener('error', () => {
+      if (activeVerseIndex === -1 || !confirmedUrl || audioPlayer.src !== confirmedUrl) return;
+      confirmedUrl = null;
+      if (document.getElementById('reciterSelect').value !== FALLBACK_RECITER) {
+        playVerseAudio(activeVerseIndex, true);
+      } else {
+        showToast(translations[currentLang].audioFailed, true);
+        stopAudio();
+      }
+    });
 
     function toggleContinuousPlay() {
       const t = translations[currentLang];
@@ -827,7 +944,7 @@
         audioPlayer.play();
         isPaused = false;
         pauseBtn.innerText = t.resumeText;
-        document.getElementById('activeVerseIndicator').innerText = `Verse ${currentVerses[activeVerseIndex].numberInSurah} (${t.continueText})`;
+        document.getElementById('activeVerseIndicator').innerText = `${t.verseLabel} ${currentVerses[activeVerseIndex].numberInSurah} (${t.continueText})`;
       } else {
         audioPlayer.pause();
         isPaused = true;
@@ -852,6 +969,8 @@
     };
 
     function stopAudio() {
+      playToken++;            // cancel any in-flight load/fallback
+      confirmedUrl = null;
       audioPlayer.pause();
       audioPlayer.currentTime = 0;
       isContinuousPlaying = false;
@@ -966,7 +1085,7 @@
           <input type="text" id="newDate" value="${defaultDate}" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
         </td>
         <td class="p-3.5">
-          <input type="text" id="newPortion" placeholder="e.g. Al-Fatihah (1-7)" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+          <input type="text" id="newPortion" placeholder="${t.placeholderPortion}" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
         </td>
         <td class="p-3.5 text-center">
           <input type="number" id="newReps" value="9" min="1" class="w-16 mx-auto text-center bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
@@ -975,7 +1094,7 @@
           <input type="checkbox" id="newCompleted" checked class="w-4 h-4 text-emerald-600 rounded border-slate-300 accent-emerald-700">
         </td>
         <td class="p-3.5">
-          <input type="text" id="newNotes" placeholder="Write notes..." class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+          <input type="text" id="newNotes" placeholder="${t.placeholderNotes}" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
         </td>
         <td class="p-3.5 text-center space-x-2">
           <button onclick="saveNewRow(this)" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1 rounded-lg text-xs font-semibold shadow-sm">${t.saveText}</button>
@@ -1022,15 +1141,22 @@
       }
     }
 
-    function showToast(msg) {
+    function showToast(msg, isWarning = false) {
       const toast = document.createElement('div');
-      toast.className = 'fixed bottom-5 right-5 bg-dark-emerald text-emerald-100 border border-emerald-700 px-5 py-3 rounded-xl shadow-2xl z-50 text-xs font-semibold flex items-center space-x-2 transition-all';
-      toast.innerHTML = `<span>✓</span><span>${msg}</span>`;
+      toast.className = 'fixed bottom-5 right-5 border px-5 py-3 rounded-xl shadow-2xl z-50 text-xs font-semibold flex items-center space-x-2 transition-all '
+        + (isWarning
+            ? 'bg-amber-50 text-amber-900 border-amber-300'
+            : 'bg-dark-emerald text-emerald-100 border-emerald-700');
+      const icon = document.createElement('span');
+      icon.textContent = isWarning ? '⚠' : '✓';
+      const text = document.createElement('span');
+      text.textContent = msg;
+      toast.append(icon, text);
       document.body.appendChild(toast);
       setTimeout(() => {
         toast.style.opacity = '0';
         setTimeout(() => toast.remove(), 300);
-      }, 2500);
+      }, isWarning ? 4500 : 2500);
     }
   </script>
 </body>
