@@ -119,13 +119,15 @@
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
-                <input type="number" id="fromPage" value="1" min="1" onchange="saveState()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+                <input type="number" id="fromPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
               </div>
               <div>
                 <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
-                <input type="number" id="toPage" value="1" min="1" onchange="saveState()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+                <input type="number" id="toPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
               </div>
             </div>
+            <button id="btnLoadPages" onclick="loadPageRange()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 rounded-lg transition-all">Load Pages</button>
+            <p id="pageModeNote" class="hidden mt-2 text-[11px] text-emerald-300 leading-snug"></p>
           </div>
         </div>
       </div>
@@ -350,7 +352,11 @@
         toastCopied: "Copied to clipboard",
         toastNoTodayLogs: "No progress saved today yet.",
         repsShort: "reps",
-        lblShareVia: "Share via"
+        lblShareVia: "Share via",
+        btnLoadPages: "Load Pages",
+        pageShort: "Page",
+        pageModeNote: "Showing your daily page range. Changing the surah or verses switches back.",
+        pageRangeTooLong: "Please choose at most 20 pages at a time."
       },
       ar: {
         pageTitle: "متابع حفظ القرآن",
@@ -426,7 +432,11 @@
         toastCopied: "تم النسخ",
         toastNoTodayLogs: "لا يوجد تقدم محفوظ اليوم بعد.",
         repsShort: "تكرار",
-        lblShareVia: "مشاركة عبر"
+        lblShareVia: "مشاركة عبر",
+        btnLoadPages: "عرض الصفحات",
+        pageShort: "صفحة",
+        pageModeNote: "يتم عرض نطاق الصفحات اليومي. تغيير السورة أو الآيات يعيدك إلى الوضع العادي.",
+        pageRangeTooLong: "اختر 20 صفحة كحد أقصى في المرة الواحدة."
       },
       ml: {
         pageTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
@@ -502,7 +512,11 @@
         toastCopied: "കോപ്പി ചെയ്തു",
         toastNoTodayLogs: "ഇന്ന് സേവ് ചെയ്ത പുരോഗതി ഇല്ല.",
         repsShort: "ആവർത്തനം",
-        lblShareVia: "ഷെയർ ചെയ്യുക"
+        lblShareVia: "ഷെയർ ചെയ്യുക",
+        btnLoadPages: "പേജുകൾ ലോഡ് ചെയ്യുക",
+        pageShort: "പേജ്",
+        pageModeNote: "ദൈനംദിന പേജ് പരിധി കാണിക്കുന്നു. സൂറത്തോ ആയത്തോ മാറ്റിയാൽ തിരികെ പോകും.",
+        pageRangeTooLong: "ഒരു സമയം പരമാവധി 20 പേജുകൾ തിരഞ്ഞെടുക്കുക."
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
@@ -578,7 +592,11 @@
         toastCopied: "کاپی ہو گیا",
         toastNoTodayLogs: "آج کی کوئی پیشرفت محفوظ نہیں۔",
         repsShort: "تکرار",
-        lblShareVia: "شیئر کریں"
+        lblShareVia: "شیئر کریں",
+        btnLoadPages: "صفحات لوڈ کریں",
+        pageShort: "صفحہ",
+        pageModeNote: "روزانہ صفحات کی حد دکھائی جا رہی ہے۔ سورۃ یا آیات بدلنے پر واپس چلا جائے گا۔",
+        pageRangeTooLong: "ایک وقت میں زیادہ سے زیادہ 20 صفحات منتخب کریں۔"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
@@ -654,7 +672,11 @@
         toastCopied: "কপি করা হয়েছে",
         toastNoTodayLogs: "আজ কোনো অগ্রগতি সংরক্ষিত হয়নি।",
         repsShort: "রিপিট",
-        lblShareVia: "শেয়ার করুন"
+        lblShareVia: "শেয়ার করুন",
+        btnLoadPages: "পৃষ্ঠা লোড করুন",
+        pageShort: "পৃষ্ঠা",
+        pageModeNote: "দৈনিক পৃষ্ঠা পরিসীমা দেখানো হচ্ছে। সুরা বা আয়াত বদলালে আগের অবস্থায় ফিরবে।",
+        pageRangeTooLong: "একবারে সর্বোচ্চ 20টি পৃষ্ঠা নির্বাচন করুন।"
       }
     };
 
@@ -680,7 +702,9 @@
     }
 
     let repCounts = loadJSON(STORE.counts, {});   // { "2:5": 7, ... } repetitions actually done
-    let preferredReciter = null;                  // what the USER picked (the dropdown may temporarily show the fallback)
+    let preferredReciter = null;
+    let viewMode = 'surah';                       // 'surah' = surah + verse range | 'pages' = daily page range
+    let loadedPages = null;                       // {from, to} of the page range currently shown                  // what the USER picked (the dropdown may temporarily show the fallback)
 
     // ---------- small helpers ----------
     const $ = id => document.getElementById(id);
@@ -708,7 +732,7 @@
     // ids whose element id equals the translation key
     const LABEL_IDS = [
       'brandTitle', 'brandSub', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
-      'lblDailyWird', 'lblFromPage', 'lblToPage', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
+      'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
       'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy'
@@ -728,6 +752,7 @@
         { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }));
       document.documentElement.lang = currentLang;
       document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
+      updateModeUI();
     }
 
     function changeLanguage(lang) {
@@ -736,7 +761,7 @@
       saveJSON(STORE.lang, lang);          // remembered for next visit
       applyLanguage();
       renderLogsTable();
-      validateAndFetchVerses();            // reloads the meaning in the new language (counters are kept)
+      refreshVerses();                     // reloads the meaning in the new language (counters are kept)
     }
 
     // ==================================================================
@@ -751,6 +776,7 @@
         toVerse: $('toVerse').value,
         repetition: $('repetitionTarget').value,
         reciter: preferredReciter || $('reciterSelect').value,
+        mode: viewMode,
         fromPage: $('fromPage').value,
         toPage: $('toPage').value
       });
@@ -764,6 +790,7 @@
       if (st.repetition) $('repetitionTarget').value = st.repetition;
       if (st.fromPage) $('fromPage').value = st.fromPage;
       if (st.toPage) $('toPage').value = st.toPage;
+      if (st.mode === 'pages') viewMode = 'pages';
       const sel = $('reciterSelect');
       if (st.reciter && [...sel.options].some(o => o.value === st.reciter)) {
         sel.value = st.reciter;
@@ -780,7 +807,7 @@
 
       const st = restoreInputs();
       await fetchSurahList(st ? st.surah : 1);
-      await validateAndFetchVerses();
+      await refreshVerses();
       renderLogsTable();
     };
 
@@ -843,6 +870,7 @@
     let versesFetchId = 0;
     async function validateAndFetchVerses() {
       const fetchId = ++versesFetchId;     // lets us ignore out-of-date responses
+      viewMode = 'surah'; loadedPages = null; updateModeUI();   // any surah/verse selection leaves page mode
       stopAudio();
       const surahNum = parseInt($('surahSelect').value) || 1;
       const surahData = surahList.find(s => s.number === surahNum);
@@ -920,11 +948,25 @@
       const targetReps = getTarget();
       const t = T();
 
+      let lastSurah = null;
       currentVerses.forEach((verse, idx) => {
+        if (viewMode === 'pages' && verse.surah !== lastSurah) {
+          const sd = surahList.find(x => x.number === verse.surah);
+          const head = document.createElement('div');
+          head.className = 'flex items-center gap-3 pt-2';
+          head.innerHTML = `
+            <span class="bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full">${escapeHtml(sd ? `${sd.number}. ${sd.englishName}` : `#${verse.surah}`)}</span>
+            <span class="font-quran text-lg text-emerald-900">${escapeHtml(sd ? sd.name : '')}</span>
+            <span class="flex-1 border-t border-slate-200"></span>`;
+          container.appendChild(head);
+        }
+        lastSurah = verse.surah;
         const card = document.createElement('div');
         card.id = `verse-card-${idx}`;
         card.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all hover:border-emerald-300 relative';
 
+        const pageTag = (viewMode === 'pages' && verse.page)
+          ? `<span class="text-xs text-slate-400">· ${escapeHtml(t.pageShort)} ${verse.page}</span>` : '';
         let translationHTML = '';
         if (verse.translation) {
           translationHTML = `
@@ -942,6 +984,7 @@
                 ${escapeHtml(t.verseLabel)} ${verse.numberInSurah}
               </span>
               <span id="tgt-label-${idx}" class="text-xs text-slate-400">${escapeHtml(t.repsLabel)} ${targetReps}</span>
+              ${pageTag}
             </div>
 
             <div class="flex items-center space-x-2">
@@ -968,6 +1011,133 @@
         `;
         container.appendChild(card);
       });
+    }
+
+
+    // ==================================================================
+    // DAILY PAGE RANGE (standard 604-page Madani mushaf)
+    // ==================================================================
+    const MAX_PAGE = 604;
+    const MAX_PAGES_PER_LOAD = 20;       // one juz
+
+    function refreshVerses() {
+      return viewMode === 'pages' ? loadPageRange() : validateAndFetchVerses();
+    }
+
+    function updateModeUI() {
+      const note = $('pageModeNote');
+      if (!note) return;
+      if (viewMode === 'pages') { note.textContent = T().pageModeNote; note.classList.remove('hidden'); }
+      else note.classList.add('hidden');
+    }
+
+    function clampPageInputs() {
+      let from = parseInt($('fromPage').value) || 1;
+      let to = parseInt($('toPage').value) || from;
+      from = Math.min(Math.max(from, 1), MAX_PAGE);
+      to = Math.min(Math.max(to, from), MAX_PAGE);
+      let tooLong = false;
+      if (to - from + 1 > MAX_PAGES_PER_LOAD) { to = from + MAX_PAGES_PER_LOAD - 1; tooLong = true; }
+      $('fromPage').value = from;
+      $('toPage').value = to;
+      return { from, to, tooLong };
+    }
+
+    function onPageInputsChange() {
+      clampPageInputs();
+      saveState();
+    }
+
+    function pagesLabel() {
+      if (viewMode !== 'pages' || !loadedPages) return '';
+      return loadedPages.from === loadedPages.to ? `${loadedPages.from}` : `${loadedPages.from}-${loadedPages.to}`;
+    }
+
+    // Older API responses may lack the surah object: work it out from the global ayah number.
+    function surahFromGlobal(globalNumber) {
+      let acc = 0;
+      for (const s of surahList) {
+        acc += s.numberOfAyahs;
+        if (globalNumber <= acc) return s.number;
+      }
+      return 1;
+    }
+
+    // Loads every verse on the chosen pages. A page range can cross a surah boundary,
+    // so verses are stored with their own surah number.
+    async function loadPageRange() {
+      const fetchId = ++versesFetchId;
+      stopAudio();
+      const t = T();
+      const { from, to, tooLong } = clampPageInputs();
+      if (tooLong) showToast(t.pageRangeTooLong, true);
+      viewMode = 'pages';
+      loadedPages = { from, to };
+      updateModeUI();
+      saveState();
+
+      const container = $('versesList');
+      container.innerHTML = `
+        <div id="loadingVersesText" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center text-slate-500">
+          ${escapeHtml(t.loadingVersesText)}
+        </div>`;
+
+      try {
+        const editions = { en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali' };
+        const edition = editions[currentLang] || null;
+        const pages = [];
+        for (let p = from; p <= to; p++) pages.push(p);
+
+        const arReqs = pages.map(p => fetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`));
+        const trReqs = edition ? pages.map(p => fetch(`https://api.alquran.cloud/v1/page/${p}/${edition}`).catch(() => null)) : [];
+        const [arRes, trRes] = await Promise.all([Promise.all(arReqs), Promise.all(trReqs)]);
+        const arJson = await Promise.all(arRes.map(r => r.json()));
+        const trJson = await Promise.all(trRes.map(async r => { try { return r ? await r.json() : null; } catch (e) { return null; } }));
+        if (fetchId !== versesFetchId) return;
+
+        const verses = [];
+        const seen = new Set();
+        arJson.forEach((pj, pi) => {
+          if (pj.code !== 200) throw new Error('Unexpected API response');
+          const trAyahs = trJson[pi] && trJson[pi].code === 200 ? trJson[pi].data.ayahs : null;
+          pj.data.ayahs.forEach((a, k) => {
+            if (seen.has(a.number)) return;
+            seen.add(a.number);
+            const surahNum = a.surah && a.surah.number ? a.surah.number : surahFromGlobal(a.number);
+            verses.push({
+              surah: surahNum,
+              numberInSurah: a.numberInSurah,
+              globalNumber: a.number,
+              page: a.page || pages[pi],
+              arabic: a.text,
+              translation: trAyahs && trAyahs[k] ? trAyahs[k].text : null,
+              repetitionCount: repCounts[repKey(surahNum, a.numberInSurah)] || 0
+            });
+          });
+        });
+        if (!verses.length) throw new Error('No verses on these pages');
+        currentVerses = verses;
+
+        // mirror the first surah of the range in the surah / verse boxes (editing them leaves page mode)
+        const firstSurah = verses[0].surah;
+        const inFirst = verses.filter(v => v.surah === firstSurah);
+        $('surahSelect').value = firstSurah;
+        $('fromVerse').value = inFirst[0].numberInSurah;
+        $('toVerse').value = inFirst[inFirst.length - 1].numberInSurah;
+        saveState();
+
+        $('verseCountBadge').innerText = verses.length;
+        $('surahMetaHeader').innerText = `${t.pageShort} ${pagesLabel()} · ${portionLabel()}`;
+        renderVerseCards();
+        updateSessionSummary();
+      } catch (err) {
+        console.error('Error fetching pages:', err);
+        if (fetchId !== versesFetchId) return;
+        container.innerHTML = `
+          <div class="bg-white p-6 rounded-2xl border border-rose-200 text-center text-rose-600">
+            ${escapeHtml(t.loadFailed)}
+          </div>`;
+      }
     }
 
     // ==================================================================
@@ -997,18 +1167,30 @@
       if (currentVerses.length && confirm(T().confirmReset)) clearCountersForCurrentVerses();
     }
 
+    // "Al-Baqarah (6-24)" or, when a page range crosses a surah boundary,
+    // "Al-Baqarah (280-286) + Aal-Imran (1-10)"
     function portionLabel() {
-      const surahNum = currentVerses.length ? currentVerses[0].surah : (parseInt($('surahSelect').value) || 1);
-      const s = surahList.find(x => x.number === surahNum);
-      const name = s ? s.englishName : `Surah ${surahNum}`;
-      if (!currentVerses.length) return name;
-      return `${name} (${currentVerses[0].numberInSurah}-${currentVerses[currentVerses.length - 1].numberInSurah})`;
+      if (!currentVerses.length) {
+        const s0 = surahList.find(x => x.number === (parseInt($('surahSelect').value) || 1));
+        return s0 ? s0.englishName : '';
+      }
+      const parts = [];
+      currentVerses.forEach(v => {
+        const last = parts[parts.length - 1];
+        if (last && last.surah === v.surah) last.to = v.numberInSurah;
+        else parts.push({ surah: v.surah, from: v.numberInSurah, to: v.numberInSurah });
+      });
+      return parts.map(p => {
+        const sd = surahList.find(x => x.number === p.surah);
+        return `${sd ? sd.englishName : 'Surah ' + p.surah} (${p.from}-${p.to})`;
+      }).join(' + ');
     }
 
     function updateSessionSummary() {
       const done = currentVerses.reduce((sum, v) => sum + v.repetitionCount, 0);
       const total = getTarget() * currentVerses.length;
-      setText('sessionPortion', portionLabel());
+      const pl = pagesLabel();
+      setText('sessionPortion', pl ? `${T().pageShort} ${pl} · ${portionLabel()}` : portionLabel());
       setText('sessionReps', `${done} / ${total}`);
     }
 
@@ -1117,12 +1299,15 @@
       if (!(await playOptionalClip(audhu, token))) return false;
 
       if (firstVerseNum === 1 && surahNum !== 1 && surahNum !== 9) {
-        setIndicator(t.introBismillah);
-        const r = $('reciterSelect').value;
-        const bismillah = [getAudioSourceUrl(r, 1, 1, 1), getAudioSourceUrl(FALLBACK_RECITER, 1, 1, 1)];
-        if (!(await playOptionalClip(bismillah, token))) return false;
+        if (!(await playBismillah(token))) return false;
       }
       return true;
+    }
+
+    async function playBismillah(token) {
+      setIndicator(T().introBismillah);
+      const r = $('reciterSelect').value;
+      return playOptionalClip([getAudioSourceUrl(r, 1, 1, 1), getAudioSourceUrl(FALLBACK_RECITER, 1, 1, 1)], token);
     }
 
     function setIndicator(text) {
@@ -1175,6 +1360,11 @@
         const needsFresh = mode === 'all' ? freshRound : verse.repetitionCount >= target;
         const toPlay = needsFresh ? target : Math.max(0, target - verse.repetitionCount);
         if (toPlay === 0) continue;
+
+        // a new surah starts inside the range (page ranges can cross surahs): Bismillah first
+        if (mode === 'all' && i > first && verse.numberInSurah === 1 && verse.surah !== 1 && verse.surah !== 9) {
+          if (!(await playBismillah(token))) return;
+        }
 
         markActive(i);
         let played = 0;
@@ -1272,7 +1462,7 @@
         row.className = 'hover:bg-slate-50 transition-colors';
         row.innerHTML = `
           <td class="p-3.5 font-medium text-slate-800 whitespace-nowrap">${escapeHtml(formatLogDate(log))}</td>
-          <td class="p-3.5 text-slate-600">${escapeHtml(log.portion)}</td>
+          <td class="p-3.5 text-slate-600">${escapeHtml(log.portion)}${log.pages ? `<div class="text-[11px] text-slate-400 mt-0.5">${escapeHtml(t.pageShort)} ${escapeHtml(log.pages)}</div>` : ''}</td>
           <td class="p-3.5 text-center font-bold text-emerald-800 whitespace-nowrap">${repsHtml}</td>
           <td class="p-3.5 text-center">${badge}</td>
           <td class="p-3.5">
@@ -1301,6 +1491,7 @@
         iso: todayISO(),
         date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         portion: portionLabel(),
+        pages: pagesLabel(),                     // '' unless the daily page range was used
         reps: done,                              // actual repetitions completed
         target: target * currentVerses.length,   // what was planned
         versesDone,
@@ -1352,7 +1543,8 @@
         const reps = Number(l.reps) || 0;
         total += reps;
         const repsText = l.target ? `${reps}/${l.target}` : `${reps}`;
-        lines.push(`• ${l.portion}: ${repsText} ${t.repsShort} (${l.completed ? t.statusDone : t.statusPartial})`);
+        const pg = l.pages ? `${t.pageShort} ${l.pages} - ` : '';
+        lines.push(`• ${pg}${l.portion}: ${repsText} ${t.repsShort} (${l.completed ? t.statusDone : t.statusPartial})`);
         if (l.notes && l.notes !== '-') lines.push(`   📝 ${l.notes}`);
       });
       lines.push('', `${t.shareTotal}: ${total}`);
