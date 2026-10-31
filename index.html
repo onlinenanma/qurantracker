@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Qur'an Hifz Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-quran { font-family: 'Amiri', serif; }
+    /* Dark Green Custom Theme Variables */
+    .bg-dark-emerald { background-color: #0d3322; }
+    .bg-dark-emerald-light { background-color: #133e2b; }
+    .border-dark-emerald { border-color: #1b5239; }
+    .active-verse {
+      border-color: #059669 !important;
+      background-color: #f0fdf4 !important;
+      box-shadow: 0 4px 14px rgba(13, 51, 34, 0.12);
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Main Layout Container -->
+  <div class="flex flex-col md:flex-row min-h-screen">
+    
+    <!-- Left-Aligned Control Panel Sidebar (Dark Green Theme) -->
+    <aside class="w-full md:w-80 bg-dark-emerald text-emerald-50 p-6 flex flex-col justify-between shadow-2xl z-20 shrink-0 border-r border-emerald-950">
+      <div>
+
+        <!-- App Header & Branding -->
+        <div class="flex items-center space-x-3 mb-6 border-b border-dark-emerald pb-4 justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="bg-dark-emerald-light p-2.5 rounded-xl text-emerald-300 border border-emerald-800/40">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+            </div>
+            <div>
+              <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Qur'an Hifz Tracker</h1>
+              <p id="brandSub" class="text-xs text-emerald-300 font-medium">حفظ القرآن</p>
+            </div>
+          </div>
+
+          <!-- Language Selector with Globe Icon -->
+          <div class="flex items-center space-x-1.5">
+            <span class="text-sm">🌐</span>
+            <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
+              <option value="en" selected>English</option>
+              <option value="ar">العربية</option>
+              <option value="ml">മലയാളം</option>
+              <option value="ur">اردو</option>
+              <option value="bn">বাংলা</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sidebar Inputs & Controls -->
+        <div class="space-y-4">
+          <!-- Surah Selector Dropdown -->
+          <div>
+            <label id="lblSurah" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+              Select Surah (السورة)
+            </label>
+            <select id="surahSelect" onchange="onSurahChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              <!-- Dynamically populated with 114 surahs -->
+            </select>
+          </div>
+
+          <!-- Verse Range Picker -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label id="lblFromVerse" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+                From Verse (من آية)
+              </label>
+              <input type="number" id="fromVerse" value="1" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+            </div>
+            <div>
+              <label id="lblToVerse" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+                To Verse (إلى آية)
+              </label>
+              <input type="number" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Repetition Counter Target (Default: 9) -->
+          <div>
+            <label id="lblRepetition" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+              Repetition Target (التكرار)
+            </label>
+            <div class="flex items-center space-x-2">
+              <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-2 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200">-</button>
+              <input type="number" id="repetitionTarget" value="9" min="1" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:outline-none">
+              <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-2 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200">+</button>
+            </div>
+          </div>
+
+          <!-- Reciter Audio Picker -->
+          <div>
+            <label id="lblReciter" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+              Reciter (القارئ)
+            </label>
+            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              <option value="Husary_Muallim_128kbps" selected>Mahmoud Khalil Al-Husary (Muallim / Repeat)</option>
+              <option value="Ayman_Sowaid_64kbps">Dr. Ayman Sowaid</option>
+              <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+              <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
+              <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
+              <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
+            </select>
+          </div>
+
+          <!-- Daily Page Wird Selector -->
+          <div class="pt-3 border-t border-dark-emerald">
+            <label id="lblDailyWird" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-2">
+              Daily Page Range (الورد اليومي)
+            </label>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
+                <input type="number" id="fromPage" value="1" min="1" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+              </div>
+              <div>
+                <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
+                <input type="number" id="toPage" value="1" min="1" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Log Session Action Button -->
+      <div class="mt-8 pt-4 border-t border-dark-emerald">
+        <button id="btnSaveProgress" onclick="logCurrentSession()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold py-3 px-4 rounded-xl shadow-lg transition-all text-sm flex items-center justify-center space-x-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+          </svg>
+          <span>Save Today's Progress</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Content Area -->
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl flex flex-col justify-between">
+      
+      <div>
+        <!-- Main Top Header Bar -->
+        <header class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 id="mainHeaderTitle" class="text-xl md:text-2xl font-bold text-emerald-950">Hifz Learning & Audio Player</h2>
+            <p id="mainHeaderDesc" class="text-xs md:text-sm text-slate-500 mt-0.5">Arabic text, Translation, Repetition & Verse Audio Player</p>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full" id="currentDateBadge">
+              --
+            </span>
+          </div>
+        </header>
+
+        <!-- Global Audio Controls Bar -->
+        <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+              <button id="globalPlayBtn" onclick="toggleContinuousPlay()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto">
+                <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span id="globalPlayText">Play All Verses</span>
+              </button>
+              <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-slate-200">
+                Pause
+              </button>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl text-xs text-slate-600 w-full md:w-auto flex items-center justify-between space-x-3">
+              <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
+              <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Verses Render List -->
+        <section class="mb-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold text-lg text-slate-800 flex items-center space-x-2">
+              <span id="lblSelectedVersesHeading">Selected Verses</span>
+              <span id="verseCountBadge" class="text-xs bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full font-semibold">0</span>
+            </h3>
+            <span id="surahMetaHeader" class="text-xs text-slate-500 font-medium">--</span>
+          </div>
+
+          <div id="versesList" class="space-y-4">
+            <div id="loadingVersesText" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center text-slate-400">
+              Loading verses...
+            </div>
+          </div>
+        </section>
+
+        <!-- Weekly Progress & LocalStorage Table Section -->
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
+          <div class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+            <div>
+              <h3 id="lblWeeklyLogTitle" class="font-bold text-slate-800 text-base">Weekly Log & Progress</h3>
+              <p id="lblWeeklyLogDesc" class="text-xs text-slate-500">Your daily lessons and repetition records (Saved on your browser)</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button id="btnClearHistory" onclick="clearSavedLogs()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-xl text-xs font-medium transition-all">
+                Clear History
+              </button>
+              <button id="btnAddRow" onclick="addNewEditableRow()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-sm flex items-center space-x-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span id="btnAddRowText">Add New Row</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse" id="logTable">
+              <thead>
+                <tr class="bg-slate-100/80 text-slate-600 text-xs uppercase tracking-wider border-b border-slate-200">
+                  <th id="thDate" class="p-3.5 font-semibold">Date / Day</th>
+                  <th id="thPortion" class="p-3.5 font-semibold">Surah & Portion</th>
+                  <th id="thReps" class="p-3.5 font-semibold text-center">Reps</th>
+                  <th id="thCompleted" class="p-3.5 font-semibold text-center">Completed</th>
+                  <th id="thNotes" class="p-3.5 font-semibold">Notes</th>
+                  <th id="thAction" class="p-3.5 font-semibold text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody id="logTableBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
+                <!-- Loaded from localStorage -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- Bottom Footer -->
+      <footer class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p id="footerCopy">© Qur'an Hifz Tracker - All Rights Reserved</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Audio Player -->
+  <audio id="globalAudioPlayer" class="hidden"></audio>
+
+  <script>
+    let surahList = [];
+    let currentVerses = [];
+    let activeVerseIndex = -1;
+    let isContinuousPlaying = false;
+    let isPaused = false;
+    const audioPlayer = document.getElementById('globalAudioPlayer');
+
+    // Translations Dictionary
+    const translations = {
+      en: {
+        pageTitle: "Qur'an Hifz Tracker",
+        brandTitle: "Qur'an Hifz Tracker",
+        brandSub: "حفظ القرآن",
+        lblSurah: "Select Surah (السورة)",
+        lblFromVerse: "From Verse (من آية)",
+        lblToVerse: "To Verse (إلى آية)",
+        lblRepetition: "Repetition Target (التكرار)",
+        lblReciter: "Reciter (القارئ)",
+        lblDailyWird: "Daily Page Range (الورد اليومي)",
+        lblFromPage: "From Page",
+        lblToPage: "To Page",
+        btnSaveProgress: "Save Today's Progress",
+        mainHeaderTitle: "Hifz Learning & Audio Player",
+        mainHeaderDesc: "Arabic text, Translation, Repetition & Verse Audio Player",
+        globalPlayText: "Play All Verses",
+        pauseResumeBtn: "Pause",
+        lblActiveVerseTitle: "Active Verse:",
+        notPlaying: "Not Playing",
+        lblSelectedVersesHeading: "Selected Verses",
+        loadingVersesText: "Loading verses...",
+        lblWeeklyLogTitle: "Weekly Log & Progress",
+        lblWeeklyLogDesc: "Your daily lessons and repetition records (Saved on your browser)",
+        btnClearHistory: "Clear History",
+        btnAddRowText: "Add New Row",
+        thDate: "Date / Day",
+        thPortion: "Surah & Portion",
+        thReps: "Reps",
+        thCompleted: "Completed",
+        thNotes: "Notes",
+        thAction: "Action",
+        footerCopy: "© Qur'an Hifz Tracker - All Rights Reserved",
+        playBtnText: "Listen",
+        playingText: "Playing...",
+        repsLabel: "Target:",
+        repsCountLabel: "Reps:",
+        toastSaved: "Progress saved successfully!",
+        toastNewRow: "New row saved successfully!",
+        confirmClear: "Are you sure you want to clear all history?",
+        noLogs: "No saved logs found.",
+        defaultNote: "Hifz completed",
+        audioCompleted: "Completed",
+        stopText: "Stop",
+        pausedText: "Paused",
+        continueText: "Continue",
+        resumeText: "Pause"
+      },
+      ar: {
+        pageTitle: "متابع حفظ القرآن",
+        brandTitle: "متابع حفظ القرآن",
+        brandSub: "Qur'an Hifz Tracker",
+        lblSurah: "اختر السورة",
+        lblFromVerse: "من آية",
+        lblToVerse: "إلى آية",
+        lblRepetition: "عدد التكرار",
+        lblReciter: "القارئ",
+        lblDailyWird: "الورد اليومي (نطاق الصفحات)",
+        lblFromPage: "من صفحة",
+        lblToPage: "إلى صفحة",
+        btnSaveProgress: "حفظ تقدم اليوم",
+        mainHeaderTitle: "تعلم الحفظ ومشغل الصوت",
+        mainHeaderDesc: "النص العربي، التكرار ومشغل صوت الآيات",
+        globalPlayText: "تشغيل كل الآيات",
+        pauseResumeBtn: "إيقاف مؤقت",
+        lblActiveVerseTitle: "الآية الحالية:",
+        notPlaying: "لا يتم التشغيل",
+        lblSelectedVersesHeading: "الآيات المختارة",
+        loadingVersesText: "جاري تحميل الآيات...",
+        lblWeeklyLogTitle: "السجل الأسبوعي والتقدم",
+        lblWeeklyLogDesc: "دروسك اليومية وسجلات التكرار (محفوظة على متصفحك)",
+        btnClearHistory: "مسح السجل",
+        btnAddRowText: "إضافة صف جديد",
+        thDate: "التاريخ / اليوم",
+        thPortion: "السورة والآيات",
+        thReps: "التكرار",
+        thCompleted: "مكتمل",
+        thNotes: "ملاحظات",
+        thAction: "الإجراء",
+        footerCopy: "© متابع حفظ القرآن - جميع الحقوق محفوظة",
+        playBtnText: "استماع",
+        playingText: "جاري التشغيل...",
+        repsLabel: "الهدف:",
+        repsCountLabel: "التكرار:",
+        toastSaved: "تم حفظ التقدم بنجاح!",
+        toastNewRow: "تم حفظ الصف الجديد بنجاح!",
+        confirmClear: "هل أنت متأكد من رغبتك في مسح كل السجل؟",
+        noLogs: "لا توجد سجلات محفوظة.",
+        defaultNote: "اكتمل الحفظ",
+        audioCompleted: "مكتمل",
+        stopText: "إيقاف",
+        pausedText: "متوقف مؤقتاً",
+        continueText: "متابعة",
+        resumeText: "إيقاف مؤقت"
+      },
+      ml: {
+        pageTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
+        brandTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
+        brandSub: "Qur'an Hifz Tracker",
+        lblSurah: "സൂറത്ത് തിരഞ്ഞെടുക്കുക (السورة)",
+        lblFromVerse: "ആദ്യം ആയത്ത് (من آية)",
+        lblToVerse: "അവസാന ആയത്ത് (إلى آية)",
+        lblRepetition: "ആവർത്തനം (التكرار)",
+        lblReciter: "ഖാരിഅ് (القارئ)",
+        lblDailyWird: "ദൈനംദിന വര്ദ് (الورد اليومي)",
+        lblFromPage: "പേജ് മുതൽ",
+        lblToPage: "പേജ് വരെ",
+        btnSaveProgress: "ഇന്നത്തെ പുരോഗതി സേവ് ചെയ്യുക",
+        mainHeaderTitle: "ഹിഫ്ള് ലേണിംഗ് & ഓഡിയോ പ്ലെയർ",
+        mainHeaderDesc: "അറബി പാഠം, മലയാളം അർത്ഥം, തക്രാർ & ആയത്ത് ഓഡിയോ പ്ലെയർ",
+        globalPlayText: "മുഴുവൻ ആയത്തുകളും പ്ലേ ചെയ്യുക",
+        pauseResumeBtn: "പോസ് (Pause)",
+        lblActiveVerseTitle: "നിലവിലെ ആയത്ത്:",
+        notPlaying: "പ്ലേ ചെയ്തിട്ടില്ല",
+        lblSelectedVersesHeading: "ആയത്തുകൾ (Selected Verses)",
+        loadingVersesText: "ആയത്തുകൾ ലോഡ് ചെയ്യുന്നു...",
+        lblWeeklyLogTitle: "ആഴ്ചയിലെ പുരോഗതിയും കുറിപ്പുകളും (Weekly Log)",
+        lblWeeklyLogDesc: "നിങ്ങളുടെ പ്രതിദിന പാഠങ്ങളും ആവർത്തന റെക്കോർഡുകളും (Saved on your browser)",
+        btnClearHistory: "ഹിസ്റ്ററി നീക്കം ചെയ്യുക",
+        btnAddRowText: "പുതിയ വരി ചേർക്കുക",
+        thDate: "തീയതി / ദിവസം (Date/Day)",
+        thPortion: "സൂറത്ത് & ആയത്ത് (Portion)",
+        thReps: "ആവർത്തനം (Reps)",
+        thCompleted: "പൂർത്തിയായി",
+        thNotes: "കുറിപ്പുകൾ (Notes)",
+        thAction: "നടപടി",
+        footerCopy: "© Qur'an Hifz Tracker - All Rights Reserved",
+        playBtnText: "കേൾക്കുക",
+        playingText: "പ്ലേ ചെയ്യുന്നു...",
+        repsLabel: "ലക്ഷ്യം:",
+        repsCountLabel: "ആവർത്തനം:",
+        meaningLabel: "അർത്ഥം:",
+        toastSaved: "വിവരങ്ങൾ പേജിൽ സേവ് ചെയ്തു!",
+        toastNewRow: "പുതിയ വരി വിജയകരമായി സേവ് ചെയ്തു!",
+        confirmClear: "സേവ് ചെയ്ത എല്ലാ ഹിസ്റ്ററിയും നീക്കം ചെയ്യണമെന്നുറപ്പാണോ?",
+        noLogs: "സേവ് ചെയ്ത വിവരങ്ങൾ ഇല്ല.",
+        defaultNote: "ഹിഫ്ള് പൂർത്തിയാക്കി",
+        audioCompleted: "പൂർത്തിയായി (Completed)",
+        stopText: "സ്റ്റോപ്പ് (Stop)",
+        pausedText: "പോസ് ചെയ്തു (Paused)",
+        continueText: "തുടരുക (Continue)",
+        resumeText: "പോസ് (Pause)"
+      },
+      ur: {
+        pageTitle: "قرآن حفظ ٹریکر",
+        brandTitle: "قرآن حفظ ٹریکر",
+        brandSub: "Qur'an Hifz Tracker",
+        lblSurah: "سورۃ منتخب کریں",
+        lblFromVerse: "آیت نمبر سے",
+        lblToVerse: "آیت نمبر تک",
+        lblRepetition: "تکرار کا ہدف",
+        lblReciter: "قاری",
+        lblDailyWird: "روزانہ کا ورد (صفحات)",
+        lblFromPage: "صفحہ از",
+        lblToPage: "صفحہ تا",
+        btnSaveProgress: "آج کی پیشرفت محفوظ کریں",
+        mainHeaderTitle: "حفظ لرننگ اور آڈیو پلیئر",
+        mainHeaderDesc: "عربی متن، تکرار اور آیت آڈیو پلیئر",
+        globalPlayText: "تمام آیات چلائیں",
+        pauseResumeBtn: "وقفہ (Pause)",
+        lblActiveVerseTitle: "موجودہ آیت:",
+        notPlaying: "نہیں چل رہا",
+        lblSelectedVersesHeading: "منتخب کردہ آیات",
+        loadingVersesText: "آیات لوڈ ہو رہی ہیں...",
+        lblWeeklyLogTitle: "ہفتہ وار لاگ اور پیشرفت",
+        lblWeeklyLogDesc: "آپ کے روزانہ کے اسباق اور تکرار کے ریکارڈز",
+        btnClearHistory: "تاریخچہ صاف کریں",
+        btnAddRowText: "نئی سطر شامل کریں",
+        thDate: "تاریخ / دن",
+        thPortion: "سورۃ اور حصہ",
+        thReps: "تکرار",
+        thCompleted: "مکمل",
+        thNotes: "نوٹس",
+        thAction: "عمل",
+        footerCopy: "© قرآن حفظ ٹریکر - جملہ حقوق محفوظ ہیں",
+        playBtnText: "سنیں",
+        playingText: "چل رہا ہے...",
+        repsLabel: "ہدف:",
+        repsCountLabel: "تکرار:",
+        toastSaved: "پیشرفت کامیابی سے محفوظ ہو گئی!",
+        toastNewRow: "نئی سطر کامیابی سے محفوظ ہو گئی!",
+        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا چاہتے ہیں؟",
+        noLogs: "کوئی محفوظ شدہ لاگ نہیں ملا۔",
+        defaultNote: "حفظ مکمل ہو گیا",
+        audioCompleted: "مکمل ہو گیا",
+        stopText: "روکیں",
+        pausedText: "روکا گیا",
+        continueText: "جاری رکھیں",
+        resumeText: "وقفہ (Pause)"
+      },
+      bn: {
+        pageTitle: "কুরআন হিফজ ট্র্যাকার",
+        brandTitle: "কুরআন হিফজ ট্র্যাকার",
+        brandSub: "Qur'an Hifz Tracker",
+        lblSurah: "সুরা নির্বাচন করুন",
+        lblFromVerse: "যে আয়াত থেকে",
+        lblToVerse: "যে আয়াত পর্যন্ত",
+        lblRepetition: "পুনরাবৃত্তির লক্ষ্য",
+        lblReciter: "কারী",
+        lblDailyWird: "দৈনিক পাঠের পৃষ্ঠা পরিসীমা",
+        lblFromPage: "পৃষ্ঠা থেকে",
+        lblToPage: "পৃষ্ঠা পর্যন্ত",
+        btnSaveProgress: "আজকের অগ্রগতি সংরক্ষণ করুন",
+        mainHeaderTitle: "হিফজ লার্নিং এবং অডিও প্লেয়ার",
+        mainHeaderDesc: "আরবি পাঠ, পুনরাবৃত্তি এবং আয়াত অডিও প্লেয়ার",
+        globalPlayText: "সমস্ত আয়াত চালান",
+        pauseResumeBtn: "বিরতি (Pause)",
+        lblActiveVerseTitle: "সক্রিয় আয়াত:",
+        notPlaying: "চলছে না",
+        lblSelectedVersesHeading: "নির্বাচিত আয়াতসমূহ",
+        loadingVersesText: "আয়াত লোড হচ্ছে...",
+        lblWeeklyLogTitle: "সাপ্তাহিক লগ এবং অগ্রগতি",
+        lblWeeklyLogDesc: "আপনার প্রতিদিনের পাঠ এবং পুনরাবৃত্তি রেকর্ড (আপনার ব্রাউজারে সংরক্ষিত)",
+        btnClearHistory: "ইতিহাস মুছুন",
+        btnAddRowText: "নতুন সারি যোগ করুন",
+        thDate: "তারিখ / দিন",
+        thPortion: "সুরা এবং অংশ",
+        thReps: "রিপিট",
+        thCompleted: "সম্পন্ন",
+        thNotes: "নোট",
+        thAction: "কার্যক্রম",
+        footerCopy: "© কুরআন হিফজ ট্র্যাকার - সর্বস্বত্ব সংরক্ষিত",
+        playBtnText: "শুনুন",
+        playingText: "চলছে...",
+        repsLabel: "লক্ষ্য:",
+        repsCountLabel: "রিপিট:",
+        toastSaved: "অগ্রগতি সফলভাবে সংরক্ষিত হয়েছে!",
+        toastNewRow: "নতুন সারি সফলভাবে সংরক্ষিত হয়েছে!",
+        confirmClear: "আপনি কি সমস্ত ইতিহাস মুছে ফেলতে চান?",
+        noLogs: "কোন সংরক্ষিত লগ পাওয়া যায়নি।",
+        defaultNote: "হিফজ সম্পন্ন হয়েছে",
+        audioCompleted: "সম্পন্ন হয়েছে",
+        stopText: "থামান",
+        pausedText: "বিরতি দেওয়া হয়েছে",
+        continueText: "চালিয়ে যান",
+        resumeText: "বিরতি (Pause)"
+      }
+    };
+
+    let currentLang = 'en';
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+      document.getElementById('pageTitle').innerText = t.pageTitle;
+      document.getElementById('brandTitle').innerText = t.brandTitle;
+      document.getElementById('brandSub').innerText = t.brandSub;
+      document.getElementById('lblSurah').innerText = t.lblSurah;
+      document.getElementById('lblFromVerse').innerText = t.lblFromVerse;
+      document.getElementById('lblToVerse').innerText = t.lblToVerse;
+      document.getElementById('lblRepetition').innerText = t.lblRepetition;
+      document.getElementById('lblReciter').innerText = t.lblReciter;
+      document.getElementById('lblDailyWird').innerText = t.lblDailyWird;
+      document.getElementById('lblFromPage').innerText = t.lblFromPage;
+      document.getElementById('lblToPage').innerText = t.lblToPage;
+      document.getElementById('btnSaveProgress').innerHTML = `
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+        </svg>
+        <span>${t.btnSaveProgress}</span>`;
+      document.getElementById('mainHeaderTitle').innerText = t.mainHeaderTitle;
+      document.getElementById('mainHeaderDesc').innerText = t.mainHeaderDesc;
+      document.getElementById('globalPlayText').innerText = isContinuousPlaying ? t.stopText : t.globalPlayText;
+      document.getElementById('pauseResumeBtn').innerText = isPaused ? t.continueText : t.resumeText;
+      document.getElementById('lblActiveVerseTitle').innerText = t.lblActiveVerseTitle;
+      document.getElementById('activeVerseIndicator').innerText = activeVerseIndex === -1 ? t.notPlaying : document.getElementById('activeVerseIndicator').innerText;
+      document.getElementById('lblSelectedVersesHeading').innerText = t.lblSelectedVersesHeading;
+      document.getElementById('loadingVersesText').innerText = t.loadingVersesText;
+      document.getElementById('lblWeeklyLogTitle').innerText = t.lblWeeklyLogTitle;
+      document.getElementById('lblWeeklyLogDesc').innerText = t.lblWeeklyLogDesc;
+      document.getElementById('btnClearHistory').innerText = t.btnClearHistory;
+      document.getElementById('btnAddRowText').innerText = t.btnAddRowText;
+      document.getElementById('thDate').innerText = t.thDate;
+      document.getElementById('thPortion').innerText = t.thPortion;
+      document.getElementById('thReps').innerText = t.thReps;
+      document.getElementById('thCompleted').innerText = t.thCompleted;
+      document.getElementById('thNotes').innerText = t.thNotes;
+      document.getElementById('thAction').innerText = t.thAction;
+      document.getElementById('footerCopy').innerText = t.footerCopy;
+
+      // Adjust text direction for Arabic/Urdu
+      if (lang === 'ar' || lang === 'ur') {
+        document.documentElement.setAttribute('dir', 'rtl');
+      } else {
+        document.documentElement.setAttribute('dir', 'ltr');
+      }
+
+      validateAndFetchVerses();
+      renderLogsTable();
+    }
+
+    // Display formatted current date
+    document.getElementById('currentDateBadge').innerText = new Date().toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+
+    window.onload = async function() {
+      await fetchSurahList();
+      validateAndFetchVerses();
+      loadSavedLogs();
+    };
+
+    // Fetch 114 Surahs from AlQuran Cloud API
+    async function fetchSurahList() {
+      try {
+        const res = await fetch('https://api.alquran.cloud/v1/surah');
+        const data = await res.json();
+        if (data.code === 200) {
+          surahList = data.data;
+          const select = document.getElementById('surahSelect');
+          select.innerHTML = '';
+          surahList.forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s.number;
+            opt.innerText = `${s.number}. ${s.englishName} (${s.name})`;
+            if (s.number === 1) opt.selected = true;
+            select.appendChild(opt);
+          });
+        }
+      } catch (err) {
+        console.error('Failed to load Surah list:', err);
+      }
+    }
+
+    function onSurahChange() {
+      const surahNum = parseInt(document.getElementById('surahSelect').value);
+      const surahData = surahList.find(s => s.number === surahNum);
+      if (surahData) {
+        document.getElementById('fromVerse').value = 1;
+        document.getElementById('toVerse').value = Math.min(10, surahData.numberOfAyahs);
+      }
+      validateAndFetchVerses();
+    }
+
+    function onReciterChange() {
+      if (activeVerseIndex !== -1) {
+        playVerseAudio(activeVerseIndex);
+      }
+    }
+
+    function adjustRepetition(val) {
+      const input = document.getElementById('repetitionTarget');
+      let current = parseInt(input.value) || 1;
+      current = Math.max(1, current + val);
+      input.value = current;
+    }
+
+    async function validateAndFetchVerses() {
+      stopAudio();
+      const surahNum = document.getElementById('surahSelect').value || 1;
+      const surahData = surahList.find(s => s.number == surahNum);
+      const maxAyahs = surahData ? surahData.numberOfAyahs : 286;
+
+      let fromV = parseInt(document.getElementById('fromVerse').value) || 1;
+      let toV = parseInt(document.getElementById('toVerse').value) || 1;
+
+      if (fromV < 1) fromV = 1;
+      if (fromV > maxAyahs) fromV = maxAyahs;
+      if (toV < fromV) toV = fromV;
+      if (toV > maxAyahs) toV = maxAyahs;
+
+      document.getElementById('fromVerse').value = fromV;
+      document.getElementById('toVerse').value = toV;
+
+      const container = document.getElementById('versesList');
+      const t = translations[currentLang];
+      container.innerHTML = `
+        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center text-slate-500">
+          ${t.loadingVersesText}
+        </div>`;
+
+      try {
+        // Map current language selection to appropriate AlQuran Cloud translation edition identifier
+        let translationEdition = '';
+        if (currentLang === 'ml') {
+          translationEdition = 'ml.abdulhameed';
+        } else if (currentLang === 'en') {
+          translationEdition = 'en.sahih';
+        } else if (currentLang === 'ur') {
+          translationEdition = 'ur.jalandhry';
+        } else if (currentLang === 'bn') {
+          translationEdition = 'bn.bengali';
+        } else if (currentLang === 'ar') {
+          translationEdition = null; // Arabic mode doesn't need a separate translation edition
+        }
+
+        const fetchPromises = [
+          fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)
+        ];
+
+        if (translationEdition) {
+          fetchPromises.push(fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${translationEdition}`));
+        }
+
+        const responses = await Promise.all(fetchPromises);
+        const arData = await responses[0].json();
+        let transData = null;
+
+        if (translationEdition && responses[1]) {
+          transData = await responses[1].json();
+        }
+
+        if (arData.code === 200) {
+          const allArAyahs = arData.data.ayahs;
+          const allTransAyahs = transData && transData.code === 200 ? transData.data.ayahs : null;
+
+          currentVerses = [];
+          for (let i = fromV - 1; i < toV; i++) {
+            currentVerses.push({
+              numberInSurah: allArAyahs[i].numberInSurah,
+              globalNumber: allArAyahs[i].number,
+              arabic: allArAyahs[i].text,
+              translation: allTransAyahs && allTransAyahs[i] ? allTransAyahs[i].text : null,
+              repetitionCount: 0
+            });
+          }
+
+          document.getElementById('verseCountBadge').innerText = currentVerses.length;
+          document.getElementById('surahMetaHeader').innerText = `${surahData ? surahData.englishName : ''} (Verse ${fromV} to ${toV})`;
+
+          renderVerseCards();
+        }
+      } catch (err) {
+        console.error('Error fetching verses:', err);
+        container.innerHTML = `
+          <div class="bg-white p-6 rounded-2xl border border-rose-200 text-center text-rose-600">
+            Failed to load data. Please check your internet connection.
+          </div>`;
+      }
+    }
+
+    function renderVerseCards() {
+      const container = document.getElementById('versesList');
+      container.innerHTML = '';
+      const targetReps = parseInt(document.getElementById('repetitionTarget').value) || 9;
+      const t = translations[currentLang];
+
+      currentVerses.forEach((verse, idx) => {
+        const card = document.createElement('div');
+        card.id = `verse-card-${idx}`;
+        card.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all hover:border-emerald-300 relative';
+        
+        let translationHTML = '';
+        if (verse.translation) {
+          translationHTML = `
+            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+              <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
+                <strong class="text-emerald-900">${t.meaningLabel || 'Meaning:'}</strong> ${verse.translation}
+              </p>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
+            <div class="flex items-center space-x-2">
+              <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-2.5 py-1 rounded-lg">
+                Verse ${verse.numberInSurah}
+              </span>
+              <span class="text-xs text-slate-400">${t.repsLabel} ${targetReps}</span>
+            </div>
+
+            <div class="flex items-center space-x-2">
+              <button onclick="playVerseAudio(${idx})" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all">
+                <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                </svg>
+                <span id="play-text-${idx}">${t.playBtnText}</span>
+              </button>
+
+              <button onclick="incrementCardRepetition(${idx})" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-medium border border-slate-200 flex items-center space-x-1">
+                <span>${t.repsCountLabel}</span>
+                <span id="rep-count-${idx}" class="font-bold text-emerald-800">${verse.repetitionCount}</span>
+                <span>/ ${targetReps}</span>
+              </button>
+            </div>
+          </div>
+
+          <p class="text-right font-quran text-2xl md:text-3xl text-emerald-950 leading-loose mb-4" dir="rtl">
+            ${verse.arabic}
+          </p>
+
+          ${translationHTML}
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function getAudioSourceUrl(surahNum, verseNumInSurah, globalVerseNum) {
+      const reciter = document.getElementById('reciterSelect').value;
+
+      // Handle direct EveryAyah CDN paths
+      if (reciter.includes('_128kbps') || reciter.includes('_64kbps') || reciter.includes('_192kbps')) {
+        const sStr = String(surahNum).padStart(3, '0');
+        const aStr = String(verseNumInSurah).padStart(3, '0');
+        return `https://everyayah.com/data/${reciter}/${sStr}${aStr}.mp3`;
+      }
+
+      // Default Islamic Network API format
+      return `https://cdn.islamic.network/quran/audio/128/${reciter}/${globalVerseNum}.mp3`;
+    }
+
+    function playVerseAudio(index) {
+      if (index < 0 || index >= currentVerses.length) return;
+
+      if (activeVerseIndex !== -1 && activeVerseIndex !== index) {
+        resetCardUI(activeVerseIndex);
+      }
+
+      activeVerseIndex = index;
+      const verse = currentVerses[index];
+      const surahNum = document.getElementById('surahSelect').value || 1;
+      const t = translations[currentLang];
+
+      audioPlayer.src = getAudioSourceUrl(surahNum, verse.numberInSurah, verse.globalNumber);
+      audioPlayer.play().catch(() => {
+        // Fallback retry to EveryAyah Husary Muallim if audio fails
+        const sStr = String(surahNum).padStart(3, '0');
+        const aStr = String(verse.numberInSurah).padStart(3, '0');
+        audioPlayer.src = `https://everyayah.com/data/Husary_Muallim_128kbps/${sStr}${aStr}.mp3`;
+        audioPlayer.play();
+      });
+
+      const card = document.getElementById(`verse-card-${index}`);
+      if (card) card.classList.add('active-verse');
+
+      const playText = document.getElementById(`play-text-${index}`);
+      if (playText) playText.innerText = t.playingText;
+
+      document.getElementById('activeVerseIndicator').innerText = `Verse ${verse.numberInSurah}`;
+    }
+
+    function toggleContinuousPlay() {
+      const t = translations[currentLang];
+      if (isContinuousPlaying) {
+        stopAudio();
+      } else {
+        if (currentVerses.length === 0) return;
+        isContinuousPlaying = true;
+        isPaused = false;
+        document.getElementById('globalPlayText').innerText = t.stopText;
+        document.getElementById('pauseResumeBtn').innerText = t.resumeText;
+        playVerseAudio(0);
+      }
+    }
+
+    function togglePauseResume() {
+      if (!isContinuousPlaying) return;
+
+      const pauseBtn = document.getElementById('pauseResumeBtn');
+      const t = translations[currentLang];
+
+      if (isPaused) {
+        // Continue playing from where it was paused
+        audioPlayer.play();
+        isPaused = false;
+        pauseBtn.innerText = t.resumeText;
+        document.getElementById('activeVerseIndicator').innerText = `Verse ${currentVerses[activeVerseIndex].numberInSurah} (${t.continueText})`;
+      } else {
+        // Pause audio
+        audioPlayer.pause();
+        isPaused = true;
+        pauseBtn.innerText = t.continueText;
+        document.getElementById('activeVerseIndicator').innerText = t.pausedText;
+      }
+    }
+
+    audioPlayer.onended = function() {
+      const t = translations[currentLang];
+      if (activeVerseIndex !== -1) {
+        currentVerses[activeVerseIndex].repetitionCount++;
+        const repCounter = document.getElementById(`rep-count-${activeVerseIndex}`);
+        if (repCounter) repCounter.innerText = currentVerses[activeVerseIndex].repetitionCount;
+
+        resetCardUI(activeVerseIndex);
+      }
+
+      if (isContinuousPlaying && activeVerseIndex < currentVerses.length - 1) {
+        playVerseAudio(activeVerseIndex + 1);
+      } else {
+        stopAudio();
+      }
+    };
+
+    function stopAudio() {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+      isContinuousPlaying = false;
+      isPaused = false;
+      const t = translations[currentLang];
+
+      if (activeVerseIndex !== -1) {
+        resetCardUI(activeVerseIndex);
+      }
+
+      activeVerseIndex = -1;
+      document.getElementById('globalPlayText').innerText = t.globalPlayText;
+      document.getElementById('pauseResumeBtn').innerText = t.resumeText;
+      document.getElementById('activeVerseIndicator').innerText = t.notPlaying;
+    }
+
+    function resetCardUI(index) {
+      const card = document.getElementById(`verse-card-${index}`);
+      if (card) card.classList.remove('active-verse');
+
+      const playText = document.getElementById(`play-text-${index}`);
+      const t = translations[currentLang];
+      if (playText) playText.innerText = t.playBtnText;
+    }
+
+    function incrementCardRepetition(index) {
+      currentVerses[index].repetitionCount++;
+      document.getElementById(`rep-count-${index}`).innerText = currentVerses[index].repetitionCount;
+    }
+
+    // LocalStorage Persistent Log Management
+    function getStoredLogs() {
+      return JSON.parse(localStorage.getItem('quran_hifz_logs') || '[]');
+    }
+
+    function saveStoredLogs(logs) {
+      localStorage.setItem('quran_hifz_logs', JSON.stringify(logs));
+      renderLogsTable();
+    }
+
+    function loadSavedLogs() {
+      renderLogsTable();
+    }
+
+    function renderLogsTable() {
+      const logs = getStoredLogs();
+      const tbody = document.getElementById('logTableBody');
+      tbody.innerHTML = '';
+      const t = translations[currentLang];
+
+      if (logs.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="p-5 text-center text-slate-400">${t.noLogs}</td>
+          </tr>`;
+        return;
+      }
+
+      logs.forEach((log, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.innerHTML = `
+          <td class="p-3.5 font-medium text-slate-800">${log.date}</td>
+          <td class="p-3.5 text-slate-600">${log.portion}</td>
+          <td class="p-3.5 text-center font-bold text-emerald-800">${log.reps}</td>
+          <td class="p-3.5 text-center">
+            <input type="checkbox" ${log.completed ? 'checked' : ''} onchange="toggleLogStatus(${idx})" class="w-4 h-4 text-emerald-600 rounded border-slate-300 accent-emerald-700">
+          </td>
+          <td class="p-3.5 text-slate-600">${log.notes}</td>
+          <td class="p-3.5 text-center">
+            <button onclick="deleteLog(${idx})" class="text-rose-500 hover:text-rose-700 font-semibold text-xs">${currentLang === 'ar' ? 'حذف' : currentLang === 'ur' ? 'حذف کریں' : currentLang === 'bn' ? 'মুছে ফেলুন' : currentLang === 'ml' ? 'നീക്കം ചെയ്യുക' : 'Delete'}</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function logCurrentSession() {
+      const surahSelect = document.getElementById('surahSelect');
+      const surahName = surahSelect.options[surahSelect.selectedIndex].text;
+      const fromV = document.getElementById('fromVerse').value;
+      const toV = document.getElementById('toVerse').value;
+      const targetReps = document.getElementById('repetitionTarget').value;
+      const t = translations[currentLang];
+
+      const newEntry = {
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        portion: `${surahName} (${fromV}-${toV})`,
+        reps: targetReps,
+        completed: true,
+        notes: t.defaultNote
+      };
+
+      const logs = getStoredLogs();
+      logs.unshift(newEntry);
+      saveStoredLogs(logs);
+      showToast(t.toastSaved);
+    }
+
+    function addNewEditableRow() {
+      const tbody = document.getElementById('logTableBody');
+      const t = translations[currentLang];
+      
+      if (tbody.innerHTML.includes(t.noLogs)) {
+        tbody.innerHTML = '';
+      }
+
+      const tr = document.createElement('tr');
+      tr.className = 'bg-emerald-50/50 border-b border-emerald-100';
+      
+      const defaultDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+      tr.innerHTML = `
+        <td class="p-3.5">
+          <input type="text" id="newDate" value="${defaultDate}" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+        </td>
+        <td class="p-3.5">
+          <input type="text" id="newPortion" placeholder="e.g. Al-Fatihah (1-7)" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+        </td>
+        <td class="p-3.5 text-center">
+          <input type="number" id="newReps" value="9" min="1" class="w-16 mx-auto text-center bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+        </td>
+        <td class="p-3.5 text-center">
+          <input type="checkbox" id="newCompleted" checked class="w-4 h-4 text-emerald-600 rounded border-slate-300 accent-emerald-700">
+        </td>
+        <td class="p-3.5">
+          <input type="text" id="newNotes" placeholder="Write notes..." class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
+        </td>
+        <td class="p-3.5 text-center space-x-2">
+          <button onclick="saveNewRow(this)" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1 rounded-lg text-xs font-semibold shadow-sm">${currentLang === 'ar' ? 'حفظ' : currentLang === 'ur' ? 'محفوظ' : currentLang === 'bn' ? 'সংরক্ষণ' : currentLang === 'ml' ? 'സേവ്' : 'Save'}</button>
+          <button onclick="renderLogsTable()" class="text-slate-500 hover:text-slate-700 text-xs">${currentLang === 'ar' ? 'إلغاء' : currentLang === 'ur' ? 'منسوخ' : currentLang === 'bn' ? 'বাতিল' : currentLang === 'ml' ? 'റദ്ദാക്കുക' : 'Cancel'}</button>
+        </td>
+      `;
+
+      tbody.insertBefore(tr, tbody.firstChild);
+    }
+
+    function saveNewRow(btn) {
+      const row = btn.closest('tr');
+      const date = row.querySelector('#newDate').value.trim() || 'Today';
+      const portion = row.querySelector('#newPortion').value.trim() || 'Surah';
+      const reps = row.querySelector('#newReps').value || '9';
+      const completed = row.querySelector('#newCompleted').checked;
+      const notes = row.querySelector('#newNotes').value.trim() || '-';
+      const t = translations[currentLang];
+
+      const newEntry = { date, portion, reps, completed, notes };
+
+      const logs = getStoredLogs();
+      logs.unshift(newEntry);
+      saveStoredLogs(logs);
+      showToast(t.toastNewRow);
+    }
+
+    function toggleLogStatus(index) {
+      const logs = getStoredLogs();
+      logs[index].completed = !logs[index].completed;
+      saveStoredLogs(logs);
+    }
+
+    function deleteLog(index) {
+      const logs = getStoredLogs();
+      logs.splice(index, 1);
+      saveStoredLogs(logs);
+    }
+
+    function clearSavedLogs() {
+      const t = translations[currentLang];
+      if (confirm(t.confirmClear)) {
+        localStorage.removeItem('quran_hifz_logs');
+        renderLogsTable();
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-5 right-5 bg-dark-emerald text-emerald-100 border border-emerald-700 px-5 py-3 rounded-xl shadow-2xl z-50 text-xs font-semibold flex items-center space-x-2 transition-all';
+      toast.innerHTML = `<span>✓</span><span>${msg}</span>`;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+  </script>
+
+</body>
+</html>
