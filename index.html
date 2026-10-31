@@ -91,7 +91,7 @@
             </label>
             <div class="flex items-center space-x-2">
               <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-2 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200">-</button>
-              <input type="number" id="repetitionTarget" value="9" min="1" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:outline-none">
+              <input type="number" id="repetitionTarget" value="9" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:outline-none">
               <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-2 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200">+</button>
             </div>
           </div>
@@ -119,26 +119,17 @@
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
-                <input type="number" id="fromPage" value="1" min="1" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+                <input type="number" id="fromPage" value="1" min="1" onchange="saveState()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
               </div>
               <div>
                 <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
-                <input type="number" id="toPage" value="1" min="1" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+                <input type="number" id="toPage" value="1" min="1" onchange="saveState()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Log Session Action Button -->
-      <div class="mt-8 pt-4 border-t border-dark-emerald">
-        <button id="btnSaveProgress" onclick="logCurrentSession()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold py-3 px-4 rounded-xl shadow-lg transition-all text-sm flex items-center justify-center space-x-2">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-          </svg>
-          <span>Save Today's Progress</span>
-        </button>
-      </div>
     </aside>
 
     <!-- Main Workspace Content Area -->
@@ -198,6 +189,32 @@
           </div>
         </section>
 
+        <!-- Current Session & Save (sits right above the log records) -->
+        <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h3 id="lblSessionTitle" class="font-bold text-slate-800 text-base">Current Session</h3>
+              <p id="lblSessionHint" class="text-xs text-slate-500 mt-0.5">Saving adds this session's actual repetitions to your log and resets the counters.</p>
+              <p class="mt-2 text-sm text-slate-700">
+                <span id="sessionPortion" class="font-medium">--</span>
+                <span class="text-slate-300 mx-1">•</span>
+                <span id="sessionReps" class="font-bold text-emerald-800">0 / 0</span>
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="btnResetCounters" onclick="resetCounters()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-3 rounded-xl text-xs font-semibold border border-slate-200 transition-all">
+                Reset Counters
+              </button>
+              <button id="btnSaveProgress" onclick="logCurrentSession()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-5 rounded-xl shadow-md transition-all text-sm flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                </svg>
+                <span id="btnSaveProgressText">Save Today's Progress</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
         <!-- Weekly Progress & LocalStorage Table Section -->
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
           <div class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50">
@@ -209,11 +226,11 @@
               <button id="btnClearHistory" onclick="clearSavedLogs()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3 py-1.5 rounded-xl text-xs font-medium transition-all">
                 Clear History
               </button>
-              <button id="btnAddRow" onclick="addNewEditableRow()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-sm flex items-center space-x-1">
+              <button id="btnShareProgress" onclick="shareTodayProgress()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-2 rounded-xl text-xs font-semibold shadow-sm flex items-center space-x-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
                 </svg>
-                <span id="btnAddRowText">Add New Row</span>
+                <span id="btnShareText">Share Today's Progress</span>
               </button>
             </div>
           </div>
@@ -253,7 +270,7 @@
     let surahList = [];
     let currentVerses = [];
     let activeVerseIndex = -1;
-    let isContinuousPlaying = false;
+    let isRunning = false;        // true while ANY playback run (Play All or single verse) is active
     let isPaused = false;
     const audioPlayer = document.getElementById('globalAudioPlayer');
 
@@ -314,7 +331,26 @@
         placeholderPortion: "e.g. Al-Fatihah (1-7)",
         placeholderNotes: "Write notes...",
         audioFallbackToast: "Selected reciter's audio is unavailable - switched to Mishary Alafasy",
-        audioFailed: "Audio could not be loaded. Please check your connection."
+        audioFailed: "Audio could not be loaded. Please check your connection.",
+        introAudhu: "A'udhu billah",
+        introBismillah: "Bismillah",
+        lblSessionTitle: "Current Session",
+        lblSessionHint: "Saving adds this session's actual repetitions to your log and resets the counters.",
+        btnResetCounters: "Reset Counters",
+        confirmReset: "Reset the repetition counters for the selected verses?",
+        toastNothingToSave: "No repetitions completed yet - nothing to save.",
+        runComplete: "Round complete! Don't forget to save your progress.",
+        statusDone: "Done",
+        statusPartial: "Partial",
+        btnShareProgress: "Share Today's Progress",
+        shareTitle: "Hifz Progress",
+        shareTotal: "Total repetitions",
+        shareEmail: "Email",
+        shareCopy: "Copy",
+        toastCopied: "Copied to clipboard",
+        toastNoTodayLogs: "No progress saved today yet.",
+        repsShort: "reps",
+        lblShareVia: "Share via"
       },
       ar: {
         pageTitle: "متابع حفظ القرآن",
@@ -371,7 +407,26 @@
         placeholderPortion: "مثال: الفاتحة (1-7)",
         placeholderNotes: "اكتب ملاحظات...",
         audioFallbackToast: "تعذّر تشغيل صوت القارئ المختار - تم التبديل إلى مشاري العفاسي",
-        audioFailed: "تعذّر تحميل الصوت. تحقق من اتصالك بالإنترنت."
+        audioFailed: "تعذّر تحميل الصوت. تحقق من اتصالك بالإنترنت.",
+        introAudhu: "الاستعاذة",
+        introBismillah: "البسملة",
+        lblSessionTitle: "الجلسة الحالية",
+        lblSessionHint: "عند الحفظ تُضاف تكرارات هذه الجلسة الفعلية إلى السجل ثم تُصفَّر العدادات.",
+        btnResetCounters: "تصفير العدادات",
+        confirmReset: "هل تريد تصفير عدادات التكرار للآيات المحددة؟",
+        toastNothingToSave: "لم يتم إكمال أي تكرار بعد - لا يوجد ما يُحفظ.",
+        runComplete: "اكتملت الجولة! لا تنسَ حفظ تقدمك.",
+        statusDone: "مكتمل",
+        statusPartial: "جزئي",
+        btnShareProgress: "مشاركة تقدم اليوم",
+        shareTitle: "تقدم الحفظ",
+        shareTotal: "إجمالي التكرار",
+        shareEmail: "البريد الإلكتروني",
+        shareCopy: "نسخ",
+        toastCopied: "تم النسخ",
+        toastNoTodayLogs: "لا يوجد تقدم محفوظ اليوم بعد.",
+        repsShort: "تكرار",
+        lblShareVia: "مشاركة عبر"
       },
       ml: {
         pageTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
@@ -428,7 +483,26 @@
         placeholderPortion: "ഉദാ: അൽ-ഫാതിഹ (1-7)",
         placeholderNotes: "കുറിപ്പുകൾ എഴുതുക...",
         audioFallbackToast: "തിരഞ്ഞെടുത്ത ഖാരിഅിന്റെ ഓഡിയോ ലഭ്യമല്ല - മിഷാരി അൽ-അഫാസിയിലേക്ക് മാറ്റി",
-        audioFailed: "ഓഡിയോ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക."
+        audioFailed: "ഓഡിയോ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
+        introAudhu: "അഊദു ബില്ലാഹ്",
+        introBismillah: "ബിസ്മില്ലാഹ്",
+        lblSessionTitle: "നിലവിലെ സെഷൻ",
+        lblSessionHint: "സേവ് ചെയ്യുമ്പോൾ ഈ സെഷനിലെ യഥാർത്ഥ ആവർത്തനങ്ങൾ ലോഗിൽ ചേർക്കുകയും കൗണ്ടറുകൾ പൂജ്യമാക്കുകയും ചെയ്യും.",
+        btnResetCounters: "കൗണ്ടർ റീസെറ്റ്",
+        confirmReset: "തിരഞ്ഞെടുത്ത ആയത്തുകളുടെ ആവർത്തന കൗണ്ടറുകൾ റീസെറ്റ് ചെയ്യണോ?",
+        toastNothingToSave: "ഇതുവരെ ആവർത്തനങ്ങൾ പൂർത്തിയായിട്ടില്ല - സേവ് ചെയ്യാനൊന്നുമില്ല.",
+        runComplete: "റൗണ്ട് പൂർത്തിയായി! പുരോഗതി സേവ് ചെയ്യാൻ മറക്കരുത്.",
+        statusDone: "പൂർത്തിയായി",
+        statusPartial: "ഭാഗികം",
+        btnShareProgress: "ഇന്നത്തെ പുരോഗതി ഷെയർ ചെയ്യുക",
+        shareTitle: "ഹിഫ്ള് പുരോഗതി",
+        shareTotal: "ആകെ ആവർത്തനം",
+        shareEmail: "ഇമെയിൽ",
+        shareCopy: "കോപ്പി",
+        toastCopied: "കോപ്പി ചെയ്തു",
+        toastNoTodayLogs: "ഇന്ന് സേവ് ചെയ്ത പുരോഗതി ഇല്ല.",
+        repsShort: "ആവർത്തനം",
+        lblShareVia: "ഷെയർ ചെയ്യുക"
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
@@ -485,7 +559,26 @@
         placeholderPortion: "مثلاً: الفاتحہ (1-7)",
         placeholderNotes: "نوٹس لکھیں...",
         audioFallbackToast: "منتخب قاری کی آڈیو دستیاب نہیں - مشاری العفاسی پر منتقل کر دیا گیا",
-        audioFailed: "آڈیو لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔"
+        audioFailed: "آڈیو لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
+        introAudhu: "اعوذ باللہ",
+        introBismillah: "بسم اللہ",
+        lblSessionTitle: "موجودہ سیشن",
+        lblSessionHint: "محفوظ کرنے پر اس سیشن کے اصل تکرار لاگ میں شامل ہوں گے اور کاؤنٹر صفر ہو جائیں گے۔",
+        btnResetCounters: "کاؤنٹر ری سیٹ کریں",
+        confirmReset: "کیا منتخب آیات کے تکرار کاؤنٹر ری سیٹ کریں؟",
+        toastNothingToSave: "ابھی کوئی تکرار مکمل نہیں ہوا - محفوظ کرنے کو کچھ نہیں۔",
+        runComplete: "دور مکمل ہوا! اپنی پیشرفت محفوظ کرنا نہ بھولیں۔",
+        statusDone: "مکمل",
+        statusPartial: "جزوی",
+        btnShareProgress: "آج کی پیشرفت شیئر کریں",
+        shareTitle: "حفظ کی پیشرفت",
+        shareTotal: "کل تکرار",
+        shareEmail: "ای میل",
+        shareCopy: "کاپی",
+        toastCopied: "کاپی ہو گیا",
+        toastNoTodayLogs: "آج کی کوئی پیشرفت محفوظ نہیں۔",
+        repsShort: "تکرار",
+        lblShareVia: "شیئر کریں"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
@@ -542,93 +635,170 @@
         placeholderPortion: "যেমন: আল-ফাতিহা (1-7)",
         placeholderNotes: "নোট লিখুন...",
         audioFallbackToast: "নির্বাচিত কারীর অডিও পাওয়া যায়নি - মিশারী আলাফাসিতে পরিবর্তন করা হয়েছে",
-        audioFailed: "অডিও লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"
+        audioFailed: "অডিও লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।",
+        introAudhu: "আউযুবিল্লাহ",
+        introBismillah: "বিসমিল্লাহ",
+        lblSessionTitle: "বর্তমান সেশন",
+        lblSessionHint: "সংরক্ষণ করলে এই সেশনের প্রকৃত পুনরাবৃত্তি লগে যুক্ত হবে এবং কাউন্টার শূন্য হবে।",
+        btnResetCounters: "কাউন্টার রিসেট",
+        confirmReset: "নির্বাচিত আয়াতের পুনরাবৃত্তি কাউন্টার রিসেট করবেন?",
+        toastNothingToSave: "এখনও কোনো পুনরাবৃত্তি সম্পন্ন হয়নি - সংরক্ষণের কিছু নেই।",
+        runComplete: "রাউন্ড সম্পন্ন! অগ্রগতি সংরক্ষণ করতে ভুলবেন না।",
+        statusDone: "সম্পন্ন",
+        statusPartial: "আংশিক",
+        btnShareProgress: "আজকের অগ্রগতি শেয়ার করুন",
+        shareTitle: "হিফজ অগ্রগতি",
+        shareTotal: "মোট পুনরাবৃত্তি",
+        shareEmail: "ইমেইল",
+        shareCopy: "কপি",
+        toastCopied: "কপি করা হয়েছে",
+        toastNoTodayLogs: "আজ কোনো অগ্রগতি সংরক্ষিত হয়নি।",
+        repsShort: "রিপিট",
+        lblShareVia: "শেয়ার করুন"
       }
     };
 
     let currentLang = 'en';
 
-    function changeLanguage(lang) {
-      currentLang = lang;
-      const t = translations[lang];
-      document.getElementById('pageTitle').innerText = t.pageTitle;
-      document.getElementById('brandTitle').innerText = t.brandTitle;
-      document.getElementById('brandSub').innerText = t.brandSub;
-      document.getElementById('lblSurah').innerText = t.lblSurah;
-      document.getElementById('lblFromVerse').innerText = t.lblFromVerse;
-      document.getElementById('lblToVerse').innerText = t.lblToVerse;
-      document.getElementById('lblRepetition').innerText = t.lblRepetition;
-      document.getElementById('lblReciter').innerText = t.lblReciter;
-      document.getElementById('lblDailyWird').innerText = t.lblDailyWird;
-      document.getElementById('lblFromPage').innerText = t.lblFromPage;
-      document.getElementById('lblToPage').innerText = t.lblToPage;
-      document.getElementById('btnSaveProgress').innerHTML = `
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
-        </svg>
-        <span>${t.btnSaveProgress}</span>`;
-      document.getElementById('mainHeaderTitle').innerText = t.mainHeaderTitle;
-      document.getElementById('mainHeaderDesc').innerText = t.mainHeaderDesc;
-      document.getElementById('globalPlayText').innerText = isContinuousPlaying ? t.stopText : t.globalPlayText;
-      document.getElementById('pauseResumeBtn').innerText = isPaused ? t.continueText : t.resumeText;
-      document.getElementById('lblActiveVerseTitle').innerText = t.lblActiveVerseTitle;
-      document.getElementById('activeVerseIndicator').innerText = activeVerseIndex === -1 ? t.notPlaying : document.getElementById('activeVerseIndicator').innerText;
-      document.getElementById('lblSelectedVersesHeading').innerText = t.lblSelectedVersesHeading;
-      // (#loadingVersesText lives inside #versesList and is destroyed once verses render,
-      //  so it must NOT be looked up here - doing so threw an error and stopped the rest of this function)
-      document.getElementById('lblWeeklyLogTitle').innerText = t.lblWeeklyLogTitle;
-      document.getElementById('lblWeeklyLogDesc').innerText = t.lblWeeklyLogDesc;
-      document.getElementById('btnClearHistory').innerText = t.btnClearHistory;
-      document.getElementById('btnAddRowText').innerText = t.btnAddRowText;
-      
-      // Update table headers dynamically
-      document.getElementById('thDate').innerText = t.thDate;
-      document.getElementById('thPortion').innerText = t.thPortion;
-      document.getElementById('thReps').innerText = t.thReps;
-      document.getElementById('thCompleted').innerText = t.thCompleted;
-      document.getElementById('thNotes').innerText = t.thNotes;
-      document.getElementById('thAction').innerText = t.thAction;
-      
-      document.getElementById('footerCopy').innerText = t.footerCopy;
+    // ==================================================================
+    // STORAGE (everything the page remembers lives in localStorage)
+    // ==================================================================
+    const STORE = {
+      state:  'quran_hifz_state',   // last surah / verse range / reciter / repetition target / pages
+      lang:   'quran_hifz_lang',    // selected language
+      logs:   'quran_hifz_logs',    // saved log records
+      counts: 'quran_hifz_counts'   // unsaved repetition counters per verse
+    };
+    const LANG_LOCALES = { en: 'en-US', ar: 'ar', ml: 'ml-IN', ur: 'ur-PK', bn: 'bn-BD' };
 
-      if (lang === 'ar' || lang === 'ur') {
-        document.documentElement.setAttribute('dir', 'rtl');
-      } else {
-        document.documentElement.setAttribute('dir', 'ltr');
-      }
-
-      validateAndFetchVerses();
-      renderLogsTable();
+    function loadJSON(key, fallback) {
+      try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+      catch (e) { return fallback; }
+    }
+    function saveJSON(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* private mode / quota */ }
     }
 
-    document.getElementById('currentDateBadge').innerText = new Date().toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
+    let repCounts = loadJSON(STORE.counts, {});   // { "2:5": 7, ... } repetitions actually done
+    let preferredReciter = null;                  // what the USER picked (the dropdown may temporarily show the fallback)
 
-    window.onload = async function() {
-      await fetchSurahList();
-      validateAndFetchVerses();
-      loadSavedLogs();
+    // ---------- small helpers ----------
+    const $ = id => document.getElementById(id);
+    const T = () => translations[currentLang];
+    function setText(id, text) { const el = $(id); if (el && text !== undefined) el.textContent = text; }
+    function escapeHtml(str) {
+      return String(str == null ? '' : str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function todayISO() {
+      const d = new Date(), p = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+    }
+    function formatLogDate(log) {
+      if (log.iso) {
+        return new Date(log.iso + 'T00:00:00').toLocaleDateString(LANG_LOCALES[currentLang], { weekday: 'short', month: 'short', day: 'numeric' });
+      }
+      return log.date || '';   // older records saved before dates were stored as ISO
+    }
+    const getTarget = () => Math.max(1, parseInt($('repetitionTarget').value) || 1);
+    const repKey = (surah, verse) => `${surah}:${verse}`;
+
+    // ==================================================================
+    // LANGUAGE
+    // ==================================================================
+    // ids whose element id equals the translation key
+    const LABEL_IDS = [
+      'brandTitle', 'brandSub', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
+      'lblDailyWird', 'lblFromPage', 'lblToPage', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
+      'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
+      'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
+      'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy'
+    ];
+
+    // Updates every static label. Never throws on a missing element.
+    function applyLanguage() {
+      const t = T();
+      document.title = t.pageTitle;
+      LABEL_IDS.forEach(id => setText(id, t[id]));
+      setText('btnSaveProgressText', t.btnSaveProgress);
+      setText('btnShareText', t.btnShareProgress);
+      setText('globalPlayText', isRunning ? t.stopText : t.globalPlayText);
+      setText('pauseResumeBtn', isPaused ? t.continueText : t.resumeText);
+      if (!isRunning) setText('activeVerseIndicator', t.notPlaying);
+      setText('currentDateBadge', new Date().toLocaleDateString(LANG_LOCALES[currentLang],
+        { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }));
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
+    }
+
+    function changeLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      saveJSON(STORE.lang, lang);          // remembered for next visit
+      applyLanguage();
+      renderLogsTable();
+      validateAndFetchVerses();            // reloads the meaning in the new language (counters are kept)
+    }
+
+    // ==================================================================
+    // REMEMBER LAST PAGE (surah, verses, reciter, repetition, pages)
+    // ==================================================================
+    function saveState() {
+      const surah = parseInt($('surahSelect').value);
+      if (!surah) return;                  // surah list not loaded yet - don't overwrite saved state
+      saveJSON(STORE.state, {
+        surah,
+        fromVerse: $('fromVerse').value,
+        toVerse: $('toVerse').value,
+        repetition: $('repetitionTarget').value,
+        reciter: preferredReciter || $('reciterSelect').value,
+        fromPage: $('fromPage').value,
+        toPage: $('toPage').value
+      });
+    }
+
+    function restoreInputs() {
+      const st = loadJSON(STORE.state, null);
+      if (!st) return null;
+      if (st.fromVerse) $('fromVerse').value = st.fromVerse;
+      if (st.toVerse) $('toVerse').value = st.toVerse;
+      if (st.repetition) $('repetitionTarget').value = st.repetition;
+      if (st.fromPage) $('fromPage').value = st.fromPage;
+      if (st.toPage) $('toPage').value = st.toPage;
+      const sel = $('reciterSelect');
+      if (st.reciter && [...sel.options].some(o => o.value === st.reciter)) {
+        sel.value = st.reciter;
+        preferredReciter = st.reciter;
+      }
+      return st;
+    }
+
+    window.onload = async function () {
+      const savedLang = loadJSON(STORE.lang, 'en');
+      currentLang = translations[savedLang] ? savedLang : 'en';
+      $('langSelect').value = currentLang;
+      applyLanguage();
+
+      const st = restoreInputs();
+      await fetchSurahList(st ? st.surah : 1);
+      await validateAndFetchVerses();
+      renderLogsTable();
     };
 
-    async function fetchSurahList() {
+    async function fetchSurahList(selectedNumber) {
       try {
         const res = await fetch('https://api.alquran.cloud/v1/surah');
         const data = await res.json();
         if (data.code === 200) {
           surahList = data.data;
-          const select = document.getElementById('surahSelect');
+          const select = $('surahSelect');
           select.innerHTML = '';
           surahList.forEach(s => {
             const opt = document.createElement('option');
             opt.value = s.number;
             opt.innerText = `${s.number}. ${s.englishName} (${s.name})`;
-            if (s.number === 1) opt.selected = true;
             select.appendChild(opt);
           });
+          select.value = surahList.some(s => s.number === selectedNumber) ? selectedNumber : 1;
         }
       } catch (err) {
         console.error('Failed to load Surah list:', err);
@@ -636,190 +806,225 @@
     }
 
     function onSurahChange() {
-      const surahNum = parseInt(document.getElementById('surahSelect').value);
+      const surahNum = parseInt($('surahSelect').value);
       const surahData = surahList.find(s => s.number === surahNum);
       if (surahData) {
-        document.getElementById('fromVerse').value = 1;
-        document.getElementById('toVerse').value = Math.min(10, surahData.numberOfAyahs);
+        $('fromVerse').value = 1;
+        $('toVerse').value = Math.min(10, surahData.numberOfAyahs);
       }
       validateAndFetchVerses();
     }
 
     function onReciterChange() {
-      if (activeVerseIndex !== -1) {
-        playVerseAudio(activeVerseIndex);
-      }
+      preferredReciter = $('reciterSelect').value;
+      saveState();
+      // apply immediately to the clip that is playing (unless paused - then it applies to the next clip)
+      if (isRunning && !isPaused && cancelCurrentClip) cancelCurrentClip('restart');
     }
 
     function adjustRepetition(val) {
-      const input = document.getElementById('repetitionTarget');
-      let current = parseInt(input.value) || 1;
-      current = Math.max(1, current + val);
-      input.value = current;
+      $('repetitionTarget').value = Math.max(1, getTarget() + val);
+      onTargetChange();
     }
 
+    function onTargetChange() {
+      saveState();
+      const target = getTarget();
+      currentVerses.forEach((_, idx) => {
+        setText(`tgt-label-${idx}`, `${T().repsLabel} ${target}`);
+        setText(`tgt-total-${idx}`, `/ ${target}`);
+      });
+      updateSessionSummary();
+    }
+
+    // ==================================================================
+    // VERSES
+    // ==================================================================
     let versesFetchId = 0;
     async function validateAndFetchVerses() {
-      const fetchId = ++versesFetchId; // lets us ignore out-of-date responses
+      const fetchId = ++versesFetchId;     // lets us ignore out-of-date responses
       stopAudio();
-      const surahNum = document.getElementById('surahSelect').value || 1;
-      const surahData = surahList.find(s => s.number == surahNum);
+      const surahNum = parseInt($('surahSelect').value) || 1;
+      const surahData = surahList.find(s => s.number === surahNum);
       const maxAyahs = surahData ? surahData.numberOfAyahs : 286;
 
-      let fromV = parseInt(document.getElementById('fromVerse').value) || 1;
-      let toV = parseInt(document.getElementById('toVerse').value) || 1;
-
+      let fromV = parseInt($('fromVerse').value) || 1;
+      let toV = parseInt($('toVerse').value) || 1;
       if (fromV < 1) fromV = 1;
       if (fromV > maxAyahs) fromV = maxAyahs;
       if (toV < fromV) toV = fromV;
       if (toV > maxAyahs) toV = maxAyahs;
+      $('fromVerse').value = fromV;
+      $('toVerse').value = toV;
+      saveState();
 
-      document.getElementById('fromVerse').value = fromV;
-      document.getElementById('toVerse').value = toV;
-
-      const container = document.getElementById('versesList');
-      const t = translations[currentLang];
+      const container = $('versesList');
+      const t = T();
       container.innerHTML = `
-        <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center text-slate-500">
-          ${t.loadingVersesText}
+        <div id="loadingVersesText" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center text-slate-500">
+          ${escapeHtml(t.loadingVersesText)}
         </div>`;
 
       try {
-        let translationEdition = '';
-        if (currentLang === 'ml') {
-          translationEdition = 'ml.abdulhameed';
-        } else if (currentLang === 'en') {
-          translationEdition = 'en.sahih';
-        } else if (currentLang === 'ur') {
-          translationEdition = 'ur.jalandhry';
-        } else if (currentLang === 'bn') {
-          translationEdition = 'bn.bengali';
-        } else if (currentLang === 'ar') {
-          translationEdition = null; 
-        }
+        const editions = { en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali' };
+        const translationEdition = editions[currentLang] || null;   // Arabic UI: no translation
 
-        const fetchPromises = [
-          fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)
-        ];
-
+        const requests = [fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)];
         if (translationEdition) {
-          fetchPromises.push(fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${translationEdition}`));
+          // a failing translation must never block the Arabic text
+          requests.push(fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${translationEdition}`).catch(() => null));
         }
-
-        const responses = await Promise.all(fetchPromises);
+        const responses = await Promise.all(requests);
         const arData = await responses[0].json();
         let transData = null;
+        if (responses[1]) {
+          try { transData = await responses[1].json(); } catch (e) { console.warn('Translation failed to parse', e); }
+        }
+        if (fetchId !== versesFetchId) return;   // a newer request took over
+        if (arData.code !== 200) throw new Error('Unexpected API response');
 
-        if (translationEdition && responses[1]) {
-          try {
-            transData = await responses[1].json();
-          } catch(e) {
-            console.warn("Translation failed to parse", e);
-          }
+        const allAr = arData.data.ayahs;
+        const allTrans = transData && transData.code === 200 ? transData.data.ayahs : null;
+
+        currentVerses = [];
+        for (let i = fromV - 1; i < toV; i++) {
+          const n = allAr[i].numberInSurah;
+          currentVerses.push({
+            surah: surahNum,
+            numberInSurah: n,
+            globalNumber: allAr[i].number,
+            arabic: allAr[i].text,
+            translation: allTrans && allTrans[i] ? allTrans[i].text : null,
+            repetitionCount: repCounts[repKey(surahNum, n)] || 0     // keeps progress across language/range changes
+          });
         }
 
-        if (fetchId !== versesFetchId) return; // a newer request (e.g. language change) took over
-
-        if (arData.code === 200) {
-          const allArAyahs = arData.data.ayahs;
-          const allTransAyahs = transData && transData.code === 200 ? transData.data.ayahs : null;
-
-          currentVerses = [];
-          for (let i = fromV - 1; i < toV; i++) {
-            currentVerses.push({
-              numberInSurah: allArAyahs[i].numberInSurah,
-              globalNumber: allArAyahs[i].number,
-              arabic: allArAyahs[i].text,
-              translation: allTransAyahs && allTransAyahs[i] ? allTransAyahs[i].text : null,
-              repetitionCount: 0
-            });
-          }
-
-          document.getElementById('verseCountBadge').innerText = currentVerses.length;
-          document.getElementById('surahMetaHeader').innerText = `${surahData ? surahData.englishName : ''} (${t.verseRange.replace('{from}', fromV).replace('{to}', toV)})`;
-
-          renderVerseCards();
-        }
+        $('verseCountBadge').innerText = currentVerses.length;
+        $('surahMetaHeader').innerText =
+          `${surahData ? surahData.englishName : ''} (${t.verseRange.replace('{from}', fromV).replace('{to}', toV)})`;
+        renderVerseCards();
+        updateSessionSummary();
       } catch (err) {
         console.error('Error fetching verses:', err);
         if (fetchId !== versesFetchId) return;
         container.innerHTML = `
           <div class="bg-white p-6 rounded-2xl border border-rose-200 text-center text-rose-600">
-            ${t.loadFailed}
+            ${escapeHtml(t.loadFailed)}
           </div>`;
       }
     }
 
     function renderVerseCards() {
-      const container = document.getElementById('versesList');
+      const container = $('versesList');
       container.innerHTML = '';
-      const targetReps = parseInt(document.getElementById('repetitionTarget').value) || 9;
-      const t = translations[currentLang];
+      const targetReps = getTarget();
+      const t = T();
 
       currentVerses.forEach((verse, idx) => {
         const card = document.createElement('div');
         card.id = `verse-card-${idx}`;
         card.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all hover:border-emerald-300 relative';
-        
+
         let translationHTML = '';
         if (verse.translation) {
           translationHTML = `
             <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 mt-4">
               <p class="text-xs md:text-sm text-slate-700 leading-relaxed">
-                <strong class="text-emerald-900">${t.meaningLabel}</strong> ${verse.translation}
+                <strong class="text-emerald-900">${escapeHtml(t.meaningLabel)}</strong> ${escapeHtml(verse.translation)}
               </p>
-            </div>
-          `;
+            </div>`;
         }
 
         card.innerHTML = `
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
             <div class="flex items-center space-x-2">
               <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-2.5 py-1 rounded-lg">
-                ${t.verseLabel} ${verse.numberInSurah}
+                ${escapeHtml(t.verseLabel)} ${verse.numberInSurah}
               </span>
-              <span class="text-xs text-slate-400">${t.repsLabel} ${targetReps}</span>
+              <span id="tgt-label-${idx}" class="text-xs text-slate-400">${escapeHtml(t.repsLabel)} ${targetReps}</span>
             </div>
 
             <div class="flex items-center space-x-2">
-              <button onclick="playVerseAudio(${idx})" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all">
+              <button onclick="onListenClick(${idx})" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all">
                 <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                 </svg>
-                <span id="play-text-${idx}">${t.playBtnText}</span>
+                <span id="play-text-${idx}">${escapeHtml(t.playBtnText)}</span>
               </button>
 
-              <button onclick="incrementCardRepetition(${idx})" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-medium border border-slate-200 flex items-center space-x-1">
-                <span>${t.repsCountLabel}</span>
+              <button onclick="bumpRep(${idx})" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-medium border border-slate-200 flex items-center space-x-1">
+                <span>${escapeHtml(t.repsCountLabel)}</span>
                 <span id="rep-count-${idx}" class="font-bold text-emerald-800">${verse.repetitionCount}</span>
-                <span>/ ${targetReps}</span>
+                <span id="tgt-total-${idx}">/ ${targetReps}</span>
               </button>
             </div>
           </div>
 
           <p class="text-right font-quran text-2xl md:text-3xl text-emerald-950 leading-loose mb-4" dir="rtl">
-            ${verse.arabic}
+            ${escapeHtml(verse.arabic)}
           </p>
 
           ${translationHTML}
         `;
-
         container.appendChild(card);
       });
     }
 
-    // ------------------------------------------------------------------
-    // AUDIO SOURCES, AVAILABILITY CHECK & FALLBACK
-    // ------------------------------------------------------------------
+    // ==================================================================
+    // REPETITION COUNTERS (what the student ACTUALLY did)
+    // ==================================================================
+    function bumpRep(i) {
+      const verse = currentVerses[i];
+      if (!verse) return;
+      verse.repetitionCount++;
+      repCounts[repKey(verse.surah, verse.numberInSurah)] = verse.repetitionCount;
+      saveJSON(STORE.counts, repCounts);
+      setText(`rep-count-${i}`, verse.repetitionCount);
+      updateSessionSummary();
+    }
+
+    function clearCountersForCurrentVerses() {
+      currentVerses.forEach((v, i) => {
+        v.repetitionCount = 0;
+        delete repCounts[repKey(v.surah, v.numberInSurah)];
+        setText(`rep-count-${i}`, 0);
+      });
+      saveJSON(STORE.counts, repCounts);
+      updateSessionSummary();
+    }
+
+    function resetCounters() {
+      if (currentVerses.length && confirm(T().confirmReset)) clearCountersForCurrentVerses();
+    }
+
+    function portionLabel() {
+      const surahNum = currentVerses.length ? currentVerses[0].surah : (parseInt($('surahSelect').value) || 1);
+      const s = surahList.find(x => x.number === surahNum);
+      const name = s ? s.englishName : `Surah ${surahNum}`;
+      if (!currentVerses.length) return name;
+      return `${name} (${currentVerses[0].numberInSurah}-${currentVerses[currentVerses.length - 1].numberInSurah})`;
+    }
+
+    function updateSessionSummary() {
+      const done = currentVerses.reduce((sum, v) => sum + v.repetitionCount, 0);
+      const total = getTarget() * currentVerses.length;
+      setText('sessionPortion', portionLabel());
+      setText('sessionReps', `${done} / ${total}`);
+    }
+
+    // ==================================================================
+    // AUDIO
+    // ==================================================================
     const FALLBACK_RECITER = 'ar.alafasy';   // Mishary Alafasy (Quran API / islamic.network CDN)
-    const AUDIO_START_TIMEOUT = 8000;        // ms to wait for a file to actually start playing
-    let playToken = 0;                       // invalidates stale async work when user clicks around
-    let confirmedUrl = null;                 // URL that has successfully started playing
+    const AUDIO_START_TIMEOUT = 8000;        // ms to wait for a file to start playing
+    const AUDHUBILLAH_FALLBACK_URL = 'https://everyayah.com/data/Alafasy_128kbps/audhubillah.mp3';
+    let playToken = 0;                       // bumping this cancels any in-flight run
+    let runMode = null;                      // 'all' | 'single'
+    let cancelCurrentClip = null;            // settles the clip that is currently loading/playing
+    let lastIndicator = '';
 
     // everyayah.com reciters look like "Husary_Muallim_128kbps"; Quran API ones like "ar.alafasy"
-    function isEveryAyahReciter(reciter) {
-      return /_\d+kbps$/.test(reciter);
-    }
+    function isEveryAyahReciter(reciter) { return /_\d+kbps$/.test(reciter); }
 
     function getAudioSourceUrl(reciter, surahNum, verseNumInSurah, globalVerseNum) {
       if (isEveryAyahReciter(reciter)) {
@@ -830,301 +1035,292 @@
       return `https://cdn.islamic.network/quran/audio/128/${reciter}/${globalVerseNum}.mp3`;
     }
 
-    // Loads `url` into the shared player and starts it. Resolves with:
-    //   'ok'      -> the file is available and playback has started
-    //   'failed'  -> network/404/decode error, or it never started within AUDIO_START_TIMEOUT
-    //   'aborted' -> superseded / paused by the user (NOT an availability problem)
-    function attemptPlay(url) {
+    // Plays ONE audio file from its beginning and waits until it finishes. Resolves with:
+    //   'ended'   played completely            'failed'  error / never started / dropped mid-way
+    //   'restart' caller asked to reload it    'aborted' cancelled (stop / newer run)
+    //   'blocked' browser refused to autoplay
+    // This doubles as the availability check: a missing or erroring file resolves 'failed'.
+    function playClip(url) {
       return new Promise(resolve => {
-        let settled = false;
-        const settle = result => {
+        let started = false, settled = false, timer = null;
+        const cancel = reason => settle(reason);
+        const onPlaying = () => { started = true; clearTimeout(timer); };
+        const onEnded = () => settle('ended');
+        const onError = () => settle('failed');
+        function settle(result) {
           if (settled) return;
           settled = true;
           clearTimeout(timer);
           audioPlayer.removeEventListener('playing', onPlaying);
+          audioPlayer.removeEventListener('ended', onEnded);
           audioPlayer.removeEventListener('error', onError);
+          if (cancelCurrentClip === cancel) cancelCurrentClip = null;
           resolve(result);
-        };
-        const onPlaying = () => settle('ok');
-        const onError = () => settle('failed');
-        const timer = setTimeout(() => settle('failed'), AUDIO_START_TIMEOUT);
-
+        }
+        timer = setTimeout(() => { if (!started && !isPaused) settle('failed'); }, AUDIO_START_TIMEOUT);
+        cancelCurrentClip = cancel;
         audioPlayer.addEventListener('playing', onPlaying);
+        audioPlayer.addEventListener('ended', onEnded);
         audioPlayer.addEventListener('error', onError);
         audioPlayer.src = url;
         audioPlayer.play().catch(err => {
-          // AbortError = src changed / paused meanwhile; NotAllowedError = autoplay policy.
-          // Neither means the file is missing, so don't trigger the fallback.
-          if (err && (err.name === 'AbortError' || err.name === 'NotAllowedError')) settle('aborted');
+          if (err && err.name === 'AbortError') { if (!isPaused) settle('aborted'); }
+          else if (err && err.name === 'NotAllowedError') settle('blocked');
           else settle('failed');
         });
       });
     }
 
     function switchToFallbackReciter() {
-      const select = document.getElementById('reciterSelect');
+      const select = $('reciterSelect');
       if (select.value === FALLBACK_RECITER) return;
-      select.value = FALLBACK_RECITER;   // programmatic change: does not fire onchange
-      showToast(translations[currentLang].audioFallbackToast, true);
+      select.value = FALLBACK_RECITER;     // programmatic change: does not fire onchange, preferredReciter is kept
+      showToast(T().audioFallbackToast, true);
     }
 
-    async function playVerseAudio(index, forceFallback = false) {
-      if (index < 0 || index >= currentVerses.length) return;
-      if (activeVerseIndex !== -1 && activeVerseIndex !== index) {
-        resetCardUI(activeVerseIndex);
-      }
-      activeVerseIndex = index;
-      confirmedUrl = null;
-      const token = ++playToken;
-      const verse = currentVerses[index];
-      const surahNum = document.getElementById('surahSelect').value || 1;
-      const t = translations[currentLang];
-
-      const card = document.getElementById(`verse-card-${index}`);
-      if (card) card.classList.add('active-verse');
-      const playText = document.getElementById(`play-text-${index}`);
-      if (playText) playText.innerText = t.playingText;
-      document.getElementById('activeVerseIndicator').innerText = `${t.verseLabel} ${verse.numberInSurah}`;
-
-      // 1) Try the reciter the user selected (default: Husary Muallim on everyayah.com)
-      if (forceFallback) switchToFallbackReciter();
-      const reciter = document.getElementById('reciterSelect').value;
-      let url = getAudioSourceUrl(reciter, surahNum, verse.numberInSurah, verse.globalNumber);
-      let result = await attemptPlay(url);
-      if (token !== playToken) return;           // user moved on while we were loading
-
-      // 2) Not available -> switch to Mishary Alafasy from the Quran API CDN
-      if (result === 'failed' && reciter !== FALLBACK_RECITER) {
+    // One repetition of a verse: selected reciter first, Mishary Alafasy if that fails.
+    async function playVerseWithFallback(verse, token) {
+      const reciter = $('reciterSelect').value;
+      let r = await playClip(getAudioSourceUrl(reciter, verse.surah, verse.numberInSurah, verse.globalNumber));
+      if (token !== playToken) return 'aborted';
+      if (r === 'failed' && reciter !== FALLBACK_RECITER) {
         switchToFallbackReciter();
-        url = getAudioSourceUrl(FALLBACK_RECITER, surahNum, verse.numberInSurah, verse.globalNumber);
-        result = await attemptPlay(url);
-        if (token !== playToken) return;
+        r = await playClip(getAudioSourceUrl(FALLBACK_RECITER, verse.surah, verse.numberInSurah, verse.globalNumber));
+        if (token !== playToken) return 'aborted';
       }
-
-      if (result === 'ok') {
-        confirmedUrl = audioPlayer.src;
-      } else if (result === 'failed') {
-        showToast(t.audioFailed, true);          // even the fallback is unreachable
-        stopAudio();
-      }
+      return r;
     }
 
-    // Safety net: file started fine but the connection died mid-playback -> fall back too.
-    audioPlayer.addEventListener('error', () => {
-      if (activeVerseIndex === -1 || !confirmedUrl || audioPlayer.src !== confirmedUrl) return;
-      confirmedUrl = null;
-      if (document.getElementById('reciterSelect').value !== FALLBACK_RECITER) {
-        playVerseAudio(activeVerseIndex, true);
-      } else {
-        showToast(translations[currentLang].audioFailed, true);
-        stopAudio();
+    // Plays the first URL in the list that works. Never blocks the run: if none plays, it is simply skipped.
+    // Returns false only when the run was cancelled.
+    async function playOptionalClip(urls, token) {
+      for (const url of urls) {
+        const r = await playClip(url);
+        if (token !== playToken) return false;
+        if (r === 'ended' || r === 'restart') return true;
+        if (r === 'aborted' || r === 'blocked') { stopAudio(); return false; }
+        // 'failed' -> try the next URL
       }
-    });
-
-    function toggleContinuousPlay() {
-      const t = translations[currentLang];
-      if (isContinuousPlaying) {
-        stopAudio();
-      } else {
-        if (currentVerses.length === 0) return;
-        isContinuousPlaying = true;
-        isPaused = false;
-        document.getElementById('globalPlayText').innerText = t.stopText;
-        document.getElementById('pauseResumeBtn').innerText = t.resumeText;
-        playVerseAudio(0);
-      }
+      return true;
     }
 
-    function togglePauseResume() {
-      if (!isContinuousPlaying) return;
-      const pauseBtn = document.getElementById('pauseResumeBtn');
-      const t = translations[currentLang];
+    // A'udhu billah, then Bismillah when the selection starts at verse 1
+    // (not for Al-Fatihah, whose verse 1 IS the Bismillah, nor At-Tawbah, which has none).
+    async function playIntro(token, surahNum, firstVerseNum) {
+      const t = T();
+      const reciter = $('reciterSelect').value;
 
-      if (isPaused) {
-        audioPlayer.play();
-        isPaused = false;
-        pauseBtn.innerText = t.resumeText;
-        document.getElementById('activeVerseIndicator').innerText = `${t.verseLabel} ${currentVerses[activeVerseIndex].numberInSurah} (${t.continueText})`;
-      } else {
-        audioPlayer.pause();
-        isPaused = true;
-        pauseBtn.innerText = t.continueText;
-        document.getElementById('activeVerseIndicator').innerText = t.pausedText;
+      setIndicator(t.introAudhu);
+      const audhu = [];
+      if (isEveryAyahReciter(reciter)) audhu.push(`https://everyayah.com/data/${reciter}/audhubillah.mp3`);
+      audhu.push(AUDHUBILLAH_FALLBACK_URL);
+      if (!(await playOptionalClip(audhu, token))) return false;
+
+      if (firstVerseNum === 1 && surahNum !== 1 && surahNum !== 9) {
+        setIndicator(t.introBismillah);
+        const r = $('reciterSelect').value;
+        const bismillah = [getAudioSourceUrl(r, 1, 1, 1), getAudioSourceUrl(FALLBACK_RECITER, 1, 1, 1)];
+        if (!(await playOptionalClip(bismillah, token))) return false;
       }
+      return true;
     }
 
-    audioPlayer.onended = function() {
-      if (activeVerseIndex !== -1) {
-        currentVerses[activeVerseIndex].repetitionCount++;
-        const repCounter = document.getElementById(`rep-count-${activeVerseIndex}`);
-        if (repCounter) repCounter.innerText = currentVerses[activeVerseIndex].repetitionCount;
-        resetCardUI(activeVerseIndex);
-      }
+    function setIndicator(text) {
+      lastIndicator = text;
+      setText('activeVerseIndicator', text);
+    }
 
-      if (isContinuousPlaying && activeVerseIndex < currentVerses.length - 1) {
-        playVerseAudio(activeVerseIndex + 1);
-      } else {
-        stopAudio();
-      }
-    };
-
-    function stopAudio() {
-      playToken++;            // cancel any in-flight load/fallback
-      confirmedUrl = null;
-      audioPlayer.pause();
-      audioPlayer.currentTime = 0;
-      isContinuousPlaying = false;
-      isPaused = false;
-      const t = translations[currentLang];
-
-      if (activeVerseIndex !== -1) {
-        resetCardUI(activeVerseIndex);
-      }
-
-      activeVerseIndex = -1;
-      document.getElementById('globalPlayText').innerText = t.globalPlayText;
-      document.getElementById('pauseResumeBtn').innerText = t.resumeText;
-      document.getElementById('activeVerseIndicator').innerText = t.notPlaying;
+    function markActive(i) {
+      if (activeVerseIndex !== -1 && activeVerseIndex !== i) resetCardUI(activeVerseIndex);
+      activeVerseIndex = i;
+      const card = $(`verse-card-${i}`);
+      if (card) card.classList.add('active-verse');
+      setText(`play-text-${i}`, T().playingText);
     }
 
     function resetCardUI(index) {
-      const card = document.getElementById(`verse-card-${index}`);
+      const card = $(`verse-card-${index}`);
       if (card) card.classList.remove('active-verse');
-      const playText = document.getElementById(`play-text-${index}`);
-      const t = translations[currentLang];
-      if (playText) playText.innerText = t.playBtnText;
+      setText(`play-text-${index}`, T().playBtnText);
     }
 
-    function incrementCardRepetition(index) {
-      currentVerses[index].repetitionCount++;
-      document.getElementById(`rep-count-${index}`).innerText = currentVerses[index].repetitionCount;
+    // mode 'all'    -> A'udhu (+ Bismillah), then every verse in turn
+    // mode 'single' -> just the chosen verse
+    // Each verse is repeated from its beginning until the repetition target is reached.
+    // Progress already counted (e.g. an interrupted earlier run) is respected; if every verse is
+    // already at its target, a fresh full round is played.
+    async function startRun(startIndex, mode) {
+      if (!currentVerses.length) return;
+      stopAudio();                         // cancels a previous run and resets the UI
+      const token = playToken;
+      const t = T();
+      isRunning = true; isPaused = false; runMode = mode;
+      setText('globalPlayText', t.stopText);
+      setText('pauseResumeBtn', t.resumeText);
+
+      if (mode === 'all') {
+        const surahNum = currentVerses[0].surah;
+        const ok = await playIntro(token, surahNum, currentVerses[0].numberInSurah);
+        if (!ok || token !== playToken) return;
+      }
+
+      const first = mode === 'all' ? 0 : startIndex;
+      const last = mode === 'all' ? currentVerses.length - 1 : startIndex;
+      const freshRound = mode === 'all' && currentVerses.every(v => v.repetitionCount >= getTarget());
+
+      for (let i = first; i <= last; i++) {
+        if (token !== playToken) return;
+        const verse = currentVerses[i];
+        const target = getTarget();
+        const needsFresh = mode === 'all' ? freshRound : verse.repetitionCount >= target;
+        const toPlay = needsFresh ? target : Math.max(0, target - verse.repetitionCount);
+        if (toPlay === 0) continue;
+
+        markActive(i);
+        let played = 0;
+        while (played < toPlay) {
+          setIndicator(`${t.verseLabel} ${verse.numberInSurah} (${played + 1}/${toPlay})`);
+          const r = await playVerseWithFallback(verse, token);
+          if (token !== playToken) return;
+          if (r === 'ended') { played++; bumpRep(i); }      // counted only when the recitation really finished
+          else if (r === 'restart') { continue; }           // reciter changed: replay this repetition
+          else {
+            if (r === 'failed') showToast(t.audioFailed, true);
+            stopAudio();
+            return;
+          }
+        }
+      }
+      stopAudio();
+      if (mode === 'all') showToast(t.runComplete);
     }
 
+    function onListenClick(idx) {
+      if (isRunning && runMode === 'single' && activeVerseIndex === idx) { stopAudio(); return; }
+      startRun(idx, 'single');
+    }
+
+    function toggleContinuousPlay() {
+      if (isRunning) stopAudio(); else startRun(0, 'all');
+    }
+
+    function togglePauseResume() {
+      if (!isRunning) return;
+      const t = T();
+      if (isPaused) {
+        audioPlayer.play().catch(() => {});
+        isPaused = false;
+        setText('pauseResumeBtn', t.resumeText);
+        setText('activeVerseIndicator', lastIndicator);
+      } else {
+        audioPlayer.pause();
+        isPaused = true;
+        setText('pauseResumeBtn', t.continueText);
+        setText('activeVerseIndicator', t.pausedText);
+      }
+    }
+
+    function stopAudio() {
+      playToken++;                          // makes every pending await in a run bail out
+      if (cancelCurrentClip) cancelCurrentClip('aborted');
+      audioPlayer.pause();
+      try { audioPlayer.currentTime = 0; } catch (e) {}
+      isRunning = false; isPaused = false; runMode = null;
+      if (activeVerseIndex !== -1) resetCardUI(activeVerseIndex);
+      activeVerseIndex = -1;
+      const t = T();
+      setText('globalPlayText', t.globalPlayText);
+      setText('pauseResumeBtn', t.resumeText);
+      setText('activeVerseIndicator', t.notPlaying);
+    }
+
+    // ==================================================================
+    // LOG (read-only except notes)
+    // ==================================================================
     function getStoredLogs() {
-      return JSON.parse(localStorage.getItem('quran_hifz_logs') || '[]');
+      const logs = loadJSON(STORE.logs, []);
+      return Array.isArray(logs) ? logs : [];
     }
 
     function saveStoredLogs(logs) {
-      localStorage.setItem('quran_hifz_logs', JSON.stringify(logs));
-      renderLogsTable();
-    }
-
-    function loadSavedLogs() {
+      saveJSON(STORE.logs, logs);
       renderLogsTable();
     }
 
     function renderLogsTable() {
       const logs = getStoredLogs();
-      const tbody = document.getElementById('logTableBody');
+      const tbody = $('logTableBody');
+      const t = T();
       tbody.innerHTML = '';
-      const t = translations[currentLang];
 
       if (logs.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="6" class="p-5 text-center text-slate-400">${t.noLogs}</td>
-          </tr>`;
+        tbody.innerHTML = `<tr><td colspan="6" class="p-5 text-center text-slate-400">${escapeHtml(t.noLogs)}</td></tr>`;
         return;
       }
 
       logs.forEach((log, idx) => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition-colors';
-        tr.innerHTML = `
-          <td class="p-3.5 font-medium text-slate-800">${log.date}</td>
-          <td class="p-3.5 text-slate-600">${log.portion}</td>
-          <td class="p-3.5 text-center font-bold text-emerald-800">${log.reps}</td>
-          <td class="p-3.5 text-center">
-            <input type="checkbox" ${log.completed ? 'checked' : ''} onchange="toggleLogStatus(${idx})" class="w-4 h-4 text-emerald-600 rounded border-slate-300 accent-emerald-700">
+        const reps = Number(log.reps) || 0;
+        const repsHtml = log.target
+          ? `${reps} <span class="text-slate-400 font-normal">/ ${Number(log.target)}</span>`
+          : `${reps}`;
+        const badge = log.completed
+          ? `<span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] font-semibold px-2 py-0.5 rounded-full">✓ ${escapeHtml(t.statusDone)}</span>`
+          : `<span class="inline-block bg-amber-100 text-amber-800 text-[11px] font-semibold px-2 py-0.5 rounded-full">${escapeHtml(t.statusPartial)}</span>`;
+        const note = log.notes && log.notes !== '-' ? log.notes : '';
+
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-slate-50 transition-colors';
+        row.innerHTML = `
+          <td class="p-3.5 font-medium text-slate-800 whitespace-nowrap">${escapeHtml(formatLogDate(log))}</td>
+          <td class="p-3.5 text-slate-600">${escapeHtml(log.portion)}</td>
+          <td class="p-3.5 text-center font-bold text-emerald-800 whitespace-nowrap">${repsHtml}</td>
+          <td class="p-3.5 text-center">${badge}</td>
+          <td class="p-3.5">
+            <input type="text" value="${escapeHtml(note)}" maxlength="200" placeholder="${escapeHtml(t.placeholderNotes)}"
+              onchange="updateLogNote(${idx}, this.value)"
+              class="w-full min-w-[9rem] bg-white border border-slate-200 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
           </td>
-          <td class="p-3.5 text-slate-600">${log.notes}</td>
           <td class="p-3.5 text-center">
-            <button onclick="deleteLog(${idx})" class="text-rose-500 hover:text-rose-700 font-semibold text-xs">${t.deleteText}</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
+            <button onclick="deleteLog(${idx})" class="text-rose-500 hover:text-rose-700 font-semibold text-xs">${escapeHtml(t.deleteText)}</button>
+          </td>`;
+        tbody.appendChild(row);
       });
     }
 
+    // Records the session using the repetitions the student really completed (not the target).
     function logCurrentSession() {
-      const surahSelect = document.getElementById('surahSelect');
-      const surahName = surahSelect.options[surahSelect.selectedIndex].text;
-      const fromV = document.getElementById('fromVerse').value;
-      const toV = document.getElementById('toVerse').value;
-      const targetReps = document.getElementById('repetitionTarget').value;
-      const t = translations[currentLang];
+      const t = T();
+      const done = currentVerses.reduce((sum, v) => sum + v.repetitionCount, 0);
+      if (!currentVerses.length || done === 0) { showToast(t.toastNothingToSave, true); return; }
 
-      const newEntry = {
-        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        portion: `${surahName} (${fromV}-${toV})`,
-        reps: targetReps,
-        completed: true,
-        notes: t.defaultNote
+      const target = getTarget();
+      const versesDone = currentVerses.filter(v => v.repetitionCount >= target).length;
+      const now = new Date();
+
+      const entry = {
+        iso: todayISO(),
+        date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        portion: portionLabel(),
+        reps: done,                              // actual repetitions completed
+        target: target * currentVerses.length,   // what was planned
+        versesDone,
+        versesTotal: currentVerses.length,
+        completed: versesDone === currentVerses.length,
+        notes: ''
       };
 
       const logs = getStoredLogs();
-      logs.unshift(newEntry);
+      logs.unshift(entry);
       saveStoredLogs(logs);
+      clearCountersForCurrentVerses();           // fresh count for the next session
       showToast(t.toastSaved);
     }
 
-    function addNewEditableRow() {
-      const tbody = document.getElementById('logTableBody');
-      const t = translations[currentLang];
-      
-      if (tbody.innerHTML.includes(t.noLogs)) {
-        tbody.innerHTML = '';
-      }
-
-      const tr = document.createElement('tr');
-      tr.className = 'bg-emerald-50/50 border-b border-emerald-150';
-      const defaultDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-
-      tr.innerHTML = `
-        <td class="p-3.5">
-          <input type="text" id="newDate" value="${defaultDate}" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
-        </td>
-        <td class="p-3.5">
-          <input type="text" id="newPortion" placeholder="${t.placeholderPortion}" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
-        </td>
-        <td class="p-3.5 text-center">
-          <input type="number" id="newReps" value="9" min="1" class="w-16 mx-auto text-center bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
-        </td>
-        <td class="p-3.5 text-center">
-          <input type="checkbox" id="newCompleted" checked class="w-4 h-4 text-emerald-600 rounded border-slate-300 accent-emerald-700">
-        </td>
-        <td class="p-3.5">
-          <input type="text" id="newNotes" placeholder="${t.placeholderNotes}" class="w-full bg-white border border-slate-300 rounded-lg p-1.5 text-xs focus:outline-none focus:ring-1 focus:ring-emerald-500">
-        </td>
-        <td class="p-3.5 text-center space-x-2">
-          <button onclick="saveNewRow(this)" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1 rounded-lg text-xs font-semibold shadow-sm">${t.saveText}</button>
-          <button onclick="renderLogsTable()" class="text-slate-500 hover:text-slate-700 text-xs">${t.cancelText}</button>
-        </td>
-      `;
-
-      tbody.insertBefore(tr, tbody.firstChild);
-    }
-
-    function saveNewRow(btn) {
-      const row = btn.closest('tr');
-      const date = row.querySelector('#newDate').value.trim() || 'Today';
-      const portion = row.querySelector('#newPortion').value.trim() || 'Surah';
-      const reps = row.querySelector('#newReps').value || '9';
-      const completed = row.querySelector('#newCompleted').checked;
-      const notes = row.querySelector('#newNotes').value.trim() || '-';
-      const t = translations[currentLang];
-
-      const newEntry = { date, portion, reps, completed, notes };
+    function updateLogNote(index, value) {
       const logs = getStoredLogs();
-      logs.unshift(newEntry);
-      saveStoredLogs(logs);
-      showToast(t.toastNewRow);
-    }
-
-    function toggleLogStatus(index) {
-      const logs = getStoredLogs();
-      logs[index].completed = !logs[index].completed;
-      saveStoredLogs(logs);
+      if (!logs[index]) return;
+      logs[index].notes = value.trim();
+      saveJSON(STORE.logs, logs);                // no re-render: keeps focus where the user is typing
     }
 
     function deleteLog(index) {
@@ -1134,19 +1330,97 @@
     }
 
     function clearSavedLogs() {
-      const t = translations[currentLang];
-      if (confirm(t.confirmClear)) {
-        localStorage.removeItem('quran_hifz_logs');
+      if (confirm(T().confirmClear)) {
+        localStorage.removeItem(STORE.logs);
         renderLogsTable();
       }
     }
 
+    // ==================================================================
+    // SHARE (WhatsApp, email, ... via the device share sheet)
+    // ==================================================================
+    function buildShareText() {
+      const t = T();
+      const todays = getStoredLogs().filter(l => l.iso === todayISO());
+      if (!todays.length) return null;
+
+      const dateStr = new Date().toLocaleDateString(LANG_LOCALES[currentLang],
+        { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+      const lines = [`📖 ${t.shareTitle} - ${dateStr}`, ''];
+      let total = 0;
+      todays.slice().reverse().forEach(l => {    // stored newest-first -> report oldest-first
+        const reps = Number(l.reps) || 0;
+        total += reps;
+        const repsText = l.target ? `${reps}/${l.target}` : `${reps}`;
+        lines.push(`• ${l.portion}: ${repsText} ${t.repsShort} (${l.completed ? t.statusDone : t.statusPartial})`);
+        if (l.notes && l.notes !== '-') lines.push(`   📝 ${l.notes}`);
+      });
+      lines.push('', `${t.shareTotal}: ${total}`);
+      return lines.join('\n');
+    }
+
+    async function shareTodayProgress() {
+      const t = T();
+      const text = buildShareText();
+      if (!text) { showToast(t.toastNoTodayLogs, true); return; }
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: t.shareTitle, text });
+          return;
+        } catch (e) {
+          if (e && e.name === 'AbortError') return;   // user closed the share sheet
+        }
+      }
+      showShareFallback(text);                        // desktop / unsupported browsers
+    }
+
+    async function copyText(text) {
+      try { await navigator.clipboard.writeText(text); return true; }
+      catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (err) {}
+        ta.remove();
+        return ok;
+      }
+    }
+
+    function showShareFallback(text) {
+      const t = T();
+      const overlay = document.createElement('div');
+      overlay.className = 'fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4';
+      overlay.innerHTML = `
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-5">
+          <h4 class="font-bold text-slate-800 mb-3">${escapeHtml(t.lblShareVia)}</h4>
+          <textarea readonly rows="8" class="w-full text-xs bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-700 focus:outline-none"></textarea>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <a data-share="wa" target="_blank" rel="noopener" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-xl text-xs font-semibold">WhatsApp</a>
+            <a data-share="mail" class="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-xl text-xs font-semibold">${escapeHtml(t.shareEmail)}</a>
+            <button type="button" data-share="copy" class="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 px-4 py-2 rounded-xl text-xs font-semibold">${escapeHtml(t.shareCopy)}</button>
+            <button type="button" data-share="close" class="text-slate-500 hover:text-slate-700 px-3 py-2 text-xs">${escapeHtml(t.cancelText)}</button>
+          </div>
+        </div>`;
+      overlay.querySelector('textarea').value = text;
+      overlay.querySelector('[data-share="wa"]').href = 'https://wa.me/?text=' + encodeURIComponent(text);
+      overlay.querySelector('[data-share="mail"]').href =
+        'mailto:?subject=' + encodeURIComponent(t.shareTitle) + '&body=' + encodeURIComponent(text);
+      overlay.querySelector('[data-share="copy"]').onclick = async () => {
+        if (await copyText(text)) showToast(t.toastCopied);
+      };
+      overlay.querySelector('[data-share="close"]').onclick = () => overlay.remove();
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+    }
+
+    // ==================================================================
+    // TOAST
+    // ==================================================================
     function showToast(msg, isWarning = false) {
       const toast = document.createElement('div');
       toast.className = 'fixed bottom-5 right-5 border px-5 py-3 rounded-xl shadow-2xl z-50 text-xs font-semibold flex items-center space-x-2 transition-all '
-        + (isWarning
-            ? 'bg-amber-50 text-amber-900 border-amber-300'
-            : 'bg-dark-emerald text-emerald-100 border-emerald-700');
+        + (isWarning ? 'bg-amber-50 text-amber-900 border-amber-300' : 'bg-dark-emerald text-emerald-100 border-emerald-700');
       const icon = document.createElement('span');
       icon.textContent = isWarning ? '⚠' : '✓';
       const text = document.createElement('span');
