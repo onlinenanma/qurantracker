@@ -29,30 +29,38 @@
     <aside class="w-full md:w-80 bg-dark-emerald text-emerald-50 p-6 flex flex-col justify-between shadow-2xl z-20 shrink-0 border-r border-emerald-950">
       <div>
 
-        <!-- App Header & Branding -->
-        <div class="flex items-center space-x-3 mb-6 border-b border-dark-emerald pb-4 justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="bg-dark-emerald-light p-2.5 rounded-xl text-emerald-300 border border-emerald-800/40">
-              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-              </svg>
-            </div>
-            <div>
-              <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Qur'an Hifz Tracker</h1>
-              <p id="brandSub" class="text-xs text-emerald-300 font-medium">حفظ القرآن</p>
+
+       <!-- DISABLED CODE:
+    <!-- App Header: Main Page button + language, title below on one line -->
+    <div class="mb-6 border-b border-dark-emerald pb-4">
+        <div class="flex items-center justify-between gap-3">
+            <a href="https://onlinenanma.github.io/quran" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-sm transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"></path>
+                </svg>
+                <span id="btnHome">Main Page</span>
+            </a>
+        </div>
+    </div>
+-->
+
+
+            <!-- Language Selector with Globe Icon -->
+            <div class="flex items-center space-x-1.5">
+              <span class="text-sm">🌐</span>
+              <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
+                <option value="en" selected>English</option>
+                <option value="ar">العربية</option>
+                <option value="ml">മലയാളം</option>
+                <option value="ur">اردو</option>
+                <option value="bn">বাংলা</option>
+              </select>
             </div>
           </div>
 
-          <!-- Language Selector with Globe Icon -->
-          <div class="flex items-center space-x-1.5">
-            <span class="text-sm">🌐</span>
-            <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
-              <option value="en" selected>English</option>
-              <option value="ar">العربية</option>
-              <option value="ml">മലയാളം</option>
-              <option value="ur">اردو</option>
-              <option value="bn">বাংলা</option>
-            </select>
+          <div class="mt-3 flex flex-wrap items-baseline gap-x-2">
+            <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Qur'an Hifz Tracker</h1>
+            <p id="brandSub" class="text-xs text-emerald-300 font-medium">حفظ القرآن</p>
           </div>
         </div>
 
@@ -102,12 +110,13 @@
               Reciter (القارئ)
             </label>
             <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-              <option value="Husary_Muallim_128kbps" selected>Mahmoud Khalil Al-Husary (Muallim / Repeat)</option>
-              <option value="Ayman_Sowaid_64kbps">Dr. Ayman Sowaid</option>
+              <option value="ar.husary" selected>Mahmoud Khalil Al-Husary</option>
+              <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
               <option value="ar.alafasy">Mishary Rashid Alafasy</option>
               <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
               <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
               <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
+              <option value="Husary_Muallim_128kbps">Al-Husary (Muallim / Repeat) - everyayah.com</option>
             </select>
           </div>
 
@@ -376,7 +385,8 @@
         btnVerseMode: "Verses",
         btnMushafMode: "Mus'haf Page",
         mushafFullRes: "Full Resolution",
-        mushafLoadFailed: "This page image could not be loaded. Please check your connection."
+        mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
+        btnHome: "Main Page"
       },
       ar: {
         pageTitle: "متابع حفظ القرآن",
@@ -461,7 +471,8 @@
         btnVerseMode: "آيات",
         btnMushafMode: "صفحات المصحف",
         mushafFullRes: "الدقة الكاملة",
-        mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت."
+        mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت.",
+        btnHome: "الصفحة الرئيسية"
       },
       ml: {
         pageTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
@@ -472,7 +483,7 @@
         lblToVerse: "അവസാന ആയത്ത്",
         lblRepetition: "ആവർത്തനം",
         lblReciter: "ഖാരിഅ്",
-        lblDailyWird: "ദൈനംദിന ലക്ഷ്യം",
+        lblDailyWird: "ദൈനംദിന വര്ദ്",
         lblFromPage: "പേജ് മുതൽ",
         lblToPage: "പേജ് വരെ",
         btnSaveProgress: "ഇന്നത്തെ പുരോഗതി സേവ് ചെയ്യുക",
@@ -546,7 +557,8 @@
         btnVerseMode: "ആയത്തുകൾ",
         btnMushafMode: "മുസ്ഹഫ് പേജ്",
         mushafFullRes: "പൂർണ്ണ റെസല്യൂഷൻ",
-        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക."
+        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
+        btnHome: "പ്രധാനതാൾ"
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
@@ -631,7 +643,8 @@
         btnVerseMode: "آیات",
         btnMushafMode: "مصحف صفحہ",
         mushafFullRes: "مکمل ریزولوشن",
-        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔"
+        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
+        btnHome: "مرکزی صفحہ"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
@@ -716,7 +729,8 @@
         btnVerseMode: "আয়াত",
         btnMushafMode: "মুসহাফ পৃষ্ঠা",
         mushafFullRes: "পূর্ণ রেজোলিউশন",
-        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।"
+        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।",
+        btnHome: "মূল পাতা"
       }
     };
 
@@ -729,8 +743,12 @@
       state:  'quran_hifz_state',   // last surah / verse range / reciter / repetition target / pages
       lang:   'quran_hifz_lang',    // selected language
       logs:   'quran_hifz_logs',    // saved log records
-      counts: 'quran_hifz_counts'   // unsaved repetition counters per verse
+      counts: 'quran_hifz_counts',  // unsaved repetition counters per verse
+      missing: 'quran_hifz_missing', // audio files that returned 404 (not asked for again for a week)
+      editions: 'quran_hifz_editions' // reciters offered by Al Quran Cloud (refreshed weekly)
     };
+    // reciter ids used by earlier versions of this page -> Al Quran Cloud edition
+    const LEGACY_RECITERS = { Ayman_Sowaid_64kbps: 'ar.aymanswoaid' };
     const LANG_LOCALES = { en: 'en-US', ar: 'ar', ml: 'ml-IN', ur: 'ur-PK', bn: 'bn-BD' };
 
     function loadJSON(key, fallback) {
@@ -773,7 +791,7 @@
     // ids whose element id equals the translation key
     const LABEL_IDS = [
       'brandTitle', 'brandSub', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
-      'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
+      'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'btnHome', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
       'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy'
@@ -835,9 +853,10 @@
       if (st.mode === 'pages') viewMode = 'pages';
       if (st.view === 'mushaf') currentViewMode = 'mushaf';
       const sel = $('reciterSelect');
-      if (st.reciter && [...sel.options].some(o => o.value === st.reciter)) {
-        sel.value = st.reciter;
-        preferredReciter = st.reciter;
+      const wanted = LEGACY_RECITERS[st.reciter] || st.reciter;
+      if (wanted && [...sel.options].some(o => o.value === wanted)) {
+        sel.value = wanted;
+        preferredReciter = wanted;
       }
       return st;
     }
@@ -848,6 +867,7 @@
       $('langSelect').value = currentLang;
       applyLanguage();
 
+      await syncReciterList();             // only offer reciters Al Quran Cloud really has
       const st = restoreInputs();
       updateViewToggleUI();
       await fetchSurahList(st ? st.surah : 1);
@@ -857,7 +877,7 @@
 
     async function fetchSurahList(selectedNumber) {
       try {
-        const res = await fetch('https://api.alquran.cloud/v1/surah');
+        const res = await apiFetch('https://api.alquran.cloud/v1/surah');
         const data = await res.json();
         if (data.code === 200) {
           surahList = data.data;
@@ -941,10 +961,10 @@
         const editions = { en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali' };
         const translationEdition = editions[currentLang] || null;   // Arabic UI: no translation
 
-        const requests = [fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)];
+        const requests = [apiFetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)];
         if (translationEdition) {
           // a failing translation must never block the Arabic text
-          requests.push(fetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${translationEdition}`).catch(() => null));
+          requests.push(apiFetch(`https://api.alquran.cloud/v1/surah/${surahNum}/${translationEdition}`).catch(() => null));
         }
         const responses = await Promise.all(requests);
         const arData = await responses[0].json();
@@ -1133,8 +1153,8 @@
         const pages = [];
         for (let p = from; p <= to; p++) pages.push(p);
 
-        const arReqs = pages.map(p => fetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`));
-        const trReqs = edition ? pages.map(p => fetch(`https://api.alquran.cloud/v1/page/${p}/${edition}`).catch(() => null)) : [];
+        const arReqs = pages.map(p => apiFetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`));
+        const trReqs = edition ? pages.map(p => apiFetch(`https://api.alquran.cloud/v1/page/${p}/${edition}`).catch(() => null)) : [];
         const [arRes, trRes] = await Promise.all([Promise.all(arReqs), Promise.all(trReqs)]);
         const arJson = await Promise.all(arRes.map(r => r.json()));
         const trJson = await Promise.all(trRes.map(async r => { try { return r ? await r.json() : null; } catch (e) { return null; } }));
@@ -1410,6 +1430,202 @@
       return `https://cdn.islamic.network/quran/audio/128/${reciter}/${globalVerseNum}.mp3`;
     }
 
+    // ------------------------------------------------------------------
+    // GENTLE ON AUDIO SERVERS (everyayah.com can block IPs that send too many requests)
+    //  1. every file is downloaded AT MOST ONCE: repetitions replay the loaded audio (no new request)
+    //  2. downloaded files are kept in the browser (Cache API) and reused on later visits / offline
+    //  3. requests to everyayah.com are spaced at least MIN_REQUEST_GAP_MS apart
+    //  4. after HTTP 429 / 403 / 503 the host is left alone for a while (Retry-After is honoured)
+    //  5. files that returned 404 are not requested again (remembered for a week)
+    //  6. Al Quran Cloud API calls are spaced out (its limit is ~12 per second per IP) and retried once on HTTP 429
+    // Nothing is preloaded or bulk-downloaded: only the verse being practised is ever requested.
+    // ------------------------------------------------------------------
+    const AUDIO_CACHE_NAME = 'hifz-audio-v1';
+    const MAX_CACHED_FILES = 400;        // stored in the browser; oldest are removed beyond this
+    const MAX_MEMORY_FILES = 120;
+    let MIN_REQUEST_GAP_MS = 1000;       // everyayah.com
+    let API_REQUEST_GAP_MS = 110;        // api.alquran.cloud: stays under ~9 requests per second
+    const lastSlot = new Map();          // host -> last reserved request slot
+    let cachePuts = 0;
+    let pendingResume = null;            // clip waiting to start because the user paused meanwhile
+    const cooldowns = new Map();         // host -> timestamp until which we send nothing
+    const blockedHosts = new Set();      // hosts where fetch() is refused (CORS/offline): stream directly
+    const blobUrls = new Map();          // url -> blob: URL for this visit
+    const MISSING_TTL_MS = 7 * 24 * 3600 * 1000;
+    const missingUrls = {                // HTTP 404 answers are remembered (also between visits)
+      load() {
+        const m = loadJSON(STORE.missing, {});
+        const now = Date.now();
+        Object.keys(m).forEach(k => { if (now - m[k] > MISSING_TTL_MS) delete m[k]; });
+        return m;
+      },
+      has(url) { return url in this.load(); },
+      add(url) {
+        const m = this.load();
+        m[url] = Date.now();
+        const keys = Object.keys(m);
+        if (keys.length > 200) keys.sort((x, y) => m[x] - m[y]).slice(0, keys.length - 200).forEach(k => delete m[k]);
+        saveJSON(STORE.missing, m);
+      },
+      clear() { saveJSON(STORE.missing, {}); }
+    };
+    const inflight = new Map();          // identical simultaneous requests share one download
+
+    const hostOf = url => { try { return new URL(url).hostname; } catch (e) { return url; } };
+    const isEveryAyahUrl = url => hostOf(url) === 'everyayah.com';
+
+    const gapFor = host => host === 'everyayah.com' ? MIN_REQUEST_GAP_MS : host === 'api.alquran.cloud' ? API_REQUEST_GAP_MS : 0;
+    async function throttleHost(host) {
+      const gap = gapFor(host);
+      if (!gap) return;
+      const now = Date.now();
+      const slot = Math.max(now, (lastSlot.get(host) || 0) + gap);
+      lastSlot.set(host, slot);
+      if (slot > now) await new Promise(r => setTimeout(r, slot - now));
+    }
+    const throttleRequest = url => throttleHost(hostOf(url));
+
+    function rememberBlobUrl(url, blob) {
+      const typed = blob.type ? blob : new Blob([blob], { type: 'audio/mpeg' });
+      const objUrl = URL.createObjectURL(typed);
+      blobUrls.set(url, objUrl);
+      if (blobUrls.size > MAX_MEMORY_FILES) {
+        const [oldUrl, oldObj] = blobUrls.entries().next().value;
+        if (oldObj !== audioPlayer.src) { URL.revokeObjectURL(oldObj); blobUrls.delete(oldUrl); }
+      }
+      return objUrl;
+    }
+
+    async function trimAudioCache(cache) {
+      try {
+        const keys = await cache.keys();
+        for (let i = 0; i < keys.length - MAX_CACHED_FILES; i++) await cache.delete(keys[i]);
+      } catch (e) {}
+    }
+
+    // ------------------------------------------------------------------
+    // AL QURAN CLOUD: the API supplies the audio links, its CDN delivers the files
+    //  - GET /surah/{n}/{reciter} returns the audio URL (plus backup mirrors) of EVERY verse of that
+    //    surah, so one API call per surah and reciter covers all verses and repetitions.
+    //  - If the API cannot be reached, the documented CDN address of the verse is used instead.
+    // ------------------------------------------------------------------
+    const surahAudioCache = new Map();   // "reciter:surah" -> Map(numberInSurah -> [urls])
+    const surahAudioInflight = new Map();
+
+    async function apiFetch(url) {
+      await throttleHost('api.alquran.cloud');
+      let res = await fetch(url);
+      if (res.status === 429) {          // over the limit: wait as told, then retry once
+        const wait = Math.min(parseInt(res.headers && res.headers.get && res.headers.get('Retry-After')) || 1, 5);
+        await new Promise(r => setTimeout(r, wait * 1000));
+        await throttleHost('api.alquran.cloud');
+        res = await fetch(url);
+      }
+      return res;
+    }
+
+    async function loadSurahAudio(reciter, surah) {
+      const key = `${reciter}:${surah}`;
+      if (surahAudioCache.has(key)) return surahAudioCache.get(key);
+      if (surahAudioInflight.has(key)) return surahAudioInflight.get(key);
+      const job = (async () => {
+        try {
+          const res = await apiFetch(`https://api.alquran.cloud/v1/surah/${surah}/${reciter}`);
+          if (!res.ok) return null;
+          const json = await res.json();
+          if (json.code !== 200 || !json.data || !Array.isArray(json.data.ayahs)) return null;
+          const map = new Map();
+          json.data.ayahs.forEach(a => {
+            const urls = [a.audio].concat(Array.isArray(a.audioSecondary) ? a.audioSecondary : []).filter(Boolean);
+            map.set(a.numberInSurah, urls);
+          });
+          surahAudioCache.set(key, map);
+          return map;
+        } catch (e) { return null; }
+      })();
+      surahAudioInflight.set(key, job);
+      try { return await job; } finally { surahAudioInflight.delete(key); }
+    }
+
+    // Every address worth trying for one verse, best first.
+    async function audioUrlsFor(reciter, verse) {
+      const direct = getAudioSourceUrl(reciter, verse.surah, verse.numberInSurah, verse.globalNumber);
+      if (isEveryAyahReciter(reciter)) return [direct];
+      const map = await loadSurahAudio(reciter, verse.surah);
+      const fromApi = (map && map.get(verse.numberInSurah)) || [];
+      return fromApi.includes(direct) ? fromApi : fromApi.concat(direct);
+    }
+
+    // Keeps the reciter list honest: only reciters Al Quran Cloud has (everyayah.com ones are left alone).
+    async function syncReciterList() {
+      const select = $('reciterSelect');
+      const cached = loadJSON(STORE.editions, null);
+      let ids = cached && Array.isArray(cached.ids) && Date.now() - cached.t < 7 * 24 * 3600 * 1000 ? cached.ids : null;
+      if (!ids) {
+        try {
+          const res = await apiFetch('https://api.alquran.cloud/v1/edition?format=audio&type=versebyverse');
+          const json = await res.json();
+          if (json.code === 200 && Array.isArray(json.data)) {
+            ids = json.data.map(e => e.identifier);
+            saveJSON(STORE.editions, { t: Date.now(), ids });
+          }
+        } catch (e) { /* offline or API down: keep the list as it is */ }
+      }
+      if (!ids || ids.length < 5) return;
+      [...select.options].forEach(o => { if (!isEveryAyahReciter(o.value) && !ids.includes(o.value)) o.remove(); });
+    }
+
+    // Returns { src } to play, or { failed: true }. Never rejects.
+    async function resolveAudioSource(url) {
+      if (blobUrls.has(url)) return { src: blobUrls.get(url) };
+      if (missingUrls.has(url)) return { failed: true };
+      if (inflight.has(url)) return inflight.get(url);
+
+      const job = (async () => {
+        const host = hostOf(url);
+
+        // 1) a copy saved earlier: no network at all
+        let cache = null;
+        if ('caches' in window) {
+          try {
+            cache = await caches.open(AUDIO_CACHE_NAME);
+            const hit = await cache.match(url);
+            if (hit) return { src: rememberBlobUrl(url, await hit.blob()) };
+          } catch (e) { cache = null; }
+        }
+
+        // 2) the network, politely
+        if (Date.now() < (cooldowns.get(host) || 0)) return { failed: true };
+        await throttleRequest(url);
+        if (blockedHosts.has(host)) return { src: url };     // can't read it via fetch: stream directly
+        try {
+          const res = await fetch(url, { mode: 'cors', credentials: 'omit' });
+          if (!res.ok) {
+            if (res.status === 404) missingUrls.add(url);
+            if (res.status === 429 || res.status === 403 || res.status === 503) {
+              const retryAfter = parseInt(res.headers && res.headers.get && res.headers.get('Retry-After')) || 60;
+              cooldowns.set(host, Date.now() + Math.min(retryAfter, 300) * 1000);
+            }
+            return { failed: true };
+          }
+          const copy = res.clone();
+          const blob = await res.blob();
+          if (cache) {
+            cache.put(url, copy)
+              .then(() => { if (++cachePuts % 25 === 0) trimAudioCache(cache); })
+              .catch(() => {});
+          }
+          return { src: rememberBlobUrl(url, blob) };
+        } catch (e) {
+          blockedHosts.add(host);                            // CORS or offline: ask the player to stream it
+          return { src: url };
+        }
+      })();
+
+      inflight.set(url, job);
+      try { return await job; } finally { inflight.delete(url); }
+    }
+
     // Plays ONE audio file from its beginning and waits until it finishes. Resolves with:
     //   'ended'   played completely            'failed'  error / never started / dropped mid-way
     //   'restart' caller asked to reload it    'aborted' cancelled (stop / newer run)
@@ -1437,11 +1653,21 @@
         audioPlayer.addEventListener('playing', onPlaying);
         audioPlayer.addEventListener('ended', onEnded);
         audioPlayer.addEventListener('error', onError);
-        audioPlayer.src = url;
-        audioPlayer.play().catch(err => {
-          if (err && err.name === 'AbortError') { if (!isPaused) settle('aborted'); }
-          else if (err && err.name === 'NotAllowedError') settle('blocked');
-          else settle('failed');
+        resolveAudioSource(url).then(res => {
+          if (settled) return;                               // stopped / restarted while waiting or downloading
+          if (res.failed) { settle('failed'); return; }
+          const start = () => {
+            if (settled) return;
+            // a repetition of the file that is already loaded: rewind instead of requesting it again
+            const sameFile = audioPlayer.src === res.src && audioPlayer.readyState >= 2 && !audioPlayer.error;
+            if (sameFile) audioPlayer.currentTime = 0; else audioPlayer.src = res.src;
+            audioPlayer.play().catch(err => {
+              if (err && err.name === 'AbortError') { if (!isPaused) settle('aborted'); }
+              else if (err && err.name === 'NotAllowedError') settle('blocked');
+              else settle('failed');
+            });
+          };
+          if (isPaused) pendingResume = start; else start();  // user paused while the file was being fetched
         });
       });
     }
@@ -1454,13 +1680,29 @@
     }
 
     // One repetition of a verse: selected reciter first, Mishary Alafasy if that fails.
+    // Tries the addresses one after the other; stops at the first one that plays.
+    async function playFromUrls(urls, token) {
+      let r = 'failed';
+      for (const url of urls) {
+        r = await playClip(url);
+        if (token !== playToken) return 'aborted';
+        if (r !== 'failed') return r;
+      }
+      return r;
+    }
+
+    // One repetition of a verse: selected reciter first, Mishary Alafasy if that cannot be played.
     async function playVerseWithFallback(verse, token) {
       const reciter = $('reciterSelect').value;
-      let r = await playClip(getAudioSourceUrl(reciter, verse.surah, verse.numberInSurah, verse.globalNumber));
+      const urls = await audioUrlsFor(reciter, verse);
+      if (token !== playToken) return 'aborted';
+      let r = await playFromUrls(urls, token);
       if (token !== playToken) return 'aborted';
       if (r === 'failed' && reciter !== FALLBACK_RECITER) {
         switchToFallbackReciter();
-        r = await playClip(getAudioSourceUrl(FALLBACK_RECITER, verse.surah, verse.numberInSurah, verse.globalNumber));
+        const backup = await audioUrlsFor(FALLBACK_RECITER, verse);
+        if (token !== playToken) return 'aborted';
+        r = await playFromUrls(backup, token);
         if (token !== playToken) return 'aborted';
       }
       return r;
@@ -1497,10 +1739,20 @@
       return true;
     }
 
+    // Bismillah = verse 1 of Al-Fatihah in the selected reciter's voice (Mishary Alafasy if that fails).
+    // Returns false only when the run was cancelled; if no Bismillah can be played it is simply skipped.
     async function playBismillah(token) {
       setIndicator(T().introBismillah);
-      const r = $('reciterSelect').value;
-      return playOptionalClip([getAudioSourceUrl(r, 1, 1, 1), getAudioSourceUrl(FALLBACK_RECITER, 1, 1, 1)], token);
+      const verse1 = { surah: 1, numberInSurah: 1, globalNumber: 1 };
+      for (const reciter of [...new Set([$('reciterSelect').value, FALLBACK_RECITER])]) {
+        const urls = await audioUrlsFor(reciter, verse1);
+        if (token !== playToken) return false;
+        const r = await playFromUrls(urls, token);
+        if (token !== playToken) return false;
+        if (r === 'ended' || r === 'restart') return true;
+        if (r === 'aborted' || r === 'blocked') { stopAudio(); return false; }
+      }
+      return true;
     }
 
     function setIndicator(text) {
@@ -1591,7 +1843,8 @@
       if (!isRunning) return;
       const t = T();
       if (isPaused) {
-        audioPlayer.play().catch(() => {});
+        if (pendingResume) { const go = pendingResume; pendingResume = null; go(); }
+        else audioPlayer.play().catch(() => {});
         isPaused = false;
         setText('pauseResumeBtn', t.resumeText);
         setText('activeVerseIndicator', lastIndicator);
@@ -1605,6 +1858,7 @@
 
     function stopAudio() {
       playToken++;                          // makes every pending await in a run bail out
+      pendingResume = null;
       if (cancelCurrentClip) cancelCurrentClip('aborted');
       audioPlayer.pause();
       try { audioPlayer.currentTime = 0; } catch (e) {}
