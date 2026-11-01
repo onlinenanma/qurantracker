@@ -67,7 +67,14 @@
             </select>
           </div>
         </div>
-
+        
+<!-- PWA Install Button (Hidden by default, shown when installable) -->
+          <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
+            <span>📱</span>
+            <span>Install App</span>
+          </button>
+        </div>
+      
         <!-- Sidebar Inputs & Controls -->
         <div class="space-y-4">
           <!-- Surah Selector Dropdown -->
@@ -480,7 +487,7 @@
         brandTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
         brandSub: "Qur'an Hifz Tracker",
         lblSurah: "സൂറത്ത് തിരഞ്ഞെടുക്കുക",
-        lblFromVerse: "ആദ്യം ആയത്ത്",
+        lblFromVerse: "ആദ്യ ആയത്ത്",
         lblToVerse: "അവസാന ആയത്ത്",
         lblRepetition: "ആവർത്തനം",
         lblReciter: "ഖാരിഅ്",
@@ -529,7 +536,7 @@
         loadFailed: "ഡാറ്റ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
         placeholderPortion: "ഉദാ: അൽ-ഫാതിഹ (1-7)",
         placeholderNotes: "കുറിപ്പുകൾ എഴുതുക...",
-        audioFallbackToast: "തിരഞ്ഞെടുത്ത ഖാരിഅിന്റെ ഓഡിയോ ലഭ്യമല്ല - മിഷാരി അൽ-അഫാസിയിലേക്ക് മാറ്റി",
+        audioFallbackToast: "തിരഞ്ഞെടുത്ത ഖാരിഇന്റെ ഓഡിയോ ലഭ്യമല്ല - മിഷാരി അൽ-അഫാസിയിലേക്ക് മാറ്റി",
         audioFailed: "ഓഡിയോ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
         introAudhu: "അഊദു ബില്ലാഹ്",
         introBismillah: "ബിസ്മില്ലാഹ്",
