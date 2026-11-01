@@ -95,13 +95,13 @@
               Reciter (القارئ)
             </label>
             <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-              <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
+              <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
               <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
               <option value="ar.alafasy">Mishary Rashid Alafasy</option>
               <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
               <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
               <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
-              <option value="ar.husary">Mahmoud Khalil Al-Husary</option
+              <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
             </select>
           </div>
 
