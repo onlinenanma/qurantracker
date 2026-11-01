@@ -30,25 +30,33 @@
       <div>
         <!-- Top App Header Section -->
         <div class="mb-6 pb-4 border-b border-dark-emerald flex items-center justify-between">
-          <!-- Brand Title & Sub with Tracker Icon -->
-          <div>
-            <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white flex items-center gap-1.5">
-              <span>📖</span> <span>Qur'an Hifz Tracker</span>
-            </h1>
-            <p id="brandSub" class="text-xs text-emerald-300 font-medium">حفظ القرآن</p>
+        <!-- Top App Header Section -->
+        <div class="mb-6 pb-4 border-b border-dark-emerald flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <!-- Brand Title & Sub -->
+            <div>
+              <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Qur'an Hifz Tracker</h1>
+              <p id="brandSub" class="text-xs text-emerald-300 font-medium">حفظ القرآن</p>
+            </div>
+
+            <!-- Language Selector with Globe Icon -->
+            <div class="flex items-center space-x-1.5">
+              <span class="text-sm">🌐</span>
+              <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
+                <option value="en" selected>English</option>
+                <option value="ar">العربية</option>
+                <option value="ml">മലയാളം</option>
+                <option value="ur">اردو</option>
+                <option value="bn">বাংলা</option>
+              </select>
+            </div>
           </div>
 
-          <!-- Language Selector with Globe Icon -->
-          <div class="flex items-center space-x-1.5">
-            <span class="text-sm">🌐</span>
-            <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
-              <option value="en" selected>English</option>
-              <option value="ar">العربية</option>
-              <option value="ml">മലയാളം</option>
-              <option value="ur">اردو</option>
-              <option value="bn">বাংলা</option>
-            </select>
-          </div>
+          <!-- Home Button -->
+          <a href="https://onlinenanma.github.io/quran" id="btnHome" class="w-full bg-dark-emerald-light hover:bg-emerald-800 text-emerald-100 border border-dark-emerald text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all">
+            <span>🏠</span>
+            <span>പ്രാധാനതാൾ</span>
+          </a>
         </div>
 
         <!-- Sidebar Inputs & Controls -->
@@ -1983,3 +1991,4 @@
   </script>
 </body>
 </html>
+
