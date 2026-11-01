@@ -28,38 +28,24 @@
     <!-- Left-Aligned Control Panel Sidebar (Dark Green Theme) -->
     <aside class="w-full md:w-80 bg-dark-emerald text-emerald-50 p-6 flex flex-col justify-between shadow-2xl z-20 shrink-0 border-r border-emerald-950">
       <div>
-
-
-    <!-- App Header: Main Page button + language, title below on one line -->
-    <div class="mb-6 border-b border-dark-emerald pb-4">
-        <div class="flex items-center justify-between gap-3">
-            <a href="" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold px-4 py-2 rounded-xl shadow-sm transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"></path>
-                </svg>
-                <span id="btnHome">📈</span>
-            </a>
-        </div>
-    </div>
-
-
-
-            <!-- Language Selector with Globe Icon -->
-            <div class="flex items-center space-x-1.5">
-              <span class="text-sm">🌐</span>
-              <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
-                <option value="en" selected>English</option>
-                <option value="ar">العربية</option>
-                <option value="ml">മലയാളം</option>
-                <option value="ur">اردو</option>
-                <option value="bn">বাংলা</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="mt-3 flex flex-wrap items-baseline gap-x-2">
+        <!-- Top App Header Section -->
+        <div class="mb-6 pb-4 border-b border-dark-emerald flex items-center justify-between">
+          <!-- Brand Title & Sub -->
+          <div>
             <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Qur'an Hifz Tracker</h1>
             <p id="brandSub" class="text-xs text-emerald-300 font-medium">حفظ القرآن</p>
+          </div>
+
+          <!-- Language Selector with Globe Icon -->
+          <div class="flex items-center space-x-1.5">
+            <span class="text-sm">🌐</span>
+            <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
+              <option value="en" selected>English</option>
+              <option value="ar">العربية</option>
+              <option value="ml">മലയാളം</option>
+              <option value="ur">اردو</option>
+              <option value="bn">বাংলা</option>
+            </select>
           </div>
         </div>
 
@@ -154,7 +140,6 @@
           </div>
         </div>
       </div>
-
     </aside>
 
     <!-- Main Workspace Content Area -->
@@ -214,7 +199,7 @@
           </div>
         </section>
 
-        <!-- Current Session & Save (sits right above the log records) -->
+        <!-- Current Session & Save -->
         <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
@@ -287,6 +272,8 @@
 
     </main>
   </div>
+</body>
+</html>
 
   <!-- Audio Player -->
   <audio id="globalAudioPlayer" class="hidden"></audio>
