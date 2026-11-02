@@ -34,75 +34,79 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Mobile / Tablet Top Header Trigger for Settings Toggle -->
-  <header class="bg-dark-emerald text-emerald-50 p-4 flex items-center justify-between lg:hidden border-b border-emerald-950 z-30">
-    <div class="flex items-center space-x-2">
-      <h1 class="font-bold text-base text-white">Quran Learning App</h1>
+  <!-- Always Visible Top Header (Title, Subtitle, Language Selector, Mobile Settings Toggle) -->
+  <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
+    <div class="max-w-[1600px] mx-auto flex items-center justify-between gap-2">
+      
+      <!-- Branding & Title -->
+      <div class="flex items-center space-x-2.5">
+        <div class="bg-dark-emerald-light p-2 rounded-xl text-emerald-300 border border-emerald-800/40 shrink-0">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 id="brandTitle" class="font-bold text-sm sm:text-base leading-tight text-white">Quran Learning App</h1>
+          <p id="brandSub" class="text-[11px] text-emerald-300 font-medium"> تطبيق حفظ القرآن</p>
+        </div>
+      </div>
+
+      <!-- Controls Right: Language Selector & Mobile Drawer Toggle -->
+      <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
+          <span class="text-xs">🌐</span>
+          <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer">
+            <option value="en" class="bg-dark-emerald text-white" selected>English</option>
+            <option value="ar" class="bg-dark-emerald text-white">العربية</option>
+            <option value="ml" class="bg-dark-emerald text-white">മലയാളം</option>
+            <option value="ur" class="bg-dark-emerald text-white">اردو</option>
+            <option value="bn" class="bg-dark-emerald text-white">বাংলা</option>
+          </select>
+        </div>
+
+        <button onclick="toggleSidebar()" class="lg:hidden bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm">
+          ⚙️ Settings
+        </button>
+      </div>
+
     </div>
-    <button onclick="toggleSidebar()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm">
-      ⚙️ Settings / Controls
-    </button>
   </header>
 
-  <!-- Main Layout Container (Centered with max bounds for desktop) -->
-  <div class="flex flex-col lg:flex-row min-h-screen max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
+  <!-- Main Layout Container -->
+  <div class="flex flex-col lg:flex-row min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
     
-    <!-- Control Panel Sidebar (Collapsible top on mobile, collapsible left on tablet, fixed on desktop) -->
-    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-6 flex flex-col justify-between border-r border-emerald-950 max-h-[90vh] lg:max-h-none overflow-y-auto shadow-2xl">
+    <!-- Collapsible Settings Panel Sidebar -->
+    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-5 flex flex-col justify-between border-r border-emerald-950 max-h-[90vh] lg:max-h-none overflow-y-auto shadow-2xl">
       <div>
-        <!-- Close button for mobile/tablet drawer view -->
-        <div class="flex items-center justify-between lg:hidden pb-3 mb-4 border-b border-dark-emerald">
-          <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider">Settings & Controls</span>
-          <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white text-xs font-bold px-2 py-1 bg-dark-emerald-light rounded-md">✕ Close</button>
-        </div>
 
-        <!-- App Header, Branding & PWA Button Section -->
-        <div class="mb-6 pb-4 border-b border-dark-emerald space-y-3">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-              <div class="bg-dark-emerald-light p-2.5 rounded-xl text-emerald-300 border border-emerald-800/40">
-                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
-              </div>
-              <div>
-                <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Quran Learning App</h1>
-                <p id="brandSub" class="text-xs text-emerald-300 font-medium"> تطبيق حفظ القرآن</p>
-              </div>
-            </div>
-
-            <!-- Language Selector with Globe Icon -->
-            <div class="flex items-center space-x-1.5">
-              <span class="text-sm">🌐</span>
-              <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-400">
-                <option value="en" selected>English</option>
-                <option value="ar">العربية</option>
-                <option value="ml">മലയാളം</option>
-                <option value="ur">اردو</option>
-                <option value="bn">বাংলা</option>
-              </select>
-            </div>
+        <!-- Drawer Close Trigger & Context Instruction Header -->
+        <div class="pb-3 mb-4 border-b border-dark-emerald flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider block">Settings & Options</span>
+            <p id="settingsInstruction" class="text-[11px] text-slate-300 mt-0.5">Configure reciter, repetitions count, and surah selection below:</p>
           </div>
-
-          <!-- PWA Install Button (Hidden by default, shown when installable) -->
-          <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
-            <span>📱</span>
-            <span>Install App</span>
-          </button>
+          <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white text-xs font-bold px-2 py-1 bg-dark-emerald-light rounded-md ml-2 shrink-0">✕ Close</button>
         </div>
+
+        <!-- PWA Install Button (Hidden by default, shown when installable) -->
+        <button id="btnInstallApp" onclick="installPWA()" class="hidden mb-4 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
+          <span>📱</span>
+          <span>Install App</span>
+        </button>
       
         <!-- Sidebar Inputs & Controls -->
         <div class="space-y-4">
-          <!-- Surah Selector Dropdown with Total Verses badge -->
+          
+          <!-- Compact Surah Selector Dropdown with Total Verses badge -->
           <div>
             <label id="lblSurah" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Select Surah (السورة)
             </label>
             <div class="flex items-center space-x-2">
-              <select id="surahSelect" onchange="onSurahChange()" class="flex-1 bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              <select id="surahSelect" onchange="onSurahChange()" class="w-full min-w-0 bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
                 <!-- Dynamically populated with 114 surahs -->
               </select>
-              <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2.5 py-2.5 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap">
+              <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2 py-2.5 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">
                 -- Verses
               </span>
             </div>
@@ -141,7 +145,7 @@
             <label id="lblReciter" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Reciter (القارئ)
             </label>
-            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
               <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
               <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
               <option value="ar.alafasy">Mishary Rashid Alafasy</option>
@@ -202,7 +206,7 @@
     <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl flex flex-col justify-between">
       
       <div>
-        <!-- Main Top Header Bar -->
+        <!-- Main Top Banner Section -->
         <header class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h2 id="mainHeaderTitle" class="text-xl md:text-2xl font-bold text-emerald-950">Quran Audio Player</h2>
@@ -361,7 +365,14 @@
     let isPaused = false;
     const audioPlayer = document.getElementById('globalAudioPlayer');
 
-    // Translations Dictionary (Fully populated with table headers & labels for all languages)
+    // Islamic Hijri Months Table
+    const HIJRI_MONTHS = [
+      "Muharram", "Safar", "Rabi' al-Awwal", "Rabi' al-Thani",
+      "Jumada al-Ula", "Jumada al-Thani", "Rajab", "Sha'ban",
+      "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
+    ];
+
+    // Translations Dictionary
     const translations = {
       en: {
         pageTitle: "Quran Learning App",
@@ -446,7 +457,8 @@
         btnVerseMode: "Verses",
         btnMushafMode: "Mus'haf Page",
         mushafFullRes: "Full Resolution",
-        mushafLoadFailed: "This page image could not be loaded. Please check your connection."
+        mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
+        settingsInstruction: "Configure reciter, repetitions count, and surah selection below:"
       },
       ar: {
         pageTitle: "Quran Learning App",
@@ -531,7 +543,8 @@
         btnVerseMode: "آيات",
         btnMushafMode: "صفحات المصحف",
         mushafFullRes: "الدقة الكاملة",
-        mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت."
+        mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت.",
+        settingsInstruction: "حدد القارئ، عدد التكرار، والسورة أدناه:"
       },
       ml: {
         pageTitle: "Quran Learning App",
@@ -616,7 +629,8 @@
         btnVerseMode: "ആയത്തുകൾ",
         btnMushafMode: "മുസ്ഹഫ് പേജ്",
         mushafFullRes: "സ്ക്രീൻ പൂർണ്ണമായി കാണിക്കുക",
-        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക."
+        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
+        settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് എന്നിവ താഴെ സജ്ജീകരിക്കുക:"
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
@@ -701,7 +715,8 @@
         btnVerseMode: "آیات",
         btnMushafMode: "مصحف صفحہ",
         mushafFullRes: "مکمل ریزولوشن",
-        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔"
+        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
+        settingsInstruction: "قاری، تکرار کی تعداد، اور سورۃ نیچے منتخب کریں:"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
@@ -786,14 +801,15 @@
         btnVerseMode: "আয়াত",
         btnMushafMode: "মুসহাফ পৃষ্ঠা",
         mushafFullRes: "পূর্ণ রেজোলিউশন",
-        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন."
+        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন.",
+        settingsInstruction: "কারী, পুনরাবৃত্তি সংখ্যা এবং সূরা নিচে নির্বাচন করুন:"
       }
     };
 
     let currentLang = 'en';
 
     // ==================================================================
-    // STORAGE (everything the page remembers lives in localStorage)
+    // STORAGE
     // ==================================================================
     const STORE = {
       state:  'quran_hifz_state',
@@ -832,13 +848,24 @@
       return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
     }
     
+    // Accurate Hijri Date Formatter Logic
     function getFormattedDate() {
       const now = new Date();
       if (isHijriActive) {
         try {
-          return new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura', {
-            day: 'numeric', month: 'long', year: 'numeric'
-          }).format(now) + ' AH';
+          const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {
+            day: 'numeric', month: 'numeric', year: 'numeric'
+          }).formatToParts(now);
+          
+          let day = '', monthIdx = 0, year = '';
+          parts.forEach(p => {
+            if (p.type === 'day') day = p.value;
+            if (p.type === 'month') monthIdx = parseInt(p.value) - 1;
+            if (p.type === 'year') year = p.value;
+          });
+
+          const monthName = HIJRI_MONTHS[monthIdx] || HIJRI_MONTHS[0];
+          return `${day} ${monthName} ${year} AH`;
         } catch (e) {
           return now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
         }
@@ -869,7 +896,7 @@
       'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
-      'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy'
+      'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy', 'settingsInstruction'
     ];
 
     function applyLanguage() {
@@ -901,7 +928,6 @@
     // ==================================================================
     function toggleSidebar() {
       const sidebar = $('appSidebar');
-      // On tablets (md breakpoint), slide from left. On mobile, slide from top.
       if (window.innerWidth >= 768 && window.innerWidth < 1024) {
         sidebar.classList.toggle('-translate-x-full');
         sidebar.classList.remove('-translate-y-full');
