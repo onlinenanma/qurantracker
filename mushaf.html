@@ -69,12 +69,22 @@
 
     <!-- Page Display Frame Container -->
     <div class="w-full">
-      <div id="mushafContainer" class="mushaf-page-frame min-h-[550px] flex flex-col justify-between items-center">
+      <div id="mushafContainer" class="mushaf-page-frame min-h-[550px] flex flex-col justify-between items-center relative">
         <div id="pageAyahsContent" class="w-full flex flex-col justify-center items-center"></div>
       </div>
     </div>
 
   </main>
+
+  <!-- In-Tab Full Resolution Modal Overlay (Doesn't open new tab or stop player) -->
+  <div id="imageModal" class="fixed inset-0 bg-black/80 z-50 hidden flex flex-col items-center justify-center p-4">
+    <div class="relative max-w-5xl w-full h-full flex flex-col items-center justify-center">
+      <button onclick="closeModal()" class="absolute top-4 right-4 bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-lg transition-all z-50">
+        ✕ Close
+      </button>
+      <img id="modalImage" src="" alt="Full Resolution Page" class="max-h-[90vh] max-w-full object-contain rounded-lg shadow-2xl bg-white p-2">
+    </div>
+  </div>
 
   <script>
     let currentPage = 1;
@@ -95,16 +105,18 @@
       const container = document.getElementById('pageAyahsContent');
       container.innerHTML = '<div class="text-center text-slate-400 py-20">Loading page...</div>';
 
-      // MODE 1: Madinah Mushaf High-Resolution Page Scan via jsDelivr CDN
+      // MODE 1: Madinah Mushaf High-Resolution Page Scan with click-to-zoom modal
       if (currentStyle === 'madinah_image') {
         const paddedNum = String(currentPage).padStart(3, '0');
+        const imgUrl = `https://www.everyayah.com/data/images/img_${paddedNum}.png`;
         
         container.innerHTML = `
-          <div class="flex flex-col justify-center items-center py-2 w-full">
-            <img src="https://cdn.jsdelivr.net/gh/quran/quran.com-images@master/v2/pages/page${paddedNum}.png" 
+          <div class="flex flex-col justify-center items-center py-2 w-full cursor-pointer group relative" onclick="openModal('${imgUrl}')">
+            <img src="${imgUrl}" 
                  alt="Madinah Mushaf Page ${currentPage}" 
-                 class="max-h-[75vh] w-auto object-contain rounded-lg bg-white p-1"
+                 class="max-h-[75vh] w-auto object-contain rounded-lg bg-white p-1 transition-transform group-hover:scale-[1.01]"
                  onerror="this.onerror=null; this.src='https://verses.quran.com/pages/v1/page${paddedNum}.png';">
+            <span class="text-[11px] text-slate-400 mt-2 bg-slate-50 px-3 py-1 rounded-full border border-slate-200">🔍 Click image for full resolution view</span>
           </div>`;
       }
       // MODE 2: Clean Responsive Text Mode
@@ -129,6 +141,16 @@
           container.innerHTML = '<div class="text-center text-rose-500 py-20">Failed to load text. Please check connection.</div>';
         }
       }
+    }
+
+    function openModal(url) {
+      document.getElementById('modalImage').src = url;
+      document.getElementById('imageModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').classList.add('hidden');
+      document.getElementById('modalImage').src = '';
     }
 
     function changePage(dir) {
