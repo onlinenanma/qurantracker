@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <!-- Controls Right: Language Selector & Mobile Drawer Toggle -->
+      <!-- Controls Right: Language Selector & Mobile Drawer Toggle with Red Icon Accent -->
       <div class="flex items-center space-x-2">
         <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
           <span class="text-xs">🌐</span>
@@ -64,8 +64,9 @@
           </select>
         </div>
 
-        <button onclick="toggleSidebar()" class="lg:hidden bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm">
-          ⚙️ Settings
+        <button onclick="toggleSidebar()" class="lg:hidden bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center space-x-1">
+          <span class="text-white">⚙️</span>
+          <span>Settings</span>
         </button>
       </div>
 
@@ -75,34 +76,29 @@
   <!-- Main Layout Container -->
   <div class="flex flex-col lg:flex-row min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
     
-    <!-- Collapsible Settings Panel Sidebar -->
-    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-5 flex flex-col justify-between border-r border-emerald-950 max-h-[95vh] lg:max-h-none overflow-y-auto shadow-2xl">
-      <div>
-
-        <!-- Drawer Header without instruction -->
-        <div class="pb-3 mb-4 border-b border-dark-emerald flex items-center justify-between">
-          <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider">Settings & Options</span>
-        </div>
+    <!-- Collapsible Settings Panel Sidebar (Tightened spacing, removed top title) -->
+    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-4 flex flex-col justify-between border-r border-emerald-950 max-h-[95vh] lg:max-h-none overflow-y-auto shadow-2xl">
+      <div class="space-y-3">
 
         <!-- PWA Install Button (Hidden by default, shown when installable) -->
-        <button id="btnInstallApp" onclick="installPWA()" class="hidden mb-4 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
+        <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
           <span>📱</span>
           <span>Install App</span>
         </button>
       
-        <!-- Sidebar Inputs & Controls -->
-        <div class="space-y-4 pb-6">
+        <!-- Sidebar Inputs & Controls with minimized padding gaps -->
+        <div class="space-y-3">
           
           <!-- Compact Surah Selector Dropdown with Total Verses badge -->
           <div>
-            <label id="lblSurah" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+            <label id="lblSurah" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Select Surah (السورة)
             </label>
             <div class="flex items-center space-x-2">
-              <select id="surahSelect" onchange="onSurahChange()" class="w-full min-w-0 bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
+              <select id="surahSelect" onchange="onSurahChange()" class="w-full min-w-0 bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
                 <!-- Dynamically populated with 114 surahs -->
               </select>
-              <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2 py-2.5 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">
+              <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2 py-2 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">
                 -- Verses
               </span>
             </div>
@@ -111,37 +107,37 @@
           <!-- Verse Range Picker -->
           <div class="grid grid-cols-2 gap-2">
             <div>
-              <label id="lblFromVerse" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+              <label id="lblFromVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
                 From Verse (من آية)
               </label>
-              <input type="number" id="fromVerse" value="1" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              <input type="number" id="fromVerse" value="1" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
             </div>
             <div>
-              <label id="lblToVerse" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+              <label id="lblToVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
                 To Verse (إلى آية)
               </label>
-              <input type="number" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              <input type="number" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
             </div>
           </div>
 
           <!-- Repetition Counter Target (Default: 9) -->
           <div>
-            <label id="lblRepetition" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+            <label id="lblRepetition" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Repetition Target (التكرار)
             </label>
             <div class="flex items-center space-x-2">
-              <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-2 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200">-</button>
-              <input type="number" id="repetitionTarget" value="9" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:outline-none">
-              <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-2 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200">+</button>
+              <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">-</button>
+              <input type="number" id="repetitionTarget" value="9" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:outline-none">
+              <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">+</button>
             </div>
           </div>
 
           <!-- Reciter Audio Picker -->
           <div>
-            <label id="lblReciter" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+            <label id="lblReciter" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Reciter (القارئ)
             </label>
-            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
+            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
               <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
               <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
               <option value="ar.alafasy">Mishary Rashid Alafasy</option>
@@ -153,43 +149,43 @@
           </div>
 
           <!-- Daily Page Wird Selector -->
-          <div class="pt-3 border-t border-dark-emerald">
-            <label id="lblDailyWird" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-2">
+          <div class="pt-2.5 border-t border-dark-emerald">
+            <label id="lblDailyWird" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
               Daily Page Range (الورد اليومي)
             </label>
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
-                <input type="number" id="fromPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+                <input type="number" id="fromPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
               </div>
               <div>
                 <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
-                <input type="number" id="toPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2 focus:outline-none">
+                <input type="number" id="toPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
               </div>
             </div>
-            <button id="btnLoadPages" onclick="loadPageRange()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 rounded-lg transition-all">Load Pages</button>
-            <p id="pageModeNote" class="hidden mt-2 text-[11px] text-emerald-300 leading-snug"></p>
+            <button id="btnLoadPages" onclick="loadPageRange()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-1.5 rounded-lg transition-all">Load Pages</button>
+            <p id="pageModeNote" class="hidden mt-1.5 text-[10px] text-emerald-300 leading-snug"></p>
           </div>
 
           <!-- Hijri Date Switcher Toggle -->
-          <div class="pt-3 border-t border-dark-emerald flex items-center justify-between">
-            <span class="text-xs font-semibold text-emerald-200 uppercase tracking-wider">Hijri Date (التاريخ الهجري)</span>
+          <div class="pt-2.5 border-t border-dark-emerald flex items-center justify-between">
+            <span class="text-[11px] font-semibold text-emerald-200 uppercase tracking-wider">Hijri Date (التاريخ الهجري)</span>
             <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
-              <div class="w-9 h-5 bg-dark-emerald-light peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-emerald-800 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600 border border-dark-emerald"></div>
+              <div class="w-8 h-4 bg-dark-emerald-light peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-emerald-800 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-600 border border-dark-emerald"></div>
             </label>
           </div>
 
           <!-- View Mode Toggle -->
-          <div class="pt-3 border-t border-dark-emerald">
-            <label id="lblViewMode" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-2">
+          <div class="pt-2.5 border-t border-dark-emerald">
+            <label id="lblViewMode" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
               View Mode (نمط العرض)
             </label>
             <div class="flex rounded-lg bg-dark-emerald-light p-1 border border-dark-emerald">
-              <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
+              <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
                 Verses (آيات)
               </button>
-              <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
+              <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
                 Mus'haf Page (مصحف)
               </button>
             </div>
@@ -198,8 +194,8 @@
       </div>
 
       <!-- Prominent Red Close Button at Bottom -->
-      <div class="pt-4 border-t border-dark-emerald lg:hidden">
-        <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2.5 rounded-xl text-xs font-bold transition-all shadow-md">
+      <div class="pt-3 border-t border-dark-emerald lg:hidden">
+        <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-md">
           ✕ Close Settings
         </button>
       </div>
@@ -210,15 +206,15 @@
     <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl flex flex-col justify-between">
       
       <div>
-        <!-- Main Top Banner Section (Instruction moved here, title removed) -->
-        <header class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <!-- Shaded Instruction Box with Date Badge -->
+        <header class="bg-slate-50 border border-slate-200 p-4 rounded-2xl shadow-sm mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <p id="settingsInstruction" class="text-xs md:text-sm text-slate-600 font-medium leading-relaxed">
-              Configure reciter, repetitions count, and surah selection below:
+            <p id="settingsInstruction" class="text-xs md:text-sm text-slate-700 font-medium leading-relaxed">
+              Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode.
             </p>
           </div>
           <div class="flex items-center space-x-3 shrink-0">
-            <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full" id="currentDateBadge">
+            <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm" id="currentDateBadge">
               --
             </span>
           </div>
@@ -377,7 +373,7 @@
       "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
     ];
 
-    // Translations Dictionary
+    // Translations Dictionary (Including equivalent translations for settingsInstruction across all languages)
     const translations = {
       en: {
         pageTitle: "Quran Learning App",
@@ -392,8 +388,6 @@
         lblFromPage: "From Page",
         lblToPage: "To Page",
         btnSaveProgress: "Save Today's Progress",
-        mainHeaderTitle: "Quran Learning & Audio Player",
-        mainHeaderDesc: "Arabic text, Translation, Repetition Audio Player & Progress Tracker",
         globalPlayText: "Play All Verses", 
         pauseResumeBtn: "Pause",
         lblActiveVerseTitle: "Active Verse:",
@@ -463,7 +457,7 @@
         btnMushafMode: "Mus'haf Page",
         mushafFullRes: "Full Resolution",
         mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
-        settingsInstruction: "Configure reciter, repetitions count, and surah selection below:"
+        settingsInstruction: "Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode."
       },
       ar: {
         pageTitle: "Quran Learning App",
@@ -478,8 +472,6 @@
         lblFromPage: "من صفحة",
         lblToPage: "إلى صفحة",
         btnSaveProgress: "حفظ تقدم اليوم",
-        mainHeaderTitle: "تعلم الحفظ ومشغل الصوت",
-        mainHeaderDesc: "النص العربي ومشغل صوت الآيات",
         globalPlayText: "تشغيل كل الآيات",
         pauseResumeBtn: "إيقاف مؤقت",
         lblActiveVerseTitle: "الآية الحالية:",
@@ -549,7 +541,7 @@
         btnMushafMode: "صفحات المصحف",
         mushafFullRes: "الدقة الكاملة",
         mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت.",
-        settingsInstruction: "حدد القارئ، عدد التكرار، والسورة أدناه:"
+        settingsInstruction: "استخدم زر الإعدادات لتكوين القارئ، عدد التكرار، اختيار السورة، ونمط العرض."
       },
       ml: {
         pageTitle: "Quran Learning App",
@@ -564,8 +556,6 @@
         lblFromPage: "പേജ് മുതൽ",
         lblToPage: "പേജ് വരെ",
         btnSaveProgress: "ഇന്നത്തെ പുരോഗതി സേവ് ചെയ്യുക",
-        mainHeaderTitle: "പല തവണ കേട്ട് പഠിക്കാനുള്ള സംവിധാനം",
-        mainHeaderDesc: "അറബി പാഠം, അർത്ഥം, ആവർത്തനം & ആയത്ത് ഓഡിയോ പ്ലെയർ",
         globalPlayText: "തുടർച്ചയായി കേൾക്കാം ",
         pauseResumeBtn: "ഇടക്ക് വെച്ച് നിർത്താം ",
         lblActiveVerseTitle: "നിലവിലെ ആയത്ത്:",
@@ -635,7 +625,7 @@
         btnMushafMode: "മുസ്ഹഫ് പേജ്",
         mushafFullRes: "സ്ക്രീൻ പൂർണ്ണമായി കാണിക്കുക",
         mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
-        settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് എന്നിവ താഴെ സജ്ജീകരിക്കുക:"
+        settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് തിരഞ്ഞെടുക്കൽ, വ്യൂ മോഡ് എന്നിവ ക്രമീകരിക്കാൻ സെറ്റിംഗ്സ് (Settings) ബട്ടൺ ഉപയോഗിക്കുക."
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
@@ -650,8 +640,6 @@
         lblFromPage: "صفحہ از",
         lblToPage: "صفحہ تا",
         btnSaveProgress: "آج کی پیشرفت محفوظ کریں",
-        mainHeaderTitle: "حفظ لرننگ اور آڈیو پلیئر",
-        mainHeaderDesc: "عربی متن، تکرار اور آیت آڈیو پلیئر",
         globalPlayText: "تمام آیات چلائیں",
         pauseResumeBtn: "وقفہ",
         lblActiveVerseTitle: "موجودہ آیت:",
@@ -676,7 +664,7 @@
         meaningLabel: "معنی:",
         toastSaved: "پیشرفت کامیابی سے محفوظ ہو گئی!",
         toastNewRow: "نئی سطر کامیابی سے محفوظ ہو گئی!",
-        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا چاہتے ہیں؟",
+        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا चाहते ہیں؟",
         noLogs: "کوئی محفوظ شدہ لاگ نہیں ملا۔",
         defaultNote: "حفظ مکمل ہو گیا",
         stopText: "روکیں",
@@ -721,7 +709,7 @@
         btnMushafMode: "مصحف صفحہ",
         mushafFullRes: "مکمل ریزولوشن",
         mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
-        settingsInstruction: "قاری، تکرار کی تعداد، اور سورۃ نیچے منتخب کریں:"
+        settingsInstruction: "قاری، تکرار کی تعداد، سورۃ کے انتخاب، اور ڈسپلے موڈ کو ترتیب دینے کے لیے سیٹنگز (Settings) کا بٹن استعمال کریں۔"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
@@ -736,8 +724,6 @@
         lblFromPage: "পৃষ্ঠা থেকে",
         lblToPage: "পৃষ্ঠা পর্যন্ত",
         btnSaveProgress: "আজকের অগ্রগতি সংরক্ষণ করুন",
-        mainHeaderTitle: "হিফজ লার্নিং এবং অডিও প্লেয়ার",
-        mainHeaderDesc: "আরবি পাঠ, পুনরাবৃত্তি এবং আয়াত অডিও প্লেয়ার",
         globalPlayText: "সমস্ত আয়াত চালান",
         pauseResumeBtn: "বিরতি",
         lblActiveVerseTitle: "সক্রিয় আয়াত:",
@@ -807,7 +793,7 @@
         btnMushafMode: "মুসহাফ পৃষ্ঠা",
         mushafFullRes: "পূর্ণ রেজোলিউশন",
         mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন.",
-        settingsInstruction: "কারী, পুনরাবৃত্তি সংখ্যা এবং সূরা নিচে নির্বাচন করুন:"
+        settingsInstruction: "কারী, পুনরাবৃত্তির সংখ্যা, সুরা নির্বাচন এবং প্রদর্শন মোড কনফিগার করতে সেটিংস (Settings) বাটন ব্যবহার করুন।"
       }
     };
 
@@ -1330,8 +1316,8 @@
     // VIEW MODE: Verses | Mus'haf Page
     // ==================================================================
     function updateViewToggleUI() {
-      const on = 'flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all';
-      const off = 'flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all';
+      const on = 'flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all';
+      const off = 'flex-1 py-1 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all';
       const bv = $('btnVerseMode'), bm = $('btnMushafMode');
       if (bv) bv.className = currentViewMode === 'verse' ? on : off;
       if (bm) bm.className = currentViewMode === 'mushaf' ? on : off;
