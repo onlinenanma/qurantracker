@@ -1,6 +1,6 @@
 {
-  "name": "Qur'an Hifz Tracker",
-  "short_name": "Hifz Tracker",
+  "name": "Quran Learning App",
+  "short_name": "QL App",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0d3322",
@@ -32,14 +32,14 @@
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Desktop Hifz Tracker Workspace"
+      "label": "Desktop QL App Workspace"
     },
     {
       "src": "./icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Mobile Hifz Tracker Workspace"
+      "label": "Mobile QL App Workspace"
     }
   ]
 }
