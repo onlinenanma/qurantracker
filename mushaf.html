@@ -26,12 +26,19 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Top Header -->
+  <!-- Top Header with Quick Mode Toggle Emoji -->
   <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0 flex items-center justify-between">
     <div class="flex items-center space-x-2.5">
       <h1 class="font-bold text-sm sm:text-base text-white">Mus'haf Page View (صفحات المصحف)</h1>
     </div>
-    <div>
+    
+    <div class="flex items-center space-x-2">
+      <!-- Quick Mode Switcher Emoji Toggle -->
+      <button onclick="toggleAppMode()" title="Switch to Verse Mode" class="bg-dark-emerald-light hover:bg-emerald-800 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-emerald-800/40 transition-all flex items-center space-x-1 cursor-pointer">
+        <span>📖</span>
+        <span class="hidden sm:inline text-[11px]">Verse Mode</span>
+      </button>
+
       <a href="./index.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">
         ← Back to Verses
       </a>
@@ -57,12 +64,17 @@
         </button>
       </div>
 
-      <!-- Mode Selector -->
+      <!-- Reciter & Display Controls -->
       <div class="flex items-center space-x-2">
-        <label class="text-xs text-slate-500 font-medium">Display:</label>
+        <select id="mushafReciterSelect" onchange="onMushafReciterChange()" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg p-2 focus:outline-none cursor-pointer">
+          <option value="Minshawy_Teacher_128kbps" selected>Minshawy (Teacher / Repeat)</option>
+          <option value="Husary_Muallim_128kbps">Al-Husary (Muallim)</option>
+          <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+        </select>
+
         <select id="mushafStyleSelect" onchange="switchMushafStyle(this.value)" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg p-2 focus:outline-none cursor-pointer">
-          <option value="madinah_image" selected>Madinah Mus'haf (Exact Page Scan)</option>
-          <option value="clean_text">Clean Responsive Text Mode</option>
+          <option value="madinah_image" selected>Madinah Mus'haf (Exact Scan)</option>
+          <option value="clean_text">Clean Text Mode</option>
         </select>
       </div>
     </div>
@@ -90,9 +102,18 @@
     let currentPage = 1;
     let currentStyle = 'madinah_image';
 
+    function toggleAppMode() {
+      window.location.href = './index.html';
+    }
+
     function switchMushafStyle(style) {
       currentStyle = style;
       loadMushafPage(currentPage);
+    }
+
+    function onMushafReciterChange() {
+      const selectedReciter = document.getElementById('mushafReciterSelect').value;
+      localStorage.setItem('quran_hifz_reciter', selectedReciter);
     }
 
     async function loadMushafPage(pageNum) {
@@ -105,17 +126,17 @@
       const container = document.getElementById('pageAyahsContent');
       container.innerHTML = '<div class="text-center text-slate-400 py-20">Loading page...</div>';
 
-      // MODE 1: Madinah Mushaf High-Resolution Page Scan with click-to-zoom modal
+      // MODE 1: Madinah Mushaf High-Resolution Page Scan using quran.app link format
       if (currentStyle === 'madinah_image') {
-        const paddedNum = String(currentPage).padStart(3, '0');
-        const imgUrl = `https://www.everyayah.com/data/images/img_${paddedNum}.png`;
+        const paddedNum = String(currentPage).padStart(3, '0'); // e.g., "001", "025", "604"
+        const imgUrl = `https://files.quran.app/hafs/madani/width_1024/page${paddedNum}.png`;
         
         container.innerHTML = `
           <div class="flex flex-col justify-center items-center py-2 w-full cursor-pointer group relative" onclick="openModal('${imgUrl}')">
             <img src="${imgUrl}" 
                  alt="Madinah Mushaf Page ${currentPage}" 
                  class="max-h-[75vh] w-auto object-contain rounded-lg bg-white p-1 transition-transform group-hover:scale-[1.01]"
-                 onerror="this.onerror=null; this.src='https://verses.quran.com/pages/v1/page${paddedNum}.png';">
+                 onerror="this.onerror=null; this.src='https://www.everyayah.com/data/images/img_${paddedNum}.png';">
             <span class="text-[11px] text-slate-400 mt-2 bg-slate-50 px-3 py-1 rounded-full border border-slate-200">🔍 Click image for full resolution view</span>
           </div>`;
       }
@@ -158,6 +179,10 @@
     }
 
     window.onload = () => {
+      const savedReciter = localStorage.getItem('quran_hifz_reciter');
+      if (savedReciter) {
+        document.getElementById('mushafReciterSelect').value = savedReciter;
+      }
       loadMushafPage(1);
     };
   </script>
