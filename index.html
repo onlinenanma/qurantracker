@@ -156,10 +156,10 @@
               View Mode (نمط العرض)
             </label>
             <div class="flex rounded-lg bg-dark-emerald-light p-1 border border-dark-emerald">
-              <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
+              <button id="btnVerseMode" onclick="('verse')" class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
                 Verses (آيات)
               </button>
-              <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
+              <button id="btnMushafMode" onclick="('mushaf')" class="flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
                 Mus'haf Page (مصحف)
               </button>
             </div>
@@ -1241,13 +1241,16 @@
     }
 
     function setViewMode(mode) {
-      if (mode !== 'verse' && mode !== 'mushaf') return;
-      currentViewMode = mode;
-      updateViewToggleUI();
-      saveState();
-      if (currentVerses.length) renderCurrentView();
-    }
-
+  if (mode === 'mushaf') {
+    // Navigates in the exact same window/tab
+    window.location.href = './mushaf.html'; 
+    // Or if redirecting to an external/custom URL:
+    // window.location.href = 'https://quranlearning.app/mushaf';
+  } else if (mode === 'verse') {
+    window.location.href = './index.html';
+  }
+}
+   
     function renderCurrentView() {
       if (currentViewMode === 'mushaf') renderMushafPages(); else renderVerseCards();
       if (isRunning && activeVerseIndex !== -1) {
