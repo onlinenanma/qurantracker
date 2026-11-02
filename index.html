@@ -10,12 +10,12 @@
   
   <!-- iOS Safari Compatibility Tags -->
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Quran Learnig App">
+  <meta name="apple-mobile-web-app-title" content="Quran Learning App">
   <link rel="apple-touch-icon" href="./icon-192.png">
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Quran Learnig App</title>
+  <title id="pageTitle">Quran Learning App</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -34,12 +34,27 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
+  <!-- Mobile / Tablet Top Header Trigger for Settings Toggle -->
+  <header class="bg-dark-emerald text-emerald-50 p-4 flex items-center justify-between lg:hidden border-b border-emerald-950 z-30">
+    <div class="flex items-center space-x-2">
+      <h1 class="font-bold text-base text-white">Quran Learning App</h1>
+    </div>
+    <button onclick="toggleSidebar()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm">
+      ⚙️ Settings / Controls
+    </button>
+  </header>
+
   <!-- Main Layout Container (Centered with max bounds for desktop) -->
-  <div class="flex flex-col md:flex-row min-h-screen max-w-[1600px] mx-auto w-full shadow-2xl">
+  <div class="flex flex-col lg:flex-row min-h-screen max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
     
-    <!-- Left-Aligned Control Panel Sidebar (Expanded width md:w-96 for desktop) -->
-    <aside class="w-full md:w-96 bg-dark-emerald text-emerald-50 p-6 flex flex-col justify-between z-20 shrink-0 border-r border-emerald-950">
+    <!-- Control Panel Sidebar (Collapsible top on mobile, collapsible left on tablet, fixed on desktop) -->
+    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-6 flex flex-col justify-between border-r border-emerald-950 max-h-[90vh] lg:max-h-none overflow-y-auto shadow-2xl">
       <div>
+        <!-- Close button for mobile/tablet drawer view -->
+        <div class="flex items-center justify-between lg:hidden pb-3 mb-4 border-b border-dark-emerald">
+          <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider">Settings & Controls</span>
+          <button onclick="toggleSidebar()" class="text-slate-400 hover:text-white text-xs font-bold px-2 py-1 bg-dark-emerald-light rounded-md">✕ Close</button>
+        </div>
 
         <!-- App Header, Branding & PWA Button Section -->
         <div class="mb-6 pb-4 border-b border-dark-emerald space-y-3">
@@ -51,7 +66,7 @@
                 </svg>
               </div>
               <div>
-                <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Quran Learnig App</h1>
+                <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Quran Learning App</h1>
                 <p id="brandSub" class="text-xs text-emerald-300 font-medium"> تطبيق حفظ القرآن</p>
               </div>
             </div>
@@ -78,15 +93,21 @@
       
         <!-- Sidebar Inputs & Controls -->
         <div class="space-y-4">
-          <!-- Surah Selector Dropdown -->
+          <!-- Surah Selector Dropdown with Total Verses badge -->
           <div>
             <label id="lblSurah" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Select Surah (السورة)
             </label>
-            <select id="surahSelect" onchange="onSurahChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-              <!-- Dynamically populated with 114 surahs -->
-            </select>
+            <div class="flex items-center space-x-2">
+              <select id="surahSelect" onchange="onSurahChange()" class="flex-1 bg-dark-emerald-light border border-dark-emerald text-white text-sm rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+                <!-- Dynamically populated with 114 surahs -->
+              </select>
+              <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2.5 py-2.5 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap">
+                -- Verses
+              </span>
+            </div>
           </div>
+
           <!-- Verse Range Picker -->
           <div class="grid grid-cols-2 gap-2">
             <div>
@@ -150,16 +171,25 @@
             <p id="pageModeNote" class="hidden mt-2 text-[11px] text-emerald-300 leading-snug"></p>
           </div>
 
+          <!-- Hijri Date Switcher Toggle -->
+          <div class="pt-3 border-t border-dark-emerald flex items-center justify-between">
+            <span class="text-xs font-semibold text-emerald-200 uppercase tracking-wider">Hijri Date (التاريخ الهجري)</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
+              <div class="w-9 h-5 bg-dark-emerald-light peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-emerald-800 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600 border border-dark-emerald"></div>
+            </label>
+          </div>
+
           <!-- View Mode Toggle -->
           <div class="pt-3 border-t border-dark-emerald">
             <label id="lblViewMode" class="block text-xs font-semibold text-emerald-200 uppercase tracking-wider mb-2">
               View Mode (نمط العرض)
             </label>
             <div class="flex rounded-lg bg-dark-emerald-light p-1 border border-dark-emerald">
-              <button id="btnVerseMode" onclick="('verse')" class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
+              <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
                 Verses (آيات)
               </button>
-              <button id="btnMushafMode" onclick="('mushaf')" class="flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
+              <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
                 Mus'haf Page (مصحف)
               </button>
             </div>
@@ -290,34 +320,32 @@
           </div>
         </section>
       </div>
-<!-- Bottom Footer -->
-<footer class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-  <p id="footerCopy">
-    Please share Quran Learning App Link with your friends and family members: 
-    <button onclick="shareApp()" class="text-emerald-600 hover:underline font-medium focus:outline-none ml-1">
-      quranlearning.app
-    </button>
-  </p>
-</footer>
 
-<script>
-  function shareApp() {
-    const shareData = {
-      title: 'Quran Learning App',
-      text: 'Check out the Quran Learning App to learn and study the Quran!',
-      url: 'https://quranlearning.app'
-    };
+      <!-- Bottom Footer -->
+      <footer class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <p id="footerCopy">
+          Please share Quran Learning App Link with your friends and family members: 
+          <button onclick="shareApp()" class="text-emerald-600 hover:underline font-medium focus:outline-none ml-1">
+            quranlearning.app
+          </button>
+        </p>
+      </footer>
 
-    // Use native device share menu if supported (Mobile browsers, WhatsApp, Mail, etc.)
-    if (navigator.share) {
-      navigator.share(shareData).catch((err) => console.log('Share canceled or failed:', err));
-    } else {
-      // Fallback for browsers that don't support native sharing (e.g. desktop browsers)
-      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`;
-      window.open(whatsappUrl, '_blank');
-    }
-  }
-</script>
+      <script>
+        function shareApp() {
+          const shareData = {
+            title: 'Quran Learning App',
+            text: 'Check out the Quran Learning App to learn and study the Quran!',
+            url: 'https://quranlearning.app'
+          };
+          if (navigator.share) {
+            navigator.share(shareData).catch((err) => console.log('Share canceled or failed:', err));
+          } else {
+            const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`;
+            window.open(whatsappUrl, '_blank');
+          }
+        }
+      </script>
 
     </main>
   </div>
@@ -325,7 +353,7 @@
   <!-- Audio Player -->
   <audio id="globalAudioPlayer" class="hidden"></audio>
 
- <script>
+  <script>
     let surahList = [];
     let currentVerses = [];
     let activeVerseIndex = -1;
@@ -366,7 +394,7 @@
         thCompleted: "Completed",
         thNotes: "Notes",
         thAction: "Action",
-        footerCopy: "❤️ Please share Quran Learnig App Link to your friends and family members، quranlearnig.app",
+        footerCopy: "❤️ Please share Quran Learning App Link to your friends and family members, quranlearning.app",
         playBtnText: "Listen",
         playingText: "Playing...",
         repsLabel: "Target:",
@@ -536,7 +564,7 @@
         thCompleted: "പൂർത്തിയായി",
         thNotes: "കുറിപ്പുകൾ",
         thAction: "നടപടി",
-        footerCopy: "❤️ ഈ ആപ്പിന്റെ ലിങ്ക് നിങ്ങളുടെ സുഹൃത്തക്കളുമായും ബന്ധുക്കളുമായും ഷെയർ ചെയ്യുമല്ലോ ",
+        footerCopy: "❤️ ഈ ആപ്പിന്റെ ലിങ്ക് നിങ്ങളുടെ സുഹൃത്തുക്കളുമായും ബന്ധുക്കളുമായും ഷെയർ ചെയ്യുമല്ലോ",
         playBtnText: "കേൾക്കുക",
         playingText: "പ്ലേ ചെയ്യുന്നു...",
         repsLabel: "ലക്ഷ്യം:",
@@ -587,7 +615,7 @@
         lblViewMode: "ആയത്തുകൾ കാണേണ്ട രൂപം",
         btnVerseMode: "ആയത്തുകൾ",
         btnMushafMode: "മുസ്ഹഫ് പേജ്",
-        mushafFullRes: "സ്ക്രീൻ പുഴുവനായി കാണിക്കുക",
+        mushafFullRes: "സ്ക്രീൻ പൂർണ്ണമായി കാണിക്കുക",
         mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക."
       },
       ur: {
@@ -791,6 +819,7 @@
     let viewMode = 'surah';
     let currentViewMode = 'verse';
     let loadedPages = null;
+    let isHijriActive = false;
 
     const $ = id => document.getElementById(id);
     const T = () => translations[currentLang];
@@ -802,6 +831,27 @@
       const d = new Date(), p = n => String(n).padStart(2, '0');
       return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
     }
+    
+    function getFormattedDate() {
+      const now = new Date();
+      if (isHijriActive) {
+        try {
+          return new Intl.DateTimeFormat('en-US-u-ca-islamic-umalqura', {
+            day: 'numeric', month: 'long', year: 'numeric'
+          }).format(now) + ' AH';
+        } catch (e) {
+          return now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+        }
+      } else {
+        return now.toLocaleDateString(LANG_LOCALES[currentLang], { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+      }
+    }
+
+    function toggleHijriDate(checkbox) {
+      isHijriActive = checkbox.checked;
+      setText('currentDateBadge', getFormattedDate());
+    }
+
     function formatLogDate(log) {
       if (log.iso) {
         return new Date(log.iso + 'T00:00:00').toLocaleDateString(LANG_LOCALES[currentLang], { weekday: 'short', month: 'short', day: 'numeric' });
@@ -831,8 +881,7 @@
       setText('globalPlayText', isRunning ? t.stopText : t.globalPlayText);
       setText('pauseResumeBtn', isPaused ? t.continueText : t.resumeText);
       if (!isRunning) setText('activeVerseIndicator', t.notPlaying);
-      setText('currentDateBadge', new Date().toLocaleDateString(LANG_LOCALES[currentLang],
-        { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }));
+      setText('currentDateBadge', getFormattedDate());
       document.documentElement.lang = currentLang;
       document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
       updateModeUI();
@@ -845,6 +894,20 @@
       applyLanguage();
       renderLogsTable();
       refreshVerses();
+    }
+
+    // ==================================================================
+    // RESPONSIVE SIDEBAR TOGGLE
+    // ==================================================================
+    function toggleSidebar() {
+      const sidebar = $('appSidebar');
+      // On tablets (md breakpoint), slide from left. On mobile, slide from top.
+      if (window.innerWidth >= 768 && window.innerWidth < 1024) {
+        sidebar.classList.toggle('-translate-x-full');
+        sidebar.classList.remove('-translate-y-full');
+      } else {
+        sidebar.classList.toggle('-translate-y-full');
+      }
     }
 
     // ==================================================================
@@ -914,9 +977,18 @@
             select.appendChild(opt);
           });
           select.value = surahList.some(s => s.number === selectedNumber) ? selectedNumber : 1;
+          updateTotalVersesBadge();
         }
       } catch (err) {
         console.error('Failed to load Surah list:', err);
+      }
+    }
+
+    function updateTotalVersesBadge() {
+      const surahNum = parseInt($('surahSelect').value);
+      const surahData = surahList.find(s => s.number === surahNum);
+      if (surahData) {
+        setText('totalVersesBadge', `${surahData.numberOfAyahs} Verses`);
       }
     }
 
@@ -926,6 +998,7 @@
       if (surahData) {
         $('fromVerse').value = 1;
         $('toVerse').value = Math.min(10, surahData.numberOfAyahs);
+        updateTotalVersesBadge();
       }
       validateAndFetchVerses();
     }
@@ -1206,6 +1279,7 @@
         $('surahSelect').value = firstSurah;
         $('fromVerse').value = inFirst[0].numberInSurah;
         $('toVerse').value = inFirst[inFirst.length - 1].numberInSurah;
+        updateTotalVersesBadge();
         saveState();
 
         $('verseCountBadge').innerText = verses.length;
@@ -1225,13 +1299,6 @@
     // ==================================================================
     // VIEW MODE: Verses | Mus'haf Page
     // ==================================================================
-    const MUSHAF_IMAGE_SOURCES = [
-      p => `https://android.quran.com/data/width_1024/page${String(p).padStart(3, '0')}.png`,
-      p => `https://mushaf.quran.com/png/page${String(p).padStart(3, '0')}.png`,
-      p => `https://api.islamic.app/v1/mushaf/page/${p}.svg?width=1000`
-    ];
-    let mushafSourceStart = 0;
-
     function updateViewToggleUI() {
       const on = 'flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all';
       const off = 'flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all';
@@ -1241,126 +1308,15 @@
     }
 
     function setViewMode(mode) {
-  if (mode === 'mushaf') {
-    // Navigates in the exact same window/tab
-    window.location.href = './mushaf.html'; 
-    // Or if redirecting to an external/custom URL:
-    // window.location.href = 'https://quranlearning.app/mushaf';
-  } else if (mode === 'verse') {
-    window.location.href = './index.html';
-  }
-}
+      if (mode === 'mushaf') {
+        window.location.href = './mushaf.html'; 
+      } else if (mode === 'verse') {
+        window.location.href = './index.html';
+      }
+    }
    
     function renderCurrentView() {
-      if (currentViewMode === 'mushaf') renderMushafPages(); else renderVerseCards();
-      if (isRunning && activeVerseIndex !== -1) {
-        const i = activeVerseIndex;
-        activeVerseIndex = -1;
-        markActive(i);
-      }
-    }
-
-    function describeVerses(indexes) {
-      const parts = [];
-      indexes.forEach(i => {
-        const v = currentVerses[i];
-        const last = parts[parts.length - 1];
-        if (last && last.surah === v.surah) last.to = v.numberInSurah;
-        else parts.push({ surah: v.surah, from: v.numberInSurah, to: v.numberInSurah });
-      });
-      return parts.map(p => {
-        const sd = surahList.find(x => x.number === p.surah);
-        return `${sd ? sd.englishName : 'Surah ' + p.surah} ${p.from}-${p.to}`;
-      }).join(' + ');
-    }
-
-    function mushafVerseChip(idx, targetReps) {
-      const v = currentVerses[idx];
-      const t = T();
-      return `
-        <div id="verse-card-${idx}" class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2 py-1 text-xs transition-all">
-          <button onclick="onListenClick(${idx})" title="${escapeHtml(t.playBtnText)}" class="text-emerald-700 hover:text-emerald-900">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-            </svg>
-          </button>
-          <span class="font-semibold text-slate-700">${v.surah}:${v.numberInSurah}</span>
-          <button onclick="bumpRep(${idx})" class="bg-white border border-slate-200 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
-            <span id="rep-count-${idx}" class="font-bold text-emerald-800">${v.repetitionCount}</span>
-            <span id="tgt-total-${idx}" class="text-slate-400">/ ${targetReps}</span>
-          </button>
-          <span id="play-text-${idx}" class="hidden">${escapeHtml(t.playBtnText)}</span>
-        </div>`;
-    }
-
-    function renderMushafPages() {
-      const container = $('versesList');
-      const t = T();
-      container.innerHTML = '';
-      if (!currentVerses.length) return;
-
-      const known = currentVerses.map(v => v.page).filter(Boolean);
-      let from, to;
-      if (known.length) { from = Math.min(...known); to = Math.max(...known); }
-      else { from = parseInt($('fromPage').value) || 1; to = parseInt($('toPage').value) || from; }
-      from = Math.min(Math.max(from, 1), MAX_PAGE);
-      to = Math.min(Math.max(to, from), MAX_PAGE);
-
-      const targetReps = getTarget();
-      for (let page = from; page <= to; page++) {
-        let onPage = [];
-        currentVerses.forEach((v, idx) => { if (v.page === page) onPage.push(idx); });
-        if (!known.length && page === from) onPage = currentVerses.map((_, idx) => idx);
-
-        const url = MUSHAF_IMAGE_SOURCES[mushafSourceStart](page);
-        const caption = onPage.length ? describeVerses(onPage) : '';
-        const chips = onPage.length
-          ? `<div class="flex flex-wrap justify-center gap-2 mt-4">${onPage.map(i => mushafVerseChip(i, targetReps)).join('')}</div>`
-          : '';
-
-        const pageCard = document.createElement('div');
-        pageCard.className = 'bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 text-center';
-        pageCard.innerHTML = `
-          <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
-            <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-3 py-1 rounded-lg">
-              ${escapeHtml(t.pageShort)} ${page}${currentLang === 'ar' ? '' : ` (صفحة ${page})`}
-            </span>
-            <a id="mushaf-full-${page}" href="${escapeHtml(url)}" target="_blank" rel="noopener" class="text-xs text-emerald-700 font-medium hover:underline">
-              🔍 ${escapeHtml(t.mushafFullRes)}
-            </a>
-          </div>
-          ${caption ? `<p class="text-xs text-slate-500 mb-3">${escapeHtml(caption)}</p>` : ''}
-          <div class="flex justify-center bg-amber-50/30 p-2 md:p-4 rounded-xl border border-amber-100/50">
-            <img src="${escapeHtml(url)}" data-page="${page}" data-src="${mushafSourceStart}"
-                 alt="${escapeHtml(t.pageShort)} ${page}" loading="lazy"
-                 onerror="mushafImgError(this)" onload="mushafImgLoaded(this)"
-                 class="w-full max-w-xl h-auto rounded-lg shadow-sm border border-slate-200 bg-white">
-          </div>
-          <div id="mushaf-err-${page}" class="hidden text-xs text-rose-600 mt-2">${escapeHtml(t.mushafLoadFailed)}</div>
-          ${chips}`;
-        container.appendChild(pageCard);
-      }
-    }
-
-    function mushafImgError(img) {
-      const page = img.dataset.page;
-      const next = parseInt(img.dataset.src) + 1;
-      if (next < MUSHAF_IMAGE_SOURCES.length) {
-        img.dataset.src = next;
-        const url = MUSHAF_IMAGE_SOURCES[next](page);
-        img.src = url;
-        const link = $(`mushaf-full-${page}`);
-        if (link) link.href = url;
-      } else {
-        img.style.display = 'none';
-        const err = $(`mushaf-err-${page}`);
-        if (err) err.classList.remove('hidden');
-      }
-    }
-
-    function mushafImgLoaded(img) {
-      const k = parseInt(img.dataset.src);
-      if (k > mushafSourceStart) mushafSourceStart = k;
+      renderVerseCards();
     }
 
     // ==================================================================
@@ -1387,7 +1343,7 @@
     }
 
     function resetCounters() {
-      if (currentVerses.length && confirm(T().confirmReset)) clearCountersForCurrentVerses();
+      if (currentVerses.length && confirm("quranlearning.app asks:\n\n" + T().confirmReset)) clearCountersForCurrentVerses();
     }
 
     function portionLabel() {
@@ -1941,8 +1897,7 @@
       const todays = getStoredLogs().filter(l => l.iso === todayISO());
       if (!todays.length) return null;
 
-      const dateStr = new Date().toLocaleDateString(LANG_LOCALES[currentLang],
-        { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+      const dateStr = getFormattedDate();
       const lines = [`📖 ${t.shareTitle} - ${dateStr}`, ''];
       let total = 0;
       todays.slice().reverse().forEach(l => {
@@ -2031,7 +1986,8 @@
       }, isWarning ? 4500 : 2500);
     }
   </script>
-<!-- Service Worker Registration Script -->
+
+  <!-- Service Worker Registration Script -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
