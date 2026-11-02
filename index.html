@@ -1333,14 +1333,39 @@
       if (bm) bm.className = currentViewMode === 'mushaf' ? on : off;
     }
 
-    function setViewMode(mode) {
-      if (mode === 'mushaf') {
-        window.location.href = './mushaf.html'; 
-      } else if (mode === 'verse') {
-        window.location.href = './index.html';
-      }
+    async function setViewMode(mode) {
+  if (mode === 'mushaf') {
+    // Get the current active page number (defaults to page 1 or the first visible verse's page)
+    let pageNum = 1;
+    if (currentVerses.length > 0 && currentVerses[0].page) {
+      pageNum = currentVerses[0].page;
+    } else {
+      const fromPageInput = parseInt($('fromPage').value);
+      if (!isNaN(fromPageInput)) pageNum = fromPageInput;
     }
-   
+
+    const paddedPage = String(pageNum).padStart(3, '0');
+    const directImageUrl = `https://www.quran.com/images/pages/en/${paddedPage}.png`;
+
+    // Open a blank tab immediately to prevent pop-up blockers
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      newWindow.document.write(`
+        <html>
+          <head><title>Mus'haf Page ${pageNum}</title></head>
+          <body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;height:100vh;">
+            <img src="${directImageUrl}" style="max-width:100%;max-height:100%;object-fit:contain;" alt="Mushaf Page ${pageNum}">
+          </body>
+        </html>
+      `);
+      newWindow.document.close();
+    }
+  } else if (mode === 'verse') {
+    // Already in verse mode, do nothing or refresh
+    currentViewMode = 'verse';
+    updateViewToggleUI();
+  }
+}
     function renderCurrentView() {
       renderVerseCards();
     }
