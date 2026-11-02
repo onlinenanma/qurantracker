@@ -12,6 +12,16 @@
     .bg-dark-emerald { background-color: #0d3322; }
     .bg-dark-emerald-light { background-color: #133e2b; }
     .border-dark-emerald { border-color: #1b5239; }
+
+    .mushaf-page-frame {
+      max-width: 650px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border: 2px solid #d4af37;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border-radius: 12px;
+      padding: 1rem;
+    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
@@ -34,67 +44,46 @@
     <!-- Page Controller Bar -->
     <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 w-full flex flex-wrap items-center justify-between gap-3 mb-6">
       <div class="flex items-center space-x-2">
-        <button onclick="changePage(-1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-          ← Previous Page
+        <button onclick="changePage(-1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition-all">
+          ← Previous
         </button>
-        <div class="flex items-center space-x-1.5">
+        <div class="flex items-center space-x-1">
           <span class="text-xs text-slate-500 font-medium">Page:</span>
-          <input type="number" id="pageNumberInput" value="1" min="1" max="604" onchange="loadMushafPage(this.value)" class="w-16 text-center bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-emerald-500">
+          <input type="number" id="pageNumberInput" value="1" min="1" max="604" onchange="loadMushafPage(this.value)" class="w-14 text-center bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs font-bold focus:outline-none">
           <span class="text-xs text-slate-400">/ 604</span>
         </div>
-        <button onclick="changePage(1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
-          Next Page →
+        <button onclick="changePage(1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition-all">
+          Next →
         </button>
       </div>
 
+      <!-- Mode Selector -->
       <div class="flex items-center space-x-2">
-        <label class="text-xs text-slate-500 font-medium">Jump to Juz':</label>
-        <select id="juzSelect" onchange="jumpToJuz(this.value)" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg p-2 focus:outline-none cursor-pointer">
-          <!-- Populated dynamically or via simple options -->
-          <option value="1">Juz' 1 (Page 1)</option>
-          <option value="2">Juz' 2 (Page 22)</option>
-          <option value="3">Juz' 3 (Page 42)</option>
-          <option value="4">Juz' 4 (Page 62)</option>
-          <option value="5">Juz' 5 (Page 82)</option>
-          <option value="6">Juz' 6 (Page 102)</option>
-          <option value="7">Juz' 7 (Page 122)</option>
-          <option value="8">Juz' 8 (Page 142)</option>
-          <option value="9">Juz' 9 (Page 162)</option>
-          <option value="10">Juz' 10 (Page 182)</option>
-          <option value="11">Juz' 11 (Page 202)</option>
-          <option value="12">Juz' 12 (Page 222)</option>
-          <option value="13">Juz' 13 (Page 242)</option>
-          <option value="14">Juz' 14 (Page 262)</option>
-          <option value="15">Juz' 15 (Page 282)</option>
-          <option value="16">Juz' 16 (Page 302)</option>
-          <option value="17">Juz' 17 (Page 322)</option>
-          <option value="18">Juz' 18 (Page 342)</option>
-          <option value="19">Juz' 19 (Page 362)</option>
-          <option value="20">Juz' 20 (Page 382)</option>
-          <option value="21">Juz' 21 (Page 402)</option>
-          <option value="22">Juz' 22 (Page 422)</option>
-          <option value="23">Juz' 23 (Page 442)</option>
-          <option value="24">Juz' 24 (Page 462)</option>
-          <option value="25">Juz' 25 (Page 482)</option>
-          <option value="26">Juz' 26 (Page 502)</option>
-          <option value="27">Juz' 27 (Page 522)</option>
-          <option value="28">Juz' 28 (Page 542)</option>
-          <option value="29">Juz' 29 (Page 562)</option>
-          <option value="30">Juz' 30 (Page 582)</option>
+        <label class="text-xs text-slate-500 font-medium">Display:</label>
+        <select id="mushafStyleSelect" onchange="switchMushafStyle(this.value)" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg p-2 focus:outline-none cursor-pointer">
+          <option value="madinah_image" selected>Madinah Mus'haf (Exact Page Scan)</option>
+          <option value="clean_text">Clean Responsive Text Mode</option>
         </select>
       </div>
     </div>
 
-    <!-- Page Display Container -->
-    <div id="mushafContainer" class="bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 w-full min-h-[600px] flex flex-col justify-between">
-      <div id="loadingText" class="text-center text-slate-400 py-20">Loading page text...</div>
-      <div id="pageAyahsContent" class="space-y-6"></div>
+    <!-- Page Display Frame Container -->
+    <div class="w-full">
+      <div id="mushafContainer" class="mushaf-page-frame min-h-[550px] flex flex-col justify-between items-center">
+        <div id="pageAyahsContent" class="w-full flex justify-center items-center"></div>
+      </div>
     </div>
 
   </main>
 
   <script>
     let currentPage = 1;
+    let currentStyle = 'madinah_image';
+
+    function switchMushafStyle(style) {
+      currentStyle = style;
+      loadMushafPage(currentPage);
+    }
 
     async function loadMushafPage(pageNum) {
       pageNum = parseInt(pageNum);
@@ -104,47 +93,45 @@
       document.getElementById('pageNumberInput').value = currentPage;
 
       const container = document.getElementById('pageAyahsContent');
-      container.innerHTML = '<div class="text-center text-slate-400 py-20">Loading page text...</div>';
+      container.innerHTML = '<div class="text-center text-slate-400 py-20">Loading page...</div>';
 
-      try {
-        const res = await fetch(`https://api.alquran.cloud/v1/page/${currentPage}/quran-uthmani`);
-        const data = await res.json();
-        if (data.code === 200) {
-          container.innerHTML = '';
-          let currentSurah = '';
-          
-          data.data.ayahs.forEach(ayah => {
-            if (ayah.surah.englishName !== currentSurah) {
-              currentSurah = ayah.surah.englishName;
-              const header = document.createElement('div');
-              header.className = 'bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-center my-4 font-bold text-emerald-900 text-sm';
-              header.innerText = `Surah ${ayah.surah.englishName} (${ayah.surah.name}) — Revelation: ${ayah.surah.revelationType}`;
-              container.appendChild(header);
-            }
-
-            const p = document.createElement('div');
-            p.className = 'text-right font-quran text-2xl md:text-3xl text-emerald-950 leading-loose border-b border-slate-100 pb-4';
-            p.setAttribute('dir', 'rtl');
-            p.innerHTML = `${ayah.text} <span class="text-sm font-sans text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200 inline-block mr-2">﴿${ayah.numberInSurah}﴾</span>`;
-            container.appendChild(p);
-          });
+      // MODE 1: Madinah Mushaf High-Resolution Page Scan (Exact match)
+      if (currentStyle === 'madinah_image') {
+        const paddedNum = String(currentPage).padStart(3, '0');
+        container.innerHTML = `
+          <div class="flex justify-center items-center py-2 w-full">
+            <img src="https://www.everyayah.com/data/images/img_${paddedNum}.png" 
+                 alt="Madinah Mushaf Page ${currentPage}" 
+                 class="max-h-[75vh] w-auto object-contain rounded-lg bg-white p-1"
+                 onerror="this.onerror=null; this.src='https://verses.quran.com/pages/v1/page${paddedNum}.png';">
+          </div>`;
+      }
+      // MODE 2: Clean Responsive Text Mode
+      else {
+        try {
+          const res = await fetch(`https://api.alquran.cloud/v1/page/${currentPage}/quran-uthmani`);
+          const data = await res.json();
+          if (data.code === 200) {
+            container.innerHTML = '';
+            const textWrapper = document.createElement('div');
+            textWrapper.className = 'w-full space-y-4 p-4';
+            data.data.ayahs.forEach(ayah => {
+              const p = document.createElement('div');
+              p.className = 'text-right font-quran text-2xl md:text-3xl text-emerald-950 leading-loose border-b border-slate-100 pb-4';
+              p.setAttribute('dir', 'rtl');
+              p.innerHTML = `${ayah.text} <span class="text-sm font-sans text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200 inline-block mr-2">﴿${ayah.numberInSurah}﴾</span>`;
+              textWrapper.appendChild(p);
+            });
+            container.appendChild(textWrapper);
+          }
+        } catch (err) {
+          container.innerHTML = '<div class="text-center text-rose-500 py-20">Failed to load text. Please check connection.</div>';
         }
-      } catch (err) {
-        container.innerHTML = '<div class="text-center text-rose-500 py-20">Failed to load page content. Please check your connection.</div>';
       }
     }
 
     function changePage(dir) {
       loadMushafPage(currentPage + dir);
-    }
-
-    function jumpToJuz(juzNum) {
-      const juzPages = {
-        1: 1, 2: 22, 3: 42, 4: 62, 5: 82, 6: 102, 7: 122, 8: 142, 9: 162, 10: 182,
-        11: 202, 12: 222, 13: 242, 14: 262, 15: 282, 16: 302, 17: 322, 18: 342, 19: 362, 20: 382,
-        21: 402, 22: 422, 23: 442, 24: 462, 25: 482, 26: 502, 27: 522, 28: 542, 29: 562, 30: 582
-      };
-      loadMushafPage(juzPages[juzNum] || 1);
     }
 
     window.onload = () => {
