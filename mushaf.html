@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mus'haf Page View - Quran Learning App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-quran { font-family: 'Amiri', serif; }
+    .bg-dark-emerald { background-color: #0d3322; }
+    .bg-dark-emerald-light { background-color: #133e2b; }
+    .border-dark-emerald { border-color: #1b5239; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Top Header -->
+  <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0 flex items-center justify-between">
+    <div class="flex items-center space-x-2.5">
+      <h1 class="font-bold text-sm sm:text-base text-white">Mus'haf Page View (صفحات المصحف)</h1>
+    </div>
+    <div>
+      <a href="./index.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all">
+        ← Back to Verses
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-4xl mx-auto p-4 md:p-6 w-full flex flex-col items-center">
+    
+    <!-- Page Controller Bar -->
+    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 w-full flex flex-wrap items-center justify-between gap-3 mb-6">
+      <div class="flex items-center space-x-2">
+        <button onclick="changePage(-1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+          ← Previous Page
+        </button>
+        <div class="flex items-center space-x-1.5">
+          <span class="text-xs text-slate-500 font-medium">Page:</span>
+          <input type="number" id="pageNumberInput" value="1" min="1" max="604" onchange="loadMushafPage(this.value)" class="w-16 text-center bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs font-bold focus:outline-none focus:ring-1 focus:ring-emerald-500">
+          <span class="text-xs text-slate-400">/ 604</span>
+        </div>
+        <button onclick="changePage(1)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-2 rounded-xl text-xs font-bold transition-all">
+          Next Page →
+        </button>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <label class="text-xs text-slate-500 font-medium">Jump to Juz':</label>
+        <select id="juzSelect" onchange="jumpToJuz(this.value)" class="bg-slate-50 border border-slate-200 text-slate-700 text-xs rounded-lg p-2 focus:outline-none cursor-pointer">
+          <!-- Populated dynamically or via simple options -->
+          <option value="1">Juz' 1 (Page 1)</option>
+          <option value="2">Juz' 2 (Page 22)</option>
+          <option value="3">Juz' 3 (Page 42)</option>
+          <option value="4">Juz' 4 (Page 62)</option>
+          <option value="5">Juz' 5 (Page 82)</option>
+          <option value="6">Juz' 6 (Page 102)</option>
+          <option value="7">Juz' 7 (Page 122)</option>
+          <option value="8">Juz' 8 (Page 142)</option>
+          <option value="9">Juz' 9 (Page 162)</option>
+          <option value="10">Juz' 10 (Page 182)</option>
+          <option value="11">Juz' 11 (Page 202)</option>
+          <option value="12">Juz' 12 (Page 222)</option>
+          <option value="13">Juz' 13 (Page 242)</option>
+          <option value="14">Juz' 14 (Page 262)</option>
+          <option value="15">Juz' 15 (Page 282)</option>
+          <option value="16">Juz' 16 (Page 302)</option>
+          <option value="17">Juz' 17 (Page 322)</option>
+          <option value="18">Juz' 18 (Page 342)</option>
+          <option value="19">Juz' 19 (Page 362)</option>
+          <option value="20">Juz' 20 (Page 382)</option>
+          <option value="21">Juz' 21 (Page 402)</option>
+          <option value="22">Juz' 22 (Page 422)</option>
+          <option value="23">Juz' 23 (Page 442)</option>
+          <option value="24">Juz' 24 (Page 462)</option>
+          <option value="25">Juz' 25 (Page 482)</option>
+          <option value="26">Juz' 26 (Page 502)</option>
+          <option value="27">Juz' 27 (Page 522)</option>
+          <option value="28">Juz' 28 (Page 542)</option>
+          <option value="29">Juz' 29 (Page 562)</option>
+          <option value="30">Juz' 30 (Page 582)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Page Display Container -->
+    <div id="mushafContainer" class="bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200 w-full min-h-[600px] flex flex-col justify-between">
+      <div id="loadingText" class="text-center text-slate-400 py-20">Loading page text...</div>
+      <div id="pageAyahsContent" class="space-y-6"></div>
+    </div>
+
+  </main>
+
+  <script>
+    let currentPage = 1;
+
+    async function loadMushafPage(pageNum) {
+      pageNum = parseInt(pageNum);
+      if (isNaN(pageNum) || pageNum < 1) pageNum = 1;
+      if (pageNum > 604) pageNum = 604;
+      currentPage = pageNum;
+      document.getElementById('pageNumberInput').value = currentPage;
+
+      const container = document.getElementById('pageAyahsContent');
+      container.innerHTML = '<div class="text-center text-slate-400 py-20">Loading page text...</div>';
+
+      try {
+        const res = await fetch(`https://api.alquran.cloud/v1/page/${currentPage}/quran-uthmani`);
+        const data = await res.json();
+        if (data.code === 200) {
+          container.innerHTML = '';
+          let currentSurah = '';
+          
+          data.data.ayahs.forEach(ayah => {
+            if (ayah.surah.englishName !== currentSurah) {
+              currentSurah = ayah.surah.englishName;
+              const header = document.createElement('div');
+              header.className = 'bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-center my-4 font-bold text-emerald-900 text-sm';
+              header.innerText = `Surah ${ayah.surah.englishName} (${ayah.surah.name}) — Revelation: ${ayah.surah.revelationType}`;
+              container.appendChild(header);
+            }
+
+            const p = document.createElement('div');
+            p.className = 'text-right font-quran text-2xl md:text-3xl text-emerald-950 leading-loose border-b border-slate-100 pb-4';
+            p.setAttribute('dir', 'rtl');
+            p.innerHTML = `${ayah.text} <span class="text-sm font-sans text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-lg border border-emerald-200 inline-block mr-2">﴿${ayah.numberInSurah}﴾</span>`;
+            container.appendChild(p);
+          });
+        }
+      } catch (err) {
+        container.innerHTML = '<div class="text-center text-rose-500 py-20">Failed to load page content. Please check your connection.</div>';
+      }
+    }
+
+    function changePage(dir) {
+      loadMushafPage(currentPage + dir);
+    }
+
+    function jumpToJuz(juzNum) {
+      const juzPages = {
+        1: 1, 2: 22, 3: 42, 4: 62, 5: 82, 6: 102, 7: 122, 8: 142, 9: 162, 10: 182,
+        11: 202, 12: 222, 13: 242, 14: 262, 15: 282, 16: 302, 17: 322, 18: 342, 19: 362, 20: 382,
+        21: 402, 22: 422, 23: 442, 24: 462, 25: 482, 26: 502, 27: 522, 28: 542, 29: 562, 30: 582
+      };
+      loadMushafPage(juzPages[juzNum] || 1);
+    }
+
+    window.onload = () => {
+      loadMushafPage(1);
+    };
+  </script>
+</body>
+</html>
