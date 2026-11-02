@@ -95,16 +95,16 @@
       const container = document.getElementById('pageAyahsContent');
       container.innerHTML = '<div class="text-center text-slate-400 py-20">Loading page...</div>';
 
-      // MODE 1: Madinah Mushaf High-Resolution Page Scan using reliable CDN links
+      // MODE 1: Madinah Mushaf High-Resolution Page Scan
       if (currentStyle === 'madinah_image') {
-        const paddedNum = String(currentPage).padStart(3, '0');
+        const paddedNum = String(currentPage).padStart(3, '0'); // e.g. "001", "025", "604"
         
         container.innerHTML = `
           <div class="flex flex-col justify-center items-center py-2 w-full">
             <img src="https://www.quran.com/images/pages/${paddedNum}.png" 
                  alt="Madinah Mushaf Page ${currentPage}" 
                  class="max-h-[75vh] w-auto object-contain rounded-lg bg-white p-1"
-                 onerror="this.src='https://verses.quran.com/pages/v1/page${paddedNum}.png'">
+                 onerror="this.onerror=null; this.src='https://verses.quran.com/pages/v1/page${paddedNum}.png';">
           </div>`;
       }
       // MODE 2: Clean Responsive Text Mode
