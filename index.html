@@ -10,12 +10,12 @@
   
   <!-- iOS Safari Compatibility Tags -->
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Hifz Tracker">
+  <meta name="apple-mobile-web-app-title" content="Quran Learnig App">
   <link rel="apple-touch-icon" href="./icon-192.png">
   
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Qur'an Hifz Tracker</title>
+  <title id="pageTitle">Quran Learnig App</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -51,8 +51,8 @@
                 </svg>
               </div>
               <div>
-                <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Qur'an Hifz Tracker</h1>
-                <p id="brandSub" class="text-xs text-emerald-300 font-medium">حفظ القرآن</p>
+                <h1 id="brandTitle" class="font-bold text-lg leading-tight text-white">Quran Learnig App</h1>
+                <p id="brandSub" class="text-xs text-emerald-300 font-medium"> تطبيق حفظ القرآن</p>
               </div>
             </div>
 
@@ -175,8 +175,8 @@
         <!-- Main Top Header Bar -->
         <header class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 id="mainHeaderTitle" class="text-xl md:text-2xl font-bold text-emerald-950">Hifz Learning & Audio Player</h2>
-            <p id="mainHeaderDesc" class="text-xs md:text-sm text-slate-500 mt-0.5">Arabic text, Translation, Repetition & Verse Audio Player</p>
+            <h2 id="mainHeaderTitle" class="text-xl md:text-2xl font-bold text-emerald-950">Quran Audio Player</h2>
+            <p id="mainHeaderDesc" class="text-xs md:text-sm text-slate-500 mt-0.5">Arabic text, Translation, Repetition Audio Player & Progress Tracker</p>
           </div>
           <div class="flex items-center space-x-3">
             <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full" id="currentDateBadge">
@@ -290,11 +290,34 @@
           </div>
         </section>
       </div>
+<!-- Bottom Footer -->
+<footer class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+  <p id="footerCopy">
+    Please share Quran Learning App Link with your friends and family members: 
+    <button onclick="shareApp()" class="text-emerald-600 hover:underline font-medium focus:outline-none ml-1">
+      quranlearning.app
+    </button>
+  </p>
+</footer>
 
-      <!-- Bottom Footer -->
-      <footer class="mt-8 pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-        <p id="footerCopy">© Qur'an Hifz Tracker - All Rights Reserved</p>
-      </footer>
+<script>
+  function shareApp() {
+    const shareData = {
+      title: 'Quran Learning App',
+      text: 'Check out the Quran Learning App to learn and study the Quran!',
+      url: 'https://quranlearning.app'
+    };
+
+    // Use native device share menu if supported (Mobile browsers, WhatsApp, Mail, etc.)
+    if (navigator.share) {
+      navigator.share(shareData).catch((err) => console.log('Share canceled or failed:', err));
+    } else {
+      // Fallback for browsers that don't support native sharing (e.g. desktop browsers)
+      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  }
+</script>
 
     </main>
   </div>
@@ -313,9 +336,9 @@
     // Translations Dictionary (Fully populated with table headers & labels for all languages)
     const translations = {
       en: {
-        pageTitle: "Qur'an Hifz Tracker",
-        brandTitle: "Qur'an Hifz Tracker",
-        brandSub: "حفظ القرآن",
+        pageTitle: "Quran Learning App",
+        brandTitle: "Quran Learning App",
+        brandSub: "تطبيق حفظ القرآن الكريم",
         lblSurah: "Select Surah (السورة)",
         lblFromVerse: "From Verse (من آية)",
         lblToVerse: "To Verse (إلى آية)",
@@ -325,9 +348,9 @@
         lblFromPage: "From Page",
         lblToPage: "To Page",
         btnSaveProgress: "Save Today's Progress",
-        mainHeaderTitle: "Hifz Learning & Audio Player",
-        mainHeaderDesc: "Arabic text, Translation, Repetition & Verse Audio Player",
-        globalPlayText: "Play All Verses",
+        mainHeaderTitle: "Quran Learning & Audio Player",
+        mainHeaderDesc: "Arabic text, Translation, Repetition Audio Player & Progress Tracker",
+        globalPlayText: "Play All Verses", 
         pauseResumeBtn: "Pause",
         lblActiveVerseTitle: "Active Verse:",
         notPlaying: "Not Playing",
@@ -343,7 +366,7 @@
         thCompleted: "Completed",
         thNotes: "Notes",
         thAction: "Action",
-        footerCopy: "© Qur'an Hifz Tracker - All Rights Reserved",
+        footerCopy: "©Please share Quran Learnig App Link to your friends and family members: quranlearnig.app",
         playBtnText: "Listen",
         playingText: "Playing...",
         repsLabel: "Target:",
@@ -353,7 +376,7 @@
         toastNewRow: "New row saved successfully!",
         confirmClear: "Are you sure you want to clear all history?",
         noLogs: "No saved logs found.",
-        defaultNote: "Hifz completed",
+        defaultNote: "Learning completed",
         stopText: "Stop",
         pausedText: "Paused",
         continueText: "Continue",
@@ -379,7 +402,7 @@
         statusDone: "Done",
         statusPartial: "Partial",
         btnShareProgress: "Share Today's Progress",
-        shareTitle: "Hifz Progress",
+        shareTitle: "Learning Progress",
         shareTotal: "Total repetitions",
         shareEmail: "Email",
         shareCopy: "Copy",
@@ -398,9 +421,9 @@
         mushafLoadFailed: "This page image could not be loaded. Please check your connection."
       },
       ar: {
-        pageTitle: "متابع حفظ القرآن",
-        brandTitle: "متابع حفظ القرآن",
-        brandSub: "Qur'an Hifz Tracker",
+        pageTitle: "Quran Learning App",
+        brandTitle: "تطبيق حفظ القرآن الكريم",
+        brandSub: "Quran Learning App",
         lblSurah: "اختر السورة",
         lblFromVerse: "من آية",
         lblToVerse: "إلى آية",
@@ -483,9 +506,9 @@
         mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت."
       },
       ml: {
-        pageTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
-        brandTitle: "ഖുർആൻ ഹിഫ്ള് ട്രാക്കർ",
-        brandSub: "Qur'an Hifz Tracker",
+        pageTitle: "Quran Learning App",
+        brandTitle: "Quran Learning App",
+        brandSub: "ഖുർആൻ പഠന സഹായി ",
         lblSurah: "സൂറത്ത് തിരഞ്ഞെടുക്കുക",
         lblFromVerse: "ആദ്യ ആയത്ത്",
         lblToVerse: "അവസാന ആയത്ത്",
@@ -495,10 +518,10 @@
         lblFromPage: "പേജ് മുതൽ",
         lblToPage: "പേജ് വരെ",
         btnSaveProgress: "ഇന്നത്തെ പുരോഗതി സേവ് ചെയ്യുക",
-        mainHeaderTitle: "ഹിഫ്ള് ലേണിംഗ് & ഓഡിയോ പ്ലെയർ",
-        mainHeaderDesc: "അറബി പാഠം, അർത്ഥം, തക്രാർ & ആയത്ത് ഓഡിയോ പ്ലെയർ",
-        globalPlayText: "മുഴുവൻ ആയത്തുകളും പ്ലേ ചെയ്യുക",
-        pauseResumeBtn: "പോസ്",
+        mainHeaderTitle: "പല തവണ കേട്ട് പഠിക്കാനുള്ള സംവിധാനം",
+        mainHeaderDesc: "അറബി പാഠം, അർത്ഥം, ആവർത്തനം & ആയത്ത് ഓഡിയോ പ്ലെയർ",
+        globalPlayText: "തുടർച്ചയായി കേൾക്കാം ",
+        pauseResumeBtn: "ഇടക്ക് വെച്ച് നിർത്താം ",
         lblActiveVerseTitle: "നിലവിലെ ആയത്ത്:",
         notPlaying: "പ്ലേ ചെയ്തിട്ടില്ല",
         lblSelectedVersesHeading: "ആയത്തുകൾ",
@@ -513,7 +536,7 @@
         thCompleted: "പൂർത്തിയായി",
         thNotes: "കുറിപ്പുകൾ",
         thAction: "നടപടി",
-        footerCopy: "© Qur'an Hifz Tracker - All Rights Reserved",
+        footerCopy: "ഈ ആപ്പിന്റെ ലിങ്ക് നിങ്ങളുടെ സുഹൃത്തക്കളുമായും ബന്ധുക്കളുമായും ഷെയർ ചെയ്യുമല്ലോ ",
         playBtnText: "കേൾക്കുക",
         playingText: "പ്ലേ ചെയ്യുന്നു...",
         repsLabel: "ലക്ഷ്യം:",
@@ -549,7 +572,7 @@
         statusDone: "പൂർത്തിയായി",
         statusPartial: "ഭാഗികം",
         btnShareProgress: "ഇന്നത്തെ പുരോഗതി ഷെയർ ചെയ്യുക",
-        shareTitle: "ഹിഫ്ള് പുരോഗതി",
+        shareTitle: "പഠന പുരോഗതി",
         shareTotal: "ആകെ ആവർത്തനം",
         shareEmail: "ഇമെയിൽ",
         shareCopy: "കോപ്പി",
@@ -570,7 +593,7 @@
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
         brandTitle: "قرآن حفظ ٹریکر",
-        brandSub: "Qur'an Hifz Tracker",
+        brandSub: "Quran Learning App",
         lblSurah: "سورۃ منتخب کریں",
         lblFromVerse: "آیت نمبر سے",
         lblToVerse: "آیت نمبر تک",
@@ -655,7 +678,7 @@
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
         brandTitle: "কুরআন হিফজ ট্র্যাকার",
-        brandSub: "Qur'an Hifz Tracker",
+        brandSub: "Quran Learning App",
         lblSurah: "সুরা নির্বাচন করুন",
         lblFromVerse: "যে আয়াত থেকে",
         lblToVerse: "যে আয়াত পর্যন্ত",
