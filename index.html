@@ -132,20 +132,19 @@
             </div>
           </div>
 
-          <!-- Reciter Audio Picker (Minshawy Teacher added as first option) -->
+          <!-- Reciter Audio Picker -->
           <div>
             <label id="lblReciter" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Reciter (القارئ)
             </label>
             <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
-              <option value="Minshawy_Teacher_128kbps" selected>Minshawy (Teacher / Repeat)</option>
-              <option value="Husary_Muallim_128kbps">Al-Husary (Muallim / Repeat)</option>
               <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
               <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
               <option value="ar.alafasy">Mishary Rashid Alafasy</option>
               <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
               <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
               <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
+              <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
             </select>
           </div>
 
@@ -177,7 +176,7 @@
             </label>
           </div>
 
-          <!-- View Mode Toggle (Left as is) -->
+          <!-- View Mode Toggle -->
           <div class="pt-2.5 border-t border-dark-emerald">
             <label id="lblViewMode" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
               View Mode (نمط العرض)
@@ -221,37 +220,28 @@
           </div>
         </header>
 
-       <!-- Global Audio Controls Bar -->
-<section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
-  <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-    <div class="flex items-center space-x-3 w-full md:w-auto">
-      <button id="globalPlayBtn" onclick="toggleContinuousPlay()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto">
-        <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-        <span id="globalPlayText">Play All Verses</span>
-      </button>
-      <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-slate-200">
-        Pause
-      </button>
-    </div>
+        <!-- Global Audio Controls Bar -->
+        <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3 w-full md:w-auto">
+              <button id="globalPlayBtn" onclick="toggleContinuousPlay()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto">
+                <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span id="globalPlayText">Play All Verses</span>
+              </button>
+              <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-slate-200">
+                Pause
+              </button>
+            </div>
 
-    <!-- Audio Bar Right: Indicator + Quick Mus'haf Button -->
-    <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end">
-      <div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl text-xs text-slate-600 flex items-center space-x-2">
-        <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
-        <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
-      </div>
-
-      <!-- Quick Mus'haf Switcher Button -->
-      <button onclick="setViewMode('mushaf')" title="Open Mus'haf Page" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0">
-        <span>📜</span>
-        <span class="hidden sm:inline">Mus'haf Page</span>
-      </button>
-    </div>
-  </div>
-</section>
+            <div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl text-xs text-slate-600 w-full md:w-auto flex items-center justify-between space-x-3">
+              <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
+              <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
+            </div>
+          </div>
+        </section>
 
         <!-- Verses Render List -->
         <section class="mb-8">
@@ -383,7 +373,7 @@
       "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
     ];
 
-    // Translations Dictionary
+    // Translations Dictionary (Including equivalent translations for settingsInstruction across all languages)
     const translations = {
       en: {
         pageTitle: "Quran Learning App",
@@ -674,7 +664,7 @@
         meaningLabel: "معنی:",
         toastSaved: "پیشرفت کامیابی سے محفوظ ہو گئی!",
         toastNewRow: "نئی سطر کامیابی سے محفوظ ہو گئی!",
-        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا چاہتے ہیں؟",
+        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا चाहते ہیں؟",
         noLogs: "کوئی محفوظ شدہ لاگ نہیں ملا۔",
         defaultNote: "حفظ مکمل ہو گیا",
         stopText: "روکیں",
@@ -1323,7 +1313,7 @@
     }
 
     // ==================================================================
-    // VIEW MODE: Verses | Mus'haf Page (Opens image in hidden URL tab)
+    // VIEW MODE: Verses | Mus'haf Page
     // ==================================================================
     function updateViewToggleUI() {
       const on = 'flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all';
@@ -1334,70 +1324,13 @@
     }
 
     function setViewMode(mode) {
-  if (mode === 'mushaf') {
-    let pageNum = 1;
-    if (currentVerses && currentVerses.length > 0 && currentVerses[0].page) {
-      pageNum = currentVerses[0].page;
-    } else {
-      const fromPageVal = parseInt($('fromPage').value);
-      if (!isNaN(fromPageVal)) pageNum = fromPageVal;
+      if (mode === 'mushaf') {
+        window.location.href = './mushaf.html'; 
+      } else if (mode === 'verse') {
+        window.location.href = './index.html';
+      }
     }
-
-    const paddedPage = String(pageNum).padStart(3, '0');
-    
-    // Array of fallback image sources for the same page
-    const imageSources = [
-      `https://www.quran.com/images/pages/en/${paddedPage}.png`,
-      `https://cdn.jsdelivr.net/npm/the-amazing-quran-images@1.0.1/images/${paddedPage}.png`,
-      `https://raw.githubusercontent.com/QuranHub/quran-pages-images/master/kfgqpc/${paddedPage}.png`
-    ];
-
-    let currentSourceIdx = 0;
-
-    const newWindow = window.open('', '_blank');
-    if (newWindow) {
-      newWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="ar" dir="rtl">
-        <head>
-          <meta charset="UTF-8">
-          <title>Mus'haf Page ${pageNum}</title>
-          <style>
-            body { background: #0b1a13; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; font-family: sans-serif; }
-            img { max-width: 95vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-            .error { color: #f87171; display: none; text-align: center; padding: 20px; }
-          </style>
-        </head>
-        <body>
-          <img id="mushafImg" src="${imageSources[0]}" alt="Quran Page ${pageNum}" onerror="tryNextSource()">
-          <div id="err" class="error">
-            <h3>Could not load page image from any available mirrors.</h3>
-            <p>Please check your internet connection or ad-blocker settings.</p>
-          </div>
-          <script>
-            const sources = ${JSON.stringify(imageSources)};
-            let idx = 0;
-            function tryNextSource() {
-              idx++;
-              if (idx < sources.length) {
-                document.getElementById('mushafImg').src = sources[idx];
-              } else {
-                document.getElementById('mushafImg').style.display = 'none';
-                document.getElementById('err').style.display = 'block';
-              }
-            }
-          </script>
-        </body>
-        </html>
-      `);
-      newWindow.document.close();
-    }
-  } else {
-    currentViewMode = 'verse';
-    updateViewToggleUI();
-  }
-}
-
+   
     function renderCurrentView() {
       renderVerseCards();
     }
