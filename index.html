@@ -221,37 +221,37 @@
           </div>
         </header>
 
-        <!-- Global Audio Controls Bar with Mus'haf View Emoji Toggle Button Added -->
-        <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
-          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center space-x-3 w-full md:w-auto">
-              <button id="globalPlayBtn" onclick="toggleContinuousPlay()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto">
-                <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span id="globalPlayText">Play All Verses</span>
-              </button>
-              <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-slate-200">
-                Pause
-              </button>
-            </div>
+       <!-- Global Audio Controls Bar -->
+<section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="flex items-center space-x-3 w-full md:w-auto">
+      <button id="globalPlayBtn" onclick="toggleContinuousPlay()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto">
+        <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span id="globalPlayText">Play All Verses</span>
+      </button>
+      <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-slate-200">
+        Pause
+      </button>
+    </div>
 
-            <!-- Audio Control Bar Right: Active Verse Indicator & Mus'haf Mode Switcher Emoji Button -->
-            <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end">
-              <div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl text-xs text-slate-600 flex items-center space-x-2">
-                <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
-                <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
-              </div>
+    <!-- Audio Bar Right: Indicator + Quick Mus'haf Button -->
+    <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-end">
+      <div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl text-xs text-slate-600 flex items-center space-x-2">
+        <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
+        <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
+      </div>
 
-              <!-- Quick Mus'haf Switcher Emoji Button -->
-              <button onclick="setViewMode('mushaf')" title="Switch to Mus'haf Page View" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-1 cursor-pointer shrink-0">
-                <span>📜</span>
-                <span class="hidden sm:inline">Mus'haf</span>
-              </button>
-            </div>
-          </div>
-        </section>
+      <!-- Quick Mus'haf Switcher Button -->
+      <button onclick="setViewMode('mushaf')" title="Open Mus'haf Page" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0">
+        <span>📜</span>
+        <span class="hidden sm:inline">Mus'haf Page</span>
+      </button>
+    </div>
+  </div>
+</section>
 
         <!-- Verses Render List -->
         <section class="mb-8">
@@ -1333,17 +1333,105 @@
       if (bm) bm.className = currentViewMode === 'mushaf' ? on : off;
     }
 
-    async function setViewMode(mode) {
+   // ==================================================================
+// VIEW MODE: Verses | Mus'haf Page (Opens image in hidden URL tab)
+// ==================================================================
+function updateViewToggleUI() {
+  const on = 'flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all';
+  const off = 'flex-1 py-1 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all';
+  const bv = $('btnVerseMode'), bm = $('btnMushafMode');
+  if (bv) bv.className = currentViewMode === 'verse' ? on : off;
+  if (bm) bm.className = currentViewMode === 'mushaf' ? on : off;
+}
+
+function setViewMode(mode) {
   if (mode === 'mushaf') {
-    // Get the current active page number (defaults to page 1 or the first visible verse's page)
+    // 1. Determine current visible page number
     let pageNum = 1;
-    if (currentVerses.length > 0 && currentVerses[0].page) {
+    if (currentVerses && currentVerses.length > 0 && currentVerses[0].page) {
       pageNum = currentVerses[0].page;
     } else {
-      const fromPageInput = parseInt($('fromPage').value);
-      if (!isNaN(fromPageInput)) pageNum = fromPageInput;
+      const fromPageVal = parseInt($('fromPage').value);
+      if (!isNaN(fromPageVal)) pageNum = fromPageVal;
     }
 
+    const paddedPage = String(pageNum).padStart(3, '0');
+    // Quran.com / King Fahd Complex High-Res Page Image CDN
+    const directImageUrl = `https://www.quran.com/images/pages/en/${paddedPage}.png`;
+
+    // 2. Open a blank window immediately to prevent browser popup blockers
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      newWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Mus'haf Page ${pageNum} - Quran Learning App</title>
+          <style>
+            body {
+              margin: 0;
+              padding: 0;
+              background-color: #0b1a13;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              min-height: 100vh;
+              color: #ecfdf5;
+              font-family: system-ui, -apple-system, sans-serif;
+            }
+            .header-bar {
+              position: fixed;
+              top: 0;
+              left: 0;
+              right: 0;
+              background: rgba(13, 51, 34, 0.95);
+              backdrop-filter: blur(8px);
+              padding: 10px 20px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+              z-index: 10;
+            }
+            .title { font-size: 14px; font-weight: 600; color: #a7f3d0; }
+            .img-container {
+              padding-top: 60px;
+              padding-bottom: 20px;
+              max-width: 100vw;
+              display: flex;
+              justify-content: center;
+            }
+            img {
+              max-width: 95vw;
+              max-height: calc(100vh - 80px);
+              object-fit: contain;
+              border-radius: 8px;
+              box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header-bar">
+            <span class="title">صفحة المصحف الشريف - Page ${pageNum}</span>
+            <span style="font-size: 12px; color: #6ee7b7;">quranlearning.app</span>
+          </div>
+          <div class="img-container">
+            <img src="${directImageUrl}" alt="Quran Page ${pageNum}">
+          </div>
+        </body>
+        </html>
+      `);
+      newWindow.document.close();
+    }
+  } else {
+    currentViewMode = 'verse';
+    updateViewToggleUI();
+  }
+}
+    
     const paddedPage = String(pageNum).padStart(3, '0');
     const directImageUrl = `https://www.quran.com/images/pages/en/${paddedPage}.png`;
 
