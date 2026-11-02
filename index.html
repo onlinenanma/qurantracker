@@ -76,16 +76,12 @@
   <div class="flex flex-col lg:flex-row min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
     
     <!-- Collapsible Settings Panel Sidebar -->
-    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-5 flex flex-col justify-between border-r border-emerald-950 max-h-[90vh] lg:max-h-none overflow-y-auto shadow-2xl">
+    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-5 flex flex-col justify-between border-r border-emerald-950 max-h-[95vh] lg:max-h-none overflow-y-auto shadow-2xl">
       <div>
 
-        <!-- Drawer Close Trigger & Context Instruction Header -->
+        <!-- Drawer Header without instruction -->
         <div class="pb-3 mb-4 border-b border-dark-emerald flex items-center justify-between">
-          <div>
-            <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider block">Settings & Options</span>
-            <p id="settingsInstruction" class="text-[11px] text-slate-300 mt-0.5">Configure reciter, repetitions count, and surah selection below:</p>
-          </div>
-          <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-white text-xs font-bold px-2 py-1 bg-dark-emerald-light rounded-md ml-2 shrink-0">✕ Close</button>
+          <span class="text-xs font-bold text-emerald-300 uppercase tracking-wider">Settings & Options</span>
         </div>
 
         <!-- PWA Install Button (Hidden by default, shown when installable) -->
@@ -95,7 +91,7 @@
         </button>
       
         <!-- Sidebar Inputs & Controls -->
-        <div class="space-y-4">
+        <div class="space-y-4 pb-6">
           
           <!-- Compact Surah Selector Dropdown with Total Verses badge -->
           <div>
@@ -200,19 +196,28 @@
           </div>
         </div>
       </div>
+
+      <!-- Prominent Red Close Button at Bottom -->
+      <div class="pt-4 border-t border-dark-emerald lg:hidden">
+        <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2.5 rounded-xl text-xs font-bold transition-all shadow-md">
+          ✕ Close Settings
+        </button>
+      </div>
+
     </aside>
 
     <!-- Main Workspace Content Area -->
     <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl flex flex-col justify-between">
       
       <div>
-        <!-- Main Top Banner Section -->
+        <!-- Main Top Banner Section (Instruction moved here, title removed) -->
         <header class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h2 id="mainHeaderTitle" class="text-xl md:text-2xl font-bold text-emerald-950">Quran Audio Player</h2>
-            <p id="mainHeaderDesc" class="text-xs md:text-sm text-slate-500 mt-0.5">Arabic text, Translation, Repetition Audio Player & Progress Tracker</p>
+            <p id="settingsInstruction" class="text-xs md:text-sm text-slate-600 font-medium leading-relaxed">
+              Configure reciter, repetitions count, and surah selection below:
+            </p>
           </div>
-          <div class="flex items-center space-x-3">
+          <div class="flex items-center space-x-3 shrink-0">
             <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full" id="currentDateBadge">
               --
             </span>
@@ -848,7 +853,6 @@
       return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
     }
     
-    // Accurate Hijri Date Formatter Logic
     function getFormattedDate() {
       const now = new Date();
       if (isHijriActive) {
@@ -893,7 +897,7 @@
     // ==================================================================
     const LABEL_IDS = [
       'brandTitle', 'brandSub', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
-      'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'mainHeaderTitle', 'mainHeaderDesc', 'lblActiveVerseTitle',
+      'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
       'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy', 'settingsInstruction'
