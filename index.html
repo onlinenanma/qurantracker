@@ -35,9 +35,9 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Always Visible Top Header (Title, Subtitle, Date Badge, Language Selector, Red Settings Button) -->
+  <!-- Always Visible Top Header -->
   <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
-    <div class="max-w-[1600px] mx-auto flex items-center justify-between gap-2">
+    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2">
       
       <!-- Branding & Title -->
       <div class="flex items-center space-x-2.5">
@@ -52,9 +52,9 @@
         </div>
       </div>
 
-      <!-- Controls Right: Date Badge, Language Selector & Red Settings Dropdown Toggle -->
-      <div class="flex items-center space-x-2">
-        <span class="inline-block bg-emerald-900/80 text-emerald-200 border border-emerald-700/60 text-xs font-semibold px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap" id="currentDateBadge">
+      <!-- Controls Right: Date Badge, Language Selector & Red Settings Toggle -->
+      <div class="flex items-center flex-wrap gap-2 justify-end">
+        <span class="bg-emerald-950/80 text-emerald-200 border border-emerald-700/60 text-xs font-semibold px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap" id="currentDateBadge">
           Loading Date...
         </span>
 
@@ -143,14 +143,14 @@
             <input type="number" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
           </div>
 
-          <!-- Repetition Counter Target -->
+          <!-- Repetition Counter Target (Default 1) -->
           <div>
             <label id="lblRepetition" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Repetition Target (التكرار)
             </label>
             <div class="flex items-center space-x-2">
               <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">-</button>
-              <input type="number" id="repetitionTarget" value="9" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:outline-none">
+              <input type="number" id="repetitionTarget" value="1" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:outline-none">
               <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">+</button>
             </div>
           </div>
@@ -167,7 +167,8 @@
               <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
               <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
               <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
-              <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
+              <option value="Minshawy_Teacher_128kbps" selected>Minshawi (Teacher / Repeat)</option>
+              <option value="Husary_Muallim_128kbps">Al-Husary (Muallim / Repeat)</option>
             </select>
           </div>
 
@@ -228,9 +229,9 @@
     <!-- Main Workspace Content Area -->
     <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl mx-auto w-full flex flex-col justify-between">
       
-      <div>
-        <!-- Pinned Audio Controls Section -->
-        <section class="bg-emerald-50/95 backdrop-blur-md p-4 rounded-2xl shadow-md border border-emerald-200/90 mb-6 sticky top-[57px] z-20">
+      <div class="space-y-6">
+        <!-- Pinned Audio Controls Section (Zero gap offset, tightly locked under header) -->
+        <section class="bg-emerald-50/95 backdrop-blur-md p-4 rounded-2xl shadow-md border border-emerald-200/90 sticky top-[57px] z-20">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3 w-full md:w-auto">
               
@@ -263,7 +264,7 @@
         </section>
 
         <!-- Verses Render List -->
-        <section class="mb-8">
+        <section>
           <div class="flex justify-between items-center mb-4">
             <h3 class="font-bold text-lg text-slate-800 flex items-center space-x-2">
               <span id="lblSelectedVersesHeading">Selected Verses</span>
@@ -280,7 +281,7 @@
         </section>
 
         <!-- Current Session & Save -->
-        <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
+        <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
           <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h3 id="lblSessionTitle" class="font-bold text-slate-800 text-base">Current Session</h3>
@@ -1448,6 +1449,9 @@
     function isEveryAyahReciter(reciter) { return /_\d+kbps$/.test(reciter); }
 
     function getAudioSourceUrl(reciter, surahNum, verseNumInSurah, globalVerseNum) {
+      if (reciter === 'Minshawy_Teacher_128kbps' && surahNum === 1 && verseNumInSurah === 1) {
+        return 'https://www.everyayah.com/data/Minshawy_Teacher_128kbps/001001.mp3';
+      }
       if (isEveryAyahReciter(reciter)) {
         const sStr = String(surahNum).padStart(3, '0');
         const aStr = String(verseNumInSurah).padStart(3, '0');
