@@ -28,7 +28,8 @@
     .active-verse {
       border-color: #059669 !important;
       background-color: #f0fdf4 !important;
-      box-shadow: 0 4px 14px rgba(13, 51, 34, 0.12);
+      box-shadow: 0 4px 18px rgba(5, 150, 105, 0.25);
+      transform: translateY(-2px);
     }
   </style>
 </head>
@@ -76,27 +77,27 @@
   <!-- Main Layout Container -->
   <div class="flex flex-col lg:flex-row min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
     
-    <!-- Collapsible Settings Panel Sidebar (Tightened spacing, removed top title) -->
+    <!-- Collapsible Settings Panel Sidebar -->
     <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-4 flex flex-col justify-between border-r border-emerald-950 max-h-[95vh] lg:max-h-none overflow-y-auto shadow-2xl">
       <div class="space-y-3">
 
-        <!-- PWA Install Button (Hidden by default, shown when installable) -->
+        <!-- PWA Install Button -->
         <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
           <span>📱</span>
           <span>Install App</span>
         </button>
       
-        <!-- Sidebar Inputs & Controls with minimized padding gaps -->
+        <!-- Sidebar Inputs & Controls -->
         <div class="space-y-3">
           
-          <!-- Compact Surah Selector Dropdown with Total Verses badge -->
+          <!-- Surah Selector Dropdown -->
           <div>
             <label id="lblSurah" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Select Surah (السورة)
             </label>
             <div class="flex items-center space-x-2">
               <select id="surahSelect" onchange="onSurahChange()" class="w-full min-w-0 bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
-                <!-- Dynamically populated with 114 surahs -->
+                <!-- Dynamically populated -->
               </select>
               <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2 py-2 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">
                 -- Verses
@@ -120,7 +121,7 @@
             </div>
           </div>
 
-          <!-- Repetition Counter Target (Default: 9) -->
+          <!-- Repetition Counter Target -->
           <div>
             <label id="lblRepetition" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
               Repetition Target (التكرار)
@@ -193,7 +194,7 @@
         </div>
       </div>
 
-      <!-- Prominent Red Close Button at Bottom -->
+      <!-- Close Button for Mobile -->
       <div class="pt-3 border-t border-dark-emerald lg:hidden">
         <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-md">
           ✕ Close Settings
@@ -206,8 +207,8 @@
     <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl flex flex-col justify-between">
       
       <div>
-        <!-- Shaded Instruction Box with Date Badge -->
-        <header class="bg-slate-50 border border-slate-200 p-4 rounded-2xl shadow-sm mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <!-- Light Shaded Instruction Box with Slate Accent -->
+        <header class="bg-slate-50 border border-slate-200/90 p-4 rounded-2xl shadow-sm mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <p id="settingsInstruction" class="text-xs md:text-sm text-slate-700 font-medium leading-relaxed">
               Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode.
@@ -220,10 +221,12 @@
           </div>
         </header>
 
-        <!-- Global Audio Controls Bar -->
-        <section class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 mb-6">
+        <!-- Light Shaded Audio Controls Box with Emerald Accent -->
+        <section class="bg-emerald-50/60 p-5 rounded-2xl shadow-sm border border-emerald-200/80 mb-6">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3 w-full md:w-auto">
+              
+              <!-- Play / Stop Button with Dynamic Color States -->
               <button id="globalPlayBtn" onclick="toggleContinuousPlay()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto">
                 <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
@@ -231,12 +234,14 @@
                 </svg>
                 <span id="globalPlayText">Play All Verses</span>
               </button>
-              <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-slate-200">
+
+              <!-- Pause / Resume Button with Dual Color Toggle -->
+              <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm">
                 Pause
               </button>
             </div>
 
-            <div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-xl text-xs text-slate-600 w-full md:w-auto flex items-center justify-between space-x-3">
+            <div class="bg-white/80 border border-emerald-200 px-4 py-2 rounded-xl text-xs text-slate-600 w-full md:w-auto flex items-center justify-between space-x-3">
               <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
               <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
             </div>
@@ -286,7 +291,7 @@
           </div>
         </section>
 
-        <!-- Weekly Progress & LocalStorage Table Section -->
+        <!-- Weekly Progress Table -->
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
           <div class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50">
             <div>
@@ -319,7 +324,7 @@
                 </tr>
               </thead>
               <tbody id="logTableBody" class="divide-y divide-slate-200 text-xs sm:text-sm">
-                <!-- Loaded from localStorage -->
+                <!-- Loaded dynamically -->
               </tbody>
             </table>
           </div>
@@ -364,6 +369,7 @@
     let activeVerseIndex = -1;
     let isRunning = false;
     let isPaused = false;
+    let pendingResume = null;
     const audioPlayer = document.getElementById('globalAudioPlayer');
 
     // Islamic Hijri Months Table
@@ -373,7 +379,7 @@
       "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
     ];
 
-    // Translations Dictionary (Including equivalent translations for settingsInstruction across all languages)
+    // Translations Dictionary
     const translations = {
       en: {
         pageTitle: "Quran Learning App",
@@ -415,9 +421,9 @@
         confirmClear: "Are you sure you want to clear all history?",
         noLogs: "No saved logs found.",
         defaultNote: "Learning completed",
-        stopText: "Stop",
+        stopText: "Stop Playback",
         pausedText: "Paused",
-        continueText: "Continue",
+        continueText: "Resume",
         resumeText: "Pause",
         deleteText: "Delete",
         saveText: "Save",
@@ -499,7 +505,7 @@
         confirmClear: "هل أنت متأكد من رغبتك في مسح كل السجل؟",
         noLogs: "لا توجد سجلات محفوظة.",
         defaultNote: "اكتمل الحفظ",
-        stopText: "إيقاف",
+        stopText: "إيقاف التشغيل",
         pausedText: "متوقف مؤقتاً",
         continueText: "متابعة",
         resumeText: "إيقاف مؤقت",
@@ -583,7 +589,7 @@
         confirmClear: "സേവ് ചെയ്ത എല്ലാ ഹിസ്റ്ററിയും നീക്കം ചെയ്യണമെന്നുറപ്പാണോ?",
         noLogs: "സേവ് ചെയ്ത വിവരങ്ങൾ ഇല്ല.",
         defaultNote: "ഹിഫ്ള് പൂർത്തിയാക്കി",
-        stopText: "സ്റ്റോപ്പ്",
+        stopText: "സ്റ്റോപ്പ് ചെയ്യുക",
         pausedText: "പോസ് ചെയ്തു",
         continueText: "തുടരുക",
         resumeText: "പോസ്",
@@ -664,7 +670,7 @@
         meaningLabel: "معنی:",
         toastSaved: "پیشرفت کامیابی سے محفوظ ہو گئی!",
         toastNewRow: "نئی سطر کامیابی سے محفوظ ہو گئی!",
-        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا चाहते ہیں؟",
+        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا چاہتے ہیں؟",
         noLogs: "کوئی محفوظ شدہ لاگ نہیں ملا۔",
         defaultNote: "حفظ مکمل ہو گیا",
         stopText: "روکیں",
@@ -895,8 +901,7 @@
       LABEL_IDS.forEach(id => setText(id, t[id]));
       setText('btnSaveProgressText', t.btnSaveProgress);
       setText('btnShareText', t.btnShareProgress);
-      setText('globalPlayText', isRunning ? t.stopText : t.globalPlayText);
-      setText('pauseResumeBtn', isPaused ? t.continueText : t.resumeText);
+      updateAudioControlUI();
       if (!isRunning) setText('activeVerseIndicator', t.notPlaying);
       setText('currentDateBadge', getFormattedDate());
       document.documentElement.lang = currentLang;
@@ -911,6 +916,29 @@
       applyLanguage();
       renderLogsTable();
       refreshVerses();
+    }
+
+    // Dynamic UI Update for Controls & Colors
+    function updateAudioControlUI() {
+      const t = T();
+      const playBtn = $('globalPlayBtn');
+      const pauseBtn = $('pauseResumeBtn');
+
+      if (isRunning) {
+        setText('globalPlayText', t.stopText);
+        playBtn.className = 'bg-rose-600 hover:bg-rose-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-md w-full sm:w-auto';
+      } else {
+        setText('globalPlayText', t.globalPlayText);
+        playBtn.className = 'bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto';
+      }
+
+      if (isPaused) {
+        setText('pauseResumeBtn', t.continueText);
+        pauseBtn.className = 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm';
+      } else {
+        setText('pauseResumeBtn', t.resumeText);
+        pauseBtn.className = 'bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm';
+      }
     }
 
     // ==================================================================
@@ -1139,7 +1167,7 @@
         lastSurah = verse.surah;
         const card = document.createElement('div');
         card.id = `verse-card-${idx}`;
-        card.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all hover:border-emerald-300 relative';
+        card.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300 hover:border-emerald-300 relative';
 
         const pageTag = (viewMode === 'pages' && verse.page)
           ? `<span class="text-xs text-slate-400">· ${escapeHtml(t.pageShort)} ${verse.page}</span>` : '';
@@ -1388,7 +1416,7 @@
     }
 
     // ==================================================================
-    // AUDIO
+    // AUDIO & ACTIVE CARDS
     // ==================================================================
     const FALLBACK_RECITER = 'ar.alafasy';
     const AUDIO_START_TIMEOUT = 8000;
@@ -1698,11 +1726,15 @@
       setText('activeVerseIndicator', text);
     }
 
+    // Active Card Highlight & Scroll Focus
     function markActive(i) {
       if (activeVerseIndex !== -1 && activeVerseIndex !== i) resetCardUI(activeVerseIndex);
       activeVerseIndex = i;
       const card = $(`verse-card-${i}`);
-      if (card) card.classList.add('active-verse');
+      if (card) {
+        card.classList.add('active-verse');
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
       setText(`play-text-${i}`, T().playingText);
     }
 
@@ -1718,8 +1750,7 @@
       const token = playToken;
       const t = T();
       isRunning = true; isPaused = false; runMode = mode;
-      setText('globalPlayText', t.stopText);
-      setText('pauseResumeBtn', t.resumeText);
+      updateAudioControlUI();
 
       if (mode === 'all') {
         const surahNum = currentVerses[0].surah;
@@ -1778,12 +1809,12 @@
         if (pendingResume) { const go = pendingResume; pendingResume = null; go(); }
         else audioPlayer.play().catch(() => {});
         isPaused = false;
-        setText('pauseResumeBtn', t.resumeText);
+        updateAudioControlUI();
         setText('activeVerseIndicator', lastIndicator);
       } else {
         audioPlayer.pause();
         isPaused = true;
-        setText('pauseResumeBtn', t.continueText);
+        updateAudioControlUI();
         setText('activeVerseIndicator', t.pausedText);
       }
     }
@@ -1798,8 +1829,7 @@
       if (activeVerseIndex !== -1) resetCardUI(activeVerseIndex);
       activeVerseIndex = -1;
       const t = T();
-      setText('globalPlayText', t.globalPlayText);
-      setText('pauseResumeBtn', t.resumeText);
+      updateAudioControlUI();
       setText('activeVerseIndicator', t.notPlaying);
     }
 
