@@ -233,7 +233,7 @@
       
       <div class="space-y-6">
         <!-- Pinned Audio Controls Section (Zero gap offset, tightly locked under header) -->
-        <section class="bg-emerald-50/95 backdrop-blur-md p-4 rounded-2xl shadow-md border border-emerald-200/90 sticky top-[57px] z-20">
+        <section class="bg-emerald-50/95 backdrop-blur-md p-4 rounded-2xl shadow-md border border-emerald-200/90 sticky z-20" style="top: var(--hdr-h, 57px);">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3 w-full md:w-auto">
               
@@ -257,6 +257,8 @@
                 <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
                 <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
               </div>
+              <!-- Quick view toggle: Verses <-> Mus'haf (audio keeps playing) -->
+              <button id="viewToggleBtn" onclick="toggleViewMode()" class="text-emerald-700 hover:text-emerald-900 text-base p-1 rounded-lg hover:bg-emerald-100/60 transition-all cursor-pointer" title="Switch view" aria-pressed="false">📜</button>
               <!-- Info Emoji Button opens Instructions Popup -->
               <button onclick="toggleInfoModal()" class="text-emerald-700 hover:text-emerald-900 text-base p-1 rounded-lg hover:bg-emerald-100/60 transition-all cursor-pointer" title="Instructions">
                 ℹ️
@@ -1365,24 +1367,148 @@
     // ==================================================================
     // VIEW MODE: Verses | Mus'haf Page
     // ==================================================================
+    const MUSHAF_IMAGE_SOURCES = [
+      p => `https://android.quran.com/data/width_1024/page${String(p).padStart(3, '0')}.png`,
+      p => `https://mushaf.quran.com/png/page${String(p).padStart(3, '0')}.png`,
+      p => `https://api.islamic.app/v1/mushaf/page/${p}.svg?width=1000`
+    ];
+    let mushafSourceStart = 0;
+
     function updateViewToggleUI() {
       const on = 'flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all';
       const off = 'flex-1 py-1 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all';
       const bv = $('btnVerseMode'), bm = $('btnMushafMode');
       if (bv) bv.className = currentViewMode === 'verse' ? on : off;
       if (bm) bm.className = currentViewMode === 'mushaf' ? on : off;
-    }
-
-    function setViewMode(mode) {
-      if (mode === 'mushaf') {
-        window.location.href = './mushaf.html'; 
-      } else if (mode === 'verse') {
-        window.location.href = './index.html';
+      const qt = $('viewToggleBtn');
+      if (qt) {
+        const inMushaf = currentViewMode === 'mushaf';
+        qt.textContent = inMushaf ? '📖' : '📜';
+        qt.title = inMushaf ? 'Switch to Verses view' : "Switch to Mus'haf page view";
+        qt.setAttribute('aria-pressed', inMushaf ? 'true' : 'false');
       }
     }
-   
+
+    function toggleViewMode() { setViewMode(currentViewMode === 'mushaf' ? 'verse' : 'mushaf'); }
+
+    function setViewMode(mode) {
+      if (mode !== 'verse' && mode !== 'mushaf') return;
+      currentViewMode = mode;
+      updateViewToggleUI();
+      saveState();
+      if (currentVerses.length) renderCurrentView();
+    }
+
     function renderCurrentView() {
-      renderVerseCards();
+      if (currentViewMode === 'mushaf') renderMushafPages(); else renderVerseCards();
+      if (isRunning && activeVerseIndex !== -1) {
+        const i = activeVerseIndex;
+        activeVerseIndex = -1;
+        markActive(i);
+      }
+    }
+
+    function describeVerses(indexes) {
+      const parts = [];
+      indexes.forEach(i => {
+        const v = currentVerses[i];
+        const last = parts[parts.length - 1];
+        if (last && last.surah === v.surah) last.to = v.numberInSurah;
+        else parts.push({ surah: v.surah, from: v.numberInSurah, to: v.numberInSurah });
+      });
+      return parts.map(p => {
+        const sd = surahList.find(x => x.number === p.surah);
+        return `${sd ? sd.englishName : 'Surah ' + p.surah} ${p.from}-${p.to}`;
+      }).join(' + ');
+    }
+
+    function mushafVerseChip(idx, targetReps) {
+      const v = currentVerses[idx];
+      const t = T();
+      return `
+        <div id="verse-card-${idx}" class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2 py-1 text-xs transition-all">
+          <button onclick="onListenClick(${idx})" title="${escapeHtml(t.playBtnText)}" class="text-emerald-700 hover:text-emerald-900">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+            </svg>
+          </button>
+          <span class="font-semibold text-slate-700">${v.surah}:${v.numberInSurah}</span>
+          <button onclick="bumpRep(${idx})" class="bg-white border border-slate-200 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <span id="rep-count-${idx}" class="font-bold text-emerald-800">${v.repetitionCount}</span>
+            <span id="tgt-total-${idx}" class="text-slate-400">/ ${targetReps}</span>
+          </button>
+          <span id="play-text-${idx}" class="hidden">${escapeHtml(t.playBtnText)}</span>
+        </div>`;
+    }
+
+    function renderMushafPages() {
+      const container = $('versesList');
+      const t = T();
+      container.innerHTML = '';
+      if (!currentVerses.length) return;
+
+      const known = currentVerses.map(v => v.page).filter(Boolean);
+      let from, to;
+      if (known.length) { from = Math.min(...known); to = Math.max(...known); }
+      else { from = parseInt($('fromPage').value) || 1; to = parseInt($('toPage').value) || from; }
+      from = Math.min(Math.max(from, 1), MAX_PAGE);
+      to = Math.min(Math.max(to, from), MAX_PAGE);
+
+      const targetReps = getTarget();
+      for (let page = from; page <= to; page++) {
+        let onPage = [];
+        currentVerses.forEach((v, idx) => { if (v.page === page) onPage.push(idx); });
+        if (!known.length && page === from) onPage = currentVerses.map((_, idx) => idx);
+
+        const url = MUSHAF_IMAGE_SOURCES[mushafSourceStart](page);
+        const caption = onPage.length ? describeVerses(onPage) : '';
+        const chips = onPage.length
+          ? `<div class="flex flex-wrap justify-center gap-2 mt-4">${onPage.map(i => mushafVerseChip(i, targetReps)).join('')}</div>`
+          : '';
+
+        const pageCard = document.createElement('div');
+        pageCard.className = 'bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 text-center';
+        pageCard.innerHTML = `
+          <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+            <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-3 py-1 rounded-lg">
+              ${escapeHtml(t.pageShort)} ${page}${currentLang === 'ar' ? '' : ` (صفحة ${page})`}
+            </span>
+            <a id="mushaf-full-${page}" href="${escapeHtml(url)}" target="_blank" rel="noopener" class="text-xs text-emerald-700 font-medium hover:underline">
+              🔍 ${escapeHtml(t.mushafFullRes)}
+            </a>
+          </div>
+          ${caption ? `<p class="text-xs text-slate-500 mb-3">${escapeHtml(caption)}</p>` : ''}
+          <div class="flex justify-center bg-amber-50/30 p-2 md:p-4 rounded-xl border border-amber-100/50">
+            <img src="${escapeHtml(url)}" data-page="${page}" data-src="${mushafSourceStart}"
+                 alt="${escapeHtml(t.pageShort)} ${page}" loading="lazy"
+                 onerror="mushafImgError(this)" onload="mushafImgLoaded(this)"
+                 class="w-full max-w-xl h-auto rounded-lg shadow-sm border border-slate-200 bg-white">
+          </div>
+          <div id="mushaf-err-${page}" class="hidden text-xs text-rose-600 mt-2">${escapeHtml(t.mushafLoadFailed)}</div>
+          ${chips}`;
+        container.appendChild(pageCard);
+      }
+    }
+
+    function mushafImgError(img) {
+      const page = img.dataset.page;
+      const next = parseInt(img.dataset.src) + 1;
+      if (next < MUSHAF_IMAGE_SOURCES.length) {
+        img.dataset.src = next;
+        const url = MUSHAF_IMAGE_SOURCES[next](page);
+        img.src = url;
+        const link = $(`mushaf-full-${page}`);
+        if (link) link.href = url;
+      } else {
+        img.style.display = 'none';
+        const err = $(`mushaf-err-${page}`);
+        if (err) err.classList.remove('hidden');
+      }
+    }
+
+    function mushafImgLoaded(img) {
+      const k = parseInt(img.dataset.src);
+      if (k > mushafSourceStart) mushafSourceStart = k;
     }
 
     // ==================================================================
@@ -2071,6 +2197,16 @@
           });
       });
     }
-  </script>
+  
+    // Keep the audio panel pinned right under the (possibly wrapping) header
+    (function trackHeaderHeight() {
+      const hdr = document.querySelector('header');
+      if (!hdr) return;
+      const set = () => document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px');
+      set();
+      window.addEventListener('resize', set);
+      if (window.ResizeObserver) new ResizeObserver(set).observe(hdr);
+    })();
+</script>
 </body>
 </html>
