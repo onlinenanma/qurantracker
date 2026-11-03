@@ -481,7 +481,6 @@
         lblViewMode: "View Mode",
         btnVerseMode: "Verses",
         btnMushafMode: "Mus'haf Page",
-        mushafFullRes: "Full Resolution",
         mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
         settingsInstruction: "Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode."
       },
@@ -566,7 +565,6 @@
         lblViewMode: "نمط العرض",
         btnVerseMode: "آيات",
         btnMushafMode: "صفحات المصحف",
-        mushafFullRes: "الدقة الكاملة",
         mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت.",
         settingsInstruction: "استخدم زر الإعدادات لتكوين القارئ، عدد التكرار، اختيار السورة، ونمط العرض."
       },
@@ -651,7 +649,6 @@
         lblViewMode: "ആയത്തുകൾ കാണേണ്ട രൂപം",
         btnVerseMode: "ആയത്തുകൾ",
         btnMushafMode: "മുസ്ഹഫ് പേജ്",
-        mushafFullRes: "സ്ക്രീൻ പൂർണ്ണമായി കാണിക്കുക",
         mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
         settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് തിരഞ്ഞെടുക്കൽ, വ്യൂ മോഡ് എന്നിവ ക്രമീകരിക്കാൻ സെറ്റിംഗ്സ് (Settings) ബട്ടൺ ഉപയോഗിക്കുക."
       },
@@ -736,7 +733,6 @@
         lblViewMode: "منظر کا انداز",
         btnVerseMode: "آیات",
         btnMushafMode: "مصحف صفحہ",
-        mushafFullRes: "مکمل ریزولوشن",
         mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
         settingsInstruction: "قاری، تکرار کی تعداد، سورۃ کے انتخاب، اور ڈسپلے موڈ کو ترتیب دینے کے لیے سیٹنگز (Settings) کا بٹن استعمال کریں۔"
       },
@@ -821,7 +817,6 @@
         lblViewMode: "দেখার মোড",
         btnVerseMode: "আয়াত",
         btnMushafMode: "মুসহাফ পৃষ্ঠা",
-        mushafFullRes: "পূর্ণ রেজোলিউশন",
         mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন.",
         settingsInstruction: "কারী, পুনরাবৃত্তির সংখ্যা, সুরা নির্বাচন এবং প্রদর্শন মোড কনফিগার করতে সেটিংস (Settings) বাটন ব্যবহার করুন।"
       }
@@ -1400,6 +1395,7 @@
     }
 
     function renderCurrentView() {
+      lastScrolledPage = null;
       if (currentViewMode === 'mushaf') renderMushafPages(); else renderVerseCards();
       if (isRunning && activeVerseIndex !== -1) {
         const i = activeVerseIndex;
@@ -1468,14 +1464,13 @@
 
         const pageCard = document.createElement('div');
         pageCard.className = 'bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 text-center';
+        pageCard.id = `mushaf-page-${page}`;
+        pageCard.style.scrollMarginTop = 'calc(var(--hdr-h, 57px) + var(--panel-h, 0px) + 8px)';
         pageCard.innerHTML = `
-          <div class="flex justify-between items-center border-b border-slate-100 pb-3 mb-4">
+          <div class="flex justify-center items-center border-b border-slate-100 pb-3 mb-4">
             <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-3 py-1 rounded-lg">
               ${escapeHtml(t.pageShort)} ${page}${currentLang === 'ar' ? '' : ` (صفحة ${page})`}
             </span>
-            <a id="mushaf-full-${page}" href="${escapeHtml(url)}" target="_blank" rel="noopener" class="text-xs text-emerald-700 font-medium hover:underline">
-              🔍 ${escapeHtml(t.mushafFullRes)}
-            </a>
           </div>
           ${caption ? `<p class="text-xs text-slate-500 mb-3">${escapeHtml(caption)}</p>` : ''}
           <div class="flex justify-center bg-amber-50/30 p-2 md:p-4 rounded-xl border border-amber-100/50">
@@ -1497,8 +1492,6 @@
         img.dataset.src = next;
         const url = MUSHAF_IMAGE_SOURCES[next](page);
         img.src = url;
-        const link = $(`mushaf-full-${page}`);
-        if (link) link.href = url;
       } else {
         img.style.display = 'none';
         const err = $(`mushaf-err-${page}`);
@@ -1878,13 +1871,25 @@
     }
 
     // Active Card Highlight & Scroll Focus
+    let lastScrolledPage = null;
     function markActive(i) {
       if (activeVerseIndex !== -1 && activeVerseIndex !== i) resetCardUI(activeVerseIndex);
       activeVerseIndex = i;
       const card = $(`verse-card-${i}`);
       if (card) {
         card.classList.add('active-verse');
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (currentViewMode === 'mushaf') {
+          // Stay on the page image: scroll only when the verse moves to a different page
+          const v = currentVerses[i];
+          const pg = v && v.page;
+          if (pg && pg !== lastScrolledPage) {
+            lastScrolledPage = pg;
+            const pc = $(`mushaf-page-${pg}`);
+            if (pc) pc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        } else {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
       }
       setText(`play-text-${i}`, T().playingText);
     }
@@ -2202,10 +2207,14 @@
     (function trackHeaderHeight() {
       const hdr = document.querySelector('header');
       if (!hdr) return;
-      const set = () => document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px');
+      const panel = document.getElementById('globalPlayBtn') && document.getElementById('globalPlayBtn').closest('section');
+      const set = () => {
+        document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight + 'px');
+        if (panel) document.documentElement.style.setProperty('--panel-h', panel.offsetHeight + 'px');
+      };
       set();
       window.addEventListener('resize', set);
-      if (window.ResizeObserver) new ResizeObserver(set).observe(hdr);
+      if (window.ResizeObserver) { const ro = new ResizeObserver(set); ro.observe(hdr); if (panel) ro.observe(panel); }
     })();
 </script>
 </body>
