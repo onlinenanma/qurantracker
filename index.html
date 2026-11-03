@@ -25,6 +25,8 @@
     .bg-dark-emerald { background-color: #0d3322; }
     .bg-dark-emerald-light { background-color: #133e2b; }
     .border-dark-emerald { border-color: #1b5239; }
+    /* clip (not hidden) keeps the off-canvas sidebar hidden without breaking position:sticky */
+    .clip-x { overflow: clip; }
     .active-verse {
       border-color: #059669 !important;
       background-color: #f0fdf4 !important;
@@ -99,7 +101,7 @@
   </div>
 
   <!-- Main Layout Container -->
-  <div class="flex flex-col min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
+  <div class="flex flex-col min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative clip-x">
     
     <!-- Sliding Dropdown Settings Panel Sidebar -->
     <aside id="appSidebar" class="absolute inset-x-0 top-0 z-40 transform -translate-y-full transition-transform duration-300 ease-in-out w-full bg-dark-emerald text-emerald-50 p-4 border-b border-emerald-950 shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -227,7 +229,7 @@
     </aside>
 
     <!-- Main Workspace Content Area -->
-    <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl mx-auto w-full flex flex-col justify-between">
+    <main class="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col justify-between">
       
       <div class="space-y-6">
         <!-- Pinned Audio Controls Section (Zero gap offset, tightly locked under header) -->
