@@ -35,7 +35,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Always Visible Top Header (Title, Subtitle, Language Selector, Mobile Settings Toggle) -->
+  <!-- Always Visible Top Header (Title, Subtitle, Date Badge, Language Selector, Mobile Settings Toggle) -->
   <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
     <div class="max-w-[1600px] mx-auto flex items-center justify-between gap-2">
       
@@ -52,8 +52,12 @@
         </div>
       </div>
 
-      <!-- Controls Right: Language Selector & Mobile Drawer Toggle with Red Icon Accent -->
+      <!-- Controls Right: Date Badge, Language Selector & Settings Modal Toggle -->
       <div class="flex items-center space-x-2">
+        <span class="hidden md:inline-block bg-emerald-900/60 text-emerald-200 border border-emerald-700/50 text-xs font-semibold px-3 py-1 rounded-lg shadow-sm" id="currentDateBadge">
+          --
+        </span>
+
         <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
           <span class="text-xs">🌐</span>
           <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer">
@@ -65,24 +69,26 @@
           </select>
         </div>
 
-        <button onclick="toggleSidebar()" class="lg:hidden bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center space-x-1">
+        <button onclick="toggleSettingsModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center space-x-1">
           <span class="text-white">⚙️</span>
-          <span>Settings</span>
+          <span id="btnSettingsText">Settings</span>
         </button>
       </div>
 
     </div>
   </header>
 
-  <!-- Main Layout Container -->
-  <div class="flex flex-col lg:flex-row min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
-    
-    <!-- Collapsible Settings Panel Sidebar -->
-    <aside id="appSidebar" class="absolute lg:relative inset-x-0 top-0 z-40 transform -translate-y-full lg:translate-y-0 lg:translate-x-0 transition-transform duration-300 ease-in-out w-full lg:w-96 bg-dark-emerald text-emerald-50 p-4 flex flex-col justify-between border-r border-emerald-950 max-h-[95vh] lg:max-h-none overflow-y-auto shadow-2xl">
-      <div class="space-y-3">
+  <!-- Settings Popup Modal -->
+  <div id="settingsModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-dark-emerald text-emerald-50 w-full max-w-md rounded-2xl p-5 shadow-2xl border border-emerald-800 max-h-[90vh] overflow-y-auto flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-3 mb-4 border-b border-dark-emerald">
+          <h3 id="lblModalTitle" class="font-bold text-sm text-white uppercase tracking-wider">App Settings (الإعدادات)</h3>
+          <button onclick="toggleSettingsModal()" class="text-emerald-300 hover:text-white font-bold text-sm bg-dark-emerald-light px-2.5 py-1 rounded-lg border border-dark-emerald">✕</button>
+        </div>
 
         <!-- PWA Install Button -->
-        <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
+        <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg mb-3 flex items-center justify-center space-x-1.5 transition-all shadow-sm">
           <span>📱</span>
           <span>Install App</span>
         </button>
@@ -194,35 +200,24 @@
         </div>
       </div>
 
-      <!-- Close Button for Mobile -->
-      <div class="pt-3 border-t border-dark-emerald lg:hidden">
-        <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-md">
-          ✕ Close Settings
+      <!-- Close Button for Modal -->
+      <div class="pt-4 mt-4 border-t border-dark-emerald">
+        <button onclick="toggleSettingsModal()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-md">
+          Done / Close
         </button>
       </div>
+    </div>
+  </div>
 
-    </aside>
-
+  <!-- Main Layout Container -->
+  <div class="flex flex-col max-w-[1600px] mx-auto w-full shadow-2xl relative overflow-hidden">
+    
     <!-- Main Workspace Content Area -->
-    <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl flex flex-col justify-between">
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto max-w-6xl mx-auto w-full flex flex-col justify-between">
       
       <div>
-        <!-- Light Shaded Instruction Box with Slate Accent -->
-        <header class="bg-slate-50 border border-slate-200/90 p-4 rounded-2xl shadow-sm mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <p id="settingsInstruction" class="text-xs md:text-sm text-slate-700 font-medium leading-relaxed">
-              Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode.
-            </p>
-          </div>
-          <div class="flex items-center space-x-3 shrink-0">
-            <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm" id="currentDateBadge">
-              --
-            </span>
-          </div>
-        </header>
-
-        <!-- Light Shaded Audio Controls Box with Emerald Accent -->
-        <section class="bg-emerald-50/60 p-5 rounded-2xl shadow-sm border border-emerald-200/80 mb-6">
+        <!-- Pinned Light Shaded Audio Controls Box with Emerald Accent -->
+        <section class="bg-emerald-50/90 backdrop-blur-md p-4 rounded-2xl shadow-md border border-emerald-200/90 mb-6 sticky top-14 z-20">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3 w-full md:w-auto">
               
@@ -241,9 +236,15 @@
               </button>
             </div>
 
-            <div class="bg-white/80 border border-emerald-200 px-4 py-2 rounded-xl text-xs text-slate-600 w-full md:w-auto flex items-center justify-between space-x-3">
-              <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
-              <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
+            <div class="bg-white/90 border border-emerald-200 px-4 py-2 rounded-xl text-xs text-slate-600 w-full md:w-auto flex items-center justify-between space-x-3 shadow-sm">
+              <div class="flex items-center space-x-2">
+                <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
+                <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
+              </div>
+              <!-- Settings Popup Emoji/Button -->
+              <button onclick="toggleSettingsModal()" class="text-emerald-700 hover:text-emerald-900 text-base p-1 rounded-lg hover:bg-emerald-100/60 transition-all cursor-pointer" title="Settings">
+                ℹ️
+              </button>
             </div>
           </div>
         </section>
@@ -385,6 +386,8 @@
         pageTitle: "Quran Learning App",
         brandTitle: "Quran Learning App",
         brandSub: "تطبيق حفظ القرآن الكريم",
+        btnSettingsText: "Settings",
+        lblModalTitle: "App Settings (الإعدادات)",
         lblSurah: "Select Surah (السورة)",
         lblFromVerse: "From Verse (من آية)",
         lblToVerse: "To Verse (إلى آية)",
@@ -462,13 +465,14 @@
         btnVerseMode: "Verses",
         btnMushafMode: "Mus'haf Page",
         mushafFullRes: "Full Resolution",
-        mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
-        settingsInstruction: "Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode."
+        mushafLoadFailed: "This page image could not be loaded. Please check your connection."
       },
       ar: {
         pageTitle: "Quran Learning App",
         brandTitle: "تطبيق حفظ القرآن",
         brandSub: "Quran Learning App",
+        btnSettingsText: "الإعدادات",
+        lblModalTitle: "إعدادات التطبيق",
         lblSurah: "اختر السورة",
         lblFromVerse: "من آية",
         lblToVerse: "إلى آية",
@@ -546,13 +550,14 @@
         btnVerseMode: "آيات",
         btnMushafMode: "صفحات المصحف",
         mushafFullRes: "الدقة الكاملة",
-        mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت.",
-        settingsInstruction: "استخدم زر الإعدادات لتكوين القارئ، عدد التكرار، اختيار السورة، ونمط العرض."
+        mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت."
       },
       ml: {
         pageTitle: "Quran Learning App",
         brandTitle: "Quran Learning App",
         brandSub: "ഖുർആൻ പഠന സഹായി ",
+        btnSettingsText: "ക്രമീകരണങ്ങൾ",
+        lblModalTitle: "ആപ്പ് ക്രമീകരണങ്ങൾ",
         lblSurah: "സൂറത്ത് തിരഞ്ഞെടുക്കുക",
         lblFromVerse: "ആദ്യ ആയത്ത്",
         lblToVerse: "അവസാന ആയത്ത്",
@@ -630,13 +635,14 @@
         btnVerseMode: "ആയത്തുകൾ",
         btnMushafMode: "മുസ്ഹഫ് പേജ്",
         mushafFullRes: "സ്ക്രീൻ പൂർണ്ണമായി കാണിക്കുക",
-        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
-        settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് തിരഞ്ഞെടുക്കൽ, വ്യൂ മോഡ് എന്നിവ ക്രമീകരിക്കാൻ സെറ്റിംഗ്സ് (Settings) ബട്ടൺ ഉപയോഗിക്കുക."
+        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക."
       },
       ur: {
         pageTitle: "قرآن حفظ ٹریکر",
         brandTitle: "قرآن حفظ ٹریکر",
         brandSub: "Quran Learning App",
+        btnSettingsText: "سیٹنگز",
+        lblModalTitle: "ایپ سیٹنگز",
         lblSurah: "سورۃ منتخب کریں",
         lblFromVerse: "آیت نمبر سے",
         lblToVerse: "آیت نمبر تک",
@@ -714,13 +720,14 @@
         btnVerseMode: "آیات",
         btnMushafMode: "مصحف صفحہ",
         mushafFullRes: "مکمل ریزولوشن",
-        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
-        settingsInstruction: "قاری، تکرار کی تعداد، سورۃ کے انتخاب، اور ڈسپلے موڈ کو ترتیب دینے کے لیے سیٹنگز (Settings) کا بٹن استعمال کریں۔"
+        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔"
       },
       bn: {
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
         brandTitle: "কুরআন হিফজ ট্র্যাকার",
         brandSub: "Quran Learning App",
+        btnSettingsText: "সেটিংস",
+        lblModalTitle: "অ্যাপ সেটিংস",
         lblSurah: "সুরা নির্বাচন করুন",
         lblFromVerse: "যে আয়াত থেকে",
         lblToVerse: "যে আয়াত পর্যন্ত",
@@ -798,8 +805,7 @@
         btnVerseMode: "আয়াত",
         btnMushafMode: "মুসহাফ পৃষ্ঠা",
         mushafFullRes: "পূর্ণ রেজোলিউশন",
-        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন.",
-        settingsInstruction: "কারী, পুনরাবৃত্তির সংখ্যা, সুরা নির্বাচন এবং প্রদর্শন মোড কনফিগার করতে সেটিংস (Settings) বাটন ব্যবহার করুন।"
+        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন."
       }
     };
 
@@ -888,11 +894,11 @@
     // LANGUAGE
     // ==================================================================
     const LABEL_IDS = [
-      'brandTitle', 'brandSub', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
+      'brandTitle', 'brandSub', 'btnSettingsText', 'lblModalTitle', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
       'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
-      'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy', 'settingsInstruction'
+      'thDate', 'thPortion', 'thReps', 'thCompleted', 'thNotes', 'thAction', 'footerCopy'
     ];
 
     function applyLanguage() {
@@ -942,16 +948,11 @@
     }
 
     // ==================================================================
-    // RESPONSIVE SIDEBAR TOGGLE
+    // SETTINGS POPUP MODAL TOGGLE
     // ==================================================================
-    function toggleSidebar() {
-      const sidebar = $('appSidebar');
-      if (window.innerWidth >= 768 && window.innerWidth < 1024) {
-        sidebar.classList.toggle('-translate-x-full');
-        sidebar.classList.remove('-translate-y-full');
-      } else {
-        sidebar.classList.toggle('-translate-y-full');
-      }
+    function toggleSettingsModal() {
+      const modal = $('settingsModal');
+      modal.classList.toggle('hidden');
     }
 
     // ==================================================================
