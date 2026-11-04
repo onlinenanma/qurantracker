@@ -94,11 +94,13 @@
         <h1>Contact Us</h1>
         <p class="subtitle">We value your feedback. Please send us your suggestions and requirements.</p>
         
-        <!-- Direct Form Submission via Web3Forms (Supports Arabic & Unicode cleanly) -->
         <form action="https://api.web3forms.com/submit" method="POST">
-            <!-- Replace with your actual access key from web3forms.com -->
+            <!-- Replace with your actual Web3Forms access key -->
             <input type="hidden" name="access_key" value="d89f4758-f018-454c-bde4-ac24b3d9006d">
             <input type="hidden" name="subject" value="New Requirement / Suggestion - Quran Learning App">
+            
+            <!-- Custom Redirect URL to Home Page -->
+            <input type="hidden" name="redirect" value="https://quranlearning.app/index.html">
 
             <div class="form-group">
                 <label for="name">Your Name</label>
@@ -111,11 +113,11 @@
             </div>
 
             <div class="form-group">
-                <label for="message">Suggestions & Requirements (അഭിപ്രായങ്ങൾ)</label>
+                <label for="message">Suggestions & Requirements</label>
                 <textarea id="message" name="message" required dir="auto" placeholder="Please share your suggestions, feature requests, or requirements here..."></textarea>
             </div>
 
-            <button type="submit">Send Message Directly</button>
+            <button type="submit">Send Message</button>
         </form>
 
         <div class="footer-note">
