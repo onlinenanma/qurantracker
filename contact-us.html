@@ -29,6 +29,7 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 500px;
+            box-sizing: border-box;
         }
         h1 {
             color: var(--primary-color);
@@ -93,49 +94,29 @@
         <h1>Contact Us</h1>
         <p class="subtitle">We value your feedback. Please send us your suggestions and requirements.</p>
         
-        <!-- Form submits directly to appnanma@gmail.com using mailto 
-        <form action="mailto:appnanma@gmail.com" method="POST" enctype="text/plain">
-            
+        <!-- Direct Form Submission via Web3Forms (Supports Arabic & Unicode cleanly) -->
+        <form action="https://api.web3forms.com/submit" method="POST">
+            <!-- Replace with your actual access key from web3forms.com -->
+            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+            <input type="hidden" name="subject" value="New Requirement / Suggestion - Quran Learning App">
+
             <div class="form-group">
                 <label for="name">Your Name</label>
-                <input type="text" id="name" name="Name" required placeholder="Enter your name">
+                <input type="text" id="name" name="name" required placeholder="Enter your name">
             </div>
 
             <div class="form-group">
                 <label for="email">Your Email Address</label>
-                <input type="email" id="email" name="Email" required placeholder="Enter your email">
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
             </div>
 
             <div class="form-group">
-                <label for="message">Suggestions & Requirements</label>
-                <textarea id="message" name="Message" required placeholder="Please share your suggestions, feature requests, or requirements here..."></textarea>
+                <label for="message">Suggestions & Requirements (അഭിപ്രായങ്ങൾ)</label>
+                <textarea id="message" name="message" required dir="auto" placeholder="Please share your suggestions, feature requests, or requirements here..."></textarea>
             </div>
 
-            <button type="submit">Send Message</button>
-        </form> -->
-
-        <!-- Character Encoding Meta Tag (Mandatory for Arabic) -->
-<meta charset="UTF-8">
-
-<form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
-    <!-- Get your free access key from web3forms.com (sent to appnanma@gmail.com) -->
-    <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
-    <input type="hidden" name="subject" value="New Requirement / Suggestion - Quran Learning App">
-
-    <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Your Email</label>
-        <input type="email" name="email" required class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500">
-    </div>
-
-    <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Message / Requirements (അഭിപ്രായങ്ങൾ)</label>
-        <textarea name="message" rows="5" required dir="auto" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500"></textarea>
-    </div>
-
-    <button type="submit" class="w-full bg-emerald-700 text-white font-medium py-2.5 rounded-lg hover:bg-emerald-800 transition">
-        Send Message directly
-    </button>
-</form>
+            <button type="submit">Send Message Directly</button>
+        </form>
 
         <div class="footer-note">
             &copy; 2026 quranlearning.app. All rights reserved.
