@@ -1,6 +1,6 @@
 {
   "name": "Quran Learning App",
-  "short_name": "QL App",
+  "short_name": "Quran Learning App",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0d3322",
