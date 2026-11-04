@@ -1,4 +1,4 @@
-const CACHE_NAME = 'quranlearning.app-v1';
+const CACHE_NAME = 'hifz-tracker-v2';
 
 const ASSETS_TO_CACHE = [
   './index.html',
