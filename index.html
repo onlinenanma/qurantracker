@@ -54,7 +54,7 @@
         </div>
       </div>
 
-      <!-- Controls Right: Date Badge, Language Selector & Red Settings Toggle -->
+      <!-- Controls Right: Date Badge & Language Selector -->
       <div class="flex items-center flex-wrap gap-2 justify-end">
         <span class="bg-emerald-950/80 text-emerald-200 border border-emerald-700/60 text-xs font-semibold px-2.5 py-1 rounded-lg shadow-sm whitespace-nowrap" id="currentDateBadge">
           Loading Date...
@@ -70,11 +70,6 @@
             <option value="bn" class="bg-dark-emerald text-white">বাংলা</option>
           </select>
         </div>
-
-        <button onclick="toggleSidebar()" class="bg-rose-600 hover:bg-rose-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center space-x-1 shrink-0">
-          <span class="text-white">⚙️</span>
-          <span id="btnSettingsText">Settings</span>
-        </button>
       </div>
 
     </div>
@@ -90,7 +85,7 @@
         <button onclick="toggleInfoModal()" class="text-slate-400 hover:text-slate-600 font-bold text-sm">✕</button>
       </div>
       <p id="settingsInstruction" class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-        Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode.
+        Use the Select button to configure the reciter, repetition count, Surah selection, and display mode.
       </p>
       <p id="zoomInstruction" class="mt-3 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium"></p>
       <p id="updateInstruction" class="mt-3 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium"></p>
@@ -252,34 +247,38 @@
       
       <div class="space-y-6">
         <!-- Pinned Audio Controls Section (Zero gap offset, tightly locked under header) -->
-        <section class="bg-emerald-50/95 backdrop-blur-md p-4 rounded-2xl shadow-md border border-emerald-200/90 sticky z-20" style="top: var(--hdr-h, 57px);">
-          <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div class="flex items-center space-x-3 w-full md:w-auto">
+        <section class="bg-emerald-50/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-md border border-emerald-200/90 sticky z-20" style="top: var(--hdr-h, 57px);">
+          <div class="flex items-center justify-between gap-2 overflow-x-auto whitespace-nowrap">
+            <div class="flex items-center space-x-2 shrink-0">
               
-              <!-- Play / Stop Button -->
-              <button id="globalPlayBtn" onclick="toggleContinuousPlay()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto">
+              <!-- Play / Stop Toggle Icon Button -->
+              <button id="globalPlayBtn" onclick="toggleContinuousPlay()" title="Play / Stop All" class="bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center">
                 <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <span id="globalPlayText">Play All Verses</span>
               </button>
 
-              <!-- Pause / Resume Button -->
-              <button id="pauseResumeBtn" onclick="togglePauseResume()" class="bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm">
-                Pause
+              <!-- Pause / Resume Toggle Icon Button -->
+              <button id="pauseResumeBtn" onclick="togglePauseResume()" title="Pause / Resume" class="bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center">
+                <svg id="pauseResumeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </button>
+
+              <!-- Moved Settings Button ("Select") -->
+              <button onclick="toggleSidebar()" class="bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center space-x-1 shrink-0">
+                <span>⚙️</span>
+                <span id="btnSettingsText">Select</span>
               </button>
             </div>
 
-            <div class="bg-white/90 border border-emerald-200 px-4 py-2 rounded-xl text-xs text-slate-600 w-full md:w-auto flex items-center justify-between space-x-3 shadow-sm">
-              <div class="flex items-center space-x-2">
-                <span id="lblActiveVerseTitle" class="font-semibold text-emerald-900">Active Verse:</span>
-                <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
-              </div>
+            <div class="bg-white/90 border border-emerald-200 px-3 py-2 rounded-xl text-xs text-slate-600 flex items-center space-x-2 shadow-sm shrink-0">
+              <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
               <!-- Quick view toggle: Verses <-> Mus'haf (audio keeps playing) -->
-              <button id="viewToggleBtn" onclick="toggleViewMode()" class="text-emerald-700 hover:text-emerald-900 text-base p-1 rounded-lg hover:bg-emerald-100/60 transition-all cursor-pointer" title="Switch view" aria-pressed="false">📜</button>
+              <button id="viewToggleBtn" onclick="toggleViewMode()" class="text-emerald-700 hover:text-emerald-900 text-base p-0.5 rounded hover:bg-emerald-100/60 transition-all cursor-pointer" title="Switch view" aria-pressed="false">📜</button>
               <!-- Info Emoji Button opens Instructions Popup -->
-              <button onclick="toggleInfoModal()" class="text-emerald-700 hover:text-emerald-900 text-base p-1 rounded-lg hover:bg-emerald-100/60 transition-all cursor-pointer" title="Instructions">
+              <button onclick="toggleInfoModal()" class="text-emerald-700 hover:text-emerald-900 text-base p-0.5 rounded hover:bg-emerald-100/60 transition-all cursor-pointer" title="Instructions">
                 ℹ️
               </button>
             </div>
@@ -423,7 +422,7 @@
         pageTitle: "Quran Learning App",
         brandTitle: "Quran Learning App",
         brandSub: "تطبيق حفظ القرآن الكريم",
-        btnSettingsText: "Settings",
+        btnSettingsText: "Select",
         lblSurah: "Select Surah (السورة)",
         lblFromVerse: "From Verse (من آية)",
         lblToVerse: "To Verse (إلى آية)",
@@ -501,7 +500,7 @@
         btnVerseMode: "Verses",
         btnMushafMode: "Mus'haf Page",
         mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
-        settingsInstruction: "Use the Settings button to configure the reciter, repetition count, Surah selection, and display mode.",
+        settingsInstruction: "Use the Select button to configure the reciter, repetition count, Surah selection, and display mode.",
         zoomInstruction: "🔍 To zoom the page or screen, pinch with two fingers: spread them apart to zoom in, bring them together to zoom out. Double-tap a Mus'haf page image to zoom quickly. When zoomed in, drag with one finger to move around.",
         updateInstruction: "🔄 Updating the app: the app updates itself when you are online. When a new version is ready, a banner appears — tap “Update now”. No need to reinstall.",
         updTitle: "New version available",
@@ -519,7 +518,7 @@
         pageTitle: "Quran Learning App",
         brandTitle: "تطبيق حفظ القرآن الكريم",
         brandSub: "Quran Learning App",
-        btnSettingsText: "الإعدادات",
+        btnSettingsText: "اختر",
         lblSurah: "اختر السورة",
         lblFromVerse: "من آية",
         lblToVerse: "إلى آية",
@@ -597,7 +596,7 @@
         btnVerseMode: "آيات",
         btnMushafMode: "صفحات المصحف",
         mushafLoadFailed: "تعذّر تحميل صورة الصفحة. تحقق من اتصالك بالإنترنت.",
-        settingsInstruction: "استخدم زر الإعدادات لتكوين القارئ، عدد التكرار، اختيار السورة، ونمط العرض.",
+        settingsInstruction: "استخدم زر التحديد لتكوين القارئ، عدد التكرار، اختيار السورة، ونمط العرض.",
         zoomInstruction: "🔍 للتكبير أو التصغير: ضع إصبعين على الشاشة وباعد بينهما للتكبير أو قرّبهما للتصغير. اضغط مرتين على صورة صفحة المصحف للتكبير السريع. وعند التكبير حرّك بإصبع واحد للتنقل.",
         updateInstruction: "🔄 تحديث التطبيق: يتحدّث التطبيق تلقائيًا عند الاتصال بالإنترنت. عند توفر إصدار جديد يظهر شريط — اضغط «حدّث الآن». لا حاجة لإعادة التثبيت.",
         updTitle: "إصدار جديد متاح",
@@ -615,7 +614,7 @@
         pageTitle: "Quran Learning App",
         brandTitle: "Quran Learning App",
         brandSub: "ഖുർആൻ പഠന സഹായി ",
-        btnSettingsText: "Settings",
+        btnSettingsText: "Select",
         lblSurah: "സൂറത്ത് തിരഞ്ഞെടുക്കുക",
         lblFromVerse: "ആദ്യ ആയത്ത്",
         lblToVerse: "അവസാന ആയത്ത്",
@@ -693,7 +692,7 @@
         btnVerseMode: "ആയത്തുകൾ",
         btnMushafMode: "മുസ്ഹഫ് പേജ്",
         mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
-        settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് തിരഞ്ഞെടുക്കൽ, വ്യൂ മോഡ് എന്നിവ ക്രമീകരിക്കാൻ സെറ്റിംഗ്സ് (Settings) ബട്ടൺ ഉപയോഗിക്കുക.",
+        settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് തിരഞ്ഞെടുക്കൽ, വ്യൂ മോഡ് എന്നിവ ക്രമീകരിക്കാൻ Select ബട്ടൺ ഉപയോഗിക്കുക.",
         zoomInstruction: "🔍 പേജ്/സ്ക്രീൻ സൂം ചെയ്യാൻ രണ്ട് വിരലുകൾ കൊണ്ട് സ്ക്രീനിൽ തൊട്ട് വിരലുകൾ അകറ്റിയാൽ സൂം ഇൻ, അടുപ്പിച്ചാൽ സൂം ഔട്ട്. മുസ്ഹഫ് പേജ് ചിത്രത്തിൽ ഡബിൾ ടാപ്പ് ചെയ്താൽ വേഗത്തിൽ സൂം ചെയ്യാം. സൂം ചെയ്ത ശേഷം ഒരു വിരൽ കൊണ്ട് നീക്കി കാണാം.",
         updateInstruction: "🔄 ആപ്പ് അപ്ഡേറ്റ്: ഇന്റർനെറ്റ് ഉള്ളപ്പോൾ ആപ്പ് സ്വയം അപ്ഡേറ്റ് ആകും. പുതിയ വേർഷൻ തയ്യാറാകുമ്പോൾ ഒരു ബാനർ കാണും — “ഇപ്പോൾ അപ്ഡേറ്റ് ചെയ്യുക” അമർത്തുക. വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യേണ്ടതില്ല.",
         updTitle: "പുതിയ വേർഷൻ ലഭ്യമാണ്",
@@ -711,7 +710,7 @@
         pageTitle: "قرآن حفظ ٹریکر",
         brandTitle: "قرآن حفظ ٹریکر",
         brandSub: "Quran Learning App",
-        btnSettingsText: "سیٹنگز",
+        btnSettingsText: "منتخب کریں",
         lblSurah: "سورۃ منتخب کریں",
         lblFromVerse: "آیت نمبر سے",
         lblToVerse: "آیت نمبر تک",
@@ -789,7 +788,7 @@
         btnVerseMode: "آیات",
         btnMushafMode: "مصحف صفحہ",
         mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
-        settingsInstruction: "قاری، تکرار کی تعداد، سورۃ کے انتخاب، اور ڈسپلے موڈ کو ترتیب دینے کے لیے سیٹنگز (Settings) کا بٹن استعمال کریں۔",
+        settingsInstruction: "قاری، تکرار کی تعداد، سورۃ کے انتخاب، اور ڈسپلے موڈ کو ترتیب دینے کے لیے Select کا بٹن استعمال کریں۔",
         zoomInstruction: "🔍 صفحہ/اسکرین زوم کرنے کے لیے دو انگلیاں اسکرین پر رکھ کر پھیلائیں تو زوم ان، اور قریب لائیں تو زوم آؤٹ۔ مصحف کے صفحے کی تصویر پر ڈبل ٹیپ کریں تو فوراً زوم ہو جائے گا۔ زوم کے بعد ایک انگلی سے کھسکا کر دیکھیں۔",
         updateInstruction: "🔄 ایپ اپ ڈیٹ: انٹرنیٹ ہونے پر ایپ خود اپ ڈیٹ ہو جاتی ہے۔ نیا ورژن تیار ہونے پر ایک بینر آئے گا — «ابھی اپ ڈیٹ کریں» دبائیں۔ دوبارہ انسٹال کرنے کی ضرورت نہیں۔",
         updTitle: "نیا ورژن دستیاب ہے",
@@ -797,7 +796,7 @@
         updNow: "ابھی اپ ڈیٹ کریں",
         updLater: "بعد میں",
         updHow: "اپ ڈیٹ کیسے کریں؟",
-        updSteps: "«ابھی اپ ڈیٹ کریں» دبائیں — ایپ نئے ورژن کے ساتھ دوبارہ لوڈ ہو جائے گی۔|اگر کچھ نہ بدلے تو ایپ مکمل بند کریں (حالیہ ایپس سے ہٹا دیں) اور دوبارہ کھولیں۔|پھر بھی پرانی ہو تو براؤزر میں ایک بار سائٹ کھولیں، پھر ایپ دوبارہ کھولیں۔ دوبارہ انسٹال کی ضرورت نہیں۔",
+        updSteps: "«ابھی اپ ڈیٹ کریں» دبائیں — ایپ نئے ورژن کے ساتھ دوبارہ لوڈ ہو جائے گی۔|اگر کچھ نہ بدلے تو ایپ مکمل بند کریں (حالیہ ایپس سے ہٹا دیں) اور دوبارہ کھولیں۔|پھر بھی پرانی ہو تو براؤزر میں ایک بار سائٹ کھولیں، پھر ایپ دوبارہ کھولیں کریں۔ دوبارہ انسٹال کی ضرورت نہیں۔",
         shareTip: "یہ آیت شیئر کریں",
         shareSurah: "سورۃ",
         shareRequest: "براہِ کرم اسے اپنے تمام دوستوں اور رشتہ داروں کے ساتھ شیئر کریں۔ 🤲",
@@ -807,7 +806,7 @@
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
         brandTitle: "কুরআন হিফজ ট্র্যাকার",
         brandSub: "Quran Learning App",
-        btnSettingsText: "সেটিংস",
+        btnSettingsText: "নির্বাচন",
         lblSurah: "সুরা নির্বাচন করুন",
         lblFromVerse: "যে আয়াত থেকে",
         lblToVerse: "যে আয়াত পর্যন্ত",
@@ -885,7 +884,7 @@
         btnVerseMode: "আয়াত",
         btnMushafMode: "মুসহাফ পৃষ্ঠা",
         mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন.",
-        settingsInstruction: "কারী, পুনরাবৃত্তির সংখ্যা, সুরা নির্বাচন এবং প্রদর্শন মোড কনফিগার করতে সেটিংস (Settings) বাটন ব্যবহার করুন।",
+        settingsInstruction: "কারী, পুনরাবৃত্তির সংখ্যা, সুরা নির্বাচন এবং প্রদর্শন মোড কনফিগার করতে Select বাটন ব্যবহার করুন।",
         zoomInstruction: "🔍 পেজ/স্ক্রিন জুম করতে দুই আঙুল স্ক্রিনে রেখে ফাঁক করলে জুম ইন, কাছে আনলে জুম আউট হবে। মুসহাফ পেজের ছবিতে ডাবল ট্যাপ করলে দ্রুত জুম হয়। জুম করার পর এক আঙুলে টেনে ঘুরে দেখুন।",
         updateInstruction: "🔄 অ্যাপ আপডেট: ইন্টারনেট থাকলে অ্যাপ নিজে থেকেই আপডেট হয়। নতুন সংস্করণ প্রস্তুত হলে একটি ব্যানার দেখা যাবে — “এখনই আপডেট করুন” চাপুন। আবার ইনস্টল করার দরকার নেই।",
         updTitle: "নতুন সংস্করণ পাওয়া যাচ্ছে",
@@ -897,7 +896,7 @@
         shareTip: "এই আয়াত শেয়ার করুন",
         shareSurah: "সূরা",
         shareRequest: "অনুগ্রহ করে এটি আপনার সব বন্ধু ও আত্মীয়দের সাথে শেয়ার করুন। 🤲",
-        shareCopied: "আয়াত কপি হয়েছে। শেয়ার করতে পেস্ট করুন।"
+        shareCopied: "আয়াত কপি হয়েছে। শেয়ার করতে পেস্ট করুন."
       }
     };
 
@@ -1019,24 +1018,30 @@
 
     // Dynamic UI Update for Controls & Colors
     function updateAudioControlUI() {
-      const t = T();
       const playBtn = $('globalPlayBtn');
       const pauseBtn = $('pauseResumeBtn');
+      const playIcon = $('globalPlayIcon');
+      const pauseIcon = $('pauseResumeIcon');
 
       if (isRunning) {
-        setText('globalPlayText', t.stopText);
-        playBtn.className = 'bg-rose-600 hover:bg-rose-700 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-md w-full sm:w-auto';
+        // Toggle play icon to stop icon
+        playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+        playBtn.title = "Stop";
+        playBtn.className = 'bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center';
       } else {
-        setText('globalPlayText', t.globalPlayText);
-        playBtn.className = 'bg-emerald-700 hover:bg-emerald-800 text-white font-semibold px-5 py-2.5 rounded-xl text-sm flex items-center justify-center space-x-2 transition-all shadow-sm w-full sm:w-auto';
+        playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+        playBtn.title = "Play All Verses";
+        playBtn.className = 'bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center';
       }
 
       if (isPaused) {
-        setText('pauseResumeBtn', t.continueText);
-        pauseBtn.className = 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm';
+        pauseIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+        pauseBtn.title = "Resume";
+        pauseBtn.className = 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center';
       } else {
-        setText('pauseResumeBtn', t.resumeText);
-        pauseBtn.className = 'bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-sm';
+        pauseIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+        pauseBtn.title = "Pause";
+        pauseBtn.className = 'bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center';
       }
     }
 
@@ -1159,11 +1164,6 @@
 
     function onTargetChange() {
       saveState();
-      const target = getTarget();
-      currentVerses.forEach((_, idx) => {
-        setText(`tgt-label-${idx}`, `${T().repsLabel} ${target}`);
-        setText(`tgt-total-${idx}`, `/ ${target}`);
-      });
       updateSessionSummary();
     }
 
@@ -1226,7 +1226,8 @@
             page: allAr[i].page,
             arabic: allAr[i].text,
             translation: allTrans && allTrans[i] ? allTrans[i].text : null,
-            repetitionCount: repCounts[repKey(surahNum, n)] || 0
+            repetitionCount: repCounts[repKey(surahNum, n)] || 0,
+            customTarget: repCounts[repKey(surahNum, n) + '_target'] || getTarget()
           });
         }
 
@@ -1248,7 +1249,6 @@
     function renderVerseCards() {
       const container = $('versesList');
       container.innerHTML = '';
-      const targetReps = getTarget();
       const t = T();
 
       let lastSurah = null;
@@ -1266,7 +1266,7 @@
         lastSurah = verse.surah;
         const card = document.createElement('div');
         card.id = `verse-card-${idx}`;
-        card.className = 'bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300 hover:border-emerald-300 relative';
+        card.className = 'bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 transition-all duration-300 hover:border-emerald-300 relative';
 
         const pageTag = (viewMode === 'pages' && verse.page)
           ? `<span class="text-xs text-slate-400">· ${escapeHtml(t.pageShort)} ${verse.page}</span>` : '';
@@ -1281,30 +1281,32 @@
         }
 
         card.innerHTML = `
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
+          <div class="flex items-center justify-between gap-1 border-b border-slate-100 pb-2 mb-3">
             <div class="flex items-center space-x-2">
               <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-2.5 py-1 rounded-lg">
-                ${escapeHtml(t.verseLabel)} ${verse.numberInSurah}
+                ${verse.numberInSurah}
               </span>
-              <span id="tgt-label-${idx}" class="text-xs text-slate-400">${escapeHtml(t.repsLabel)} ${targetReps}</span>
               ${pageTag}
             </div>
 
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-1.5">
               <button onclick="shareVerse(${idx})" title="${escapeHtml(t.shareTip)}" aria-label="${escapeHtml(t.shareTip)}" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 p-1.5 rounded-xl transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.7 10.7l6.6-3.4M8.7 13.3l6.6 3.4M18 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM6 14.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM18 21a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path></svg>
               </button>
-              <button onclick="onListenClick(${idx})" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition-all">
-                <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              
+              <!-- Play / Stop Toggle Button -->
+              <button id="verse-play-btn-${idx}" onclick="onListenClick(${idx})" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 p-1.5 rounded-xl transition-all" title="Play">
+                <svg id="verse-play-icon-${idx}" class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                 </svg>
-                <span id="play-text-${idx}">${escapeHtml(t.playBtnText)}</span>
               </button>
 
-              <button onclick="bumpRep(${idx})" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-medium border border-slate-200 flex items-center space-x-1">
-                <span>${escapeHtml(t.repsCountLabel)}</span>
+              <!-- Repeat Emoji Button & Count -->
+              <button onclick="bumpRep(${idx})" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-medium border border-slate-200 flex items-center space-x-1" title="Click to repeat / configure">
+                <span>🔁</span>
                 <span id="rep-count-${idx}" class="font-bold text-emerald-800">${verse.repetitionCount}</span>
-                <span id="tgt-total-${idx}">/ ${targetReps}</span>
+                <span class="text-slate-400">/</span>
+                <span id="target-count-${idx}" class="text-slate-600">${verse.customTarget}</span>
               </button>
             </div>
           </div>
@@ -1413,7 +1415,8 @@
               page: a.page || pages[pi],
               arabic: a.text,
               translation: trAyahs && trAyahs[k] ? trAyahs[k].text : null,
-              repetitionCount: repCounts[repKey(surahNum, a.numberInSurah)] || 0
+              repetitionCount: repCounts[repKey(surahNum, a.numberInSurah)] || 0,
+              customTarget: repCounts[repKey(surahNum, a.numberInSurah) + '_target'] || getTarget()
             });
           });
         });
@@ -1501,22 +1504,23 @@
       }).join(' + ');
     }
 
-    function mushafVerseChip(idx, targetReps) {
+    function mushafVerseChip(idx) {
       const v = currentVerses[idx];
       const t = T();
       return `
         <div id="verse-card-${idx}" class="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-2 py-1 text-xs transition-all">
-          <button onclick="onListenClick(${idx})" title="${escapeHtml(t.playBtnText)}" class="text-emerald-700 hover:text-emerald-900">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <button id="verse-play-btn-${idx}" onclick="onListenClick(${idx})" title="${escapeHtml(t.playBtnText)}" class="text-emerald-700 hover:text-emerald-900">
+            <svg id="verse-play-icon-${idx}" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
             </svg>
           </button>
           <span class="font-semibold text-slate-700">${v.surah}:${v.numberInSurah}</span>
           <button onclick="bumpRep(${idx})" class="bg-white border border-slate-200 rounded-lg px-1.5 py-0.5 flex items-center gap-1">
+            <span>🔁</span>
             <span id="rep-count-${idx}" class="font-bold text-emerald-800">${v.repetitionCount}</span>
-            <span id="tgt-total-${idx}" class="text-slate-400">/ ${targetReps}</span>
+            <span class="text-slate-400">/</span>
+            <span id="target-count-${idx}" class="text-slate-600">${v.customTarget}</span>
           </button>
-          <span id="play-text-${idx}" class="hidden">${escapeHtml(t.playBtnText)}</span>
         </div>`;
     }
 
@@ -1533,7 +1537,6 @@
       from = Math.min(Math.max(from, 1), MAX_PAGE);
       to = Math.min(Math.max(to, from), MAX_PAGE);
 
-      const targetReps = getTarget();
       for (let page = from; page <= to; page++) {
         let onPage = [];
         currentVerses.forEach((v, idx) => { if (v.page === page) onPage.push(idx); });
@@ -1542,7 +1545,7 @@
         const url = MUSHAF_IMAGE_SOURCES[mushafSourceStart](page);
         const caption = onPage.length ? describeVerses(onPage) : '';
         const chips = onPage.length
-          ? `<div class="flex flex-wrap justify-center gap-2 mt-4">${onPage.map(i => mushafVerseChip(i, targetReps)).join('')}</div>`
+          ? `<div class="flex flex-wrap justify-center gap-2 mt-4">${onPage.map(i => mushafVerseChip(i)).join('')}</div>`
           : '';
 
         const pageCard = document.createElement('div');
@@ -1588,15 +1591,25 @@
     }
 
     // ==================================================================
-    // REPETITION COUNTERS
+    // REPETITION COUNTERS (Individual Verse Repeat Target)
     // ==================================================================
     function bumpRep(i) {
       const verse = currentVerses[i];
       if (!verse) return;
-      verse.repetitionCount++;
-      repCounts[repKey(verse.surah, verse.numberInSurah)] = verse.repetitionCount;
+      
+      // Prompt user to enter repeat count for this specific verse
+      const currentTarget = verse.customTarget || getTarget();
+      const input = prompt(`Enter repetition count for verse ${verse.numberInSurah}:`, currentTarget);
+      if (input === null) return;
+      const newTarget = parseInt(input);
+      if (isNaN(newTarget) || newTarget < 1) return;
+
+      verse.customTarget = newTarget;
+      repCounts[repKey(verse.surah, verse.numberInSurah) + '_target'] = newTarget;
+      
+      // If repetition count exceeds new target, reset/clamp or keep
       saveJSON(STORE.counts, repCounts);
-      setText(`rep-count-${i}`, verse.repetitionCount);
+      setText(`target-count-${i}`, newTarget);
       updateSessionSummary();
     }
 
@@ -1633,7 +1646,7 @@
 
     function updateSessionSummary() {
       const done = currentVerses.reduce((sum, v) => sum + v.repetitionCount, 0);
-      const total = getTarget() * currentVerses.length;
+      const total = currentVerses.reduce((sum, v) => sum + (v.customTarget || getTarget()), 0);
       const pl = pagesLabel();
       setText('sessionPortion', pl ? `${T().pageShort} ${pl} · ${portionLabel()}` : portionLabel());
       setText('sessionReps', `${done} / ${total}`);
@@ -1919,10 +1932,9 @@
     }
 
     async function playIntro(token, surahNum, firstVerseNum) {
-      const t = T();
       const reciter = $('reciterSelect').value;
 
-      setIndicator(t.introAudhu);
+      setIndicator(T().introAudhu);
       const audhu = [];
       if (isEveryAyahReciter(reciter)) audhu.push(`https://everyayah.com/data/${reciter}/audhubillah.mp3`);
       audhu.push(AUDHUBILLAH_FALLBACK_URL);
@@ -1962,7 +1974,6 @@
       if (card) {
         card.classList.add('active-verse');
         if (currentViewMode === 'mushaf') {
-          // Stay on the page image: scroll only when the verse moves to a different page
           const v = currentVerses[i];
           const pg = v && v.page;
           if (pg && pg !== lastScrolledPage) {
@@ -1974,13 +1985,15 @@
           card.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }
-      setText(`play-text-${i}`, T().playingText);
+      const playIcon = $(`verse-play-icon-${i}`);
+      if (playIcon) playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
     }
 
     function resetCardUI(index) {
       const card = $(`verse-card-${index}`);
       if (card) card.classList.remove('active-verse');
-      setText(`play-text-${index}`, T().playBtnText);
+      const playIcon = $(`verse-play-icon-${index}`);
+      if (playIcon) playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>';
     }
 
     async function startRun(startIndex, mode) {
@@ -1999,12 +2012,12 @@
 
       const first = mode === 'all' ? 0 : startIndex;
       const last = mode === 'all' ? currentVerses.length - 1 : startIndex;
-      const freshRound = mode === 'all' && currentVerses.every(v => v.repetitionCount >= getTarget());
+      const freshRound = mode === 'all' && currentVerses.every(v => v.repetitionCount >= (v.customTarget || getTarget()));
 
       for (let i = first; i <= last; i++) {
         if (token !== playToken) return;
         const verse = currentVerses[i];
-        const target = getTarget();
+        const target = verse.customTarget || getTarget();
         const needsFresh = mode === 'all' ? freshRound : verse.repetitionCount >= target;
         const toPlay = needsFresh ? target : Math.max(0, target - verse.repetitionCount);
         if (toPlay === 0) continue;
@@ -2019,7 +2032,14 @@
           setIndicator(`${t.verseLabel} ${verse.numberInSurah} (${played + 1}/${toPlay})`);
           const r = await playVerseWithFallback(verse, token);
           if (token !== playToken) return;
-          if (r === 'ended') { played++; bumpRep(i); }
+          if (r === 'ended') {
+            played++;
+            verse.repetitionCount++;
+            repCounts[repKey(verse.surah, verse.numberInSurah)] = verse.repetitionCount;
+            saveJSON(STORE.counts, repCounts);
+            setText(`rep-count-${i}`, verse.repetitionCount);
+            updateSessionSummary();
+          }
           else if (r === 'restart') { continue; }
           else {
             if (r === 'failed') showToast(t.audioFailed, true);
@@ -2130,8 +2150,8 @@
       const done = currentVerses.reduce((sum, v) => sum + v.repetitionCount, 0);
       if (!currentVerses.length || done === 0) { showToast(t.toastNothingToSave, true); return; }
 
-      const target = getTarget();
-      const versesDone = currentVerses.filter(v => v.repetitionCount >= target).length;
+      const totalTarget = currentVerses.reduce((sum, v) => sum + (v.customTarget || getTarget()), 0);
+      const versesDone = currentVerses.filter(v => v.repetitionCount >= (v.customTarget || getTarget())).length;
       const now = new Date();
 
       const entry = {
@@ -2140,7 +2160,7 @@
         portion: portionLabel(),
         pages: pagesLabel(),
         reps: done,
-        target: target * currentVerses.length,
+        target: totalTarget,
         versesDone,
         versesTotal: currentVerses.length,
         completed: versesDone === currentVerses.length,
@@ -2197,18 +2217,17 @@
       return lines.join('\n');
     }
 
-
     // ==================================================================
     // SHARE A SINGLE VERSE
     // ==================================================================
-    const SURAH_NAMES_ML = ["അൽ ഫാതിഹ", "അൽ ബഖറ", "ആലു ഇംറാൻ", "അന്നിസാഅ്", "അൽ മാഇദ", "അൽ അൻആം", "അൽ അഅ്റാഫ്", "അൽ അൻഫാൽ", "അത്തൗബ", "യൂനുസ്", "ഹൂദ്", "യൂസുഫ്", "അർറഅ്ദ്", "ഇബ്റാഹീം", "അൽ ഹിജ്ർ", "അന്നഹ്ൽ", "അൽ ഇസ്റാഅ്", "അൽ കഹ്ഫ്", "മർയം", "ത്വാഹാ", "അൽ അമ്പിയാഅ്", "അൽ ഹജ്ജ്", "അൽ മുഅ്മിനൂൻ", "അന്നൂർ", "അൽ ഫുർഖാൻ", "അശ്ശുഅറാഅ്", "അന്നംൽ", "അൽ ഖസ്വസ്വ്", "അൽ അൻകബൂത്ത്", "അർറൂം", "ലുഖ്മാൻ", "അസ്സജ്ദ", "അൽ അഹ്സാബ്", "സബഅ്", "ഫാത്വിർ", "യാസീൻ", "അസ്സ്വാഫ്ഫാത്ത്", "സ്വാദ്", "അസ്സുമർ", "ഗാഫിർ", "ഫുസ്സിലത്ത്", "അശ്ശൂറാ", "അസ്സുഖ്റുഫ്", "അദ്ദുഖാൻ", "അൽ ജാസിയ", "അൽ അഹ്ഖാഫ്", "മുഹമ്മദ്", "അൽ ഫത്ഹ്", "അൽ ഹുജുറാത്ത്", "ഖാഫ്", "അദ്ദാരിയാത്ത്", "അത്ത്വൂർ", "അന്നജ്മ്", "അൽ ഖമർ", "അർറഹ്മാൻ", "അൽ വാഖിഅ", "അൽ ഹദീദ്", "അൽ മുജാദില", "അൽ ഹശ്ർ", "അൽ മുംതഹിന", "അസ്സ്വഫ്ഫ്", "അൽ ജുമുഅ", "അൽ മുനാഫിഖൂൻ", "അത്തഗാബുൻ", "അത്ത്വലാഖ്", "അത്തഹ്രീം", "അൽ മുൽക്ക്", "അൽ ഖലം", "അൽ ഹാഖ്ഖ", "അൽ മആരിജ്", "നൂഹ്", "അൽ ജിന്ന്", "അൽ മുസ്സമ്മിൽ", "അൽ മുദ്ദസ്സിർ", "അൽ ഖിയാമ", "അൽ ഇൻസാൻ", "അൽ മുർസലാത്ത്", "അന്നബഅ്", "അന്നാസിആത്ത്", "അബസ", "അത്തക്വീർ", "അൽ ഇൻഫിത്വാർ", "അൽ മുത്വഫ്ഫിഫീൻ", "അൽ ഇൻശിഖാഖ്", "അൽ ബുറൂജ്", "അത്ത്വാരിഖ്", "അൽ അഅ്ലാ", "അൽ ഗാശിയ", "അൽ ഫജ്ർ", "അൽ ബലദ്", "അശ്ശംസ്", "അല്ലൈൽ", "അള്ളുഹാ", "അലം നശ്റഹ്", "അത്തീൻ", "അൽ അലഖ്", "അൽ ഖദ്ർ", "അൽ ബയ്യിന", "അസ്സിൽസാൽ", "അൽ ആദിയാത്ത്", "അൽ ഖാരിഅ", "അത്തകാസുർ", "അൽ അസ്ർ", "അൽ ഹുമസ", "അൽ ഫീൽ", "ഖുറൈശ്", "അൽ മാഊൻ", "അൽ കൗസർ", "അൽ കാഫിറൂൻ", "അന്നസ്ർ", "അൽ മസദ്", "അൽ ഇഖ്ലാസ്", "അൽ ഫലഖ്", "അന്നാസ്"];
+    const SURAH_NAMES_ML = ["അൽ ഫാതിഹ", "അൽ ബഖറ", "ആലു ഇംറാൻ", "അന്നിസാഅ്", "അൽ മാഇദ", "അൽ അൻആം", "അൽ അഅ്റാഫ്", "അൽ അൻഫാൽ", "അത്തൗബ", "യൂനുസ്", "ഹൂദ്", "യൂസുഫ്", "അർറഅ്ദ്", "ഇബ്റാഹീം", "അൽ ഹിജ്ർ", "അന്നഹ്ൽ", "അൽ ഇസ്റാഅ്", "അൽ കഹ്ഫ്", "മർയം", "ത്വാഹാ", "അൽ അമ്പിയാഅ്", "അൽ ഹജ്ജ്", "അൽ മുഅ്മിനൂൻ", "അന്നൂർ", "അൽ ഫുർഖാൻ", "അശ്ശുഅറാഅ്", "അന്നംൽ", "അൽ ഖസ്വസ്വ്", "അൽ അൻകബൂത്ത്", "അർറൂം", "ലുഖ്മാൻ", "അസ്സജ്ദ", "അൽ അഹ്സാബ്", "സബഅ്", "ഫാത്വിർ", "യാസീൻ", "അസ്സ്വാഫ്ഫാത്ത്", "സ്വാദ്", "അസ്സുമർ", "ഗാഫിർ", "ഫുസ്സിലത്ത്", "അശ്ശൂറാ", "അസ്സുഖ്റുഫ്", "അദ്ദുഖാൻ", "അൽ ജാസിയ", "അൽ അഹ്ഖാഫ്", "മുഹമ്മദ്", "അൽ ഫത്ഹ്", "അൽ ഹുജുറാത്ത്", "ഖാഫ്", "അദ്ദാരിയാത്ത്", "അത്ത്വൂർ", "അന്നജ്മ്", "അൽ ഖമർ", "അർറഹ്മാൻ", "അൽ വാഖിഅ", "അൽ ഹദീദ്", "അൽ മുജാദില", "അൽ ഹശ്ർ", "അൽ മുംതഹിന", "അസ്സ്വഫ്ഫ്", "അൽ ജുമുഅ", "അൽ മുനാഫിഖൂൻ", "അത്തഗാബുൻ", "അത്ത്വലാഖ്", "അത്തഹ്രീം", "അൽ മുൽക്ക്", "അൽ ഖലം", "അൽ ഹാഖ്ഖ", "അൽ മആരിജ്", "നൂഹ്", "അൽ ജിന്ന്", "അൽ മുസ്സമ്മിൽ", "അൽ മുദ്ദസ്സിർ", "അൽ ഖിയാമ", "അൽ ഇൻസാൻ", "അൽ മുർസലാത്ത്", "അന്നബഅ്", "അന്നാസിആത്ത്", "അബസ", "അത്തക്വീർ", "അൽ ഇൻഫിത്വാർ", "അൽ മുത്വഫ്ഫിഫീൻ", "അൽ ഇൻശിഖാഖ്", "അൽ ബുറൂജ്", "അത്ത്വാരിഖ്", "അൽ അഅ്ലാ", "അൽ ഗാശിയ", "അൽ ഫജ്ർ", "അൽ ബലദ്", "അശ്ശംസ്", "അല്ലൈൽ", "അള്ളുഹാ", "അലം നശ്റഹ്", "അത്തീൻ", "അൽ അലഖ്", "আল খদর", "അൽ ബയ്യിന", "അസ്സിൽസാൽ", "അൽ ആദിയാത്ത്", "അൽ ഖാരിഅ", "അത്തകാസുർ", "അൽ അസ്ർ", "അൽ ഹുമസ", "അൽ ഫീൽ", "ഖുറൈശ്", "അൽ മാഊൻ", "അൽ കൗസർ", "അൽ കാഫിറൂൻ", "അന്നസ്ർ", "അൽ മസദ്", "അൽ ഇഖ്ലാസ്", "അൽ ഫലഖ്", "അന്നാസ്"];
     const SURAH_NAMES_BN = ["আল-ফাতিহা", "আল-বাকারা", "আলে ইমরান", "আন-নিসা", "আল-মায়িদা", "আল-আনআম", "আল-আ'রাফ", "আল-আনফাল", "আত-তাওবা", "ইউনুস", "হুদ", "ইউসুফ", "আর-রা'দ", "ইবরাহীম", "আল-হিজর", "আন-নাহল", "আল-ইসরা", "আল-কাহফ", "মারইয়াম", "ত্বা-হা", "আল-আম্বিয়া", "আল-হাজ্জ", "আল-মু'মিনূন", "আন-নূর", "আল-ফুরকান", "আশ-শু'আরা", "আন-নামল", "আল-কাসাস", "আল-আনকাবূত", "আর-রূম", "লুকমান", "আস-সাজদা", "আল-আহযাব", "সাবা", "ফাতির", "ইয়াসীন", "আস-সাফফাত", "সোয়াদ", "আয-যুমার", "গাফির", "ফুসসিলাত", "আশ-শূরা", "আয-যুখরুফ", "আদ-দুখান", "আল-জাসিয়া", "আল-আহকাফ", "মুহাম্মদ", "আল-ফাতহ", "আল-হুজুরাত", "কাফ", "আয-যারিয়াত", "আত-তূর", "আন-নাজম", "আল-কামার", "আর-রহমান", "আল-ওয়াকিয়া", "আল-হাদীদ", "আল-মুজাদালা", "আল-হাশর", "আল-মুমতাহিনা", "আস-সফ", "আল-জুমুআ", "আল-মুনাফিকূন", "আত-তাগাবুন", "আত-তালাক", "আত-তাহরীম", "আল-মুলক", "আল-কলম", "আল-হাক্কাহ", "আল-মা'আরিজ", "নূহ", "আল-জিন", "আল-মুযযাম্মিল", "আল-মুদ্দাসসির", "আল-কিয়ামাহ", "আল-ইনসান", "আল-মুরসালাত", "আন-নাবা", "আন-নাযিআত", "আবাসা", "আত-তাকভীর", "আল-ইনফিতার", "আল-মুতাফফিফীন", "আল-ইনশিকাক", "আল-বুরূজ", "আত-তারিক", "আল-আ'লা", "আল-গাশিয়াহ", "আল-ফজর", "আল-বালাদ", "আশ-শামস", "আল-লাইল", "আদ-দুহা", "আল-ইনশিরাহ", "আত-তীন", "আল-আলাক", "আল-কদর", "আল-বাইয়্যিনাহ", "আয-যিলযাল", "আল-আদিয়াত", "আল-কারিআ", "আত-তাকাসুর", "আল-আসর", "আল-হুমাযাহ", "আল-ফীল", "কুরাইশ", "আল-মাঊন", "আল-কাওসার", "আল-কাফিরূন", "আন-নাসর", "আল-লাহাব", "আল-ইখলাস", "আল-ফালাক", "আন-নাস"];
     const APP_SITE_URL = 'https://quranlearning.app/';
 
     function surahNameForShare(num) {
       const sd = surahList.find(x => x.number === num);
       if (!sd) return `${T().shareSurah} ${num}`;
-      if (currentLang === 'ar' || currentLang === 'ur') return sd.name;           // already includes "سورة"
+      if (currentLang === 'ar' || currentLang === 'ur') return sd.name;
       let name = sd.englishName;
       if (currentLang === 'ml') name = SURAH_NAMES_ML[num - 1] || name;
       if (currentLang === 'bn') name = SURAH_NAMES_BN[num - 1] || name;
@@ -2332,7 +2351,7 @@
       const w = swReg && swReg.waiting;
       if (w) {
         w.postMessage({ type: 'SKIP_WAITING' });
-        setTimeout(() => location.reload(), 2500);   // safety net if controllerchange never fires
+        setTimeout(() => location.reload(), 2500);
       } else {
         location.reload();
       }
