@@ -117,142 +117,143 @@
   <!-- Main Layout Container -->
   <div class="flex flex-col min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative clip-x">
     
-    <!-- Sliding Dropdown Settings Panel Sidebar -->
-    <aside id="appSidebar" class="absolute inset-x-0 top-0 z-40 transform -translate-y-full transition-transform duration-300 ease-in-out w-full bg-dark-emerald text-emerald-50 p-4 border-b border-emerald-950 shadow-2xl max-h-[90vh] overflow-y-auto">
-      <div class="max-w-2xl mx-auto space-y-3">
+    <!-- Sliding Dropdown Settings Panel Sidebar with Click-Outside Backdrop support -->
+    <div id="sidebarBackdrop" onclick="handleBackdropClick(event)" class="absolute inset-0 z-40 bg-black/40 transition-opacity duration-300 pointer-events-none opacity-0">
+      <aside id="appSidebar" class="absolute inset-x-0 top-0 transform -translate-y-full transition-transform duration-300 ease-in-out w-full bg-dark-emerald text-emerald-50 p-4 border-b border-emerald-950 shadow-2xl max-h-[90vh] overflow-y-auto pointer-events-auto">
+        <div class="max-w-2xl mx-auto space-y-3">
 
-        <!-- PWA Install Button -->
-        <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
-          <span>📱</span>
-          <span>Install App</span>
-        </button>
-      
-        <!-- Dropdown Controls & Form Inputs -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          
-          <!-- Surah Selector Dropdown -->
-          <div class="md:col-span-2">
-            <label id="lblSurah" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-              Select Surah (السورة)
-            </label>
-            <div class="flex items-center space-x-2">
-              <select id="surahSelect" onchange="onSurahChange()" class="w-full min-w-0 bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
-                <!-- Dynamically populated -->
-              </select>
-              <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2 py-2 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">
-                -- Verses
-              </span>
-            </div>
-          </div>
-
-          <!-- Verse Range Picker -->
-          <div>
-            <label id="lblFromVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-              From Verse (من آية)
-            </label>
-            <input type="number" id="fromVerse" value="1" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-          </div>
-          <div>
-            <label id="lblToVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-              To Verse (إلى آية)
-            </label>
-            <input type="number" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-          </div>
-
-          <!-- Repetition Counter Target (Default 1) -->
-          <div>
-            <label id="lblRepetition" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-              Repetition Target (التكرار)
-            </label>
-            <div class="flex items-center space-x-2">
-              <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">-</button>
-              <input type="number" id="repetitionTarget" value="1" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:outline-none">
-              <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">+</button>
-            </div>
-          </div>
-
-          <!-- Reciter Audio Picker -->
-          <div>
-            <label id="lblReciter" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-              Reciter (القارئ)
-            </label>
-            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
-              <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
-              <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
-              <option value="ar.alafasy">Mishary Rashid Alafasy</option>
-              <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
-              <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
-              <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
-              <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
-              <option value="Husary_Muallim_128kbps"selected>Al-Husary (Muallim / Repeat)</option>
-            </select>
-          </div>
-
-          <!-- Daily Page Wird Selector -->
-          <div class="pt-2.5 border-t border-dark-emerald md:col-span-2">
-            <label id="lblDailyWird" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
-              Daily Page Range (الورد اليومي)
-            </label>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
-                <input type="number" id="fromPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
-              </div>
-              <div>
-                <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
-                <input type="number" id="toPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
-              </div>
-            </div>
-            <button id="btnLoadPages" onclick="loadPageRange()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-1.5 rounded-lg transition-all">Load Pages</button>
-            <p id="pageModeNote" class="hidden mt-1.5 text-[10px] text-emerald-300 leading-snug"></p>
-          </div>
-
-          <!-- Hijri Date Switcher Toggle -->
-          <div class="pt-2.5 border-t border-dark-emerald flex items-center justify-between md:col-span-1">
-            <span class="text-[11px] font-semibold text-emerald-200 uppercase tracking-wider">Hijri Date (التاريخ الهجري)</span>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
-              <div class="w-8 h-4 bg-dark-emerald-light peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-emerald-800 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-600 border border-dark-emerald"></div>
-            </label>
-          </div>
-
-          <!-- View Mode Toggle -->
-          <div class="pt-2.5 border-t border-dark-emerald md:col-span-1">
-            <label id="lblViewMode" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
-              View Mode (نمط العرض)
-            </label>
-            <div class="flex rounded-lg bg-dark-emerald-light p-1 border border-dark-emerald">
-              <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
-                Verses (آيات)
-              </button>
-              <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
-                Mus'haf Page (مصحف)
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Red Close Button at Bottom of Settings Panel -->
-        <div class="pt-3 border-t border-dark-emerald">
-          <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1">
-            <span>✕ Close Settings</span>
+          <!-- PWA Install Button -->
+          <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
+            <span>📱</span>
+            <span>Install App</span>
           </button>
-        </div>
-      </div>
+        
+          <!-- Dropdown Controls & Form Inputs -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            
+            <!-- Surah Selector Dropdown -->
+            <div class="md:col-span-2">
+              <label id="lblSurah" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+                Select Surah (السورة)
+              </label>
+              <div class="flex items-center space-x-2">
+                <select id="surahSelect" onchange="onSurahChange()" class="w-full min-w-0 bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
+                  <!-- Dynamically populated -->
+                </select>
+                <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2 py-2 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">
+                  -- Verses
+                </span>
+              </div>
+            </div>
 
-    </aside>
+            <!-- Verse Range Picker -->
+            <div>
+              <label id="lblFromVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+                From Verse (من آية)
+              </label>
+              <input type="number" id="fromVerse" value="1" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+            </div>
+            <div>
+              <label id="lblToVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+                To Verse (إلى آية)
+              </label>
+              <input type="number" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+            </div>
+
+            <!-- Repetition Counter Target (Default 1) -->
+            <div>
+              <label id="lblRepetition" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+                Repetition Target (التكرار)
+              </label>
+              <div class="flex items-center space-x-2">
+                <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">-</button>
+                <input type="number" id="repetitionTarget" value="1" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:outline-none">
+                <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">+</button>
+              </div>
+            </div>
+
+            <!-- Reciter Audio Picker -->
+            <div>
+              <label id="lblReciter" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
+                Reciter (القارئ)
+              </label>
+              <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
+                <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
+                <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
+                <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+                <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
+                <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
+                <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
+                <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
+                <option value="Husary_Muallim_128kbps"selected>Al-Husary (Muallim / Repeat)</option>
+              </select>
+            </div>
+
+            <!-- Daily Page Wird Selector -->
+            <div class="pt-2.5 border-t border-dark-emerald md:col-span-2">
+              <label id="lblDailyWird" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
+                Daily Page Range (الورد اليومي)
+              </label>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
+                  <input type="number" id="fromPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
+                </div>
+                <div>
+                  <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
+                  <input type="number" id="toPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
+                </div>
+              </div>
+              <button id="btnLoadPages" onclick="loadPageRange()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-1.5 rounded-lg transition-all">Load Pages</button>
+              <p id="pageModeNote" class="hidden mt-1.5 text-[10px] text-emerald-300 leading-snug"></p>
+            </div>
+
+            <!-- Hijri Date Switcher Toggle -->
+            <div class="pt-2.5 border-t border-dark-emerald flex items-center justify-between md:col-span-1">
+              <span class="text-[11px] font-semibold text-emerald-200 uppercase tracking-wider">Hijri Date (التاريخ الهجري)</span>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
+                <div class="w-8 h-4 bg-dark-emerald-light peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-emerald-800 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-600 border border-dark-emerald"></div>
+              </label>
+            </div>
+
+            <!-- View Mode Toggle -->
+            <div class="pt-2.5 border-t border-dark-emerald md:col-span-1">
+              <label id="lblViewMode" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
+                View Mode (نمط العرض)
+              </label>
+              <div class="flex rounded-lg bg-dark-emerald-light p-1 border border-dark-emerald">
+                <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
+                  Verses (آيات)
+                </button>
+                <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
+                  Mus'haf Page (مصحف)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Red Close Button at Bottom of Settings Panel -->
+          <div class="pt-3 border-t border-dark-emerald">
+            <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1">
+              <span>✕ Close Settings</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
 
     <!-- Main Workspace Content Area -->
     <main class="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col justify-between">
       
       <div class="space-y-6">
-        <!-- Pinned Audio Controls Section (Zero gap offset, tightly locked under header) -->
+        <!-- Pinned Audio Controls Section (Zero gap offset, tightly locked under header, fits screen without scroll) -->
         <section class="bg-emerald-50/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-md border border-emerald-200/90 sticky z-20" style="top: var(--hdr-h, 57px);">
-          <div class="flex items-center justify-between gap-2 overflow-x-auto whitespace-nowrap">
-            <div class="flex items-center space-x-2 shrink-0">
+          <div class="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
+            <div class="flex items-center space-x-2">
               
               <!-- Play / Stop Toggle Icon Button -->
-              <button id="globalPlayBtn" onclick="toggleContinuousPlay()" title="Play / Stop All" class="bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center">
+              <button id="globalPlayBtn" onclick="toggleContinuousPlay()" title="Play / Stop All" class="bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center shrink-0">
                 <svg id="globalPlayIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -260,39 +261,44 @@
               </button>
 
               <!-- Pause / Resume Toggle Icon Button -->
-              <button id="pauseResumeBtn" onclick="togglePauseResume()" title="Pause / Resume" class="bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center">
+              <button id="pauseResumeBtn" onclick="togglePauseResume()" title="Pause / Resume" class="bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center shrink-0">
                 <svg id="pauseResumeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </button>
 
-              <!-- Moved Settings Button ("Select") -->
+              <!-- Settings Button ("Select") -->
               <button onclick="toggleSidebar()" class="bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center space-x-1 shrink-0">
                 <span>⚙️</span>
                 <span id="btnSettingsText">Select</span>
               </button>
             </div>
 
-            <div class="bg-white/90 border border-emerald-200 px-3 py-2 rounded-xl text-xs text-slate-600 flex items-center space-x-2 shadow-sm shrink-0">
-              <span id="activeVerseIndicator" class="font-medium text-slate-700">Not Playing</span>
-              <!-- Quick view toggle: Verses <-> Mus'haf (audio keeps playing) -->
-              <button id="viewToggleBtn" onclick="toggleViewMode()" class="text-emerald-700 hover:text-emerald-900 text-base p-0.5 rounded hover:bg-emerald-100/60 transition-all cursor-pointer" title="Switch view" aria-pressed="false">📜</button>
-              <!-- Info Emoji Button opens Instructions Popup -->
-              <button onclick="toggleInfoModal()" class="text-emerald-700 hover:text-emerald-900 text-base p-0.5 rounded hover:bg-emerald-100/60 transition-all cursor-pointer" title="Instructions">
-                ℹ️
-              </button>
+            <!-- Status Indicator neatly bounded -->
+            <div class="bg-white/90 border border-emerald-200 px-3 py-2 rounded-xl text-xs text-slate-600 flex items-center shadow-sm truncate max-w-full">
+              <span id="activeVerseIndicator" class="font-medium text-slate-700 truncate">Not Playing</span>
             </div>
           </div>
         </section>
 
         <!-- Verses Render List -->
         <section>
-          <div class="flex justify-between items-center mb-4">
+          <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
             <h3 class="font-bold text-lg text-slate-800 flex items-center space-x-2">
               <span id="lblSelectedVersesHeading">Selected Verses</span>
               <span id="verseCountBadge" class="text-xs bg-emerald-100 text-emerald-900 px-2.5 py-0.5 rounded-full font-semibold">0</span>
             </h3>
-            <span id="surahMetaHeader" class="text-xs text-slate-500 font-medium">--</span>
+            
+            <div class="flex items-center space-x-2">
+              <span id="surahMetaHeader" class="text-xs text-slate-500 font-medium">--</span>
+              <!-- Moved Mus'haf view toggle and Info Button to Verse Information Header Area -->
+              <button id="viewToggleBtn" onclick="toggleViewMode()" class="bg-white border border-emerald-200 text-emerald-700 hover:text-emerald-900 text-sm px-2 py-1 rounded-xl shadow-sm hover:bg-emerald-50 transition-all cursor-pointer flex items-center gap-1" title="Switch view" aria-pressed="false">
+                <span>📜</span>
+              </button>
+              <button onclick="toggleInfoModal()" class="bg-white border border-emerald-200 text-emerald-700 hover:text-emerald-900 text-sm px-2 py-1 rounded-xl shadow-sm hover:bg-emerald-50 transition-all cursor-pointer flex items-center gap-1" title="Instructions">
+                <span>ℹ️</span>
+              </button>
+            </div>
           </div>
 
           <div id="versesList" class="space-y-4">
@@ -330,7 +336,7 @@
 
         <!-- Weekly Progress Table -->
         <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-8">
-          <div class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+          <div class="p-5 border-b border-slate-200 flex justify-between items-center bg-slate-50 flex-wrap gap-3">
             <div>
               <h3 id="lblWeeklyLogTitle" class="font-bold text-slate-800 text-base">Weekly Log & Progress</h3>
               <p id="lblWeeklyLogDesc" class="text-xs text-slate-500">Your daily lessons and repetition records (Saved on your browser)</p>
@@ -966,21 +972,21 @@
       if (isRunning) {
         playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
         playBtn.title = "Stop";
-        playBtn.className = 'bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center';
+        playBtn.className = 'bg-rose-600 hover:bg-rose-700 text-white p-2.5 rounded-xl transition-all shadow-md flex items-center justify-center shrink-0';
       } else {
         playIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
         playBtn.title = "Play All Verses";
-        playBtn.className = 'bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center';
+        playBtn.className = 'bg-emerald-700 hover:bg-emerald-800 text-white p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center shrink-0';
       }
 
       if (isPaused) {
         pauseIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
         pauseBtn.title = "Resume";
-        pauseBtn.className = 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center';
+        pauseBtn.className = 'bg-emerald-100 hover:bg-emerald-200 text-emerald-800 border border-emerald-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center shrink-0';
       } else {
         pauseIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
         pauseBtn.title = "Pause";
-        pauseBtn.className = 'bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center';
+        pauseBtn.className = 'bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 p-2.5 rounded-xl transition-all shadow-sm flex items-center justify-center shrink-0';
       }
     }
 
@@ -989,7 +995,23 @@
     // ==================================================================
     function toggleSidebar() {
       const sidebar = $('appSidebar');
-      sidebar.classList.toggle('-translate-y-full');
+      const backdrop = $('sidebarBackdrop');
+      const isClosed = sidebar.classList.contains('-translate-y-full');
+      if (isClosed) {
+        backdrop.classList.remove('pointer-events-none', 'opacity-0');
+        backdrop.classList.add('pointer-events-auto', 'opacity-100');
+        sidebar.classList.remove('-translate-y-full');
+      } else {
+        sidebar.classList.add('-translate-y-full');
+        backdrop.classList.remove('pointer-events-auto', 'opacity-100');
+        backdrop.classList.add('pointer-events-none', 'opacity-0');
+      }
+    }
+
+    function handleBackdropClick(event) {
+      if (event.target === $('sidebarBackdrop')) {
+        toggleSidebar();
+      }
     }
 
     function toggleInfoModal() {
@@ -1403,7 +1425,7 @@
       const qt = $('viewToggleBtn');
       if (qt) {
         const inMushaf = currentViewMode === 'mushaf';
-        qt.textContent = inMushaf ? '📖' : '📜';
+        qt.innerHTML = inMushaf ? '📖' : '📜';
         qt.title = inMushaf ? 'Switch to Verses view' : "Switch to Mus'haf page view";
         qt.setAttribute('aria-pressed', inMushaf ? 'true' : 'false');
       }
