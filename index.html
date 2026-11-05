@@ -646,7 +646,7 @@
         updSteps: "“ഇപ്പോൾ അപ്ഡേറ്റ് ചെയ്യുക” അമർത്തുക — ആപ്പ് പുതിയ വേർഷനിൽ വീണ്ടും ലോഡ് ആകും.|മാറ്റമില്ലെങ്കിൽ ആപ്പ് പൂർണ്ണമായി ക്ലോസ് ചെയ്ത് (റീസന്റ് ആപ്പുകളിൽ നിന്ന് സ്വൈപ്പ് ചെയ്ത്) വീണ്ടും തുറക്കുക.|എന്നിട്ടും പഴയതാണെങ്കിൽ ബ്രൗസറിൽ സൈറ്റ് ഒരു തവണ തുറന്ന ശേഷം ആപ്പ് വീണ്ടും തുറക്കുക. റീഇൻസ്റ്റാൾ ആവശ്യമില്ല.",
         shareTip: "ഈ ആയത്ത് പങ്കിടുക",
         shareSurah: "സൂറത്ത്",
-        shareRequest: "ഇത് നിങ്ങളുടെ എല്ലാ സുഹൃത്തുക്കൾക്കും ബന്ധുക്കൾക്കും പങ്കിടണമെന്ന് അഭ്യർത്ഥിക്കുന്നു. 🤲",
+        shareRequest: "ഇത് നിങ്ങളുടെ എല്ലാ സുഹൃത്തുക്കൾക്കും ബന്ധുക്കളുമായും പങ്കിടണമെന്ന് അഭ്യർത്ഥിക്കുന്നു. 🤲",
         shareCopied: "ആയത്ത് കോപ്പി ചെയ്തു. പങ്കിടാൻ പേസ്റ്റ് ചെയ്യുക.",
         promptRepTarget: "ആയത്ത് {verse} നുള്ള ആവർത്തന എണ്ണം നൽകുക:"
       },
@@ -950,6 +950,7 @@
       document.documentElement.lang = currentLang;
       document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
       updateModeUI();
+      populateSurahDropdown(); // Update Surah names in the selected language
       if (typeof renderUpdateBanner === 'function' && $('updateBanner') && !$('updateBanner').classList.contains('hidden')) renderUpdateBanner();
     }
 
@@ -1071,20 +1072,48 @@
       renderLogsTable();
     };
 
+    function getSurahDisplayName(s) {
+      const num = s.number;
+      const arabicName = s.name;
+      if (currentLang === 'ml') {
+        const mlName = SURAH_NAMES_ML[num - 1] || s.englishName;
+        return `${num}. ${mlName} (${arabicName})`;
+      }
+      if (currentLang === 'bn') {
+        const bnName = SURAH_NAMES_BN[num - 1] || s.englishName;
+        return `${num}. ${bnName} (${arabicName})`;
+      }
+      if (currentLang === 'ar') {
+        return `${num}. ${arabicName} (${s.englishName})`;
+      }
+      if (currentLang === 'ur') {
+        return `${num}. ${s.englishName} (${arabicName})`;
+      }
+      return `${num}. ${s.englishName} (${arabicName})`;
+    }
+
+    function populateSurahDropdown() {
+      if (!surahList.length) return;
+      const select = $('surahSelect');
+      const currentVal = select.value;
+      select.innerHTML = '';
+      surahList.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.number;
+        opt.innerText = getSurahDisplayName(s);
+        select.appendChild(opt);
+      });
+      if (currentVal) select.value = currentVal;
+    }
+
     async function fetchSurahList(selectedNumber) {
       try {
         const res = await apiFetch('https://api.alquran.cloud/v1/surah');
         const data = await res.json();
         if (data.code === 200) {
           surahList = data.data;
+          populateSurahDropdown();
           const select = $('surahSelect');
-          select.innerHTML = '';
-          surahList.forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = s.number;
-            opt.innerText = `${s.number}. ${s.englishName} (${s.name})`;
-            select.appendChild(opt);
-          });
           select.value = surahList.some(s => s.number === selectedNumber) ? selectedNumber : 1;
           updateTotalVersesBadge();
         }
@@ -1159,7 +1188,7 @@
 
       try {
         const editions = { en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali' };
-        const translationEdition = editions[currentLang] || null;
+        const translationEdition = currentLang === 'ar' ? null : (editions[currentLang] || null);
 
         const requests = [apiFetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)];
         if (translationEdition) {
@@ -1193,8 +1222,9 @@
         }
 
         $('verseCountBadge').innerText = currentVerses.length;
+        const surahDisplayTitle = surahData ? (currentLang === 'ml' ? (SURAH_NAMES_ML[surahData.number - 1] || surahData.englishName) : currentLang === 'bn' ? (SURAH_NAMES_BN[surahData.number - 1] || surahData.englishName) : surahData.englishName) : '';
         $('surahMetaHeader').innerText =
-          `${surahData ? surahData.englishName : ''} (${t.verseRange.replace('{from}', fromV).replace('{to}', toV)})`;
+          `${surahDisplayTitle} (${t.verseRange.replace('{from}', fromV).replace('{to}', toV)})`;
         renderCurrentView();
         updateSessionSummary();
       } catch (err) {
@@ -1216,10 +1246,11 @@
       currentVerses.forEach((verse, idx) => {
         if (viewMode === 'pages' && verse.surah !== lastSurah) {
           const sd = surahList.find(x => x.number === verse.surah);
+          const sName = sd ? (currentLang === 'ml' ? (SURAH_NAMES_ML[sd.number - 1] || sd.englishName) : currentLang === 'bn' ? (SURAH_NAMES_BN[sd.number - 1] || sd.englishName) : sd.englishName) : '';
           const head = document.createElement('div');
           head.className = 'flex items-center gap-3 pt-2';
           head.innerHTML = `
-            <span class="bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full">${escapeHtml(sd ? `${sd.number}. ${sd.englishName}` : `#${verse.surah}`)}</span>
+            <span class="bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-full">${escapeHtml(sd ? `${sd.number}. ${sName}` : `#${verse.surah}`)}</span>
             <span class="font-quran text-lg text-emerald-900">${escapeHtml(sd ? sd.name : '')}</span>
             <span class="flex-1 border-t border-slate-200"></span>`;
           container.appendChild(head);
@@ -1349,7 +1380,7 @@
 
       try {
         const editions = { en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali' };
-        const edition = editions[currentLang] || null;
+        const edition = currentLang === 'ar' ? null : (editions[currentLang] || null);
         const pages = [];
         for (let p = from; p <= to; p++) pages.push(p);
 
@@ -1461,7 +1492,8 @@
       });
       return parts.map(p => {
         const sd = surahList.find(x => x.number === p.surah);
-        return `${sd ? sd.englishName : 'Surah ' + p.surah} ${p.from}-${p.to}`;
+        const sName = sd ? (currentLang === 'ml' ? (SURAH_NAMES_ML[sd.number - 1] || sd.englishName) : currentLang === 'bn' ? (SURAH_NAMES_BN[sd.number - 1] || sd.englishName) : sd.englishName) : '';
+        return `${sName || ('Surah ' + p.surah)} ${p.from}-${p.to}`;
       }).join(' + ');
     }
 
@@ -1591,7 +1623,7 @@
     function portionLabel() {
       if (!currentVerses.length) {
         const s0 = surahList.find(x => x.number === (parseInt($('surahSelect').value) || 1));
-        return s0 ? s0.englishName : '';
+        return s0 ? (currentLang === 'ml' ? (SURAH_NAMES_ML[s0.number - 1] || s0.englishName) : currentLang === 'bn' ? (SURAH_NAMES_BN[s0.number - 1] || s0.englishName) : s0.englishName) : '';
       }
       const parts = [];
       currentVerses.forEach(v => {
@@ -1601,7 +1633,8 @@
       });
       return parts.map(p => {
         const sd = surahList.find(x => x.number === p.surah);
-        return `${sd ? sd.englishName : 'Surah ' + p.surah} (${p.from}-${p.to})`;
+        const sName = sd ? (currentLang === 'ml' ? (SURAH_NAMES_ML[sd.number - 1] || sd.englishName) : currentLang === 'bn' ? (SURAH_NAMES_BN[sd.number - 1] || sd.englishName) : sd.englishName) : '';
+        return `${sName || ('Surah ' + p.surah)} (${p.from}-${p.to})`;
       }).join(' + ');
     }
 
