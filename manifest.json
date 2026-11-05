@@ -6,6 +6,16 @@
   "background_color": "#0d3322",
   "theme_color": "#0d3322",
   "orientation": "any",
+  "dir": "auto",
+  "lang": "en",
+  "id": "Quran",
+  "description": "The QL App or the QuranLearning App (quranlearning.app) is a progressive web app designed to help users memorize, read, and revise the Holy Quran with multi-language support and specialized learning tools.",
+  "categories": [
+    "books",
+    "personalization",
+    "productivity",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "./icon-192.png",
