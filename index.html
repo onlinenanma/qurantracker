@@ -40,7 +40,7 @@
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
   <!-- Always Visible Top Header -->
-  <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
+  <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-[45] shadow-md sticky top-0">
     <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2">
       
       <!-- Branding & Title -->
@@ -62,15 +62,21 @@
           Loading Date...
         </span>
 
-        <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
-          <span class="text-xs">🌐</span>
-          <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer">
-            <option value="en" class="bg-dark-emerald text-white" selected>English</option>
-            <option value="ar" class="bg-dark-emerald text-white">العربية</option>
-            <option value="ml" class="bg-dark-emerald text-white">മലയാളം</option>
-            <option value="ur" class="bg-dark-emerald text-white">اردو</option>
-            <option value="bn" class="bg-dark-emerald text-white">বাংলা</option>
-          </select>
+        <!-- Language picker: custom button + menu (no dependence on native <select> overlay) -->
+        <div class="relative" dir="ltr">
+          <button type="button" id="langBtn" onclick="toggleLangMenu(event)" aria-haspopup="listbox" aria-expanded="false" aria-label="Language / اللغة"
+                  class="flex items-center gap-1.5 bg-dark-emerald-light px-2.5 py-1.5 rounded-lg border border-dark-emerald hover:border-emerald-500 active:bg-emerald-800 transition-colors cursor-pointer select-none">
+            <span class="text-sm leading-none" aria-hidden="true">🌐</span>
+            <span id="langCurrent" class="text-xs font-semibold text-white whitespace-nowrap">English</span>
+            <span class="text-[9px] text-emerald-300" aria-hidden="true">▼</span>
+          </button>
+          <div id="langMenu" role="listbox" class="hidden absolute right-0 top-full mt-1.5 min-w-[9rem] bg-dark-emerald border border-emerald-700 rounded-xl shadow-2xl py-1 z-[60]">
+            <button type="button" role="option" data-lang="en" onclick="pickLanguage('en')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>English</span><span class="tick text-emerald-300"></span></button>
+            <button type="button" role="option" data-lang="ar" onclick="pickLanguage('ar')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>العربية</span><span class="tick text-emerald-300"></span></button>
+            <button type="button" role="option" data-lang="ml" onclick="pickLanguage('ml')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>മലയാളം</span><span class="tick text-emerald-300"></span></button>
+            <button type="button" role="option" data-lang="ur" onclick="pickLanguage('ur')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>اردو</span><span class="tick text-emerald-300"></span></button>
+            <button type="button" role="option" data-lang="bn" onclick="pickLanguage('bn')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>বাংলা</span><span class="tick text-emerald-300"></span></button>
+          </div>
         </div>
       </div>
 
@@ -412,6 +418,8 @@
     // Translations Dictionary
     const translations = {
       en: {
+        viewShortVerse: "Verses",
+        viewShortMushaf: "Mus'haf",
         lblSettingsTitle: "Settings",
         lblHijri: "Hijri Date (التاريخ الهجري)",
         btnCloseSettingsText: "Close",
@@ -512,6 +520,8 @@
         promptRepTarget: "Enter repetition target count for verse {verse}:"
       },
       ar: {
+        viewShortVerse: "آيات",
+        viewShortMushaf: "المصحف",
         lblSettingsTitle: "الإعدادات",
         lblHijri: "التاريخ الهجري",
         btnCloseSettingsText: "إغلاق",
@@ -612,6 +622,8 @@
         shareCopied: "تم نسخ الآية. الصقها للمشاركة."
       },
       ml: {
+        viewShortVerse: "വാക്യങ്ങൾ",
+        viewShortMushaf: "മുസ്ഹഫ്",
         lblSettingsTitle: "ക്രമീകരണങ്ങൾ",
         lblHijri: "ഹിജ്റ തീയതി",
         btnCloseSettingsText: "അടയ്ക്കുക",
@@ -712,6 +724,8 @@
         promptRepTarget: "ആയത്ത് {verse} നുള്ള ആവർത്തന എണ്ണം നൽകുക:"
       },
       ur: {
+        viewShortVerse: "آیات",
+        viewShortMushaf: "مصحف",
         lblSettingsTitle: "ترتیبات",
         lblHijri: "ہجری تاریخ",
         btnCloseSettingsText: "بند کریں",
@@ -812,6 +826,8 @@
         promptRepTarget: "آیت {verse} کے لیے تکرار کی تعداد درج کریں:"
       },
       bn: {
+        viewShortVerse: "আয়াত",
+        viewShortMushaf: "মুসহাফ",
         lblSettingsTitle: "সেটিংস",
         lblHijri: "হিজরি তারিখ",
         btnCloseSettingsText: "বন্ধ করুন",
@@ -1016,12 +1032,50 @@
       if (!isRunning) setText('activeVerseIndicator', t.notPlaying);
       setText('currentDateBadge', getFormattedDate());
       document.documentElement.lang = currentLang;
+      syncLangPicker();
       document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
       updateModeUI();
+      updateViewToggleUI();
       populateSurahDropdown(); // Update Surah names in the selected language
       if (typeof updateTotalVersesBadge === 'function' && surahList.length) updateTotalVersesBadge();
       if (typeof renderUpdateBanner === 'function' && $('updateBanner') && !$('updateBanner').classList.contains('hidden')) renderUpdateBanner();
     }
+
+
+    // ==================================================================
+    // LANGUAGE MENU
+    // ==================================================================
+    const LANG_NAMES = { en: 'English', ar: 'العربية', ml: 'മലയാളം', ur: 'اردو', bn: 'বাংলা' };
+    function syncLangPicker() {
+      const lc = $('langCurrent'); if (lc) lc.textContent = LANG_NAMES[currentLang] || 'English';
+      document.querySelectorAll('#langMenu .lang-opt').forEach(b => {
+        const on = b.dataset.lang === currentLang;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.classList.toggle('bg-emerald-900', on);
+        b.querySelector('.tick').textContent = on ? '✓' : '';
+      });
+    }
+    function closeLangMenu() {
+      const m = $('langMenu'); if (!m) return;
+      m.classList.add('hidden');
+      const b = $('langBtn'); if (b) b.setAttribute('aria-expanded', 'false');
+    }
+    function toggleLangMenu(ev) {
+      if (ev) ev.stopPropagation();
+      const m = $('langMenu'); if (!m) return;
+      const open = m.classList.contains('hidden');
+      if (open) {
+        // close the settings panel if it is open so the menu is never hidden behind it
+        const sb = $('appSidebar');
+        if (sb && !sb.classList.contains('-translate-y-full')) toggleSidebar();
+        syncLangPicker();
+        m.classList.remove('hidden');
+      } else m.classList.add('hidden');
+      const b = $('langBtn'); if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function pickLanguage(lang) { closeLangMenu(); changeLanguage(lang); }
+    document.addEventListener('click', e => { if (!e.target.closest('#langMenu') && !e.target.closest('#langBtn')) closeLangMenu(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLangMenu(); });
 
     function changeLanguage(lang) {
       if (!translations[lang]) return;
@@ -1130,7 +1184,6 @@
     window.onload = async function () {
       const savedLang = loadJSON(STORE.lang, 'en');
       currentLang = translations[savedLang] ? savedLang : 'en';
-      $('langSelect').value = currentLang;
       applyLanguage();
 
       await syncReciterList();
@@ -1525,8 +1578,11 @@
       const qt = $('viewToggleBtn');
       if (qt) {
         const inMushaf = currentViewMode === 'mushaf';
-        qt.innerHTML = inMushaf ? '📖' : '📜';
-        qt.title = inMushaf ? 'Switch to Verses view' : "Switch to Mus'haf page view";
+        const t = T();
+        // Shows the view you will switch TO
+        const word = inMushaf ? t.viewShortVerse : t.viewShortMushaf;
+        qt.innerHTML = '<span>' + (inMushaf ? '📖' : '📜') + '</span><span class="text-xs font-semibold">' + escapeHtml(word) + '</span>';
+        qt.title = word;
         qt.setAttribute('aria-pressed', inMushaf ? 'true' : 'false');
       }
     }
