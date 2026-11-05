@@ -46,6 +46,7 @@ self.addEventListener('activate', event => {
   );
 });
 
+// PWABuilder Workbox Navigation Preload & Routing integration
 if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
