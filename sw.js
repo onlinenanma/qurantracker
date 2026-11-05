@@ -1,5 +1,5 @@
 /* quranlearning.app - service worker */
-const VERSION = 'v1.0.2';
+const VERSION = 'v1.0.3';
 const CACHE_NAME = 'quranlearning.app-' + VERSION;
 const CACHE_PREFIX = 'quranlearning.app-';
 const AUDIO_CACHE = 'hifz-audio-v1';   // used by the page for verse audio - must NOT be deleted
@@ -57,6 +57,64 @@ workbox.routing.registerRoute(
     cacheName: OFFLINE_CACHE
   })
 );
+
+// --- PUSH NOTIFICATIONS SUPPORT ---
+self.addEventListener('push', (event) => {
+  let data = { title: 'Quran Learning', body: 'New notification received.', icon: './icon-192.png' };
+  if (event.data) {
+    try {
+      data = event.data.json();
+    } catch (e) {
+      data.body = event.data.text();
+    }
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(data.title, {
+      body: data.body,
+      icon: data.icon || './icon-192.png',
+      badge: './icon-192.png',
+      data: data.url || './'
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      for (let i = 0; i < windowClients.length; i++) {
+        const client = windowClients[i];
+        if (client.url === event.notification.data && 'focus' in client) {
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(event.notification.data);
+      }
+    })
+  );
+});
+
+// --- PERIODIC BACKGROUND SYNC SUPPORT ---
+self.addEventListener('periodicsync', (event) => {
+  if (event.tag === 'update-content') {
+    event.waitUntil(
+      // Add your background data fetch / cache refresh logic here
+      Promise.resolve()
+    );
+  }
+});
+
+// --- BACKGROUND SYNC SUPPORT ---
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'sync-offline-data') {
+    event.waitUntil(
+      // Add your offline data queue synchronization logic here
+      Promise.resolve()
+    );
+  }
+});
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
