@@ -27,6 +27,8 @@
     .border-dark-emerald { border-color: #1b5239; }
     /* clip (not hidden) keeps the off-canvas sidebar hidden without breaking position:sticky */
     .clip-x { overflow: clip; }
+    /* letter-spacing breaks joined Arabic/Urdu letters; uppercase is meaningless there */
+    [dir="rtl"] .lbl, .lbl:lang(ml), .lbl:lang(bn) { letter-spacing: 0 !important; text-transform: none !important; }
     .active-verse {
       border-color: #059669 !important;
       background-color: #f0fdf4 !important;
@@ -117,128 +119,113 @@
   <!-- Main Layout Container -->
   <div class="flex flex-col min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative clip-x">
     
-    <!-- Sliding Dropdown Settings Panel Sidebar with Click-Outside Backdrop support -->
-    <div id="sidebarBackdrop" onclick="handleBackdropClick(event)" class="absolute inset-0 z-40 bg-black/40 transition-opacity duration-300 pointer-events-none opacity-0">
-      <aside id="appSidebar" class="absolute inset-x-0 top-0 transform -translate-y-full transition-transform duration-300 ease-in-out w-full bg-dark-emerald text-emerald-50 p-4 border-b border-emerald-950 shadow-2xl max-h-[90vh] overflow-y-auto pointer-events-auto">
-        <div class="max-w-2xl mx-auto space-y-3">
+    <!-- Settings panel: fixed under the header so it is always visible (even when the page is scrolled); header with close button stays pinned -->
+    <div id="sidebarBackdrop" onclick="handleBackdropClick(event)" class="fixed inset-x-0 bottom-0 z-40 bg-black/50 transition-opacity duration-300 pointer-events-none opacity-0" style="top: var(--hdr-h, 57px);">
+      <aside id="appSidebar" class="absolute inset-x-0 top-0 transform -translate-y-full transition-transform duration-300 ease-in-out w-full max-w-2xl mx-auto bg-dark-emerald text-emerald-50 rounded-b-2xl border-b border-x border-emerald-950 shadow-2xl pointer-events-auto flex flex-col" style="max-height: calc(100dvh - var(--hdr-h, 57px) - 8px); max-height: calc(100vh - var(--hdr-h, 57px) - 8px); max-height: calc(100dvh - var(--hdr-h, 57px) - 8px);">
+
+        <!-- Pinned panel header with always-visible close button -->
+        <div class="flex items-center justify-between gap-2 px-3 py-2 border-b border-dark-emerald bg-dark-emerald-light rounded-b-none shrink-0">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="text-sm">⚙️</span>
+            <h2 id="lblSettingsTitle" class="text-sm font-bold text-white truncate">Settings</h2>
+          </div>
+          <button onclick="toggleSidebar()" id="btnCloseSettings" aria-label="Close settings" class="shrink-0 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1 transition-all">
+            <span>✕</span><span id="btnCloseSettingsText">Close</span>
+          </button>
+        </div>
+
+        <!-- Scrollable body -->
+        <div class="overflow-y-auto overscroll-contain px-3 py-3 space-y-2.5">
 
           <!-- PWA Install Button -->
-          <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-2 px-3 rounded-lg flex items-center justify-center space-x-1.5 transition-all shadow-sm">
+          <button id="btnInstallApp" onclick="installPWA()" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-1.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-sm">
             <span>📱</span>
             <span>Install App</span>
           </button>
-        
-          <!-- Dropdown Controls & Form Inputs -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            
-            <!-- Surah Selector Dropdown -->
-            <div class="md:col-span-2">
-              <label id="lblSurah" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-                Select Surah (السورة)
-              </label>
-              <div class="flex items-center space-x-2">
-                <select id="surahSelect" onchange="onSurahChange()" class="w-full min-w-0 bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
-                  <!-- Dynamically populated -->
-                </select>
-                <span id="totalVersesBadge" class="text-xs bg-dark-emerald-light text-emerald-300 px-2 py-2 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">
-                  -- Verses
-                </span>
+
+          <!-- Surah -->
+          <div>
+            <label id="lblSurah" for="surahSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Select Surah (السورة)</label>
+            <div class="flex items-center gap-2">
+              <select id="surahSelect" onchange="onSurahChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none min-w-0 truncate"></select>
+              <span id="totalVersesBadge" class="text-[11px] bg-dark-emerald-light text-emerald-300 px-2 py-1.5 rounded-lg border border-dark-emerald font-semibold whitespace-nowrap shrink-0">-- Verses</span>
+            </div>
+          </div>
+
+          <!-- Verse range (always side by side) -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label id="lblFromVerse" for="fromVerse" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">From Verse (من آية)</label>
+              <input type="number" inputmode="numeric" id="fromVerse" value="1" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+            </div>
+            <div>
+              <label id="lblToVerse" for="toVerse" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">To Verse (إلى آية)</label>
+              <input type="number" inputmode="numeric" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+            </div>
+          </div>
+
+          <!-- Repetition stepper + Hijri toggle -->
+          <div class="grid grid-cols-2 gap-2 items-end">
+            <div>
+              <label id="lblRepetition" for="repetitionTarget" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Repetition Target (التكرار)</label>
+              <div class="flex items-stretch gap-1" dir="ltr">
+                <button type="button" onclick="adjustRepetition(-1)" aria-label="-" class="bg-dark-emerald-light hover:bg-emerald-800 w-8 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200 shrink-0">−</button>
+                <input type="number" inputmode="numeric" id="repetitionTarget" value="1" min="1" oninput="onTargetChange()" class="w-full min-w-0 text-center bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-400">
+                <button type="button" onclick="adjustRepetition(1)" aria-label="+" class="bg-dark-emerald-light hover:bg-emerald-800 w-8 rounded-lg text-sm font-bold border border-dark-emerald text-emerald-200 shrink-0">+</button>
               </div>
             </div>
-
-            <!-- Verse Range Picker -->
             <div>
-              <label id="lblFromVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-                From Verse (من آية)
-              </label>
-              <input type="number" id="fromVerse" value="1" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-            </div>
-            <div>
-              <label id="lblToVerse" class="block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-                To Verse (إلى آية)
-              </label>
-              <input type="number" id="toVerse" value="7" min="1" onchange="validateAndFetchVerses()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-            </div>
-
-            <!-- Repetition Counter Target (Default 1) -->
-            <div>
-              <label id="lblRepetition" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-                Repetition Target (التكرار)
-              </label>
-              <div class="flex items-center space-x-2">
-                <button onclick="adjustRepetition(-1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">-</button>
-                <input type="number" id="repetitionTarget" value="1" min="1" oninput="onTargetChange()" class="w-full text-center bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:outline-none">
-                <button onclick="adjustRepetition(1)" class="bg-dark-emerald-light hover:bg-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold border border-dark-emerald text-emerald-200">+</button>
-              </div>
-            </div>
-
-            <!-- Reciter Audio Picker -->
-            <div>
-              <label id="lblReciter" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">
-                Reciter (القارئ)
-              </label>
-              <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
-                <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
-                <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
-                <option value="ar.alafasy">Mishary Rashid Alafasy</option>
-                <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
-                <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
-                <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
-                <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
-                <option value="Husary_Muallim_128kbps"selected>Al-Husary (Muallim / Repeat)</option>
-              </select>
-            </div>
-
-            <!-- Daily Page Wird Selector -->
-            <div class="pt-2.5 border-t border-dark-emerald md:col-span-2">
-              <label id="lblDailyWird" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
-                Daily Page Range (الورد اليومي)
-              </label>
-              <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
-                  <input type="number" id="fromPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
-                </div>
-                <div>
-                  <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
-                  <input type="number" id="toPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-xs rounded-lg p-1.5 focus:outline-none">
-                </div>
-              </div>
-              <button id="btnLoadPages" onclick="loadPageRange()" class="mt-2 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-1.5 rounded-lg transition-all">Load Pages</button>
-              <p id="pageModeNote" class="hidden mt-1.5 text-[10px] text-emerald-300 leading-snug"></p>
-            </div>
-
-            <!-- Hijri Date Switcher Toggle -->
-            <div class="pt-2.5 border-t border-dark-emerald flex items-center justify-between md:col-span-1">
-              <span class="text-[11px] font-semibold text-emerald-200 uppercase tracking-wider">Hijri Date (التاريخ الهجري)</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
-                <div class="w-8 h-4 bg-dark-emerald-light peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-emerald-800 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-600 border border-dark-emerald"></div>
-              </label>
-            </div>
-
-            <!-- View Mode Toggle -->
-            <div class="pt-2.5 border-t border-dark-emerald md:col-span-1">
-              <label id="lblViewMode" class="block text-[11px] font-semibold text-emerald-200 uppercase tracking-wider mb-1.5">
-                View Mode (نمط العرض)
-              </label>
-              <div class="flex rounded-lg bg-dark-emerald-light p-1 border border-dark-emerald">
-                <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">
-                  Verses (آيات)
-                </button>
-                <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">
-                  Mus'haf Page (مصحف)
-                </button>
+              <span id="lblHijri" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Hijri Date (التاريخ الهجري)</span>
+              <div class="flex items-center h-[34px]" dir="ltr">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
+                  <div class="w-10 h-5 bg-dark-emerald-light rounded-full peer peer-focus:ring-2 peer-focus:ring-emerald-400 peer-checked:bg-emerald-600 border border-dark-emerald after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:after:translate-x-5"></div>
+                </label>
               </div>
             </div>
           </div>
 
-          <!-- Red Close Button at Bottom of Settings Panel -->
-          <div class="pt-3 border-t border-dark-emerald">
-            <button onclick="toggleSidebar()" class="w-full bg-rose-600 hover:bg-rose-700 text-white py-2 rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center space-x-1">
-              <span>✕ Close Settings</span>
-            </button>
+          <!-- Reciter -->
+          <div>
+            <label id="lblReciter" for="reciterSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Reciter (القارئ)</label>
+            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
+              <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
+              <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
+              <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+              <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
+              <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
+              <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
+              <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
+              <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
+            </select>
           </div>
+
+          <!-- Daily page range: one compact row -->
+          <div class="rounded-xl bg-dark-emerald-light/70 border border-dark-emerald p-2.5">
+            <span id="lblDailyWird" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Daily Page Range (الورد اليومي)</span>
+            <div class="grid grid-cols-[1fr_1fr_auto] gap-2 items-end">
+              <div>
+                <span id="lblFromPage" class="text-[10px] text-emerald-300 block mb-0.5">From Page</span>
+                <input type="number" inputmode="numeric" id="fromPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              </div>
+              <div>
+                <span id="lblToPage" class="text-[10px] text-emerald-300 block mb-0.5">To Page</span>
+                <input type="number" inputmode="numeric" id="toPage" value="1" min="1" max="604" onchange="onPageInputsChange()" onkeydown="if(event.key==='Enter')loadPageRange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              </div>
+              <button id="btnLoadPages" onclick="loadPageRange()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-3 py-[7px] rounded-lg transition-all whitespace-nowrap">Load Pages</button>
+            </div>
+            <p id="pageModeNote" class="hidden mt-1.5 text-[10px] text-emerald-300 leading-snug"></p>
+          </div>
+
+          <!-- View mode -->
+          <div>
+            <span id="lblViewMode" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">View Mode (نمط العرض)</span>
+            <div class="flex rounded-lg bg-dark-emerald-light p-0.5 border border-dark-emerald">
+              <button id="btnVerseMode" onclick="setViewMode('verse')" class="flex-1 py-1.5 text-xs font-semibold rounded-md bg-emerald-600 text-white transition-all">Verses (آيات)</button>
+              <button id="btnMushafMode" onclick="setViewMode('mushaf')" class="flex-1 py-1.5 text-xs font-semibold rounded-md text-emerald-200 hover:text-white transition-all">Mus'haf Page (مصحف)</button>
+            </div>
+          </div>
+
         </div>
       </aside>
     </div>
@@ -425,6 +412,9 @@
     // Translations Dictionary
     const translations = {
       en: {
+        lblSettingsTitle: "Settings",
+        lblHijri: "Hijri Date (التاريخ الهجري)",
+        btnCloseSettingsText: "Close",
         pageTitle: "Quran Learning App",
         brandTitle: "Quran Learning App",
         brandSub: "تطبيق حفظ القرآن الكريم",
@@ -522,6 +512,9 @@
         promptRepTarget: "Enter repetition target count for verse {verse}:"
       },
       ar: {
+        lblSettingsTitle: "الإعدادات",
+        lblHijri: "التاريخ الهجري",
+        btnCloseSettingsText: "إغلاق",
         pageTitle: "Quran Learning App",
         brandTitle: "تطبيق حفظ القرآن الكريم",
         brandSub: "Quran Learning App",
@@ -619,6 +612,9 @@
         shareCopied: "تم نسخ الآية. الصقها للمشاركة."
       },
       ml: {
+        lblSettingsTitle: "ക്രമീകരണങ്ങൾ",
+        lblHijri: "ഹിജ്റ തീയതി",
+        btnCloseSettingsText: "അടയ്ക്കുക",
         pageTitle: "Quran Learning App",
         brandTitle: "Quran Learning App",
         brandSub: "ഖുർആൻ പഠന സഹായി ",
@@ -716,6 +712,9 @@
         promptRepTarget: "ആയത്ത് {verse} നുള്ള ആവർത്തന എണ്ണം നൽകുക:"
       },
       ur: {
+        lblSettingsTitle: "ترتیبات",
+        lblHijri: "ہجری تاریخ",
+        btnCloseSettingsText: "بند کریں",
         pageTitle: "قرآن حفظ ٹریکر",
         brandTitle: "قرآن حفظ ٹریکر",
         brandSub: "Quran Learning App",
@@ -813,6 +812,9 @@
         promptRepTarget: "آیت {verse} کے لیے تکرار کی تعداد درج کریں:"
       },
       bn: {
+        lblSettingsTitle: "সেটিংস",
+        lblHijri: "হিজরি তারিখ",
+        btnCloseSettingsText: "বন্ধ করুন",
         pageTitle: "কুরআন হিফজ ট্র্যাকার",
         brandTitle: "কুরআন হিফজ ট্র্যাকার",
         brandSub: "Quran Learning App",
@@ -997,7 +999,7 @@
     // LANGUAGE
     // ==================================================================
     const LABEL_IDS = [
-      'brandTitle', 'brandSub', 'btnSettingsText', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
+      'brandTitle', 'brandSub', 'btnSettingsText', 'lblSettingsTitle', 'lblHijri', 'btnCloseSettingsText', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
       'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
