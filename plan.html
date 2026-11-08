@@ -30,16 +30,7 @@
         </div>
       </div>
 
-      <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
-        <span class="text-xs">🌐</span>
-        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer">
-          <option value="en" class="bg-dark-emerald text-white" selected>English</option>
-          <option value="ar" class="bg-dark-emerald text-white">العربية</option>
-          <option value="ml" class="bg-dark-emerald text-white">മലയാളം</option>
-          <option value="ur" class="bg-dark-emerald text-white">اردو</option>
-          <option value="bn" class="bg-dark-emerald text-white">বাংলা</option>
-        </select>
-      </div>
+      <span class="text-xs text-emerald-300 font-medium">Quran Learning App</span>
     </div>
   </header>
 
@@ -109,6 +100,7 @@
 
   <script>
     const STORAGE_LANG_KEY = 'quran_hifz_lang';
+    let currentLang = 'en';
 
     const translations = {
       en: {
@@ -212,7 +204,7 @@
         headerTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা",
         headerSub: "পরিকল্পিত হিফজ এবং শিক্ষক-অভিভাবকদের জন্য নির্দেশিকা",
         introHeading: "সুশৃঙ্খল হিফজ ও শিক্ষাদান কাঠামো",
-        introDesc: "দীর্ঘমেয়াদে কুরআন সংরক্ষণের জন্য নিয়মিত পুনরাবৃত্তি এবং দৈনিক লক্ষ্যমাত্রা অত্যন্ত জরুরি। এই পৃষ্ঠাটি স্বাধীন শিক্ষার্থীদের জন্য কাঠামোগত পরিকল্পনা এবং শিক্ষক-অভিভাবকদের জন্য কার্যকর কোচিং কৌশল প্রদান করে।",
+        introDesc: "দীর্ঘমেয়াদে কুরআন সংরক্ষণের জন্য নিয়মিত পুনরাবৃত্তি এবং দৈনিক লক্ষ্যমাত্রা অত্যন্ত জরুরি। এই পৃষ্ঠাটি স্বাধীন শিক্ষার্থীদের জন্য কাঠামোগত পরিকল্পনা এবং শিক্ষক-অভিভাবকদের জন্য কার্যকর কোচিং কৌশল প্রদান করে।",
         txtPlanHeading: "সাধারণ হিফজ পরিকল্পনা",
         planBeginnerTitle: "প্রাথমিক পরিকল্পনা",
         planBeginnerDesc: "ছোট সুরাগুলোতে (আম্মা পারা) ফোকাস করুন। অ্যাপের অডিও টুল ব্যবহার করে উচ্চ পুনরাবৃত্তির মাধ্যমে প্রতিদিন ৩ থেকে ৫ লাইন বা ১টি ছোট আয়াত মুখস্থ করুন।",
@@ -225,22 +217,13 @@
         guideStep1Desc: "প্রতিদিন একই সময়ে অভ্যাস করুন—আদর্শভাবে ফজর নামাজের পরে খুব ভোরে যখন মন সতেজ এবং বিভ্রান্তিমুক্ত থাকে।",
         guideStep2Title: "2. ছোট অংশে ভাগ করে পুনরাবৃত্তি করুন",
         guideStep2Desc: "দীর্ঘ আয়াতগুলোকে ছোট বাক্যাংশে ভাগ করুন। একত্রিত করার আগে অ্যাপের রিপিট কাউন্টার প্রতি বাক্যাংশে ৫ বা ১০ বার পুনরাবৃত্তিতে সেট করুন।",
-        guideStep3Title: "3ড়ার আগে শুনুন",
+        guideStep3Title: "3. পড়ার আগে শুনুন",
         guideStep3Desc: "তিলাওয়াত করার চেষ্টা করার আগে শিক্ষার্থীকে দক্ষ কারীদের (যেমন আল-হুসারী বা আল-আফাসী) ৩ বার শুনতে বলুন যাতে সঠিক মাখরাজ ও তাজবীদ আয়ত্ত করা যায়।",
         guideStep4Title: "4. দৈনিক ও সাপ্তাহিক সংশোধন (মুরাজা'আহ)",
         guideStep4Desc: "রিভিশন কখনই বাদ দেবেন না। একজন ভালো শিক্ষার্থী নতুন মুখস্থ করার চেয়ে পুরানো অংশ রিভিশন করতে বেশি সময় ব্যয় করে। অগ্রগতি ট্র্যাকিং টেবিল ব্যবহার করে দৈনিক সেশন লগ করুন।",
         backHomeLink: "← মূল পাতায় ফিরে যান"
       }
     };
-
-    let currentLang = 'en';
-
-    function changeLanguage(lang) {
-      if (!translations[lang]) return;
-      currentLang = lang;
-      localStorage.setItem(STORAGE_LANG_KEY, lang);
-      applyLanguage();
-    }
 
     function applyLanguage() {
       const t = translations[currentLang] || translations.en;
@@ -275,7 +258,6 @@
       const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
       if (translations[savedLang]) {
         currentLang = savedLang;
-        document.getElementById('langSelect').value = currentLang;
       }
       applyLanguage();
     };
