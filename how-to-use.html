@@ -15,7 +15,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
- <!-- Header -->
+  <!-- Header -->
   <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
       <div class="flex items-center space-x-2.5">
@@ -30,10 +30,8 @@
         </div>
       </div>
 
-      <!-- Language selector removed from here since it follows index.html automatically -->
       <span class="text-xs text-emerald-300 font-medium">Quran Learning App</span>
     </div>
-    
   </header>
 
   <!-- Content Container -->
@@ -97,26 +95,8 @@
   </footer>
 
   <script>
-   const STORAGE_LANG_KEY = 'quran_hifz_lang';
+    const STORAGE_LANG_KEY = 'quran_hifz_lang';
     let currentLang = 'en';
-
-    function changeLanguage(lang) {
-      if (!translations[lang]) return;
-      currentLang = lang;
-      localStorage.setItem(STORAGE_LANG_KEY, lang); // Saves globally across all pages
-      applyLanguage();
-    }
-
-    window.onload = function() {
-      // Automatically pull the language opted by the user on the index page
-      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
-      if (translations[savedLang]) {
-        currentLang = savedLang;
-        const langSelector = document.getElementById('langSelect');
-        if (langSelector) langSelector.value = currentLang;
-      }
-      applyLanguage();
-    };
 
     const translations = {
       en: {
@@ -200,7 +180,7 @@
         txtSettingsHeading: "সেটিংস এবং কনফিগারেশন প্যানেল",
         secSettingsDesc: "স্লাইডিং মেনু খুলতে মূল প্যানেলের <strong>Select</strong> বোতামে চাপুন। এখান থেকে আপনি সুরা পরিবর্তন করতে পারবেন, আয়াতের পরিসীমা নির্ধারণ করতে পারবেন এবং কারী নির্বাচন করতে পারবেন।",
         txtAudioHeading: "অডিও নিয়ন্ত্রণ এবং প্লেব্যাক",
-        audioPlayPoint: "<strong>চালান / বন্ধ করুন (▶ / ⏹):</strong> আপনার নির্ধারিত পুনরাবৃত্তির লক্ষ্য অনুযায়ী নির্বাচিত আয়াতগুলোর ধারাবাহিক আবৃত্তি শুরু করে।",
+        audioPlayPoint: "<strong>চালান / বন্ধ করুন (▶ / ⏹):</strong> আপনার নির্ধারিত পুনরাবৃত্তির লক্ষ্য অনুযায়ী নির্বাচিত আয়াতগুলোর ধারাবাহিক আবৃত্তি শুরু করে।",
         audioPausePoint: "<strong>বিরতি / চালিয়ে যান (⏸ / ▶):</strong> বর্তমান অডিও প্লেব্যাক সাময়িক বিরতি দেয় বা পুনরায় চালু করে।",
         audioVersePoint: "<strong>নির্দিষ্ট আয়াত শোনার বোতাম:</strong> নির্দিষ্ট কোনো আয়াত শুনতে তার প্লে আইকনে ট্যাপ করুন।",
         txtVersesHeading: "আয়াত কার্ড এবং পুনরাবৃত্তির লক্ষ্য",
@@ -210,13 +190,6 @@
         backHomeLink: "← মূল পাতায় ফিরে যান"
       }
     };
-
-    function changeLanguage(lang) {
-      if (!translations[lang]) return;
-      currentLang = lang;
-      localStorage.setItem(STORAGE_LANG_KEY, lang);
-      applyLanguage();
-    }
 
     function applyLanguage() {
       const t = translations[currentLang] || translations.en;
@@ -245,7 +218,6 @@
       const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
       if (translations[savedLang]) {
         currentLang = savedLang;
-        document.getElementById('langSelect').value = currentLang;
       }
       applyLanguage();
     };
