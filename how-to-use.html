@@ -15,7 +15,7 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-  <!-- Header -->
+ <!-- Header -->
   <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
       <div class="flex items-center space-x-2.5">
@@ -30,17 +30,10 @@
         </div>
       </div>
 
-      <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
-        <span class="text-xs">🌐</span>
-        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer">
-          <option value="en" class="bg-dark-emerald text-white" selected>English</option>
-          <option value="ar" class="bg-dark-emerald text-white">العربية</option>
-          <option value="ml" class="bg-dark-emerald text-white">മലയാളം</option>
-          <option value="ur" class="bg-dark-emerald text-white">اردو</option>
-          <option value="bn" class="bg-dark-emerald text-white">বাংলা</option>
-        </select>
-      </div>
+      <!-- Language selector removed from here since it follows index.html automatically -->
+      <span class="text-xs text-emerald-300 font-medium">Quran Learning App</span>
     </div>
+    
   </header>
 
   <!-- Content Container -->
