@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">Memorisation Plans & Guide — Quran Learning App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .bg-dark-emerald { background-color: #0d3322; }
+    .bg-dark-emerald-light { background-color: #133e2b; }
+    .border-dark-emerald { border-color: #1b5239; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center space-x-2.5">
+        <a href="./index.html" class="bg-dark-emerald-light p-2 rounded-xl text-emerald-300 border border-emerald-800/40 hover:bg-emerald-900 transition-all flex items-center justify-center">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+        </a>
+        <div>
+          <h1 id="headerTitle" class="font-bold text-sm sm:text-base leading-tight text-white">Memorisation Plans & Guide</h1>
+          <p id="headerSub" class="text-[11px] text-emerald-300 font-medium">خطط الحفظ وإرشادات المعلمين والأولياء</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
+        <span class="text-xs">🌐</span>
+        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer">
+          <option value="en" class="bg-dark-emerald text-white" selected>English</option>
+          <option value="ar" class="bg-dark-emerald text-white">العربية</option>
+          <option value="ml" class="bg-dark-emerald text-white">മലയാളം</option>
+          <option value="ur" class="bg-dark-emerald text-white">اردو</option>
+          <option value="bn" class="bg-dark-emerald text-white">বাংলা</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6">
+    
+    <!-- Intro Card -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+      <h2 id="introHeading" class="font-bold text-lg text-emerald-900 mb-2">Structured Memorisation & Teaching Framework</h2>
+      <p id="introDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Consistent revision and structured daily targets are essential for long-term Quran retention (Hifz). This page provides structured plans for independent learners alongside practical coaching strategies for parents and teachers.
+      </p>
+    </section>
+
+    <!-- Part 1: General Memorisation Plans -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+      <h3 id="secPlanTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>📅</span> <span id="txtPlanHeading">General Memorisation Plans</span>
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <h4 id="planBeginnerTitle" class="font-bold text-xs text-emerald-800 uppercase tracking-wider mb-1">Beginner Plan</h4>
+          <p id="planBeginnerDesc" class="text-xs text-slate-600 leading-relaxed">Focuses on short surahs (Juz Amma). Memorize 3 to 5 lines or 1 short verse per day with high repetition using the app audio tool.</p>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <h4 id="planIntermediateTitle" class="font-bold text-xs text-emerald-800 uppercase tracking-wider mb-1">Intermediate Plan</h4>
+          <p id="planIntermediateDesc" class="text-xs text-slate-600 leading-relaxed">Target half a page to 1 full page per day. Dedicate 60% of study time to new memorization and 40% to reviewing past lessons.</p>
+        </div>
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <h4 id="planAdvancedTitle" class="font-bold text-xs text-emerald-800 uppercase tracking-wider mb-1">Advanced / Intensive</h4>
+          <p id="planAdvancedDesc" class="text-xs text-slate-600 leading-relaxed">Aim for 1 to 2 pages daily utilizing the daily page range (Wird) tool. Strict weekly consolidation loops to prevent forgetting.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Part 2: Guide for Teachers and Parents -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
+      <h3 id="secGuideTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>👥</span> <span id="txtGuideHeading">Guide for Teachers & Parents</span>
+      </h3>
+      <div class="space-y-3 text-xs sm:text-sm text-slate-600">
+        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
+          <h4 id="guideStep1Title" class="font-bold text-emerald-900 mb-1">1. Establish a Routine</h4>
+          <p id="guideStep1Desc">Practice at the same time every day—ideally early in the morning after Fajr when the mind is fresh and free from distractions.</p>
+        </div>
+        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
+          <h4 id="guideStep2Title" class="font-bold text-emerald-900 mb-1">2. Use Chunking & Repetition</h4>
+          <p id="guideStep2Desc">Break long verses into small phrases. Use the app's repetition counter set to 5 or 10 repeats per phrase before linking them together.</p>
+        </div>
+        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
+          <h4 id="guideStep3Title" class="font-bold text-emerald-900 mb-1">3. Listen Before Reading</h4>
+          <p id="guideStep3Desc">Have the student listen to expert reciters (like Al-Husary or Alafasy) 3 times to absorb correct Makharij (pronunciation) and Tajweed rules before attempting recitation.</p>
+        </div>
+        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
+          <h4 id="guideStep4Title" class="font-bold text-emerald-900 mb-1">4. Daily & Weekly Revision (Muraja'ah)</h4>
+          <p id="guideStep4Desc">Never skip revision. A good student spends more time revising old portions than memorizing new ones. Log daily sessions using the progress tracking table.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-8 py-4 text-center text-xs text-slate-500 border-t border-slate-200">
+    <p><a href="./index.html" id="backHomeLink" class="text-emerald-600 hover:underline font-semibold">← Back to Quran Learning App</a></p>
+  </footer>
+
+  <script>
+    const STORAGE_LANG_KEY = 'quran_hifz_lang';
+
+    const translations = {
+      en: {
+        pageTitle: "Memorisation Plans & Guide — Quran Learning App",
+        headerTitle: "Memorisation Plans & Guide",
+        headerSub: "Structured Plans & Teaching Guidelines",
+        introHeading: "Structured Memorisation & Teaching Framework",
+        introDesc: "Consistent revision and structured daily targets are essential for long-term Quran retention (Hifz). This page provides structured plans for independent learners alongside practical coaching strategies for parents and teachers.",
+        txtPlanHeading: "General Memorisation Plans",
+        planBeginnerTitle: "Beginner Plan",
+        planBeginnerDesc: "Focuses on short surahs (Juz Amma). Memorize 3 to 5 lines or 1 short verse per day with high repetition using the app audio tool.",
+        planIntermediateTitle: "Intermediate Plan",
+        planIntermediateDesc: "Target half a page to 1 full page per day. Dedicate 60% of study time to new memorization and 40% to reviewing past lessons.",
+        planAdvancedTitle: "Advanced / Intensive",
+        planAdvancedDesc: "Aim for 1 to 2 pages daily utilizing the daily page range (Wird) tool. Strict weekly consolidation loops to prevent forgetting.",
+        txtGuideHeading: "Guide for Teachers & Parents",
+        guideStep1Title: "1. Establish a Routine",
+        guideStep1Desc: "Practice at the same time every day—ideally early in the morning after Fajr when the mind is fresh and free from distractions.",
+        guideStep2Title: "2. Use Chunking & Repetition",
+        guideStep2Desc: "Break long verses into small phrases. Use the app's repetition counter set to 5 or 10 repeats per phrase before linking them together.",
+        guideStep3Title: "3. Listen Before Reading",
+        guideStep3Desc: "Have the student listen to expert reciters (like Al-Husary or Alafasy) 3 times to absorb correct Makharij (pronunciation) and Tajweed rules before attempting recitation.",
+        guideStep4Title: "4. Daily & Weekly Revision (Muraja'ah)",
+        guideStep4Desc: "Never skip revision. A good student spends more time revising old portions than memorizing new ones. Log daily sessions using the progress tracking table.",
+        backHomeLink: "← Back to Quran Learning App"
+      },
+      ar: {
+        pageTitle: "خطط الحفظ والإرشادات — تطبيق حفظ القرآن",
+        headerTitle: "خطط الحفظ وإرشادات التدريس",
+        headerSub: "خطط منظمة وإرشادات للأولياء والمعلمين",
+        introHeading: "إطار عمل منظم للحفظ والتعليم",
+        introDesc: "تعتبر المراجعة المستمرة والأهداف اليومية المنظمة أمرًا أساسيًا لحفظ القرآن الكريم على المدى الطويل. توفر هذه الصفحة خططًا منظمة للمتعلمين إلى جانب استراتيجيات تدريس عملية لأولياء الأمور والمعلمين.",
+        txtPlanHeading: "خطط الحفظ العامة",
+        planBeginnerTitle: "خطة المبتدئين",
+        planBeginnerDesc: "التركيز على السور القصيرة (جزء عم). حفظ من 3 إلى 5 أسطر أو آية قصيرة واحدة يوميًا مع تكرار عالٍ باستخدام أداة التطبيق الصوتية.",
+        planIntermediateTitle: "خطة المتوسطين",
+        planIntermediateDesc: "استهداف نصف صفحة إلى صفحة كاملة يوميًا. تخصيص 60% من وقت الدراسة للحفظ الجديد و 40% لمراجعة الدروس السابقة.",
+        planAdvancedTitle: "المستوى المتقدم / المكثف",
+        planAdvancedDesc: "استهداف صفحة إلى صفحتين يوميًا باستخدام أداة نطاق الصفحات اليومية (الورد). حلقات ترسيخ أسبوعية صارمة لمنع النسيان.",
+        txtGuideHeading: "دليل المعلمين وأولياء الأمور",
+        guideStep1Title: "1. إرساء روتين ثابت",
+        guideStep1Desc: "التدريب في نفس الوقت كل يوم - ويفضل في الصباح الباكر بعد الفجر عندما يكون الذهن صافياً وخالياً من المشتتات.",
+        guideStep2Title: "2. التجزئة والتكرار",
+        guideStep2Desc: "تقسيم الآيات الطويلة إلى مقاطع صغيرة. استخدام عداد التكرار في التطبيق لضبط 5 أو 10 تكرارات لكل مقطع قبل ربطها ببعضها.",
+        guideStep3Title: "3. الاستماع قبل القراءة",
+        guideStep3Desc: "اجعل الطالب يستمع إلى القراء الخبراء (مثل الحصري أو العفاسي) 3 مرات لاستيعاب مخارج الحروف الصحيحة وأحكام التجويد قبل محاولة التلاوة.",
+        guideStep4Title: "4. المراجعة اليومية والأسبوعية (المراجعة)",
+        guideStep4Desc: "لا تهمل المراجعة أبدًا. الطالب المجتهد يقضي وقتًا في مراجعة الأجزاء القديمة أكثر من حفظ أجزاء جديدة. سجل الجلسات اليومية باستخدام جدول تتبع التقدم.",
+        backHomeLink: "← العودة إلى تطبيق القرآن"
+      },
+      ml: {
+        pageTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും — Quran Learning App",
+        headerTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും",
+        headerSub: "പഠന പ്ലാനുകളും അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള മാർഗ്ഗനിർദ്ദേശങ്ങളും",
+        introHeading: "സംഘടിതമായ ഹിഫ്ള് & അധ്യാപന സംവിധാനം",
+        introDesc: "ഖുർആൻ ദീർഘകാലം ഓർമ്മയിൽ സൂക്ഷിക്കുന്നതിന് കൃത്യമായ റിവിഷനും ദിവസേനയുള്ള ലക്ഷ്യങ്ങളും അത്യാവശ്യമാണ്. ഈ പേജ് പഠിതാക്കൾക്കായി വിവിധ പ്ലാനുകളും രക്ഷിതാക്കൾക്കും അധ്യാപകർക്കും സഹായിക്കുന്ന നിർദ്ദേശങ്ങളും നൽകുന്നു.",
+        txtPlanHeading: "പൊതുവായ ഹിഫ്ള് പ്ലാനുകൾ",
+        planBeginnerTitle: "തുടക്കക്കാർക്കുള്ള പ്ലാൻ",
+        planBeginnerDesc: "ചെറിയ സൂറത്തുകളിൽ (ജുസ്അ് അമ്മ) ശ്രദ്ധ കേന്ദ്രീകരിക്കുക. ദിവസവും 3 മുതൽ 5 വരികൾ വരെ അല്ലെങ്കിൽ 1 ചെറിയ ആയത്ത് ആപ്പിലെ ഓഡിയോ ടൂൾ ഉപയോഗിച്ച് ആവർത്തിച്ച് പഠിക്കുക.",
+        planIntermediateTitle: "ഇന്റർമീഡിയറ്റ് പ്ലാൻ",
+        planIntermediateDesc: "ദിവസവും അര പേജ് മുതൽ ഒരു പേജ് വരെ ലക്ഷ്യമിടുക. പഠന സമയത്തിന്റെ 60% പുതിയ ഹിഫ്ളിനും 40% പഴയ പാഠങ്ങൾ റിവിഷൻ ചെയ്യാനും മാറ്റിവെക്കുക.",
+        planAdvancedTitle: "വിപുലമായ / തീവ്രമായ പ്ലാൻ",
+        planAdvancedDesc: "ദൈനംദിന പേജ് റേഞ്ച് (വിർദ്) ടൂൾ ഉപയോഗിച്ച് ദിവസവും 1 മുതൽ 2 പേജ് വരെ പഠിക്കുക. മറവി ഒഴിവാക്കാൻ കൃത്യമായ പ്രതിവാര റിവിഷൻ ഉറപ്പാക്കുക.",
+        txtGuideHeading: "അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള ഗൈഡ്",
+        guideStep1Title: "1. കൃത്യമായ സമയം പാലിക്കുക",
+        guideStep1Desc: "ഓരോ ദിവസവും ഒരേ സമയത്ത് പരിശീലിക്കുക - ഫജ്റിനു ശേഷമുള്ള സമയം മനസ്സ് ശാന്തമായിരിക്കുന്നതിനാൽ ഏറ്റവും അനുയോജ്യമാണ്.",
+        guideStep2Title: "2. ചെറിയ ഭാഗങ്ങളാക്കി ആവർത്തിക്കുക",
+        guideStep2Desc: "നീളമുള്ള ആയത്തുകൾ ചെറിയ ഭാഗങ്ങളായി തിരിക്കുക. ഓരോ ഭാഗവും 5 അല്ലെങ്കിൽ 10 തവണ ആപ്പിലെ റിപ്പീറ്റ് കൗണ്ടർ ഉപയോഗിച്ച് ആവർത്തിക്കുക.",
+        guideStep3Title: "3. വായിക്കുന്നതിന് മുമ്പ് കേൾക്കുക",
+        guideStep3Desc: "വായിക്കാൻ ശ്രമിക്കുന്നതിന് മുമ്പ് ഖാരിഉമാരുടെ (ഹുസരി, അഫാസി തുടങ്ങിയവർ) പാരായണം 3 തവണ കേട്ട് ശരിയായ ഉച്ചാരണവും (മഖാരിജ്) താജ്വീദും മനസ്സിലാക്കുക.",
+        guideStep4Title: "4. ദിവസേനയുള്ള റിവിഷൻ (മുറാജഅ)",
+        guideStep4Desc: "റിവിഷൻ ഒരിക്കലും ഒഴിവാക്കരുത്. പുതിയ ആയത്തുകൾ പഠിക്കുന്നതിനേക്കാൾ കൂടുതൽ സമയം പഴയ ഭാഗങ്ങൾ റിവിഷൻ ചെയ്യാൻ നല്ല വിദ്യാർത്ഥികൾ മാറ്റിവെക്കുന്നു.",
+        backHomeLink: "← ഹോം പേജിലേക്ക് മടങ്ങുക"
+      },
+      ur: {
+        pageTitle: "حفظ کے منصوبے اور رہنمائی — قرآن لرننگ ایپ",
+        headerTitle: "حفظ کے منصوبے اور رہنمائی",
+        headerSub: "ترتیب وار منصوبے اور اساتذہ و والدین کے لیے ہدایات",
+        introHeading: "منظم حفظ اور تدریسی فریم ورک",
+        introDesc: "قرآن پاک کو طویل عرصے تک یاد رکھنے کے لیے باقاعدہ دہرائی (تلفظ و مراجعت) اور روزانہ کے مقررہ اہداف بہت ضروری ہیں۔ یہ صفحہ سیکھنے والوں کے لیے جامع منصوبے اور والدین و اساتذہ کے لیے عملی حکمت عملی فراہم کرتا ہے۔",
+        txtPlanHeading: "عمومی حفظ کے منصوبے",
+        planBeginnerTitle: "بتدائی منصوبہ",
+        planBeginnerDesc: "مختصر سورتوں (پارہ عم) پر توجہ دیں۔ ایپ کے آڈیو ٹول کا استعمال کرتے ہوئے روزانہ 3 سے 5 سطریں یا 1 چھوٹی آیت کثرت سے دہرائیں۔",
+        planIntermediateTitle: "متوسط منصوبہ",
+        planIntermediateDesc: "روزانہ آدھے صفحے سے ایک پورے صفحے کا ہدف رکھیں۔ مطالعہ کے وقت کا 60 فیصد حصہ نئے حفظ کے لیے اور 40 فیصد پرانے اسباب کی دہرائی کے لیے وقف کریں۔",
+        planAdvancedTitle: "اعلیٰ / تفصیلی منصوبہ",
+        planAdvancedDesc: "روزانہ صفحہ کی حد (ورد) کے ٹूल کا استعمال کرتے ہوئے روزانہ 1 سے 2 صفحات کا ہدف رکھیں۔ بھولنے سے بچنے کے لیے سختی سے ہفتہ وار دہرائی کریں۔",
+        txtGuideHeading: "اساتذہ اور والدین کے لیے گائیڈ",
+        guideStep1Title: "1. ایک معمول قائم کریں",
+        guideStep1Desc: "ہر روز ایک ہی وقت پر مشق کریں — ترجیحاً فجر کے بعد صبح سویرے جب ذہن تازہ اور خلفشار سے پاک ہو۔",
+        guideStep2Title: "2. ٹکڑوں میں تقسیم اور تکرار",
+        guideStep2Desc: "لمبی آیات کو چھوٹے فقروں میں تقسیم کریں۔ انہیں آپس میں ملانے سے پہلے ایپ کے تکرار کاؤنٹر کو ہر فقرے پر 5 یا 10 بار دہرانے کے لیے استعمال کریں۔",
+        guideStep3Title: "3. پڑھنے سے پہلے سنیں",
+        guideStep3Desc: "طالب علم کو تلاوت کرنے کی کوشش کرنے سے پہلے ماہر قاریوں (جیسے الحصری یا العفاسی) کو 3 بار سنیں تاکہ درست مخارج اور تجوید کے اصول سمجھ آ سکیں۔",
+        guideStep4Title: "4. روزانہ اور ہفتہ وار دہرائی (مراجعت)",
+        guideStep4Desc: "دہرائی کو کبھی نہ چھوڑیں۔ ایک اچھا طالب علم نیا حفظ کرنے سے زیادہ پرانے حصوں کی دہرائی پر وقت صرف کرتا ہے۔ پیشرفت ٹریکنگ ٹیبل کا استعمال کرتے ہوئے روزانہ کے سیشن لاگ کریں۔",
+        backHomeLink: "← واپس ہوم پیج پر جائیں"
+      },
+      bn: {
+        pageTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা — কুরআন লার্নিং অ্যাপ",
+        headerTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা",
+        headerSub: "পরিকল্পিত হিফজ এবং শিক্ষক-অভিভাবকদের জন্য নির্দেশিকা",
+        introHeading: "সুশৃঙ্খল হিফজ ও শিক্ষাদান কাঠামো",
+        introDesc: "দীর্ঘমেয়াদে কুরআন সংরক্ষণের জন্য নিয়মিত পুনরাবৃত্তি এবং দৈনিক লক্ষ্যমাত্রা অত্যন্ত জরুরি। এই পৃষ্ঠাটি স্বাধীন শিক্ষার্থীদের জন্য কাঠামোগত পরিকল্পনা এবং শিক্ষক-অভিভাবকদের জন্য কার্যকর কোচিং কৌশল প্রদান করে।",
+        txtPlanHeading: "সাধারণ হিফজ পরিকল্পনা",
+        planBeginnerTitle: "প্রাথমিক পরিকল্পনা",
+        planBeginnerDesc: "ছোট সুরাগুলোতে (আম্মা পারা) ফোকাস করুন। অ্যাপের অডিও টুল ব্যবহার করে উচ্চ পুনরাবৃত্তির মাধ্যমে প্রতিদিন ৩ থেকে ৫ লাইন বা ১টি ছোট আয়াত মুখস্থ করুন।",
+        planIntermediateTitle: "মধ্যবর্তী পরিকল্পনা",
+        planIntermediateDesc: "প্রতিদিন অর্ধেক পৃষ্ঠা থেকে ১ পূর্ণ পৃষ্ঠা লক্ষ্য করুন। অধ্যয়নের সময়ের ৬০% নতুন হিফজে এবং ৪০% পূর্ববর্তী পাঠ পর্যালোচনার জন্য উৎসর্গ করুন।",
+        planAdvancedTitle: "উন্নত / নিবিড় পরিকল্পনা",
+        planAdvancedDesc: "দৈনিক পৃষ্ঠা পরিসীমা (উর্দ) টুল ব্যবহার করে প্রতিদিন ১ থেকে ২ পৃষ্ঠা লক্ষ্য করুন। ভুলে যাওয়া রোধ করতে কঠোর সাপ্তাহিক রিভিশন লুপ বজায় রাখুন।",
+        txtGuideHeading: "শিক্ষক ও অভিভাবকদের জন্য নির্দেশিকা",
+        guideStep1Title: "1. একটি রুটিন তৈরি করুন",
+        guideStep1Desc: "প্রতিদিন একই সময়ে অভ্যাস করুন—আদর্শভাবে ফজর নামাজের পরে খুব ভোরে যখন মন সতেজ এবং বিভ্রান্তিমুক্ত থাকে।",
+        guideStep2Title: "2. ছোট অংশে ভাগ করে পুনরাবৃত্তি করুন",
+        guideStep2Desc: "দীর্ঘ আয়াতগুলোকে ছোট বাক্যাংশে ভাগ করুন। একত্রিত করার আগে অ্যাপের রিপিট কাউন্টার প্রতি বাক্যাংশে ৫ বা ১০ বার পুনরাবৃত্তিতে সেট করুন।",
+        guideStep3Title: "3ড়ার আগে শুনুন",
+        guideStep3Desc: "তিলাওয়াত করার চেষ্টা করার আগে শিক্ষার্থীকে দক্ষ কারীদের (যেমন আল-হুসারী বা আল-আফাসী) ৩ বার শুনতে বলুন যাতে সঠিক মাখরাজ ও তাজবীদ আয়ত্ত করা যায়।",
+        guideStep4Title: "4. দৈনিক ও সাপ্তাহিক সংশোধন (মুরাজা'আহ)",
+        guideStep4Desc: "রিভিশন কখনই বাদ দেবেন না। একজন ভালো শিক্ষার্থী নতুন মুখস্থ করার চেয়ে পুরানো অংশ রিভিশন করতে বেশি সময় ব্যয় করে। অগ্রগতি ট্র্যাকিং টেবিল ব্যবহার করে দৈনিক সেশন লগ করুন।",
+        backHomeLink: "← মূল পাতায় ফিরে যান"
+      }
+    };
+
+    let currentLang = 'en';
+
+    function changeLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      localStorage.setItem(STORAGE_LANG_KEY, lang);
+      applyLanguage();
+    }
+
+    function applyLanguage() {
+      const t = translations[currentLang] || translations.en;
+      document.title = t.pageTitle;
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
+
+      document.getElementById('headerTitle').textContent = t.headerTitle;
+      document.getElementById('headerSub').textContent = t.headerSub;
+      document.getElementById('introHeading').textContent = t.introHeading;
+      document.getElementById('introDesc').textContent = t.introDesc;
+      document.getElementById('txtPlanHeading').textContent = t.txtPlanHeading;
+      document.getElementById('planBeginnerTitle').textContent = t.planBeginnerTitle;
+      document.getElementById('planBeginnerDesc').textContent = t.planBeginnerDesc;
+      document.getElementById('planIntermediateTitle').textContent = t.planIntermediateTitle;
+      document.getElementById('planIntermediateDesc').textContent = t.planIntermediateDesc;
+      document.getElementById('planAdvancedTitle').textContent = t.planAdvancedTitle;
+      document.getElementById('planAdvancedDesc').textContent = t.planAdvancedDesc;
+      document.getElementById('txtGuideHeading').textContent = t.txtGuideHeading;
+      document.getElementById('guideStep1Title').textContent = t.guideStep1Title;
+      document.getElementById('guideStep1Desc').textContent = t.guideStep1Desc;
+      document.getElementById('guideStep2Title').textContent = t.guideStep2Title;
+      document.getElementById('guideStep2Desc').textContent = t.guideStep2Desc;
+      document.getElementById('guideStep3Title').textContent = t.guideStep3Title;
+      document.getElementById('guideStep3Desc').textContent = t.guideStep3Desc;
+      document.getElementById('guideStep4Title').textContent = t.guideStep4Title;
+      document.getElementById('guideStep4Desc').textContent = t.guideStep4Desc;
+      document.getElementById('backHomeLink').textContent = t.backHomeLink;
+    }
+
+    window.onload = function() {
+      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
+      if (translations[savedLang]) {
+        currentLang = savedLang;
+        document.getElementById('langSelect').value = currentLang;
+      }
+      applyLanguage();
+    };
+  </script>
+</body>
+</html>

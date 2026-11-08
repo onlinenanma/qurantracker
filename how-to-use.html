@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="pageTitle">How to Use — Quran Learning App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .bg-dark-emerald { background-color: #0d3322; }
+    .bg-dark-emerald-light { background-color: #133e2b; }
+    .border-dark-emerald { border-color: #1b5239; }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-dark-emerald text-emerald-50 px-4 py-3 border-b border-emerald-950 z-30 shadow-md sticky top-0">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center space-x-2.5">
+        <a href="./index.html" class="bg-dark-emerald-light p-2 rounded-xl text-emerald-300 border border-emerald-800/40 hover:bg-emerald-900 transition-all flex items-center justify-center">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+          </svg>
+        </a>
+        <div>
+          <h1 id="headerTitle" class="font-bold text-sm sm:text-base leading-tight text-white">How to Use</h1>
+          <p id="headerSub" class="text-[11px] text-emerald-300 font-medium">دليل الاستخدام</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-1 bg-dark-emerald-light px-2 py-1 rounded-lg border border-dark-emerald">
+        <span class="text-xs">🌐</span>
+        <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-transparent text-white text-xs font-medium focus:outline-none cursor-pointer">
+          <option value="en" class="bg-dark-emerald text-white" selected>English</option>
+          <option value="ar" class="bg-dark-emerald text-white">العربية</option>
+          <option value="ml" class="bg-dark-emerald text-white">മലയാളം</option>
+          <option value="ur" class="bg-dark-emerald text-white">اردو</option>
+          <option value="bn" class="bg-dark-emerald text-white">বাংলা</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content Container -->
+  <main class="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6">
+    
+    <!-- Intro Card -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+      <h2 id="introHeading" class="font-bold text-lg text-emerald-900 mb-2">Welcome to Quran Learning App</h2>
+      <p id="introDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        This guide explains how to configure settings, control audio recitation, utilize repetition targets, and navigate verse and Mus'haf viewing modes effectively.
+      </p>
+    </section>
+
+    <!-- Settings & Navigation -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secSettingsTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>⚙️</span> <span id="txtSettingsHeading">Settings & Configuration Panel</span>
+      </h3>
+      <p id="secSettingsDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Tap the <strong>Select</strong> button on the main panel to open the sliding configuration menu. Here you can change the Surah, pick specific verse boundaries (From/To), modify the repetition target count, select your preferred reciter, or load daily page ranges (Wird).
+      </p>
+    </section>
+
+    <!-- Audio Controls -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secAudioTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>🔊</span> <span id="txtAudioHeading">Audio Controls & Playback</span>
+      </h3>
+      <ul class="list-disc ps-5 space-y-2 text-xs sm:text-sm text-slate-600">
+        <li id="audioPlayPoint"><strong>Play / Stop All (▶ / ⏹):</strong> Starts continuous recitation of your selected verses from beginning to end based on your repetition targets.</li>
+        <li id="audioPausePoint"><strong>Pause / Resume (⏸ / ▶):</strong> Temporarily pauses current playback or resumes right where you left off.</li>
+        <li id="audioVersePoint"><strong>Individual Verse Listen Button:</strong> Tap the play icon on any specific verse card to listen to or loop that individual verse.</li>
+      </ul>
+    </section>
+
+    <!-- Verse Cards & Repetition -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secVersesTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>🔁</span> <span id="txtVersesHeading">Verse Cards & Repetition Targets</span>
+      </h3>
+      <p id="secVersesDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Each verse card tracks your progress dynamically. Tapping the repeat badge allows you to configure individual repetition goals. Once your target counts are completed, you can save your session progress directly to your local weekly log.
+      </p>
+    </section>
+
+    <!-- View Modes -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secViewsTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>📜</span> <span id="txtViewsHeading">Viewing Modes (Verses vs. Mus'haf Page)</span>
+      </h3>
+      <p id="secViewsDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Toggle between standard Verse mode (detailed translation breakdown with interactive audio chips) and Mus'haf Page mode (real high-resolution page view mirroring physical Mushaf layouts) using the header toggle button or the settings panel.
+      </p>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-8 py-4 text-center text-xs text-slate-500 border-t border-slate-200">
+    <p><a href="./index.html" id="backHomeLink" class="text-emerald-600 hover:underline font-semibold">← Back to Quran Learning App</a></p>
+  </footer>
+
+  <script>
+    const STORAGE_LANG_KEY = 'quran_hifz_lang';
+
+    const translations = {
+      en: {
+        pageTitle: "How to Use — Quran Learning App",
+        headerTitle: "How to Use",
+        headerSub: "User Guide & Instructions",
+        introHeading: "Welcome to Quran Learning App",
+        introDesc: "This guide explains how to configure settings, control audio recitation, utilize repetition targets, and navigate verse and Mus'haf viewing modes effectively.",
+        txtSettingsHeading: "Settings & Configuration Panel",
+        secSettingsDesc: "Tap the <strong>Select</strong> button on the main panel to open the sliding configuration menu. Here you can change the Surah, pick specific verse boundaries (From/To), modify the repetition target count, select your preferred reciter, or load daily page ranges (Wird).",
+        txtAudioHeading: "Audio Controls & Playback",
+        audioPlayPoint: "<strong>Play / Stop All (▶ / ⏹):</strong> Starts continuous recitation of your selected verses from beginning to end based on your repetition targets.",
+        audioPausePoint: "<strong>Pause / Resume (⏸ / ▶):</strong> Temporarily pauses current playback or resumes right where you left off.",
+        audioVersePoint: "<strong>Individual Verse Listen Button:</strong> Tap the play icon on any specific verse card to listen to or loop that individual verse.",
+        txtVersesHeading: "Verse Cards & Repetition Targets",
+        secVersesDesc: "Each verse card tracks your progress dynamically. Tapping the repeat badge allows you to configure individual repetition goals. Once your target counts are completed, you can save your session progress directly to your local weekly log.",
+        txtViewsHeading: "Viewing Modes (Verses vs. Mus'haf Page)",
+        secViewsDesc: "Toggle between standard Verse mode (detailed translation breakdown with interactive audio chips) and Mus'haf Page mode (real high-resolution page view mirroring physical Mushaf layouts) using the header toggle button or the settings panel.",
+        backHomeLink: "← Back to Quran Learning App"
+      },
+      ar: {
+        pageTitle: "دليل الاستخدام — تطبيق حفظ القرآن",
+        headerTitle: "دليل الاستخدام",
+        headerSub: "تعليمات وإرشادات الاستخدام",
+        introHeading: "مرحباً بك في تطبيق حفظ القرآن",
+        introDesc: "يوضح هذا الدليل كيفية ضبط الإعدادات، التحكم في تلاوة الصوت، استخدام أهداف التكرار، والتنقل بين أنماط عرض الآيات والمصحف بكفاءة.",
+        txtSettingsHeading: "لوحة الإعدادات والتهيئة",
+        secSettingsDesc: "اضغط على زر <strong>اختر</strong> في اللوحة الرئيسية لفتح قائمة الإعدادات المنزلقة. يمكنك هنا تغيير السورة، تحديد نطاق الآيات (من/إلى)، تعديل عدد تكرار الهدف، اختيار القارئ المفضل، أو تحميل نطاقات الصفحات اليومية (الورد).",
+        txtAudioHeading: "التحكم الصوتي والتلاوة",
+        audioPlayPoint: "<strong>تشغيل / إيقاف الكل:</strong> يبدأ التلاوة المستمرة للآيات المختارة من البداية إلى النهاية بناءً على أهداف التكرار الخاصة بك.",
+        audioPausePoint: "<strong>إيقاف مؤقت / استئناف:</strong> يعلق التشغيل مؤقتاً أو يستأنفه من حيث توقفت.",
+        audioVersePoint: "<strong>زر الاستماع لكل آية:</strong> اضغط على أيقونة التشغيل في أي بطاقة آية للاستماع إليها أو تكرارها بشكل فردي.",
+        txtVersesHeading: "بطاقات الآيات وأهداف التكرار",
+        secVersesDesc: "تتعقب كل بطاقة آية تقدمك ديناميكياً. النقر على شارة التكرار يتيح لك ضبط أهداف التكرار الفردية. بمجرد اكتمال أهدافك، يمكنك حفظ تقدم الجلسة مباشرة في سجل الأسبوع المحلي.",
+        txtViewsHeading: "أنماط العرض (الآيات مقابل صفحة المصحف)",
+        secViewsDesc: "التبديل بسلاسة بين نمط الآيات القياسي (تفصيل الترجمة مع لوحات التحكم الصوتية التفاعلية) ونمط صفحة المصحف (عرض صفحات بدقة عالية تحاكي المصحف الورقي) باستخدام زر التبديل العلوي أو لوحة الإعدادات.",
+        backHomeLink: "← العودة إلى تطبيق القرآن"
+      },
+      ml: {
+        pageTitle: "ഉപയോഗക്രമം — Quran Learning App",
+        headerTitle: "ഉപയോഗക്രമം",
+        headerSub: "ആപ്പ് ഉപയോഗിക്കേണ്ട വിധം",
+        introHeading: "ഖുർആൻ ലേണിംഗ് ആപ്പിലേക്ക് സ്വാഗതം",
+        introDesc: "ഈ ഗൈഡ് ആപ്പിലെ ക്രമീകരണങ്ങൾ, ഓഡിയോ നിയന്ത്രണങ്ങൾ, ആവർത്തന ലക്ഷ്യങ്ങൾ, വ്യൂ മോഡുകൾ എന്നിവ എങ്ങനെ ഉപയോഗിക്കാമെന്ന് വിശദീകരിക്കുന്നു.",
+        txtSettingsHeading: "ക്രമീകരണങ്ങളും സെറ്റിങ്സും",
+        secSettingsDesc: "പ്രധാന പേജിലെ <strong>Select</strong> ബട്ടൺ ഉപയോഗിച്ച് ക്രമീകരണ മെനു തുറക്കാം. ഇവിടെ സൂറത്ത് മാറ്റാനും, ആയത്ത് പരിധി നിശ്ചയിക്കാനും, ആവർത്തന ലക്ഷ്യം മാറ്റാനും, ഖാരിഇനെ തിരഞ്ഞെടുക്കാനും സാധിക്കും.",
+        txtAudioHeading: "ഓഡിയോ കൺട്രോളുകളും പ്ലേബാക്കും",
+        audioPlayPoint: "<strong>പ്ലേ / സ്റ്റോപ്പ് (▶ / ⏹):</strong> നിങ്ങളുടെ ആവർത്തന ലക്ഷ്യങ്ങൾക്ക് അനുസൃതമായി തിരഞ്ഞെടുത്ത ആയത്തുകൾ തുടർച്ചയായി കേൾക്കാൻ ഇത് സഹായിക്കുന്നു.",
+        audioPausePoint: "<strong>പോസ് / റസ്യൂം (⏸ / ▶):</strong> ഓഡിയോ താൽക്കാലികമായി നിർത്താനോ തുടർന്ന് കേൾക്കാനോ ഉപയോഗിക്കാം.",
+        audioVersePoint: "<strong>വ്യക്തിഗത ആയത്ത് ലിസൺ ബട്ടൺ:</strong> ഏതെങ്കിലും പ്രത്യേക ആയത്ത് മാത്രം കേൾക്കാൻ അതിലെ പ്ലേ ബട്ടൺ ഉപയോഗിക്കുക.",
+        txtVersesHeading: "ആയത്ത് കാർഡുകളും ആവർത്തന ലക്ഷ്യങ്ങളും",
+        secVersesDesc: "ഓരോ ആയത്ത് കാർഡും നിങ്ങളുടെ പുരോഗതി കൃത്യമായി കാണിക്കുന്നു. ആവർത്തന ലക്ഷ്യങ്ങൾ പൂർത്തിയായാൽ നിങ്ങളുടെ പ്രതിവാര ലോഗിലേക്ക് പുരോഗതി സേവ് ചെയ്യാം.",
+        txtViewsHeading: "വ്യൂ മോഡുകൾ (ആയത്തുകൾ vs മുസ്ഹഫ് പേജ്)",
+        secViewsDesc: "ആയത്ത് രൂപത്തിലോ അല്ലെങ്കിൽ യഥാർത്ഥ മുസ്ഹഫ് പേജ് രൂപത്തിലോ (Mushaf Page view) ഖുർആൻ പാരായണം കാണാൻ മുകളിലെ വ്യൂ ടോഗിൾ ബട്ടൺ ഉപയോഗിക്കാം.",
+        backHomeLink: "← ഹോം പേജിലേക്ക് മടങ്ങുക"
+      },
+      ur: {
+        pageTitle: "استعمال کا طریقہ — قرآن لرننگ ایپ",
+        headerTitle: "استعمال کا طریقہ",
+        headerSub: "صارف گائیڈ اور ہدایات",
+        introHeading: "قرآن لرننگ ایپ میں خوش آمدید",
+        introDesc: "یہ گائیڈ وضاحت کرتی ہے کہ ترتیبات کو کیسے ترتیب دیا جائے، آڈیو تلاوت کو کیسے کنٹرول کیا جائے، اور مختلف ویو موڈز کا استعمال کیسے کیا جائے۔",
+        txtSettingsHeading: "ترتیبات اور کنفیگریشن پینل",
+        secSettingsDesc: "سلائیڈنگ مینو کھولنے کے لیے مین پینل پر <strong>Select</strong> کا بٹن دبائیں۔ یہاں آپ سورت تبدیل کر سکتے ہیں، آیات کی حد منتخب کر سکتے ہیں، تلاوت کرنے والے قاری کا انتخاب کر سکتے ہیں اور روزانہ کا ورد طے کر سکتے ہیں۔",
+        txtAudioHeading: "آڈیو کنٹرولز اور پلے بیک",
+        audioPlayPoint: "<strong>چلائیں / روکیں (▶ / ⏹):</strong> آپ کے مقرر کردہ اہداف کے مطابق منتخب آیات کی مسلسل تلاوت شروع کرتا ہے۔",
+        audioPausePoint: "<strong>وقفہ / جاری رکھیں (⏸ / ▶):</strong> موجودہ آڈیو پلے بیک کو عارضی طور پر روکتا یا وہیں سے دوبارہ شروع کرتا ہے۔",
+        audioVersePoint: "<strong>انفرادی آیت کا بٹن:</strong> کسی بھی خاص آیت کو سننے کے لیے اس کے پلے آئیکن پر ٹیپ کریں۔",
+        txtVersesHeading: "آیت کارڈز اور تلاوت کے اہداف",
+        secVersesDesc: "ہر آیت کارڈ آپ کی پیشرفت کو متحرک انداز میں ٹریک کرتا ہے۔ اہداف مکمل ہونے کے بعد آپ سیشن کی پیشرفت کو محفوظ کر سکتے ہیں۔",
+        txtViewsHeading: "ویو موڈز (آیات بمقابلہ مصحف صفحہ)",
+        secViewsDesc: "معیاری آیت موڈ اور ہائی ریزولوشن مصحف صفحہ موڈ کے درمیان آسانی سے سوئچ کریں۔",
+        backHomeLink: "← واپس ہوم پیج پر جائیں"
+      },
+      bn: {
+        pageTitle: "ব্যবহারবিধি — কুরআন লার্নিং অ্যাপ",
+        headerTitle: "ব্যবহারবিধি",
+        headerSub: "ব্যবহারকারী নির্দেশিকা",
+        introHeading: "কুরআন লার্নিং অ্যাপে স্বাগতম",
+        introDesc: "এই নির্দেশিকাটিতে সেটিংস কনফিগার করা, অডিও আবৃত্তি নিয়ন্ত্রণ করা, পুনরাবৃত্তির লক্ষ্য নির্ধারণ এবং বিভিন্ন ভিউ মোড ব্যবহার করার নিয়ম ব্যাখ্যা করা হয়েছে।",
+        txtSettingsHeading: "সেটিংস এবং কনফিগারেশন প্যানেল",
+        secSettingsDesc: "স্লাইডিং মেনু খুলতে মূল প্যানেলের <strong>Select</strong> বোতামে চাপুন। এখান থেকে আপনি সুরা পরিবর্তন করতে পারবেন, আয়াতের পরিসীমা নির্ধারণ করতে পারবেন এবং কারী নির্বাচন করতে পারবেন।",
+        txtAudioHeading: "অডিও নিয়ন্ত্রণ এবং প্লেব্যাক",
+        audioPlayPoint: "<strong>চালান / বন্ধ করুন (▶ / ⏹):</strong> আপনার নির্ধারিত পুনরাবৃত্তির লক্ষ্য অনুযায়ী নির্বাচিত আয়াতগুলোর ধারাবাহিক আবৃত্তি শুরু করে।",
+        audioPausePoint: "<strong>বিরতি / চালিয়ে যান (⏸ / ▶):</strong> বর্তমান অডিও প্লেব্যাক সাময়িক বিরতি দেয় বা পুনরায় চালু করে।",
+        audioVersePoint: "<strong>নির্দিষ্ট আয়াত শোনার বোতাম:</strong> নির্দিষ্ট কোনো আয়াত শুনতে তার প্লে আইকনে ট্যাপ করুন।",
+        txtVersesHeading: "আয়াত কার্ড এবং পুনরাবৃত্তির লক্ষ্য",
+        secVersesDesc: "প্রতিটি আয়াত কার্ড আপনার অগ্রগতি ট্র্যাক করে। লক্ষ্য সম্পন্ন হলে আপনি সাপ্তাহিক লগে আপনার অগ্রগতি সংরক্ষণ করতে পারেন।",
+        txtViewsHeading: "ভিউ মোড (আয়াত বনাম মুসহাফ পৃষ্ঠা)",
+        secViewsDesc: "স্ট্যান্ডার্ড আয়াত মোড এবং হাই-রেজোলিউশন মুসহাফ পৃষ্ঠা মোডের মধ্যে সহজেই টগল করুন।",
+        backHomeLink: "← মূল পাতায় ফিরে যান"
+      }
+    };
+
+    let currentLang = 'en';
+
+    function changeLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      localStorage.setItem(STORAGE_LANG_KEY, lang);
+      applyLanguage();
+    }
+
+    function applyLanguage() {
+      const t = translations[currentLang] || translations.en;
+      document.title = t.pageTitle;
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
+
+      document.getElementById('headerTitle').textContent = t.headerTitle;
+      document.getElementById('headerSub').textContent = t.headerSub;
+      document.getElementById('introHeading').textContent = t.introHeading;
+      document.getElementById('introDesc').textContent = t.introDesc;
+      document.getElementById('txtSettingsHeading').textContent = t.txtSettingsHeading;
+      document.getElementById('secSettingsDesc').innerHTML = t.secSettingsDesc;
+      document.getElementById('txtAudioHeading').textContent = t.txtAudioHeading;
+      document.getElementById('audioPlayPoint').innerHTML = t.audioPlayPoint;
+      document.getElementById('audioPausePoint').innerHTML = t.audioPausePoint;
+      document.getElementById('audioVersePoint').innerHTML = t.audioVersePoint;
+      document.getElementById('txtVersesHeading').textContent = t.txtVersesHeading;
+      document.getElementById('secVersesDesc').textContent = t.secVersesDesc;
+      document.getElementById('txtViewsHeading').textContent = t.txtViewsHeading;
+      document.getElementById('secViewsDesc').textContent = t.secViewsDesc;
+      document.getElementById('backHomeLink').textContent = t.backHomeLink;
+    }
+
+    window.onload = function() {
+      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
+      if (translations[savedLang]) {
+        currentLang = savedLang;
+        document.getElementById('langSelect').value = currentLang;
+      }
+      applyLanguage();
+    };
+  </script>
+</body>
+</html>
