@@ -104,7 +104,26 @@
   </footer>
 
   <script>
-    const STORAGE_LANG_KEY = 'quran_hifz_lang';
+   const STORAGE_LANG_KEY = 'quran_hifz_lang';
+    let currentLang = 'en';
+
+    function changeLanguage(lang) {
+      if (!translations[lang]) return;
+      currentLang = lang;
+      localStorage.setItem(STORAGE_LANG_KEY, lang); // Saves globally across all pages
+      applyLanguage();
+    }
+
+    window.onload = function() {
+      // Automatically pull the language opted by the user on the index page
+      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
+      if (translations[savedLang]) {
+        currentLang = savedLang;
+        const langSelector = document.getElementById('langSelect');
+        if (langSelector) langSelector.value = currentLang;
+      }
+      applyLanguage();
+    };
 
     const translations = {
       en: {
@@ -198,8 +217,6 @@
         backHomeLink: "← মূল পাতায় ফিরে যান"
       }
     };
-
-    let currentLang = 'en';
 
     function changeLanguage(lang) {
       if (!translations[lang]) return;
