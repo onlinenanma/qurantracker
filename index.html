@@ -39,6 +39,9 @@
       box-shadow: 0 4px 18px rgba(5, 150, 105, 0.25);
       transform: translateY(-2px);
     }
+    /* First-visit hint: gentle pulse on the language button */
+    @keyframes langPulse { 0% { box-shadow: 0 0 0 0 rgba(52,211,153,.75); } 100% { box-shadow: 0 0 0 12px rgba(52,211,153,0); } }
+    .lang-pulse { border-color: #34d399 !important; animation: langPulse 1.2s ease-out 5; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
@@ -84,6 +87,7 @@
             <span id="langCurrent" class="text-xs font-semibold text-white whitespace-nowrap">English</span>
             <span class="text-[9px] text-emerald-300" aria-hidden="true">▼</span>
           </button>
+          <div id="langHint" role="status" class="hidden absolute top-full mt-2 w-max max-w-[14rem] bg-emerald-500 text-emerald-950 text-xs font-semibold px-3 py-1.5 rounded-lg shadow-lg z-[60]"></div>
           <div id="langMenu" role="listbox" class="hidden absolute right-0 top-full mt-1.5 min-w-[9rem] bg-dark-emerald border border-emerald-700 rounded-xl shadow-2xl py-1 z-[60]">
             <button type="button" role="option" data-lang="en" onclick="pickLanguage('en')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>English</span><span class="tick text-emerald-300"></span></button>
             <button type="button" role="option" data-lang="ar" onclick="pickLanguage('ar')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>العربية</span><span class="tick text-emerald-300"></span></button>
@@ -96,6 +100,22 @@
 
     </div>
   </header>
+
+  <!-- First-visit language chooser -->
+  <div id="langWelcome" class="hidden fixed inset-0 bg-black/60 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="langWelcomeTitle" dir="ltr">
+    <div class="bg-white rounded-2xl p-5 shadow-2xl max-w-sm w-full border border-slate-200 text-center">
+      <div class="text-3xl mb-1" aria-hidden="true">🌐</div>
+      <h4 id="langWelcomeTitle" class="font-bold text-base text-slate-800">Choose your language</h4>
+      <p class="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">اختر لغتك · ഭാഷ തിരഞ്ഞെടുക്കുക · اپنی زبان منتخب کریں · আপনার ভাষা বেছে নিন</p>
+      <div class="grid grid-cols-2 gap-2">
+        <button type="button" data-lang="en" onclick="chooseWelcomeLang('en')" class="col-span-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-2.5 rounded-xl transition-colors">English</button>
+        <button type="button" data-lang="ar" onclick="chooseWelcomeLang('ar')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">العربية</button>
+        <button type="button" data-lang="ur" onclick="chooseWelcomeLang('ur')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">اردو</button>
+        <button type="button" data-lang="ml" onclick="chooseWelcomeLang('ml')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">മലയാളം</button>
+        <button type="button" data-lang="bn" onclick="chooseWelcomeLang('bn')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">বাংলা</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Instruction Info Modal Popup (Triggered by ℹ️ Emoji) -->
   <div id="infoModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
@@ -1146,6 +1166,70 @@
     document.addEventListener('click', e => { if (!e.target.closest('#navMenu') && !e.target.closest('#navBtn')) closeNavMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNavMenu(); });
 
+
+    // ==================================================================
+    // FIRST-VISIT LANGUAGE CHOOSER + HINT
+    // English stays the default; this only invites a first-time visitor to pick another language.
+    // ==================================================================
+    const WELCOME_FLAG = 'quran_hifz_lang_prompted';
+    const HINT_LABELS = {
+      en: 'Change language here anytime',
+      ar: 'يمكنك تغيير اللغة من هنا في أي وقت',
+      ml: 'ഭാഷ ഇവിടെ നിന്ന് എപ്പോൾ വേണമെങ്കിലും മാറ്റാം',
+      ur: 'زبان یہاں سے کسی بھی وقت بدلیں',
+      bn: 'ভাষা এখান থেকে যেকোনো সময় বদলান'
+    };
+    let hintTimer = null;
+
+    function isFirstVisit() {
+      try {
+        localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); // storage must work, or we would nag every visit
+        if (localStorage.getItem(WELCOME_FLAG)) return false;
+        // Returning users (already have saved language, progress, logs or counters) are never prompted
+        return ![STORE.lang, STORE.state, STORE.logs, STORE.counts].some(k => localStorage.getItem(k) !== null);
+      } catch (e) { return false; }
+    }
+    function maybeShowLangWelcome() {
+      if (!isFirstVisit()) return;
+      const w = $('langWelcome'); if (!w) return;
+      w.classList.remove('hidden');
+      const first = w.querySelector('button'); if (first) first.focus();
+    }
+    function closeLangWelcome() {
+      const w = $('langWelcome');
+      if (!w || w.classList.contains('hidden')) return false;
+      w.classList.add('hidden');
+      try { localStorage.setItem(WELCOME_FLAG, '1'); } catch (e) {}
+      showLangHint();
+      return true;
+    }
+    function chooseWelcomeLang(lang) {
+      saveJSON(STORE.lang, lang); // remember the choice (English too), shared with all sub pages
+      if (lang !== currentLang) changeLanguage(lang);
+      closeLangWelcome();
+    }
+    function hideLangHint() {
+      clearTimeout(hintTimer);
+      const h = $('langHint'), b = $('langBtn');
+      if (h) h.classList.add('hidden');
+      if (b) b.classList.remove('lang-pulse');
+    }
+    function showLangHint() {
+      const h = $('langHint'), b = $('langBtn'), lm = $('langMenu');
+      if (!h || !b) return;
+      h.textContent = HINT_LABELS[currentLang] || HINT_LABELS.en;
+      if (lm) { h.style.left = lm.style.left; h.style.right = lm.style.right; } // same side as the menu (RTL aware)
+      h.classList.remove('hidden');
+      b.classList.add('lang-pulse');
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(hideLangHint, 7000);
+    }
+    document.addEventListener('click', e => {
+      if (e.target.id === 'langWelcome') closeLangWelcome();      // tap outside the box = keep English
+      else if (e.target.closest('#langBtn')) hideLangHint();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLangWelcome(); });
+
     function changeLanguage(lang) {
       if (!translations[lang]) return;
       currentLang = lang;
@@ -1254,6 +1338,7 @@
       const savedLang = loadJSON(STORE.lang, 'en');
       currentLang = translations[savedLang] ? savedLang : 'en';
       applyLanguage();
+      maybeShowLangWelcome();
 
       await syncReciterList();
       const st = restoreInputs();
