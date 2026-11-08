@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="pageTitle">Memorisation Plans & Guide — Quran Learning App</title>
+  <title id="pageTitle">How to Use — Quran Learning App</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -25,8 +25,8 @@
           </svg>
         </a>
         <div>
-          <h1 id="headerTitle" class="font-bold text-sm sm:text-base leading-tight text-white">Memorisation Plans & Guide</h1>
-          <p id="headerSub" class="text-[11px] text-emerald-300 font-medium">خطط الحفظ وإرشادات المعلمين والأولياء</p>
+          <h1 id="headerTitle" class="font-bold text-sm sm:text-base leading-tight text-white">How to Use</h1>
+          <p id="headerSub" class="text-[11px] text-emerald-300 font-medium">دليل الاستخدام</p>
         </div>
       </div>
 
@@ -34,61 +34,57 @@
     </div>
   </header>
 
-  <!-- Main Content Container -->
+  <!-- Content Container -->
   <main class="flex-1 p-4 md:p-8 max-w-4xl mx-auto w-full space-y-6">
     
     <!-- Intro Card -->
     <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-      <h2 id="introHeading" class="font-bold text-lg text-emerald-900 mb-2">Structured Memorisation & Teaching Framework</h2>
+      <h2 id="introHeading" class="font-bold text-lg text-emerald-900 mb-2">Welcome to Quran Learning App</h2>
       <p id="introDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-        Consistent revision and structured daily targets are essential for long-term Quran retention (Hifz). This page provides structured plans for independent learners alongside practical coaching strategies for parents and teachers.
+        This guide explains how to configure settings, control audio recitation, utilize repetition targets, and navigate verse and Mus'haf viewing modes effectively.
       </p>
     </section>
 
-    <!-- Part 1: General Memorisation Plans -->
-    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-      <h3 id="secPlanTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
-        <span>📅</span> <span id="txtPlanHeading">General Memorisation Plans</span>
+    <!-- Settings & Navigation -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secSettingsTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>⚙️</span> <span id="txtSettingsHeading">Settings & Configuration Panel</span>
       </h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-          <h4 id="planBeginnerTitle" class="font-bold text-xs text-emerald-800 uppercase tracking-wider mb-1">Beginner Plan</h4>
-          <p id="planBeginnerDesc" class="text-xs text-slate-600 leading-relaxed">Focuses on short surahs (Juz Amma). Memorize 3 to 5 lines or 1 short verse per day with high repetition using the app audio tool.</p>
-        </div>
-        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-          <h4 id="planIntermediateTitle" class="font-bold text-xs text-emerald-800 uppercase tracking-wider mb-1">Intermediate Plan</h4>
-          <p id="planIntermediateDesc" class="text-xs text-slate-600 leading-relaxed">Target half a page to 1 full page per day. Dedicate 60% of study time to new memorization and 40% to reviewing past lessons.</p>
-        </div>
-        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-          <h4 id="planAdvancedTitle" class="font-bold text-xs text-emerald-800 uppercase tracking-wider mb-1">Advanced / Intensive</h4>
-          <p id="planAdvancedDesc" class="text-xs text-slate-600 leading-relaxed">Aim for 1 to 2 pages daily utilizing the daily page range (Wird) tool. Strict weekly consolidation loops to prevent forgetting.</p>
-        </div>
-      </div>
+      <p id="secSettingsDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Tap the <strong>Select</strong> button on the main panel to open the sliding configuration menu. Here you can change the Surah, pick specific verse boundaries (From/To), modify the repetition target count, select your preferred reciter, or load daily page ranges (Wird).
+      </p>
     </section>
 
-    <!-- Part 2: Guide for Teachers and Parents -->
-    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-4">
-      <h3 id="secGuideTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
-        <span>👥</span> <span id="txtGuideHeading">Guide for Teachers & Parents</span>
+    <!-- Audio Controls -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secAudioTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>🔊</span> <span id="txtAudioHeading">Audio Controls & Playback</span>
       </h3>
-      <div class="space-y-3 text-xs sm:text-sm text-slate-600">
-        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
-          <h4 id="guideStep1Title" class="font-bold text-emerald-900 mb-1">1. Establish a Routine</h4>
-          <p id="guideStep1Desc">Practice at the same time every day—ideally early in the morning after Fajr when the mind is fresh and free from distractions.</p>
-        </div>
-        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
-          <h4 id="guideStep2Title" class="font-bold text-emerald-900 mb-1">2. Use Chunking & Repetition</h4>
-          <p id="guideStep2Desc">Break long verses into small phrases. Use the app's repetition counter set to 5 or 10 repeats per phrase before linking them together.</p>
-        </div>
-        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
-          <h4 id="guideStep3Title" class="font-bold text-emerald-900 mb-1">3. Listen Before Reading</h4>
-          <p id="guideStep3Desc">Have the student listen to expert reciters (like Al-Husary or Alafasy) 3 times to absorb correct Makharij (pronunciation) and Tajweed rules before attempting recitation.</p>
-        </div>
-        <div class="p-3 bg-emerald-50/50 border border-emerald-100 rounded-xl">
-          <h4 id="guideStep4Title" class="font-bold text-emerald-900 mb-1">4. Daily & Weekly Revision (Muraja'ah)</h4>
-          <p id="guideStep4Desc">Never skip revision. A good student spends more time revising old portions than memorizing new ones. Log daily sessions using the progress tracking table.</p>
-        </div>
-      </div>
+      <ul class="list-disc ps-5 space-y-2 text-xs sm:text-sm text-slate-600">
+        <li id="audioPlayPoint"><strong>Play / Stop All (▶ / ⏹):</strong> Starts continuous recitation of your selected verses from beginning to end based on your repetition targets.</li>
+        <li id="audioPausePoint"><strong>Pause / Resume (⏸ / ▶):</strong> Temporarily pauses current playback or resumes right where you left off.</li>
+        <li id="audioVersePoint"><strong>Individual Verse Listen Button:</strong> Tap the play icon on any specific verse card to listen to or loop that individual verse.</li>
+      </ul>
+    </section>
+
+    <!-- Verse Cards & Repetition -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secVersesTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>🔁</span> <span id="txtVersesHeading">Verse Cards & Repetition Targets</span>
+      </h3>
+      <p id="secVersesDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Each verse card tracks your progress dynamically. Tapping the repeat badge allows you to configure individual repetition goals. Once your target counts are completed, you can save your session progress directly to your local weekly log.
+      </p>
+    </section>
+
+    <!-- View Modes -->
+    <section class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+      <h3 id="secViewsTitle" class="font-bold text-base text-slate-800 flex items-center gap-2">
+        <span>📜</span> <span id="txtViewsHeading">Viewing Modes (Verses vs. Mus'haf Page)</span>
+      </h3>
+      <p id="secViewsDesc" class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+        Toggle between standard Verse mode (detailed translation breakdown with interactive audio chips) and Mus'haf Page mode (real high-resolution page view mirroring physical Mushaf layouts) using the header toggle button or the settings panel.
+      </p>
     </section>
 
   </main>
@@ -104,135 +100,104 @@
 
     const translations = {
       en: {
-        pageTitle: "Memorisation Plans & Guide — Quran Learning App",
-        headerTitle: "Memorisation Plans & Guide",
-        headerSub: "Structured Plans & Teaching Guidelines",
-        introHeading: "Structured Memorisation & Teaching Framework",
-        introDesc: "Consistent revision and structured daily targets are essential for long-term Quran retention (Hifz). This page provides structured plans for independent learners alongside practical coaching strategies for parents and teachers.",
-        txtPlanHeading: "General Memorisation Plans",
-        planBeginnerTitle: "Beginner Plan",
-        planBeginnerDesc: "Focuses on short surahs (Juz Amma). Memorize 3 to 5 lines or 1 short verse per day with high repetition using the app audio tool.",
-        planIntermediateTitle: "Intermediate Plan",
-        planIntermediateDesc: "Target half a page to 1 full page per day. Dedicate 60% of study time to new memorization and 40% to reviewing past lessons.",
-        planAdvancedTitle: "Advanced / Intensive",
-        planAdvancedDesc: "Aim for 1 to 2 pages daily utilizing the daily page range (Wird) tool. Strict weekly consolidation loops to prevent forgetting.",
-        txtGuideHeading: "Guide for Teachers & Parents",
-        guideStep1Title: "1. Establish a Routine",
-        guideStep1Desc: "Practice at the same time every day—ideally early in the morning after Fajr when the mind is fresh and free from distractions.",
-        guideStep2Title: "2. Use Chunking & Repetition",
-        guideStep2Desc: "Break long verses into small phrases. Use the app's repetition counter set to 5 or 10 repeats per phrase before linking them together.",
-        guideStep3Title: "3. Listen Before Reading",
-        guideStep3Desc: "Have the student listen to expert reciters (like Al-Husary or Alafasy) 3 times to absorb correct Makharij (pronunciation) and Tajweed rules before attempting recitation.",
-        guideStep4Title: "4. Daily & Weekly Revision (Muraja'ah)",
-        guideStep4Desc: "Never skip revision. A good student spends more time revising old portions than memorizing new ones. Log daily sessions using the progress tracking table.",
+        pageTitle: "How to Use — Quran Learning App",
+        headerTitle: "How to Use",
+        headerSub: "User Guide & Instructions",
+        introHeading: "Welcome to Quran Learning App",
+        introDesc: "This guide explains how to configure settings, control audio recitation, utilize repetition targets, and navigate verse and Mus'haf viewing modes effectively.",
+        txtSettingsHeading: "Settings & Configuration Panel",
+        secSettingsDesc: "Tap the <strong>Select</strong> button on the main panel to open the sliding configuration menu. Here you can change the Surah, pick specific verse boundaries (From/To), modify the repetition target count, select your preferred reciter, or load daily page ranges (Wird).",
+        txtAudioHeading: "Audio Controls & Playback",
+        audioPlayPoint: "<strong>Play / Stop All (▶ / ⏹):</strong> Starts continuous recitation of your selected verses from beginning to end based on your repetition targets.",
+        audioPausePoint: "<strong>Pause / Resume (⏸ / ▶):</strong> Temporarily pauses current playback or resumes right where you left off.",
+        audioVersePoint: "<strong>Individual Verse Listen Button:</strong> Tap the play icon on any specific verse card to listen to or loop that individual verse.",
+        txtVersesHeading: "Verse Cards & Repetition Targets",
+        secVersesDesc: "Each verse card tracks your progress dynamically. Tapping the repeat badge allows you to configure individual repetition goals. Once your target counts are completed, you can save your session progress directly to your local weekly log.",
+        txtViewsHeading: "Viewing Modes (Verses vs. Mus'haf Page)",
+        secViewsDesc: "Toggle between standard Verse mode (detailed translation breakdown with interactive audio chips) and Mus'haf Page mode (real high-resolution page view mirroring physical Mushaf layouts) using the header toggle button or the settings panel.",
         backHomeLink: "← Back to Quran Learning App"
       },
       ar: {
-        pageTitle: "خطط الحفظ والإرشادات — تطبيق حفظ القرآن",
-        headerTitle: "خطط الحفظ وإرشادات التدريس",
-        headerSub: "خطط منظمة وإرشادات للأولياء والمعلمين",
-        introHeading: "إطار عمل منظم للحفظ والتعليم",
-        introDesc: "تعتبر المراجعة المستمرة والأهداف اليومية المنظمة أمرًا أساسيًا لحفظ القرآن الكريم على المدى الطويل. توفر هذه الصفحة خططًا منظمة للمتعلمين إلى جانب استراتيجيات تدريس عملية لأولياء الأمور والمعلمين.",
-        txtPlanHeading: "خطط الحفظ العامة",
-        planBeginnerTitle: "خطة المبتدئين",
-        planBeginnerDesc: "التركيز على السور القصيرة (جزء عم). حفظ من 3 إلى 5 أسطر أو آية قصيرة واحدة يوميًا مع تكرار عالٍ باستخدام أداة التطبيق الصوتية.",
-        planIntermediateTitle: "خطة المتوسطين",
-        planIntermediateDesc: "استهداف نصف صفحة إلى صفحة كاملة يوميًا. تخصيص 60% من وقت الدراسة للحفظ الجديد و 40% لمراجعة الدروس السابقة.",
-        planAdvancedTitle: "المستوى المتقدم / المكثف",
-        planAdvancedDesc: "استهداف صفحة إلى صفحتين يوميًا باستخدام أداة نطاق الصفحات اليومية (الورد). حلقات ترسيخ أسبوعية صارمة لمنع النسيان.",
-        txtGuideHeading: "دليل المعلمين وأولياء الأمور",
-        guideStep1Title: "1. إرساء روتين ثابت",
-        guideStep1Desc: "التدريب في نفس الوقت كل يوم - ويفضل في الصباح الباكر بعد الفجر عندما يكون الذهن صافياً وخالياً من المشتتات.",
-        guideStep2Title: "2. التجزئة والتكرار",
-        guideStep2Desc: "تقسيم الآيات الطويلة إلى مقاطع صغيرة. استخدام عداد التكرار في التطبيق لضبط 5 أو 10 تكرارات لكل مقطع قبل ربطها ببعضها.",
-        guideStep3Title: "3. الاستماع قبل القراءة",
-        guideStep3Desc: "اجعل الطالب يستمع إلى القراء الخبراء (مثل الحصري أو العفاسي) 3 مرات لاستيعاب مخارج الحروف الصحيحة وأحكام التجويد قبل محاولة التلاوة.",
-        guideStep4Title: "4. المراجعة اليومية والأسبوعية (المراجعة)",
-        guideStep4Desc: "لا تهمل المراجعة أبدًا. الطالب المجتهد يقضي وقتًا في مراجعة الأجزاء القديمة أكثر من حفظ أجزاء جديدة. سجل الجلسات اليومية باستخدام جدول تتبع التقدم.",
+        pageTitle: "دليل الاستخدام — تطبيق حفظ القرآن",
+        headerTitle: "دليل الاستخدام",
+        headerSub: "تعليمات وإرشادات الاستخدام",
+        introHeading: "مرحباً بك في تطبيق حفظ القرآن",
+        introDesc: "يوضح هذا الدليل كيفية ضبط الإعدادات، التحكم في تلاوة الصوت، استخدام أهداف التكرار، والتنقل بين أنماط عرض الآيات والمصحف بكفاءة.",
+        txtSettingsHeading: "لوحة الإعدادات والتهيئة",
+        secSettingsDesc: "اضغط على زر <strong>اختر</strong> في اللوحة الرئيسية لفتح قائمة الإعدادات المنزلقة. يمكنك هنا تغيير السورة، تحديد نطاق الآيات (من/إلى)، تعديل عدد تكرار الهدف، اختيار القارئ المفضل، أو تحميل نطاقات الصفحات اليومية (الورد).",
+        txtAudioHeading: "التحكم الصوتي والتلاوة",
+        audioPlayPoint: "<strong>تشغيل / إيقاف الكل:</strong> يبدأ التلاوة المستمرة للآيات المختارة من البداية إلى النهاية بناءً على أهداف التكرار الخاصة بك.",
+        audioPausePoint: "<strong>إيقاف مؤقت / استئناف:</strong> يعلق التشغيل مؤقتاً أو يستأنفه من حيث توقفت.",
+        audioVersePoint: "<strong>زر الاستماع لكل آية:</strong> اضغط على أيقونة التشغيل في أي بطاقة آية للاستماع إليها أو تكرارها بشكل فردي.",
+        txtVersesHeading: "بطاقات الآيات وأهداف التكرار",
+        secVersesDesc: "تتعقب كل بطاقة آية تقدمك ديناميكياً. النقر على شارة التكرار يتيح لك ضبط أهداف التكرار الفردية. بمجرد اكتمال أهدافك، يمكنك حفظ تقدم الجلسة مباشرة في سجل الأسبوع المحلي.",
+        txtViewsHeading: "أنماط العرض (الآيات مقابل صفحة المصحف)",
+        secViewsDesc: "التبديل بسلاسة بين نمط الآيات القياسي (تفصيل الترجمة مع لوحات التحكم الصوتية التفاعلية) ونمط صفحة المصحف (عرض صفحات بدقة عالية تحاكي المصحف الورقي) باستخدام زر التبديل العلوي أو لوحة الإعدادات.",
         backHomeLink: "← العودة إلى تطبيق القرآن"
       },
       ml: {
-        pageTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും — Quran Learning App",
-        headerTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും",
-        headerSub: "പഠന പ്ലാനുകളും അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള മാർഗ്ഗനിർദ്ദേശങ്ങളും",
-        introHeading: "സംഘടിതമായ ഹിഫ്ള് & അധ്യാപന സംവിധാനം",
-        introDesc: "ഖുർആൻ ദീർഘകാലം ഓർമ്മയിൽ സൂക്ഷിക്കുന്നതിന് കൃത്യമായ റിവിഷനും ദിവസേനയുള്ള ലക്ഷ്യങ്ങളും അത്യാവശ്യമാണ്. ഈ പേജ് പഠിതാക്കൾക്കായി വിവിധ പ്ലാനുകളും രക്ഷിതാക്കൾക്കും അധ്യാപകർക്കും സഹായിക്കുന്ന നിർദ്ദേശങ്ങളും നൽകുന്നു.",
-        txtPlanHeading: "പൊതുവായ ഹിഫ്ള് പ്ലാനുകൾ",
-        planBeginnerTitle: "തുടക്കക്കാർക്കുള്ള പ്ലാൻ",
-        planBeginnerDesc: "ചെറിയ സൂറത്തുകളിൽ (ജുസ്അ് അമ്മ) ശ്രദ്ധ കേന്ദ്രീകരിക്കുക. ദിവസവും 3 മുതൽ 5 വരികൾ വരെ അല്ലെങ്കിൽ 1 ചെറിയ ആയത്ത് ആപ്പിലെ ഓഡിയോ ടൂൾ ഉപയോഗിച്ച് ആവർത്തിച്ച് പഠിക്കുക.",
-        planIntermediateTitle: "ഇന്റർമീഡിയറ്റ് പ്ലാൻ",
-        planIntermediateDesc: "ദിവസവും അര പേജ് മുതൽ ഒരു പേജ് വരെ ലക്ഷ്യമിടുക. പഠന സമയത്തിന്റെ 60% പുതിയ ഹിഫ്ളിനും 40% പഴയ പാഠങ്ങൾ റിവിഷൻ ചെയ്യാനും മാറ്റിവെക്കുക.",
-        planAdvancedTitle: "വിപുലമായ / തീവ്രമായ പ്ലാൻ",
-        planAdvancedDesc: "ദൈനംദിന പേജ് റേഞ്ച് (വിർദ്) ടൂൾ ഉപയോഗിച്ച് ദിവസവും 1 മുതൽ 2 പേജ് വരെ പഠിക്കുക. മറവി ഒഴിവാക്കാൻ കൃത്യമായ പ്രതിവാര റിവിഷൻ ഉറപ്പാക്കുക.",
-        txtGuideHeading: "അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള ഗൈഡ്",
-        guideStep1Title: "1. കൃത്യമായ സമയം പാലിക്കുക",
-        guideStep1Desc: "ഓരോ ദിവസവും ഒരേ സമയത്ത് പരിശീലിക്കുക - ഫജ്റിനു ശേഷമുള്ള സമയം മനസ്സ് ശാന്തമായിരിക്കുന്നതിനാൽ ഏറ്റവും അനുയോജ്യമാണ്.",
-        guideStep2Title: "2. ചെറിയ ഭാഗങ്ങളാക്കി ആവർത്തിക്കുക",
-        guideStep2Desc: "നീളമുള്ള ആയത്തുകൾ ചെറിയ ഭാഗങ്ങളായി തിരിക്കുക. ഓരോ ഭാഗവും 5 അല്ലെങ്കിൽ 10 തവണ ആപ്പിലെ റിപ്പീറ്റ് കൗണ്ടർ ഉപയോഗിച്ച് ആവർത്തിക്കുക.",
-        guideStep3Title: "3. വായിക്കുന്നതിന് മുമ്പ് കേൾക്കുക",
-        guideStep3Desc: "വായിക്കാൻ ശ്രമിക്കുന്നതിന് മുമ്പ് ഖാരിഉമാരുടെ (ഹുസരി, അഫാസി തുടങ്ങിയവർ) പാരായണം 3 തവണ കേട്ട് ശരിയായ ഉച്ചാരണവും (മഖാരിജ്) താജ്വീദും മനസ്സിലാക്കുക.",
-        guideStep4Title: "4. ദിവസേനയുള്ള റിവിഷൻ (മുറാജഅ)",
-        guideStep4Desc: "റിവിഷൻ ഒരിക്കലും ഒഴിവാക്കരുത്. പുതിയ ആയത്തുകൾ പഠിക്കുന്നതിനേക്കാൾ കൂടുതൽ സമയം പഴയ ഭാഗങ്ങൾ റിവിഷൻ ചെയ്യാൻ നല്ല വിദ്യാർത്ഥികൾ മാറ്റിവെക്കുന്നു.",
+        pageTitle: "ഉപയോഗക്രമം — Quran Learning App",
+        headerTitle: "ഉപയോഗക്രമം",
+        headerSub: "ആപ്പ് ഉപയോഗിക്കേണ്ട വിധം",
+        introHeading: "ഖുർആൻ ലേണിംഗ് ആപ്പിലേക്ക് സ്വാഗതം",
+        introDesc: "ഈ ഗൈഡ് ആപ്പിലെ ക്രമീകരണങ്ങൾ, ഓഡിയോ നിയന്ത്രണങ്ങൾ, ആവർത്തന ലക്ഷ്യങ്ങൾ, വ്യൂ മോഡുകൾ എന്നിവ എങ്ങനെ ഉപയോഗിക്കാമെന്ന് വിശദീകരിക്കുന്നു.",
+        txtSettingsHeading: "ക്രമീകരണങ്ങളും സെറ്റിങ്സും",
+        secSettingsDesc: "പ്രധാന പേജിലെ <strong>Select</strong> ബട്ടൺ ഉപയോഗിച്ച് ക്രമീകരണ മെനു തുറക്കാം. ഇവിടെ സൂറത്ത് മാറ്റാനും, ആയത്ത് പരിധി നിശ്ചയിക്കാനും, ആവർത്തന ലക്ഷ്യം മാറ്റാനും, ഖാരിഇനെ തിരഞ്ഞെടുക്കാനും സാധിക്കും.",
+        txtAudioHeading: "ഓഡിയോ കൺട്രോളുകളും പ്ലേബാക്കും",
+        audioPlayPoint: "<strong>പ്ലേ / സ്റ്റോപ്പ് (▶ / ⏹):</strong> നിങ്ങളുടെ ആവർത്തന ലക്ഷ്യങ്ങൾക്ക് അനുസൃതമായി തിരഞ്ഞെടുത്ത ആയത്തുകൾ തുടർച്ചയായി കേൾക്കാൻ ഇത് സഹായിക്കുന്നു.",
+        audioPausePoint: "<strong>പോസ് / റസ്യൂം (⏸ / ▶):</strong> ഓഡിയോ താൽക്കാലികമായി നിർത്താനോ തുടർന്ന് കേൾക്കാനോ ഉപയോഗിക്കാം.",
+        audioVersePoint: "<strong>വ്യക്തിഗത ആയത്ത് ലിസൺ ബട്ടൺ:</strong> ഏതെങ്കിലും പ്രത്യേക ആയത്ത് മാത്രം കേൾക്കാൻ അതിലെ പ്ലേ ബട്ടൺ ഉപയോഗിക്കുക.",
+        txtVersesHeading: "ആയത്ത് കാർഡുകളും ആവർത്തന ലക്ഷ്യങ്ങളും",
+        secVersesDesc: "ഓരോ ആയത്ത് കാർഡും നിങ്ങളുടെ പുരോഗതി കൃത്യമായി കാണിക്കുന്നു. ആവർത്തന ലക്ഷ്യങ്ങൾ പൂർത്തിയായാൽ നിങ്ങളുടെ പ്രതിവാര ലോഗിലേക്ക് പുരോഗതി സേവ് ചെയ്യാം.",
+        txtViewsHeading: "വ്യൂ മോഡുകൾ (ആയത്തുകൾ vs മുസ്ഹഫ് പേജ്)",
+        secViewsDesc: "ആയത്ത് രൂപത്തിലോ അല്ലെങ്കിൽ യഥാർത്ഥ മുസ്ഹഫ് പേജ് രൂപത്തിലോ (Mushaf Page view) ഖുർആൻ പാരായണം കാണാൻ മുകളിലെ വ്യൂ ടോഗിൾ ബട്ടൺ ഉപയോഗിക്കാം.",
         backHomeLink: "← ഹോം പേജിലേക്ക് മടങ്ങുക"
       },
       ur: {
-        pageTitle: "حفظ کے منصوبے اور رہنمائی — قرآن لرننگ ایپ",
-        headerTitle: "حفظ کے منصوبے اور رہنمائی",
-        headerSub: "ترتیب وار منصوبے اور اساتذہ و والدین کے لیے ہدایات",
-        introHeading: "منظم حفظ اور تدریسی فریم ورک",
-        introDesc: "قرآن پاک کو طویل عرصے تک یاد رکھنے کے لیے باقاعدہ دہرائی (تلفظ و مراجعت) اور روزانہ کے مقررہ اہداف بہت ضروری ہیں۔ یہ صفحہ سیکھنے والوں کے لیے جامع منصوبے اور والدین و اساتذہ کے لیے عملی حکمت عملی فراہم کرتا ہے۔",
-        txtPlanHeading: "عمومی حفظ کے منصوبے",
-        planBeginnerTitle: "بتدائی منصوبہ",
-        planBeginnerDesc: "مختصر سورتوں (پارہ عم) پر توجہ دیں۔ ایپ کے آڈیو ٹول کا استعمال کرتے ہوئے روزانہ 3 سے 5 سطریں یا 1 چھوٹی آیت کثرت سے دہرائیں۔",
-        planIntermediateTitle: "متوسط منصوبہ",
-        planIntermediateDesc: "روزانہ آدھے صفحے سے ایک پورے صفحے کا ہدف رکھیں۔ مطالعہ کے وقت کا 60 فیصد حصہ نئے حفظ کے لیے اور 40 فیصد پرانے اسباب کی دہرائی کے لیے وقف کریں۔",
-        planAdvancedTitle: "اعلیٰ / تفصیلی منصوبہ",
-        planAdvancedDesc: "روزانہ صفحہ کی حد (ورد) کے ٹूल کا استعمال کرتے ہوئے روزانہ 1 سے 2 صفحات کا ہدف رکھیں۔ بھولنے سے بچنے کے لیے سختی سے ہفتہ وار دہرائی کریں۔",
-        txtGuideHeading: "اساتذہ اور والدین کے لیے گائیڈ",
-        guideStep1Title: "1. ایک معمول قائم کریں",
-        guideStep1Desc: "ہر روز ایک ہی وقت پر مشق کریں — ترجیحاً فجر کے بعد صبح سویرے جب ذہن تازہ اور خلفشار سے پاک ہو۔",
-        guideStep2Title: "2. ٹکڑوں میں تقسیم اور تکرار",
-        guideStep2Desc: "لمبی آیات کو چھوٹے فقروں میں تقسیم کریں۔ انہیں آپس میں ملانے سے پہلے ایپ کے تکرار کاؤنٹر کو ہر فقرے پر 5 یا 10 بار دہرانے کے لیے استعمال کریں۔",
-        guideStep3Title: "3. پڑھنے سے پہلے سنیں",
-        guideStep3Desc: "طالب علم کو تلاوت کرنے کی کوشش کرنے سے پہلے ماہر قاریوں (جیسے الحصری یا العفاسی) کو 3 بار سنیں تاکہ درست مخارج اور تجوید کے اصول سمجھ آ سکیں۔",
-        guideStep4Title: "4. روزانہ اور ہفتہ وار دہرائی (مراجعت)",
-        guideStep4Desc: "دہرائی کو کبھی نہ چھوڑیں۔ ایک اچھا طالب علم نیا حفظ کرنے سے زیادہ پرانے حصوں کی دہرائی پر وقت صرف کرتا ہے۔ پیشرفت ٹریکنگ ٹیبل کا استعمال کرتے ہوئے روزانہ کے سیشن لاگ کریں۔",
+        pageTitle: "استعمال کا طریقہ — قرآن لرننگ ایپ",
+        headerTitle: "استعمال کا طریقہ",
+        headerSub: "صارف گائیڈ اور ہدایات",
+        introHeading: "قرآن لرننگ ایپ میں خوش آمدید",
+        introDesc: "یہ گائیڈ وضاحت کرتی ہے کہ ترتیبات کو کیسے ترتیب دیا جائے، آڈیو تلاوت کو کیسے کنٹرول کیا جائے، اور مختلف ویو موڈز کا استعمال کیسے کیا جائے۔",
+        txtSettingsHeading: "ترتیبات اور کنفیگریشن پینل",
+        secSettingsDesc: "سلائیڈنگ مینو کھولنے کے لیے مین پینل پر <strong>Select</strong> کا بٹن دبائیں۔ یہاں آپ سورت تبدیل کر سکتے ہیں، آیات کی حد منتخب کر سکتے ہیں، تلاوت کرنے والے قاری کا انتخاب کر سکتے ہیں اور روزانہ کا ورد طے کر سکتے ہیں۔",
+        txtAudioHeading: "آڈیو کنٹرولز اور پلے بیک",
+        audioPlayPoint: "<strong>چلائیں / روکیں (▶ / ⏹):</strong> آپ کے مقرر کردہ اہداف کے مطابق منتخب آیات کی مسلسل تلاوت شروع کرتا ہے۔",
+        audioPausePoint: "<strong>وقفہ / جاری رکھیں (⏸ / ▶):</strong> موجودہ آڈیو پلے بیک کو عارضی طور پر روکتا یا وہیں سے دوبارہ شروع کرتا ہے۔",
+        audioVersePoint: "<strong>انفرادی آیت کا بٹن:</strong> کسی بھی خاص آیت کو سننے کے لیے اس کے پلے آئیکن پر ٹیپ کریں۔",
+        txtVersesHeading: "آیت کارڈز اور تلاوت کے اہداف",
+        secVersesDesc: "ہر آیت کارڈ آپ کی پیشرفت کو متحرک انداز میں ٹریک کرتا ہے۔ اہداف مکمل ہونے کے بعد آپ سیشن کی پیشرفت کو محفوظ کر سکتے ہیں۔",
+        txtViewsHeading: "ویو موڈز (آیات بمقابلہ مصحف صفحہ)",
+        secViewsDesc: "معیاری آیت موڈ اور ہائی ریزولوشن مصحف صفحہ موڈ کے درمیان آسانی سے سوئچ کریں۔",
         backHomeLink: "← واپس ہوم پیج پر جائیں"
       },
       bn: {
-        pageTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা — কুরআন লার্নিং অ্যাপ",
-        headerTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা",
-        headerSub: "পরিকল্পিত হিফজ এবং শিক্ষক-অভিভাবকদের জন্য নির্দেশিকা",
-        introHeading: "সুশৃঙ্খল হিফজ ও শিক্ষাদান কাঠামো",
-        introDesc: "দীর্ঘমেয়াদে কুরআন সংরক্ষণের জন্য নিয়মিত পুনরাবৃত্তি এবং দৈনিক লক্ষ্যমাত্রা অত্যন্ত জরুরি। এই পৃষ্ঠাটি স্বাধীন শিক্ষার্থীদের জন্য কাঠামোগত পরিকল্পনা এবং শিক্ষক-অভিভাবকদের জন্য কার্যকর কোচিং কৌশল প্রদান করে।",
-        txtPlanHeading: "সাধারণ হিফজ পরিকল্পনা",
-        planBeginnerTitle: "প্রাথমিক পরিকল্পনা",
-        planBeginnerDesc: "ছোট সুরাগুলোতে (আম্মা পারা) ফোকাস করুন। অ্যাপের অডিও টুল ব্যবহার করে উচ্চ পুনরাবৃত্তির মাধ্যমে প্রতিদিন ৩ থেকে ৫ লাইন বা ১টি ছোট আয়াত মুখস্থ করুন।",
-        planIntermediateTitle: "মধ্যবর্তী পরিকল্পনা",
-        planIntermediateDesc: "প্রতিদিন অর্ধেক পৃষ্ঠা থেকে ১ পূর্ণ পৃষ্ঠা লক্ষ্য করুন। অধ্যয়নের সময়ের ৬০% নতুন হিফজে এবং ৪০% পূর্ববর্তী পাঠ পর্যালোচনার জন্য উৎসর্গ করুন।",
-        planAdvancedTitle: "উন্নত / নিবিড় পরিকল্পনা",
-        planAdvancedDesc: "দৈনিক পৃষ্ঠা পরিসীমা (উর্দ) টুল ব্যবহার করে প্রতিদিন ১ থেকে ২ পৃষ্ঠা লক্ষ্য করুন। ভুলে যাওয়া রোধ করতে কঠোর সাপ্তাহিক রিভিশন লুপ বজায় রাখুন।",
-        txtGuideHeading: "শিক্ষক ও অভিভাবকদের জন্য নির্দেশিকা",
-        guideStep1Title: "1. একটি রুটিন তৈরি করুন",
-        guideStep1Desc: "প্রতিদিন একই সময়ে অভ্যাস করুন—আদর্শভাবে ফজর নামাজের পরে খুব ভোরে যখন মন সতেজ এবং বিভ্রান্তিমুক্ত থাকে।",
-        guideStep2Title: "2. ছোট অংশে ভাগ করে পুনরাবৃত্তি করুন",
-        guideStep2Desc: "দীর্ঘ আয়াতগুলোকে ছোট বাক্যাংশে ভাগ করুন। একত্রিত করার আগে অ্যাপের রিপিট কাউন্টার প্রতি বাক্যাংশে ৫ বা ১০ বার পুনরাবৃত্তিতে সেট করুন।",
-        guideStep3Title: "3. পড়ার আগে শুনুন",
-        guideStep3Desc: "তিলাওয়াত করার চেষ্টা করার আগে শিক্ষার্থীকে দক্ষ কারীদের (যেমন আল-হুসারী বা আল-আফাসী) ৩ বার শুনতে বলুন যাতে সঠিক মাখরাজ ও তাজবীদ আয়ত্ত করা যায়।",
-        guideStep4Title: "4. দৈনিক ও সাপ্তাহিক সংশোধন (মুরাজা'আহ)",
-        guideStep4Desc: "রিভিশন কখনই বাদ দেবেন না। একজন ভালো শিক্ষার্থী নতুন মুখস্থ করার চেয়ে পুরানো অংশ রিভিশন করতে বেশি সময় ব্যয় করে। অগ্রগতি ট্র্যাকিং টেবিল ব্যবহার করে দৈনিক সেশন লগ করুন।",
+        pageTitle: "ব্যবহারবিধি — কুরআন লার্নিং অ্যাপ",
+        headerTitle: "ব্যবহারবিধি",
+        headerSub: "ব্যবহারকারী নির্দেশিকা",
+        introHeading: "কুরআন লার্নিং অ্যাপে স্বাগতম",
+        introDesc: "এই নির্দেশিকাটিতে সেটিংস কনফিগার করা, অডিও আবৃত্তি নিয়ন্ত্রণ করা, পুনরাবৃত্তির লক্ষ্য নির্ধারণ এবং বিভিন্ন ভিউ মোড ব্যবহার করার নিয়ম ব্যাখ্যা করা হয়েছে।",
+        txtSettingsHeading: "সেটিংস এবং কনফিগারেশন প্যানেল",
+        secSettingsDesc: "স্লাইডিং মেনু খুলতে মূল প্যানেলের <strong>Select</strong> বোতামে চাপুন। এখান থেকে আপনি সুরা পরিবর্তন করতে পারবেন, আয়াতের পরিসীমা নির্ধারণ করতে পারবেন এবং কারী নির্বাচন করতে পারবেন।",
+        txtAudioHeading: "অডিও নিয়ন্ত্রণ এবং প্লেব্যাক",
+        audioPlayPoint: "<strong>চালান / বন্ধ করুন (▶ / ⏹):</strong> আপনার নির্ধারিত পুনরাবৃত্তির লক্ষ্য অনুযায়ী নির্বাচিত আয়াতগুলোর ধারাবাহিক আবৃত্তি শুরু করে।",
+        audioPausePoint: "<strong>বিরতি / চালিয়ে যান (⏸ / ▶):</strong> বর্তমান অডিও প্লেব্যাক সাময়িক বিরতি দেয় বা পুনরায় চালু করে।",
+        audioVersePoint: "<strong>নির্দিষ্ট আয়াত শোনার বোতাম:</strong> নির্দিষ্ট কোনো আয়াত শুনতে তার প্লে আইকনে ট্যাপ করুন।",
+        txtVersesHeading: "আয়াত কার্ড এবং পুনরাবৃত্তির লক্ষ্য",
+        secVersesDesc: "প্রতিটি আয়াত কার্ড আপনার অগ্রগতি ট্র্যাক করে। লক্ষ্য সম্পন্ন হলে আপনি সাপ্তাহিক লগে আপনার অগ্রগতি সংরক্ষণ করতে পারেন।",
+        txtViewsHeading: "ভিউ মোড (আয়াত বনাম মুসহাফ পৃষ্ঠা)",
+        secViewsDesc: "স্ট্যান্ডার্ড আয়াত মোড এবং হাই-রেজোলিউশন মুসহাফ পৃষ্ঠা মোডের মধ্যে সহজেই টগল করুন।",
         backHomeLink: "← মূল পাতায় ফিরে যান"
       }
     };
 
-    // Text elements to translate: the element id is also the key in `translations`.
+    // Elements to translate: the element id is also the key in `translations`.
+    // TEXT_IDS are set as plain text; HTML_IDS contain markup (e.g. <b>) written by us in `translations`.
     const TEXT_IDS = [
-      'headerTitle', 'headerSub', 'introHeading', 'introDesc', 'txtPlanHeading',
-      'planBeginnerTitle', 'planBeginnerDesc', 'planIntermediateTitle', 'planIntermediateDesc',
-      'planAdvancedTitle', 'planAdvancedDesc', 'txtGuideHeading',
-      'guideStep1Title', 'guideStep1Desc', 'guideStep2Title', 'guideStep2Desc',
-      'guideStep3Title', 'guideStep3Desc', 'guideStep4Title', 'guideStep4Desc', 'backHomeLink'
+      'headerTitle', 'headerSub', 'introHeading', 'introDesc', 'txtSettingsHeading', 'txtAudioHeading',
+      'txtVersesHeading', 'secVersesDesc', 'txtViewsHeading', 'secViewsDesc', 'backHomeLink'
     ];
+    const HTML_IDS = ['secSettingsDesc', 'audioPlayPoint', 'audioPausePoint', 'audioVersePoint'];
     const RTL_LANGS = ['ar', 'ur'];
     const hasLang = code => typeof code === 'string' && Object.prototype.hasOwnProperty.call(translations, code);
 
@@ -253,13 +218,12 @@
     function applyLanguage() {
       const t = translations[currentLang];
       const fallback = translations.en;
-      document.title = t.pageTitle || fallback.pageTitle;
+      const pick = key => (t[key] !== undefined ? t[key] : fallback[key]);
+      document.title = pick('pageTitle');
       document.documentElement.lang = currentLang;
       document.documentElement.dir = RTL_LANGS.includes(currentLang) ? 'rtl' : 'ltr';
-      TEXT_IDS.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = (t[id] !== undefined ? t[id] : fallback[id]);
-      });
+      TEXT_IDS.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = pick(id); });
+      HTML_IDS.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = pick(id); });
     }
 
     function initLanguage() {
