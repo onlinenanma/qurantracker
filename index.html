@@ -49,10 +49,20 @@
       
       <!-- Branding & Title -->
       <div class="flex items-center space-x-2.5">
-        <div class="bg-dark-emerald-light p-2 rounded-xl text-emerald-300 border border-emerald-800/40 shrink-0">
-          <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <!-- Book icon: menu button with links to other pages -->
+        <div class="relative shrink-0" dir="ltr">
+          <button type="button" id="navBtn" onclick="toggleNavMenu(event)" aria-haspopup="menu" aria-expanded="false" aria-label="Menu"
+                  class="flex items-center gap-1 bg-dark-emerald-light p-2 rounded-xl text-emerald-300 border border-emerald-800/40 hover:border-emerald-500 active:bg-emerald-800 transition-colors cursor-pointer select-none">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
           </svg>
+            <span class="text-[9px] text-emerald-300" aria-hidden="true">▼</span>
+          </button>
+          <div id="navMenu" role="menu" class="hidden absolute left-0 top-full mt-1.5 min-w-[13rem] bg-dark-emerald border border-emerald-700 rounded-xl shadow-2xl py-1 z-[60]">
+            <a id="navLinkHow" role="menuitem" href="https://www.quranlearning.app/how-to-use" target="_self" class="block px-3 py-2 text-sm text-white hover:bg-emerald-800">How to use the app?</a>
+            <a id="navLinkPlan" role="menuitem" href="https://www.quranlearning.app/plan" target="_self" class="block px-3 py-2 text-sm text-white hover:bg-emerald-800">Memorization Plan</a>
+            <a id="navLinkContact" role="menuitem" href="https://www.quranlearning.app/contact-us" target="_self" class="block px-3 py-2 text-sm text-white hover:bg-emerald-800">Write to us</a>
+          </div>
         </div>
         <div>
           <h1 id="brandTitle" class="font-bold text-sm sm:text-base leading-tight text-white">Quran Learning App</h1>
@@ -519,7 +529,7 @@
         updSteps: "Tap “Update now” — the app reloads with the new version.|If nothing changes, fully close the app (swipe it away from recent apps) and open it again.|Still old? Open the site once in your browser, then reopen the app. You do not need to reinstall.",
         shareTip: "Share this verse",
         shareSurah: "Surah",
-        : "Please share this with all your friends and relatives. 🤲",
+        shareRequest: "Please share this with all your friends and relatives. 🤲",
         shareCopied: "Verse copied. Paste it to share.",
         promptRepTarget: "Enter repetition target count for verse {verse}:"
       },
@@ -1037,6 +1047,7 @@
       setText('currentDateBadge', getFormattedDate());
       document.documentElement.lang = currentLang;
       syncLangPicker();
+      syncNavMenu();
       document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
       updateModeUI();
       updateViewToggleUI();
@@ -1072,6 +1083,7 @@
         // close the settings panel if it is open so the menu is never hidden behind it
         const sb = $('appSidebar');
         if (sb && !sb.classList.contains('-translate-y-full')) toggleSidebar();
+        closeNavMenu();
         syncLangPicker();
         m.classList.remove('hidden');
       } else m.classList.add('hidden');
@@ -1080,6 +1092,47 @@
     function pickLanguage(lang) { closeLangMenu(); changeLanguage(lang); }
     document.addEventListener('click', e => { if (!e.target.closest('#langMenu') && !e.target.closest('#langBtn')) closeLangMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLangMenu(); });
+
+
+    // ==================================================================
+    // NAV MENU (book icon)
+    // ==================================================================
+    const NAV_LABELS = {
+      en: ['How to use the app?', 'Memorization Plan', 'Write to us'],
+      ar: ['كيف تستخدم التطبيق؟', 'خطة الحفظ', 'راسلنا'],
+      ml: ['ആപ്പ് എങ്ങനെ ഉപയോഗിക്കാം?', 'മനഃപാഠ പദ്ധതി', 'ഞങ്ങൾക്ക് എഴുതുക'],
+      ur: ['ایپ کیسے استعمال کریں؟', 'حفظ کا منصوبہ', 'ہمیں لکھیں'],
+      bn: ['অ্যাপ কীভাবে ব্যবহার করবেন?', 'মুখস্থ পরিকল্পনা', 'আমাদের লিখুন']
+    };
+    function syncNavMenu() {
+      const l = NAV_LABELS[currentLang] || NAV_LABELS.en;
+      ['navLinkHow', 'navLinkPlan', 'navLinkContact'].forEach((id, k) => { const el = $(id); if (el) el.textContent = l[k]; });
+      const m = $('navMenu'); if (m) {
+        const rtl = (currentLang === 'ar' || currentLang === 'ur');
+        m.classList.toggle('text-right', rtl);
+        m.setAttribute('dir', rtl ? 'rtl' : 'ltr');
+      }
+    }
+    function closeNavMenu() {
+      const m = $('navMenu'); if (!m) return;
+      m.classList.add('hidden');
+      const b = $('navBtn'); if (b) b.setAttribute('aria-expanded', 'false');
+    }
+    function toggleNavMenu(ev) {
+      if (ev) ev.stopPropagation();
+      const m = $('navMenu'); if (!m) return;
+      const open = m.classList.contains('hidden');
+      if (open) {
+        closeLangMenu();
+        const sb = $('appSidebar');
+        if (sb && !sb.classList.contains('-translate-y-full')) toggleSidebar();
+        syncNavMenu();
+        m.classList.remove('hidden');
+      } else m.classList.add('hidden');
+      const b = $('navBtn'); if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    document.addEventListener('click', e => { if (!e.target.closest('#navMenu') && !e.target.closest('#navBtn')) closeNavMenu(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNavMenu(); });
 
     function changeLanguage(lang) {
       if (!translations[lang]) return;
