@@ -1062,6 +1062,14 @@
     // ==================================================================
     const LANG_NAMES = { en: 'English', ar: 'العربية', ml: 'മലയാളം', ur: 'اردو', bn: 'বাংলা' };
     function syncLangPicker() {
+      // In RTL the language button sits at the left edge, so open its menu rightwards (anchor to its left edge)
+      const lm = $('langMenu');
+      if (lm) {
+        const rtl = (currentLang === 'ar' || currentLang === 'ur');
+        lm.style.left = rtl ? '0' : 'auto';
+        lm.style.right = rtl ? 'auto' : '0';
+        lm.style.maxWidth = 'calc(100vw - 1.5rem)';
+      }
       const lc = $('langCurrent'); if (lc) lc.textContent = LANG_NAMES[currentLang] || 'English';
       document.querySelectorAll('#langMenu .lang-opt').forEach(b => {
         const on = b.dataset.lang === currentLang;
@@ -1111,6 +1119,10 @@
         const rtl = (currentLang === 'ar' || currentLang === 'ur');
         m.classList.toggle('text-right', rtl);
         m.setAttribute('dir', rtl ? 'rtl' : 'ltr');
+        // In RTL the book icon sits at the right edge, so open the menu leftwards (anchor to its right edge)
+        m.style.left = rtl ? 'auto' : '0';
+        m.style.right = rtl ? '0' : 'auto';
+        m.style.maxWidth = 'calc(100vw - 1.5rem)';
       }
     }
     function closeNavMenu() {
