@@ -225,42 +225,58 @@
       }
     };
 
-    function applyLanguage() {
-      const t = translations[currentLang] || translations.en;
-      document.title = t.pageTitle;
-      document.documentElement.lang = currentLang;
-      document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
+    // Text elements to translate: the element id is also the key in `translations`.
+    const TEXT_IDS = [
+      'headerTitle', 'headerSub', 'introHeading', 'introDesc', 'txtPlanHeading',
+      'planBeginnerTitle', 'planBeginnerDesc', 'planIntermediateTitle', 'planIntermediateDesc',
+      'planAdvancedTitle', 'planAdvancedDesc', 'txtGuideHeading',
+      'guideStep1Title', 'guideStep1Desc', 'guideStep2Title', 'guideStep2Desc',
+      'guideStep3Title', 'guideStep3Desc', 'guideStep4Title', 'guideStep4Desc', 'backHomeLink'
+    ];
+    const RTL_LANGS = ['ar', 'ur'];
+    const hasLang = code => typeof code === 'string' && Object.prototype.hasOwnProperty.call(translations, code);
 
-      document.getElementById('headerTitle').textContent = t.headerTitle;
-      document.getElementById('headerSub').textContent = t.headerSub;
-      document.getElementById('introHeading').textContent = t.introHeading;
-      document.getElementById('introDesc').textContent = t.introDesc;
-      document.getElementById('txtPlanHeading').textContent = t.txtPlanHeading;
-      document.getElementById('planBeginnerTitle').textContent = t.planBeginnerTitle;
-      document.getElementById('planBeginnerDesc').textContent = t.planBeginnerDesc;
-      document.getElementById('planIntermediateTitle').textContent = t.planIntermediateTitle;
-      document.getElementById('planIntermediateDesc').textContent = t.planIntermediateDesc;
-      document.getElementById('planAdvancedTitle').textContent = t.planAdvancedTitle;
-      document.getElementById('planAdvancedDesc').textContent = t.planAdvancedDesc;
-      document.getElementById('txtGuideHeading').textContent = t.txtGuideHeading;
-      document.getElementById('guideStep1Title').textContent = t.guideStep1Title;
-      document.getElementById('guideStep1Desc').textContent = t.guideStep1Desc;
-      document.getElementById('guideStep2Title').textContent = t.guideStep2Title;
-      document.getElementById('guideStep2Desc').textContent = t.guideStep2Desc;
-      document.getElementById('guideStep3Title').textContent = t.guideStep3Title;
-      document.getElementById('guideStep3Desc').textContent = t.guideStep3Desc;
-      document.getElementById('guideStep4Title').textContent = t.guideStep4Title;
-      document.getElementById('guideStep4Desc').textContent = t.guideStep4Desc;
-      document.getElementById('backHomeLink').textContent = t.backHomeLink;
+    // The main app (index.html) stores the language with JSON.stringify, i.e. the value on disk is "ar"
+    // WITH quotes. Read it as JSON first, and fall back to a plain string, so both formats work.
+    function readSavedLang() {
+      try {
+        const raw = localStorage.getItem(STORAGE_LANG_KEY);
+        if (!raw) return 'en';
+        let val = raw;
+        try { val = JSON.parse(raw); } catch (e) { /* plain string such as: ar */ }
+        return hasLang(val) ? val : 'en';
+      } catch (e) {
+        return 'en'; // localStorage blocked (private mode / cookies disabled)
+      }
     }
 
-    window.onload = function() {
-      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
-      if (translations[savedLang]) {
-        currentLang = savedLang;
-      }
+    function applyLanguage() {
+      const t = translations[currentLang];
+      const fallback = translations.en;
+      document.title = t.pageTitle || fallback.pageTitle;
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = RTL_LANGS.includes(currentLang) ? 'rtl' : 'ltr';
+      TEXT_IDS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = (t[id] !== undefined ? t[id] : fallback[id]);
+      });
+    }
+
+    function initLanguage() {
+      currentLang = readSavedLang();
       applyLanguage();
-    };
+    }
+
+    // Script sits at the end of <body>, so the DOM is ready: apply right away (no flash of the wrong
+    // language, and no waiting for the Tailwind CDN like window.onload would).
+    initLanguage();
+
+    // If the language is changed in another tab/window of the app, follow it live.
+    window.addEventListener('storage', e => {
+      if (e.key === STORAGE_LANG_KEY || e.key === null) initLanguage();
+    });
+    // Restoring the page from the back/forward cache: re-read in case it changed meanwhile.
+    window.addEventListener('pageshow', e => { if (e.persisted) initLanguage(); });
   </script>
 </body>
 </html>
