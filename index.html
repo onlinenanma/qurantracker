@@ -25,6 +25,9 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
     .font-quran { font-family: 'Amiri', serif; }
+    /* Extra space between wrapped lines of one verse so Arabic diacritics don't touch (desktop) */
+    .verse-arabic { line-height: 2.2; }
+    @media (min-width: 768px) { .verse-arabic { line-height: 2.6; } }
     /* Dark Green Custom Theme Variables */
     .bg-dark-emerald { background-color: #0d3322; }
     .bg-dark-emerald-light { background-color: #133e2b; }
@@ -1579,7 +1582,7 @@
             </div>
           </div>
 
-          <p class="text-right font-quran text-2xl md:text-3xl text-emerald-950 leading-loose mb-4" dir="rtl">
+          <p class="text-right font-quran verse-arabic text-2xl md:text-3xl text-emerald-950 mb-4" dir="rtl">
             ${escapeHtml(verse.arabic)}
           </p>
 
