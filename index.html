@@ -188,9 +188,13 @@
 
         <!-- Pinned panel header with always-visible close button -->
         <div class="flex items-center justify-between gap-2 px-3 py-2 border-b border-dark-emerald bg-dark-emerald-light rounded-b-none shrink-0">
-          <div class="flex items-center gap-1.5 min-w-0">
-            <span class="text-sm">⚙️</span>
-            <h2 id="lblSettingsTitle" class="text-sm font-bold text-white truncate">Settings</h2>
+          <!-- Hijri date toggle (replaces the old "Settings" title) -->
+          <div class="flex items-center gap-2 min-w-0" dir="ltr">
+            <span id="lblHijri" class="lbl text-[11px] font-semibold text-emerald-200 uppercase tracking-wider truncate">Hijri Date (التاريخ الهجري)</span>
+            <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
+                  <div class="w-10 h-5 bg-dark-emerald-light rounded-full peer peer-focus:ring-2 peer-focus:ring-emerald-400 peer-checked:bg-emerald-600 border border-dark-emerald after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:after:translate-x-5"></div>
+                </label>
           </div>
           <button onclick="toggleSidebar()" id="btnCloseSettings" aria-label="Close settings" class="shrink-0 bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm flex items-center gap-1 transition-all">
             <span>✕</span><span id="btnCloseSettingsText">Close</span>
@@ -227,7 +231,7 @@
             </div>
           </div>
 
-          <!-- Repetition stepper + Hijri toggle -->
+          <!-- Repetition stepper + Verse font -->
           <div class="grid grid-cols-2 gap-2 items-end">
             <div>
               <label id="lblRepetition" for="repetitionTarget" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Repetition Target (التكرار)</label>
@@ -238,13 +242,16 @@
               </div>
             </div>
             <div>
-              <span id="lblHijri" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Hijri Date (التاريخ الهجري)</span>
-              <div class="flex items-center h-[34px]" dir="ltr">
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" id="hijriToggle" onchange="toggleHijriDate(this)" class="sr-only peer">
-                  <div class="w-10 h-5 bg-dark-emerald-light rounded-full peer peer-focus:ring-2 peer-focus:ring-emerald-400 peer-checked:bg-emerald-600 border border-dark-emerald after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:after:translate-x-5"></div>
-                </label>
-              </div>
+              <label id="lblVerseFont" for="verseFontSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Verse Font (خط الآيات)</label>
+              <select id="verseFontSelect" onchange="onVerseFontChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+                <option value="Amiri">Amiri (أميري)</option>
+                <option value="Amiri Quran">Amiri Quran (أميري قرآن)</option>
+                <option value="Scheherazade New">Scheherazade New (شهرزاد)</option>
+                <option value="Noto Naskh Arabic">Noto Naskh (نسخ)</option>
+                <option value="Lateef">Lateef (لطيف)</option>
+                <option value="Markazi Text">Markazi Text (مركزي)</option>
+                <option value="Noto Nastaliq Urdu">Nastaliq (نستعليق)</option>
+              </select>
             </div>
           </div>
 
@@ -260,20 +267,6 @@
               <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
               <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
               <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
-            </select>
-          </div>
-
-          <!-- Verse font -->
-          <div>
-            <label id="lblVerseFont" for="verseFontSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Verse Font (خط الآيات)</label>
-            <select id="verseFontSelect" onchange="onVerseFontChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
-              <option value="Amiri">Amiri (أميري)</option>
-              <option value="Amiri Quran">Amiri Quran (أميري قرآن)</option>
-              <option value="Scheherazade New">Scheherazade New (شهرزاد)</option>
-              <option value="Noto Naskh Arabic">Noto Naskh (نسخ)</option>
-              <option value="Lateef">Lateef (لطيف)</option>
-              <option value="Markazi Text">Markazi Text (مركزي)</option>
-              <option value="Noto Nastaliq Urdu">Nastaliq (نستعليق)</option>
             </select>
           </div>
 
