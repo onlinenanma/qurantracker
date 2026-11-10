@@ -21,13 +21,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="pageTitle">Quran Learning App</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Lateef:wght@400;700&family=Markazi+Text:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
     .font-quran { font-family: 'Amiri', serif; }
     /* Extra space between wrapped lines of one verse so Arabic diacritics don't touch (desktop) */
+    .font-quran.verse-arabic { font-family: var(--vfont, 'Amiri'), 'Amiri', serif; }
     .verse-arabic { line-height: 2.9; }
-    @media (min-width: 768px) { .verse-arabic { line-height: 3.4; } }
+    /* Fonts with different vertical metrics */
+    html[data-vfont="Scheherazade New"] .verse-arabic { line-height: 3.1; }
+    html[data-vfont="Noto Naskh Arabic"] .verse-arabic { line-height: 3.2; }
+    html[data-vfont="Lateef"] .verse-arabic { font-size: 1.3em; line-height: 2.6; }
+    html[data-vfont="Markazi Text"] .verse-arabic { line-height: 2.6; }
+    html[data-vfont="Noto Nastaliq Urdu"] .verse-arabic { line-height: 4.2; }
+    @media (min-width: 768px) {
+      .verse-arabic { line-height: 3.4; }
+      html[data-vfont="Scheherazade New"] .verse-arabic { line-height: 3.6; }
+      html[data-vfont="Noto Naskh Arabic"] .verse-arabic { line-height: 3.7; }
+      html[data-vfont="Lateef"] .verse-arabic { line-height: 3; }
+      html[data-vfont="Markazi Text"] .verse-arabic { line-height: 3; }
+      html[data-vfont="Noto Nastaliq Urdu"] .verse-arabic { line-height: 4.8; }
+    }
     /* Dark Green Custom Theme Variables */
     .bg-dark-emerald { background-color: #0d3322; }
     .bg-dark-emerald-light { background-color: #133e2b; }
@@ -240,6 +254,20 @@
               <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
               <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
               <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
+            </select>
+          </div>
+
+          <!-- Verse font -->
+          <div>
+            <label id="lblVerseFont" for="verseFontSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Verse Font (خط الآيات)</label>
+            <select id="verseFontSelect" onchange="onVerseFontChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none">
+              <option value="Amiri">Amiri (أميري)</option>
+              <option value="Amiri Quran">Amiri Quran (أميري قرآن)</option>
+              <option value="Scheherazade New">Scheherazade New (شهرزاد)</option>
+              <option value="Noto Naskh Arabic">Noto Naskh (نسخ)</option>
+              <option value="Lateef">Lateef (لطيف)</option>
+              <option value="Markazi Text">Markazi Text (مركزي)</option>
+              <option value="Noto Nastaliq Urdu">Nastaliq (نستعليق)</option>
             </select>
           </div>
 
@@ -977,7 +1005,8 @@
       logs:   'quran_hifz_logs',
       counts: 'quran_hifz_counts',
       missing: 'quran_hifz_missing',
-      editions: 'quran_hifz_editions'
+      editions: 'quran_hifz_editions',
+      vfont: 'quran_hifz_vfont'
     };
     const LEGACY_RECITERS = { Ayman_Sowaid_64kbps: 'ar.aymanswoaid' };
     const LANG_LOCALES = { en: 'en-US', ar: 'ar', ml: 'ml-IN', ur: 'ur-PK', bn: 'bn-BD' };
@@ -1337,7 +1366,20 @@
       return st;
     }
 
+    function applyVerseFont(name) {
+      document.documentElement.style.setProperty('--vfont', "'" + name + "'");
+      document.documentElement.setAttribute('data-vfont', name);
+      const sel = document.getElementById('verseFontSelect');
+      if (sel) sel.value = name;
+    }
+    function onVerseFontChange() {
+      const name = document.getElementById('verseFontSelect').value;
+      applyVerseFont(name);
+      saveJSON(STORE.vfont, name);
+    }
+
     window.onload = async function () {
+      applyVerseFont(loadJSON(STORE.vfont, 'Amiri'));
       const savedLang = loadJSON(STORE.lang, 'en');
       currentLang = translations[savedLang] ? savedLang : 'en';
       applyLanguage();
