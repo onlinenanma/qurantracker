@@ -41,20 +41,20 @@
     /* Scheherazade New, Noto Naskh, Markazi Text */
     html[data-vfont="Scheherazade New"] .verse-arabic,
     html[data-vfont="Noto Naskh Arabic"] .verse-arabic,
-    html[data-vfont="Markazi Text"] .verse-arabic { line-height: 2.4; }
+    html[data-vfont="Markazi Text"] .verse-arabic { line-height: 2.8; }
     html[data-vfont="Lateef"] .verse-arabic { font-size: 1.3em; line-height: 2.2; }
-    html[data-vfont="Noto Nastaliq Urdu"] .verse-arabic { line-height: 3.2; }
+    html[data-vfont="Noto Nastaliq Urdu"] .verse-arabic { line-height: 3.8; }
     html[data-vfont="Amiri"] .verse-arabic,
-    html[data-vfont="Amiri Quran"] .verse-arabic { line-height: 2.8; }
+    html[data-vfont="Amiri Quran"] .verse-arabic { line-height: 3; }
     @media (min-width: 768px) {
-      .verse-arabic { line-height: 2.6; }
+      .verse-arabic { line-height: 2.8; }
       html[data-vfont="Scheherazade New"] .verse-arabic,
       html[data-vfont="Noto Naskh Arabic"] .verse-arabic,
-      html[data-vfont="Markazi Text"] .verse-arabic { line-height: 3; }
+      html[data-vfont="Markazi Text"] .verse-arabic { line-height: 3.2; }
       html[data-vfont="Lateef"] .verse-arabic { line-height: 2.6; }
-      html[data-vfont="Noto Nastaliq Urdu"] .verse-arabic { line-height: 3.8; }
+      html[data-vfont="Noto Nastaliq Urdu"] .verse-arabic { line-height: 4.2; }
       html[data-vfont="Amiri"] .verse-arabic,
-      html[data-vfont="Amiri Quran"] .verse-arabic { line-height: 3.2; }
+      html[data-vfont="Amiri Quran"] .verse-arabic { line-height: 3.7; }
     }
     .active-verse {
       border-color: #059669 !important;
@@ -255,19 +255,30 @@
             </div>
           </div>
 
-          <!-- Reciter -->
-          <div>
-            <label id="lblReciter" for="reciterSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Reciter (القارئ)</label>
-            <select id="reciterSelect" onchange="onReciterChange()" class="w-full bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
-              <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
-              <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
-              <option value="ar.alafasy">Mishary Rashid Alafasy</option>
-              <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
-              <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
-              <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
-              <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
-              <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
-            </select>
+          <!-- Reciter + keep screen on (one line) -->
+          <div class="grid grid-cols-2 gap-3 items-end">
+            <div class="min-w-0">
+              <label id="lblReciter" for="reciterSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Reciter (القارئ)</label>
+              <select id="reciterSelect" onchange="onReciterChange()" class="w-full h-[34px] bg-dark-emerald-light border border-dark-emerald text-white text-[13px] rounded-lg px-2 py-1.5 focus:ring-2 focus:ring-emerald-400 focus:outline-none truncate">
+                <option value="ar.husary">Mahmoud Khalil Al-Husary</option>
+                <option value="ar.aymanswoaid">Dr. Ayman Sowaid</option>
+                <option value="ar.alafasy">Mishary Rashid Alafasy</option>
+                <option value="ar.abdurrahmaansudais">Abdur-Rahman As-Sudais</option>
+                <option value="ar.mahermuaiqly">Maher Al Muaiqly</option>
+                <option value="ar.minshawi">Mohamed Siddiq Al-Minshawi</option>
+                <option value="Minshawy_Teacher_128kbps">Minshawi (Teacher / Repeat)</option>
+                <option value="Husary_Muallim_128kbps" selected>Al-Husary (Muallim / Repeat)</option>
+              </select>
+            </div>
+            <div class="min-w-0">
+              <span id="lblKeepAwake" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1 leading-tight">Keep screen ON</span>
+              <div class="flex items-center h-[34px]" dir="ltr">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="keepAwakeToggle" onchange="onKeepAwakeChange()" class="sr-only peer">
+                  <div class="w-10 h-5 bg-dark-emerald-light rounded-full peer peer-focus:ring-2 peer-focus:ring-emerald-400 peer-checked:bg-emerald-600 border border-dark-emerald after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:after:translate-x-5"></div>
+                </label>
+              </div>
+            </div>
           </div>
 
           <!-- Daily page range: one compact row -->
@@ -496,6 +507,7 @@
         lblToVerse: "To Verse (إلى آية)",
         lblRepetition: "Repetition Target (التكرار)",
         lblReciter: "Reciter (القارئ)",
+        lblKeepAwake: "Keep screen ON",
         lblDailyWird: "Daily Page Range (الورد اليومي)",
         lblFromPage: "From Page",
         lblToPage: "To Page",
@@ -598,6 +610,7 @@
         lblToVerse: "إلى آية",
         lblRepetition: "عدد التكرار",
         lblReciter: "القارئ",
+        lblKeepAwake: "إبقاء الشاشة مضيئة",
         lblDailyWird: "الورد اليومي (نطاق الصفحات)",
         lblFromPage: "من صفحة",
         lblToPage: "إلى صفحة",
@@ -700,6 +713,7 @@
         lblToVerse: "അവസാന ആയത്ത്",
         lblRepetition: "ആവർത്തനം",
         lblReciter: "ഖാരിഅ്",
+        lblKeepAwake: "സ്ക്രീൻ ഓൺ",
         lblDailyWird: "ദൈനംദിന ലക്ഷ്യം",
         lblFromPage: "പേജ് മുതൽ",
         lblToPage: "പേജ് വരെ",
@@ -802,6 +816,7 @@
         lblToVerse: "آیت نمبر تک",
         lblRepetition: "تکرار کا ہدف",
         lblReciter: "قاری",
+        lblKeepAwake: "اسکرین آن رکھیں",
         lblDailyWird: "روزانہ کا ورد (صفحات)",
         lblFromPage: "صفحہ از",
         lblToPage: "صفحہ تا",
@@ -904,6 +919,7 @@
         lblToVerse: "যে আয়াত পর্যন্ত",
         lblRepetition: "পুনরাবৃত্তির লক্ষ্য",
         lblReciter: "কারী",
+        lblKeepAwake: "স্ক্রিন চালু রাখুন",
         lblDailyWird: "দৈনিক পাঠের পৃষ্ঠা পরিসীমা",
         lblFromPage: "পৃষ্ঠা থেকে",
         lblToPage: "পৃষ্ঠা পর্যন্ত",
@@ -1005,7 +1021,8 @@
       counts: 'quran_hifz_counts',
       missing: 'quran_hifz_missing',
       editions: 'quran_hifz_editions',
-      vfont: 'quran_hifz_vfont'
+      vfont: 'quran_hifz_vfont',
+      keepAwake: 'quran_hifz_keepawake'
     };
     const LEGACY_RECITERS = { Ayman_Sowaid_64kbps: 'ar.aymanswoaid' };
     const LANG_LOCALES = { en: 'en-US', ar: 'ar', ml: 'ml-IN', ur: 'ur-PK', bn: 'bn-BD' };
@@ -1080,7 +1097,7 @@
     // LANGUAGE
     // ==================================================================
     const LABEL_IDS = [
-      'brandTitle', 'brandSub', 'btnSettingsText', 'lblSettingsTitle', 'lblHijri', 'btnCloseSettingsText', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter',
+      'brandTitle', 'brandSub', 'btnSettingsText', 'lblSettingsTitle', 'lblHijri', 'btnCloseSettingsText', 'lblSurah', 'lblFromVerse', 'lblToVerse', 'lblRepetition', 'lblReciter', 'lblKeepAwake',
       'lblDailyWird', 'lblFromPage', 'lblToPage', 'btnLoadPages', 'lblViewMode', 'btnVerseMode', 'btnMushafMode', 'lblActiveVerseTitle',
       'lblSelectedVersesHeading', 'lblSessionTitle', 'lblSessionHint', 'btnResetCounters',
       'lblWeeklyLogTitle', 'lblWeeklyLogDesc', 'btnClearHistory',
@@ -1272,6 +1289,7 @@
 
     // Dynamic UI Update for Controls & Colors
     function updateAudioControlUI() {
+      syncWakeLock();
       const playBtn = $('globalPlayBtn');
       const pauseBtn = $('pauseResumeBtn');
       const playIcon = $('globalPlayIcon');
@@ -1365,6 +1383,26 @@
       return st;
     }
 
+    // ---- Keep screen on (Screen Wake Lock API) ----
+    let wakeLockSentinel = null;
+    async function syncWakeLock() {
+      const want = !!($('keepAwakeToggle') && $('keepAwakeToggle').checked) && isRunning && !isPaused && document.visibilityState === 'visible';
+      try {
+        if (want && !wakeLockSentinel && 'wakeLock' in navigator) {
+          wakeLockSentinel = await navigator.wakeLock.request('screen');
+          wakeLockSentinel.addEventListener('release', () => { wakeLockSentinel = null; });
+        } else if (!want && wakeLockSentinel) {
+          const w = wakeLockSentinel; wakeLockSentinel = null;
+          await w.release();
+        }
+      } catch (e) { wakeLockSentinel = null; }
+    }
+    function onKeepAwakeChange() {
+      saveJSON(STORE.keepAwake, $('keepAwakeToggle').checked);
+      syncWakeLock();
+    }
+    document.addEventListener('visibilitychange', syncWakeLock);
+
     function applyVerseFont(name) {
       document.documentElement.style.setProperty('--vfont', "'" + name + "'");
       document.documentElement.setAttribute('data-vfont', name);
@@ -1379,6 +1417,10 @@
 
     window.onload = async function () {
       applyVerseFont(loadJSON(STORE.vfont, 'Scheherazade New'));
+      if ($('keepAwakeToggle')) {
+        $('keepAwakeToggle').checked = !!loadJSON(STORE.keepAwake, true);
+        if (!('wakeLock' in navigator)) $('keepAwakeToggle').closest('div.flex').parentElement.classList.add('hidden');
+      }
       const savedLang = loadJSON(STORE.lang, 'en');
       currentLang = translations[savedLang] ? savedLang : 'en';
       applyLanguage();
@@ -1474,6 +1516,14 @@
 
     function onTargetChange() {
       saveState();
+      // Apply the new global target to every verse that has no per-verse custom target
+      const t = getTarget();
+      currentVerses.forEach((v, i) => {
+        if (!repCounts[repKey(v.surah, v.numberInSurah) + '_target']) {
+          v.customTarget = t;
+          setText(`target-count-${i}`, t);
+        }
+      });
       updateSessionSummary();
     }
 
