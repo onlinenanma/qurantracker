@@ -97,150 +97,451 @@
   <script>
     const STORAGE_LANG_KEY = 'quran_hifz_lang';
     let currentLang = 'en';
+    const rtlLangs = ['ar', 'ur', 'fa', 'ku', 'sd', 'ug'];
 
     const translations = {
       en: {
-        pageTitle: "How to Use — Quran Learning App",
-        headerTitle: "How to Use",
-        headerSub: "User Guide & Instructions",
-        introHeading: "Welcome to Quran Learning App",
-        introDesc: "This guide explains how to configure settings, control audio recitation, utilize repetition targets, and navigate verse and Mus'haf viewing modes effectively.",
-        txtSettingsHeading: "Settings & Configuration Panel",
-        secSettingsDesc: "Tap the <strong>Select</strong> button on the main panel to open the sliding configuration menu. Here you can change the Surah, pick specific verse boundaries (From/To), modify the repetition target count, select your preferred reciter, or load daily page ranges (Wird).",
-        txtAudioHeading: "Audio Controls & Playback",
-        audioPlayPoint: "<strong>Play / Stop All (▶ / ⏹):</strong> Starts continuous recitation of your selected verses from beginning to end based on your repetition targets.",
-        audioPausePoint: "<strong>Pause / Resume (⏸ / ▶):</strong> Temporarily pauses current playback or resumes right where you left off.",
-        audioVersePoint: "<strong>Individual Verse Listen Button:</strong> Tap the play icon on any specific verse card to listen to or loop that individual verse.",
-        txtVersesHeading: "Verse Cards & Repetition Targets",
-        secVersesDesc: "Each verse card tracks your progress dynamically. Tapping the repeat badge allows you to configure individual repetition goals. Once your target counts are completed, you can save your session progress directly to your local weekly log.",
-        txtViewsHeading: "Viewing Modes (Verses vs. Mus'haf Page)",
-        secViewsDesc: "Toggle between standard Verse mode (detailed translation breakdown with interactive audio chips) and Mus'haf Page mode (real high-resolution page view mirroring physical Mushaf layouts) using the header toggle button or the settings panel.",
+        pageTitle: "How to Use — Quran Learning App", headerTitle: "How to Use", headerSub: "User Guide & Instructions",
+        introHeading: "Welcome to Quran Learning App", introDesc: "This guide explains how to configure settings, control audio recitation, utilize repetition targets, and navigate verse and Mus'haf viewing modes effectively.",
+        txtSettingsHeading: "Settings & Configuration Panel", secSettingsDesc: "Tap the <strong>Select</strong> button on the main panel to open the sliding configuration menu. Here you can change the Surah, pick specific verse boundaries (From/To), modify the repetition target count, select your preferred reciter, or load daily page ranges (Wird).",
+        txtAudioHeading: "Audio Controls & Playback", audioPlayPoint: "<strong>Play / Stop All (▶ / ⏹):</strong> Starts continuous recitation of your selected verses from beginning to end based on your repetition targets.",
+        audioPausePoint: "<strong>Pause / Resume (⏸ / ▶):</strong> Temporarily pauses current playback or resumes right where you left off.", audioVersePoint: "<strong>Individual Verse Listen Button:</strong> Tap the play icon on any specific verse card to listen to or loop that individual verse.",
+        txtVersesHeading: "Verse Cards & Repetition Targets", secVersesDesc: "Each verse card tracks your progress dynamically. Tapping the repeat badge allows you to configure individual repetition goals. Once your target counts are completed, you can save your session progress directly to your local weekly log.",
+        txtViewsHeading: "Viewing Modes (Verses vs. Mus'haf Page)", secViewsDesc: "Toggle between standard Verse mode (detailed translation breakdown with interactive audio chips) and Mus'haf Page mode (real high-resolution page view mirroring physical Mushaf layouts) using the header toggle button or the settings panel.",
         backHomeLink: "← Back to Quran Learning App"
       },
       ar: {
-        pageTitle: "دليل الاستخدام — تطبيق حفظ القرآن",
-        headerTitle: "دليل الاستخدام",
-        headerSub: "تعليمات وإرشادات الاستخدام",
-        introHeading: "مرحباً بك في تطبيق حفظ القرآن",
-        introDesc: "يوضح هذا الدليل كيفية ضبط الإعدادات، التحكم في تلاوة الصوت، استخدام أهداف التكرار، والتنقل بين أنماط عرض الآيات والمصحف بكفاءة.",
-        txtSettingsHeading: "لوحة الإعدادات والتهيئة",
-        secSettingsDesc: "اضغط على زر <strong>اختر</strong> في اللوحة الرئيسية لفتح قائمة الإعدادات المنزلقة. يمكنك هنا تغيير السورة، تحديد نطاق الآيات (من/إلى)، تعديل عدد تكرار الهدف، اختيار القارئ المفضل، أو تحميل نطاقات الصفحات اليومية (الورد).",
-        txtAudioHeading: "التحكم الصوتي والتلاوة",
-        audioPlayPoint: "<strong>تشغيل / إيقاف الكل:</strong> يبدأ التلاوة المستمرة للآيات المختارة من البداية إلى النهاية بناءً على أهداف التكرار الخاصة بك.",
-        audioPausePoint: "<strong>إيقاف مؤقت / استئناف:</strong> يعلق التشغيل مؤقتاً أو يستأنفه من حيث توقفت.",
-        audioVersePoint: "<strong>زر الاستماع لكل آية:</strong> اضغط على أيقونة التشغيل في أي بطاقة آية للاستماع إليها أو تكرارها بشكل فردي.",
-        txtVersesHeading: "بطاقات الآيات وأهداف التكرار",
-        secVersesDesc: "تتعقب كل بطاقة آية تقدمك ديناميكياً. النقر على شارة التكرار يتيح لك ضبط أهداف التكرار الفردية. بمجرد اكتمال أهدافك، يمكنك حفظ تقدم الجلسة مباشرة في سجل الأسبوع المحلي.",
-        txtViewsHeading: "أنماط العرض (الآيات مقابل صفحة المصحف)",
-        secViewsDesc: "التبديل بسلاسة بين نمط الآيات القياسي (تفصيل الترجمة مع لوحات التحكم الصوتية التفاعلية) ونمط صفحة المصحف (عرض صفحات بدقة عالية تحاكي المصحف الورقي) باستخدام زر التبديل العلوي أو لوحة الإعدادات.",
+        pageTitle: "دليل الاستخدام — تطبيق حفظ القرآن", headerTitle: "دليل الاستخدام", headerSub: "تعليمات وإرشادات الاستخدام",
+        introHeading: "مرحباً بك في تطبيق حفظ القرآن", introDesc: "يوضح هذا الدليل كيفية ضبط الإعدادات، التحكم في تلاوة الصوت، استخدام أهداف التكرار، والتنقل بين أنماط عرض الآيات والمصحف بكفاءة.",
+        txtSettingsHeading: "لوحة الإعدادات والتهيئة", secSettingsDesc: "اضغط على زر <strong>اختر</strong> في اللوحة الرئيسية لفتح قائمة الإعدادات المنزلقة. يمكنك هنا تغيير السورة، تحديد نطاق الآيات (من/إلى)، تعديل عدد تكرار الهدف، اختيار القارئ المفضل، أو تحميل نطاقات الصفحات اليومية (الورد).",
+        txtAudioHeading: "التحكم الصوتي والتلاوة", audioPlayPoint: "<strong>تشغيل / إيقاف الكل:</strong> يبدأ التلاوة المستمرة للآيات المختارة من البداية إلى النهاية بناءً على أهداف التكرار الخاصة بك.",
+        audioPausePoint: "<strong>إيقاف مؤقت / استئناف:</strong> يعلق التشغيل مؤقتاً أو يستأنفه من حيث توقفت.", audioVersePoint: "<strong>زر الاستماع لكل آية:</strong> اضغط على أيقونة التشغيل في أي بطاقة آية للاستماع إليها أو تكرارها بشكل فردي.",
+        txtVersesHeading: "بطاقات الآيات وأهداف التكرار", secVersesDesc: "تتعقب كل بطاقة آية تقدمك ديناميكياً. النقر على شارة التكرار يتيح لك ضبط أهداف التكرار الفردية. بمجرد اكتمال أهدافك، يمكنك حفظ تقدم الجلسة مباشرة في سجل الأسبوع المحلي.",
+        txtViewsHeading: "أنماط العرض (الآيات مقابل صفحة المصحف)", secViewsDesc: "التبديل بسلاسة بين نمط الآيات القياسي (تفصيل الترجمة مع لوحات التحكم الصوتية التفاعلية) ونمط صفحة المصحف (عرض صفحات بدقة عالية تحاكي المصحف الورقي) باستخدام زر التبديل العلوي أو لوحة الإعدادات.",
         backHomeLink: "← العودة إلى تطبيق القرآن"
       },
       ml: {
-        pageTitle: "ഉപയോഗക്രമം — Quran Learning App",
-        headerTitle: "ഉപയോഗക്രമം",
-        headerSub: "ആപ്പ് ഉപയോഗിക്കേണ്ട വിധം",
-        introHeading: "ഖുർആൻ ലേണിംഗ് ആപ്പിലേക്ക് സ്വാഗതം",
-        introDesc: "ഈ ഗൈഡ് ആപ്പിലെ ക്രമീകരണങ്ങൾ, ഓഡിയോ നിയന്ത്രണങ്ങൾ, ആവർത്തന ലക്ഷ്യങ്ങൾ, വ്യൂ മോഡുകൾ എന്നിവ എങ്ങനെ ഉപയോഗിക്കാമെന്ന് വിശദീകരിക്കുന്നു.",
-        txtSettingsHeading: "ക്രമീകരണങ്ങളും സെറ്റിങ്സും",
-        secSettingsDesc: "പ്രധാന പേജിലെ <strong>Select</strong> ബട്ടൺ ഉപയോഗിച്ച് ക്രമീകരണ മെനു തുറക്കാം. ഇവിടെ സൂറത്ത് മാറ്റാനും, ആയത്ത് പരിധി നിശ്ചയിക്കാനും, ആവർത്തന ലക്ഷ്യം മാറ്റാനും, ഖാരിഇനെ തിരഞ്ഞെടുക്കാനും സാധിക്കും.",
-        txtAudioHeading: "ഓഡിയോ കൺട്രോളുകളും പ്ലേബാക്കും",
-        audioPlayPoint: "<strong>പ്ലേ / സ്റ്റോപ്പ് (▶ / ⏹):</strong> നിങ്ങളുടെ ആവർത്തന ലക്ഷ്യങ്ങൾക്ക് അനുസൃതമായി തിരഞ്ഞെടുത്ത ആയത്തുകൾ തുടർച്ചയായി കേൾക്കാൻ ഇത് സഹായിക്കുന്നു.",
-        audioPausePoint: "<strong>പോസ് / റസ്യൂം (⏸ / ▶):</strong> ഓഡിയോ താൽക്കാലികമായി നിർത്താനോ തുടർന്ന് കേൾക്കാനോ ഉപയോഗിക്കാം.",
-        audioVersePoint: "<strong>വ്യക്തിഗത ആയത്ത് ലിസൺ ബട്ടൺ:</strong> ഏതെങ്കിലും പ്രത്യേക ആയത്ത് മാത്രം കേൾക്കാൻ അതിലെ പ്ലേ ബട്ടൺ ഉപയോഗിക്കുക.",
-        txtVersesHeading: "ആയത്ത് കാർഡുകളും ആവർത്തന ലക്ഷ്യങ്ങളും",
-        secVersesDesc: "ഓരോ ആയത്ത് കാർഡും നിങ്ങളുടെ പുരോഗതി കൃത്യമായി കാണിക്കുന്നു. ആവർത്തന ലക്ഷ്യങ്ങൾ പൂർത്തിയായാൽ നിങ്ങളുടെ പ്രതിവാര ലോഗിലേക്ക് പുരോഗതി സേവ് ചെയ്യാം.",
-        txtViewsHeading: "വ്യൂ മോഡുകൾ (ആയത്തുകൾ vs മുസ്ഹഫ് പേജ്)",
-        secViewsDesc: "ആയത്ത് രൂപത്തിലോ അല്ലെങ്കിൽ യഥാർത്ഥ മുസ്ഹഫ് പേജ് രൂപത്തിലോ (Mushaf Page view) ഖുർആൻ പാരായണം കാണാൻ മുകളിലെ വ്യൂ ടോഗിൾ ബട്ടൺ ഉപയോഗിക്കാം.",
+        pageTitle: "ഉപയോഗക്രമം — Quran Learning App", headerTitle: "ഉപയോഗക്രമം", headerSub: "ആപ്പ് ഉപയോഗിക്കേണ്ട വിധം",
+        introHeading: "ഖുർആൻ ലേണിംഗ് ആപ്പിലേക്ക് സ്വാഗതം", introDesc: "ഈ ഗൈഡ് ആപ്പിലെ ക്രമീകരണങ്ങൾ, ഓഡിയോ നിയന്ത്രണങ്ങൾ, ആവർത്തന ലക്ഷ്യങ്ങൾ, വ്യൂ മോഡുകൾ എന്നിവ എങ്ങനെ ഉപയോഗിക്കാമെന്ന് വിശദീകരിക്കുന്നു.",
+        txtSettingsHeading: "ക്രമീകരണങ്ങളും സെറ്റിങ്സും", secSettingsDesc: "പ്രധാന പേജിലെ <strong>Select</strong> ബട്ടൺ ഉപയോഗിച്ച് ക്രമീകരണ മെനു തുറക്കാം. ഇവിടെ സൂറത്ത് മാറ്റാനും, ആയത്ത് പരിധി നിശ്ചയിക്കാനും, ആവർത്തന ലക്ഷ്യം മാറ്റാനും, ഖാരിഇനെ തിരഞ്ഞെടുക്കാനും സാധിക്കും.",
+        txtAudioHeading: "ഓഡിയോ കൺട്രോളുകളും പ്ലേബാക്കും", audioPlayPoint: "<strong>പ്ലേ / സ്റ്റോപ്പ് (▶ / ⏹):</strong> നിങ്ങളുടെ ആവർത്തന ലക്ഷ്യങ്ങൾക്ക് അനുസൃതമായി തിരഞ്ഞെടുത്ത ആയത്തുകൾ തുടർച്ചയായി കേൾക്കാൻ ഇത് സഹായിക്കുന്നു.",
+        audioPausePoint: "<strong>പോസ് / റസ്യൂം (⏸ / ▶):</strong> ഓഡിയോ താൽക്കാലികമായി നിർത്താനോ തുടർന്ന് കേൾക്കാനോ ഉപയോഗിക്കാം.", audioVersePoint: "<strong>വ്യക്തിഗത ആയത്ത് ലിസൺ ബട്ടൺ:</strong> ഏതെങ്കിലും പ്രത്യേക ആയത്ത് മാത്രം കേൾക്കാൻ അതിലെ പ്ലേ ബട്ടൺ ഉപയോഗിക്കുക.",
+        txtVersesHeading: "ആയത്ത് കാർഡുകളും ആവർത്തന ലക്ഷ്യങ്ങളും", secVersesDesc: "ഓരോ ആയത്ത് കാർഡും നിങ്ങളുടെ പുരോഗതി കൃത്യമായി കാണിക്കുന്നു. ആവർത്തന ലക്ഷ്യങ്ങൾ പൂർത്തിയായാൽ നിങ്ങളുടെ പ്രതിവാര ലോഗിലേക്ക് പുരോഗതി സേവ് ചെയ്യാം.",
+        txtViewsHeading: "വ്യൂ മോഡുകൾ (ആയത്തുകൾ vs മുസ്ഹഫ് പേജ്)", secViewsDesc: "ആയത്ത് രൂപത്തിലോ അല്ലെങ്കിൽ യഥാർത്ഥ മുസ്ഹഫ് പേജ് രൂപത്തിലോ (Mushaf Page view) ഖുർആൻ പാരായണം കാണാൻ മുകളിലെ വ്യൂ ടോഗിൾ ബട്ടൺ ഉപയോഗിക്കാം.",
         backHomeLink: "← ഹോം പേജിലേക്ക് മടങ്ങുക"
       },
       ur: {
-        pageTitle: "استعمال کا طریقہ — قرآن لرننگ ایپ",
-        headerTitle: "استعمال کا طریقہ",
-        headerSub: "صارف گائیڈ اور ہدایات",
-        introHeading: "قرآن لرننگ ایپ میں خوش آمدید",
-        introDesc: "یہ گائیڈ وضاحت کرتی ہے کہ ترتیبات کو کیسے ترتیب دیا جائے، آڈیو تلاوت کو کیسے کنٹرول کیا جائے، اور مختلف ویو موڈز کا استعمال کیسے کیا جائے۔",
-        txtSettingsHeading: "ترتیبات اور کنفیگریشن پینل",
-        secSettingsDesc: "سلائیڈنگ مینو کھولنے کے لیے مین پینل پر <strong>Select</strong> کا بٹن دبائیں۔ یہاں آپ سورت تبدیل کر سکتے ہیں، آیات کی حد منتخب کر سکتے ہیں، تلاوت کرنے والے قاری کا انتخاب کر سکتے ہیں اور روزانہ کا ورد طے کر سکتے ہیں۔",
-        txtAudioHeading: "آڈیو کنٹرولز اور پلے بیک",
-        audioPlayPoint: "<strong>چلائیں / روکیں (▶ / ⏹):</strong> آپ کے مقرر کردہ اہداف کے مطابق منتخب آیات کی مسلسل تلاوت شروع کرتا ہے۔",
-        audioPausePoint: "<strong>وقفہ / جاری رکھیں (⏸ / ▶):</strong> موجودہ آڈیو پلے بیک کو عارضی طور پر روکتا یا وہیں سے دوبارہ شروع کرتا ہے۔",
-        audioVersePoint: "<strong>انفرادی آیت کا بٹن:</strong> کسی بھی خاص آیت کو سننے کے لیے اس کے پلے آئیکن پر ٹیپ کریں۔",
-        txtVersesHeading: "آیت کارڈز اور تلاوت کے اہداف",
-        secVersesDesc: "ہر آیت کارڈ آپ کی پیشرفت کو متحرک انداز میں ٹریک کرتا ہے۔ اہداف مکمل ہونے کے بعد آپ سیشن کی پیشرفت کو محفوظ کر سکتے ہیں۔",
-        txtViewsHeading: "ویو موڈز (آیات بمقابلہ مصحف صفحہ)",
-        secViewsDesc: "معیاری آیت موڈ اور ہائی ریزولوشن مصحف صفحہ موڈ کے درمیان آسانی سے سوئچ کریں۔",
+        pageTitle: "استعمال کا طریقہ — قرآن لرننگ ایپ", headerTitle: "استعمال کا طریقہ", headerSub: "صارف گائیڈ اور ہدایات",
+        introHeading: "قرآن لرننگ ایپ میں خوش آمدید", introDesc: "یہ گائیڈ وضاحت کرتی ہے کہ ترتیبات کو کیسے ترتیب دیا جائے، آڈیو تلاوت کو کیسے کنٹرول کیا جائے، اور مختلف ویو موڈز کا استعمال کیسے کیا جائے۔",
+        txtSettingsHeading: "ترتیبات اور کنفیگریشن پینل", secSettingsDesc: "سلائیڈنگ مینو کھولنے کے لیے مین پینل پر <strong>Select</strong> کا بٹن دبائیں۔ یہاں آپ سورت تبدیل کر سکتے ہیں، آیات کی حد منتخب کر سکتے ہیں، تلاوت کرنے والے قاری کا انتخاب کر سکتے ہیں اور روزانہ کا ورد طے کر سکتے ہیں۔",
+        txtAudioHeading: "آڈیو کنٹرولز اور پلے بیک", audioPlayPoint: "<strong>چلائیں / روکیں (▶ / ⏹):</strong> آپ کے مقرر کردہ اہداف کے مطابق منتخب آیات کی مسلسل تلاوت شروع کرتا ہے۔",
+        audioPausePoint: "<strong>وقفہ / جاری رکھیں (⏸ / ▶):</strong> موجودہ آڈیو پلے بیک کو عارضی طور پر روکتا یا وہیں سے دوبارہ شروع کرتا ہے۔", audioVersePoint: "<strong>انفرادی آیت کا بٹن:</strong> کسی بھی خاص آیت کو سننے کے لیے اس کے پلے آئیکن پر ٹیپ کریں۔",
+        txtVersesHeading: "آیت کارڈز اور تلاوت کے اہداف", secVersesDesc: "ہر آیت کارڈ آپ کی پیشرفت کو متحرک انداز میں ٹریک کرتا ہے۔ اہداف مکمل ہونے کے بعد آپ سیشن کی پیشرفت کو محفوظ کر سکتے ہیں۔",
+        txtViewsHeading: "ویو موڈز (آیات بمقابلہ مصحف صفحہ)", secViewsDesc: "معیاری آیت موڈ اور ہائی ریزولوشن مصحف صفحہ موڈ کے درمیان آسانی سے سوئچ کریں۔",
         backHomeLink: "← واپس ہوم پیج پر جائیں"
       },
       bn: {
-        pageTitle: "ব্যবহারবিধি — কুরআন লার্নিং অ্যাপ",
-        headerTitle: "ব্যবহারবিধি",
-        headerSub: "ব্যবহারকারী নির্দেশিকা",
-        introHeading: "কুরআন লার্নিং অ্যাপে স্বাগতম",
-        introDesc: "এই নির্দেশিকাটিতে সেটিংস কনফিগার করা, অডিও আবৃত্তি নিয়ন্ত্রণ করা, পুনরাবৃত্তির লক্ষ্য নির্ধারণ এবং বিভিন্ন ভিউ মোড ব্যবহার করার নিয়ম ব্যাখ্যা করা হয়েছে।",
-        txtSettingsHeading: "সেটিংস এবং কনফিগারেশন প্যানেল",
-        secSettingsDesc: "স্লাইডিং মেনু খুলতে মূল প্যানেলের <strong>Select</strong> বোতামে চাপুন। এখান থেকে আপনি সুরা পরিবর্তন করতে পারবেন, আয়াতের পরিসীমা নির্ধারণ করতে পারবেন এবং কারী নির্বাচন করতে পারবেন।",
-        txtAudioHeading: "অডিও নিয়ন্ত্রণ এবং প্লেব্যাক",
-        audioPlayPoint: "<strong>চালান / বন্ধ করুন (▶ / ⏹):</strong> আপনার নির্ধারিত পুনরাবৃত্তির লক্ষ্য অনুযায়ী নির্বাচিত আয়াতগুলোর ধারাবাহিক আবৃত্তি শুরু করে।",
-        audioPausePoint: "<strong>বিরতি / চালিয়ে যান (⏸ / ▶):</strong> বর্তমান অডিও প্লেব্যাক সাময়িক বিরতি দেয় বা পুনরায় চালু করে।",
-        audioVersePoint: "<strong>নির্দিষ্ট আয়াত শোনার বোতাম:</strong> নির্দিষ্ট কোনো আয়াত শুনতে তার প্লে আইকনে ট্যাপ করুন।",
-        txtVersesHeading: "আয়াত কার্ড এবং পুনরাবৃত্তির লক্ষ্য",
-        secVersesDesc: "প্রতিটি আয়াত কার্ড আপনার অগ্রগতি ট্র্যাক করে। লক্ষ্য সম্পন্ন হলে আপনি সাপ্তাহিক লগে আপনার অগ্রগতি সংরক্ষণ করতে পারেন।",
-        txtViewsHeading: "ভিউ মোড (আয়াত বনাম মুসহাফ পৃষ্ঠা)",
-        secViewsDesc: "স্ট্যান্ডার্ড আয়াত মোড এবং হাই-রেজোলিউশন মুসহাফ পৃষ্ঠা মোডের মধ্যে সহজেই টগল করুন।",
+        pageTitle: "ব্যবহারবিধি — কুরআন লার্নিং অ্যাপ", headerTitle: "ব্যবহারবিধি", headerSub: "ব্যবহারকারী নির্দেশিকা",
+        introHeading: "কুরআন লার্নিং অ্যাপে স্বাগতম", introDesc: "এই নির্দেশিকাটিতে সেটিংস কনফিগার করা, অডিও আবৃত্তি নিয়ন্ত্রণ করা, পুনরাবৃত্তির লক্ষ্য নির্ধারণ এবং বিভিন্ন ভিউ মোড ব্যবহার করার নিয়ম ব্যাখ্যা করা হয়েছে।",
+        txtSettingsHeading: "সেটিংস এবং কনফিগারেশন প্যানেল", secSettingsDesc: "স্লাইডিং মেনু খুলতে মূল প্যানেলের <strong>Select</strong> বোতামে চাপুন। এখান থেকে আপনি সুরা পরিবর্তন করতে পারবেন, আয়াতের পরিসীমা নির্ধারণ করতে পারবেন এবং কারী নির্বাচন করতে পারবেন।",
+        txtAudioHeading: "অডিও নিয়ন্ত্রণ এবং প্লেব্যাক", audioPlayPoint: "<strong>চালান / বন্ধ করুন (▶ / ⏹):</strong> আপনার নির্ধারিত পুনরাবৃত্তির লক্ষ্য অনুযায়ী নির্বাচিত আয়াতগুলোর ধারাবাহিক আবৃত্তি শুরু করে।",
+        audioPausePoint: "<strong>বিরতি / চালিয়ে যান (⏸ / ▶):</strong> বর্তমান অডিও প্লেব্যাক সাময়িক বিরতি দেয় বা পুনরায় চালু করে।", audioVersePoint: "<strong>নির্দিষ্ট আয়াত শোনার বোতাম:</strong> নির্দিষ্ট কোনো আয়াত শুনতে তার প্লে আইকনে ট্যাপ করুন।",
+        txtVersesHeading: "আয়াত কার্ড এবং পুনরাবৃত্তির লক্ষ্য", secVersesDesc: "প্রতিটি আয়াত কার্ড আপনার অগ্রগতি ট্র্যাক করে। লক্ষ্য সম্পন্ন হলে আপনি সাপ্তাহিক লগে আপনার অগ্রগতি সংরক্ষণ করতে পারেন।",
+        txtViewsHeading: "ভিউ মোড (আয়াত বনাম মুসহাফ পৃষ্ঠা)", secViewsDesc: "স্ট্যান্ডার্ড আয়াত মোড এবং হাই-রেজোলিউশন মুসহাফ পৃষ্ঠা মোডের মধ্যে সহজেই টগল করুন।",
         backHomeLink: "← মূল পাতায় ফিরে যান"
+      },
+      fr: {
+        pageTitle: "Mode d'emploi — Application Coran", headerTitle: "Mode d'emploi", headerSub: "Guide d'utilisation",
+        introHeading: "Bienvenue sur l'application", introDesc: "Ce guide explique comment configurer les paramètres, contrôler la récitation audio et naviguer dans les modes d'affichage.",
+        txtSettingsHeading: "Panneau de configuration", secSettingsDesc: "Appuyez sur le bouton <strong>Select</strong> pour ouvrir le menu de configuration.",
+        txtAudioHeading: "Contrôles audio", audioPlayPoint: "<strong>Lire / Arrêter tout (▶ / ⏹):</strong> Lance la récitation continue des versets.",
+        audioPausePoint: "<strong>Pause / Reprendre (⏸ / ▶):</strong> Suspend la lecture.", audioVersePoint: "<strong>Écoute individuelle:</strong> Appuyez sur l'icône de lecture sur une carte de verset.",
+        txtVersesHeading: "Cartes de versets et objectifs", secVersesDesc: "Chaque carte de verset suit votre progression.",
+        txtViewsHeading: "Modes d'affichage", secViewsDesc: "Basculez entre le mode versets et le mode Mus'haf.",
+        backHomeLink: "← Retour à l'application"
+      },
+      es: {
+        pageTitle: "Cómo usar — Aplicación del Corán", headerTitle: "Cómo usar", headerSub: "Guía de usuario",
+        introHeading: "Bienvenido a la aplicación", introDesc: "Esta guía explica cómo configurar los ajustes y controlar el audio.",
+        txtSettingsHeading: "Panel de configuración", secSettingsDesc: "Toque el botón <strong>Select</strong> para abrir el menú de configuración.",
+        txtAudioHeading: "Controles de audio", audioPlayPoint: "<strong>Reproducir / Detener todo (▶ / ⏹):</strong> Inicia la recitación continua.",
+        audioPausePoint: "<strong>Pausa / Reanudar (⏸ / ▶):</strong> Pausa la reproducción actual.", audioVersePoint: "<strong>Escucha individual:</strong> Toque el icono de reproducción en una tarjeta.",
+        txtVersesHeading: "Tarjetas de versículos", secVersesDesc: "Cada tarjeta rastrea su progreso.",
+        txtViewsHeading: "Modos de visualización", secViewsDesc: "Alterne entre el modo de versículos y el modo de Mus'haf.",
+        backHomeLink: "← Volver a la aplicación"
+      },
+      de: {
+        pageTitle: "Bedienungsanleitung — Koran-App", headerTitle: "Bedienungsanleitung", headerSub: "Benutzerhandbuch",
+        introHeading: "Willkommen bei der Koran-App", introDesc: "Diese Anleitung erklärt die Konfiguration und Audio-Steuerung.",
+        txtSettingsHeading: "Einstellungen", secSettingsDesc: "Tippen Sie auf <strong>Select</strong>, um das Menü zu öffnen.",
+        txtAudioHeading: "Audio-Steuerung", audioPlayPoint: "<strong>Alle abspielen / stoppen (▶ / ⏹):</strong> Startet die Rezitation.",
+        audioPausePoint: "<strong>Pause / Fortsetzen (⏸ / ▶):</strong> Pausiert die Wiedergabe.", audioVersePoint: "<strong>Einzelsegment-Wiedergabe:</strong> Tippen Sie auf das Symbol einer Verskarte.",
+        txtVersesHeading: "Verskarten", secVersesDesc: "Jede Verskarte verfolgt Ihren Fortschritt.",
+        txtViewsHeading: "Anzeigemodi", secViewsDesc: "Wechseln Sie zwischen Versmodus und Mus'haf-Seitenmodus.",
+        backHomeLink: "← Zurück zur Koran-App"
+      },
+      id: {
+        pageTitle: "Cara Penggunaan — Aplikasi Al-Qur'an", headerTitle: "Cara Penggunaan", headerSub: "Panduan Pengguna",
+        introHeading: "Selamat datang di Aplikasi Al-Qur'an", introDesc: "Panduan ini menjelaskan cara mengonfigurasi pengaturan dan kontrol audio.",
+        txtSettingsHeading: "Panel Pengaturan", secSettingsDesc: "Tekan tombol <strong>Select</strong> untuk membuka menu konfigurasi.",
+        txtAudioHeading: "Kontrol Audio", audioPlayPoint: "<strong>Putar / Hentikan Semua (▶ / ⏹):</strong> Memulai murottal berkelanjutan.",
+        audioPausePoint: "<strong>Jeda / Lanjutkan (⏸ / ▶):</strong> Menghentikan sementara atau melanjutkan audio.", audioVersePoint: "<strong>Tombol Ayat Individu:</strong> Tekan ikon putar pada kartu ayat.",
+        txtVersesHeading: "Kartu Ayat & Target", secVersesDesc: "Setiap kartu ayat melacak kemajuan Anda.",
+        txtViewsHeading: "Mode Tampilan", secViewsDesc: "Beralih antara mode Ayat dan mode Halaman Mus'haf.",
+        backHomeLink: "← Kembali ke Aplikasi"
+      },
+      tr: {
+        pageTitle: "Kullanım Kılavuzu — Kur'an Uygulaması", headerTitle: "Kullanım Kılavuzu", headerSub: "Kullanıcı Rehberi",
+        introHeading: "Kur'an Uygulamasına Hoş Geldiniz", introDesc: "Bu rehber ayarları ve ses kontrolünü açıklar.",
+        txtSettingsHeading: "Ayarlar Paneli", secSettingsDesc: "Yapılandırma menüsünü açmak için <strong>Select</strong> düğmesine basın.",
+        txtAudioHeading: "Ses Kontrolleri", audioPlayPoint: "<strong>Tümünü Oynat / Durdur (▶ / ⏹):</strong> Kesintisiz tilaveti başlatır.",
+        audioPausePoint: "<strong>Duraklat / Devam Et (⏸ / ▶):</strong> Oynatmayı duraklatır veya sürdürür.", audioVersePoint: "<strong>Ayet Dinleme:</strong> Ayet kartındaki oynat simgesine dokunun.",
+        txtVersesHeading: "Ayet Kartları", secVersesDesc: "Her kart ilerlemenizi dinamik olarak takip eder.",
+        txtViewsHeading: "Görünüm Modları", secViewsDesc: "Ayet ve Mus'haf modları arasında geçiş yapın.",
+        backHomeLink: "← Uygulamaya Geri Dön"
+      },
+      ru: {
+        pageTitle: "Руководство — Приложение Корана", headerTitle: "Руководство", headerSub: "Инструкция пользователя",
+        introHeading: "Добро пожаловать в приложение", introDesc: "Руководство по настройке параметров и управлению аудио.",
+        txtSettingsHeading: "Панель настроек", secSettingsDesc: "Нажмите <strong>Select</strong> для открытия меню.",
+        txtAudioHeading: "Управление аудио", audioPlayPoint: "<strong>Воспроизвести / Остановить (▶ / ⏹):</strong> Запуск чтения.",
+        audioPausePoint: "<strong>Пауза / Продолжить (⏸ / ▶):</strong> Приостановка или возобновление.", audioVersePoint: "<strong>Прослушивание аята:</strong> Нажмите на значок воспроизведения.",
+        txtVersesHeading: "Карточки аятов", secVersesDesc: "Отслеживание индивидуального прогресса.",
+        txtViewsHeading: "Режимы просмотра", secViewsDesc: "Переключение между карточками и страницей Мусхафа.",
+        backHomeLink: "← Назад к приложению"
+      },
+      fa: {
+        pageTitle: "راهنمای استفاده — برنامه قرآن", headerTitle: "راهنمای استفاده", headerSub: "راهنمای کاربر",
+        introHeading: "به برنامه خوش آمدید", introDesc: "این راهنما نحوه تنظیمات و کنترل صوتی را توضیح می‌دهد.",
+        txtSettingsHeading: "پنل تنظیمات", secSettingsDesc: "برای باز کردن منو، دکمه <strong>Select</strong> را فشار دهید.",
+        txtAudioHeading: "کنترل‌های صوتی", audioPlayPoint: "<strong>پخش / توقف همه (▶ / ⏹):</strong> شروع تلاوت مستمر.",
+        audioPausePoint: "<strong>توقف موقت / ادامه (⏸ / ▶):</strong> توقف یا ادامه پخش.", audioVersePoint: "کلید شنیدن آیه فرد.",
+        txtVersesHeading: "کارت‌های آیه", secVersesDesc: "پیشرفت شما را پیگیری می‌کند.",
+        txtViewsHeading: "حالت‌های نمایش", secViewsDesc: "تغییر حالت بین آیات و صفحه مصحف.",
+        backHomeLink: "← بازگشت به برنامه"
+      },
+      hi: {
+        pageTitle: "उपयोग निर्देशिका — कुरान ऐप", headerTitle: "उपयोग निर्देशिका", headerSub: "उपयोगकर्ता गाइड",
+        introHeading: "कुरान ऐप में आपका स्वागत है", introDesc: "यह गाइड सेटिंग्स और ऑडियो नियंत्रण समझाती है।",
+        txtSettingsHeading: "सेटिंग्स पैनल", secSettingsDesc: "मेनू खोलने के लिए <strong>Select</strong> दबाएं।",
+        txtAudioHeading: "ऑडियो नियंत्रण", audioPlayPoint: "<strong>चलाएं / रोकें (▶ / ⏹):</strong> निरंतर पाठ शुरू करता है।",
+        audioPausePoint: "<strong>रुकें / पुनः शुरू करें (⏸ / ▶):</strong> प्लेबैक रोकता है।", audioVersePoint: "व्यक्तिगत आयत सुनें।",
+        txtVersesHeading: "आयत कार्ड", secVersesDesc: "प्रगति ट्रैक करता है।",
+        txtViewsHeading: "मोड", secViewsDesc: "मोड स्विच करें।",
+        backHomeLink: "← ऐप पर वापस जाएं"
+      },
+      zh: {
+        pageTitle: "使用指南 — 古兰经应用", headerTitle: "使用指南", headerSub: "用户指南",
+        introHeading: "欢迎使用应用", introDesc: "本指南介绍如何配置设置和控制音频。",
+        txtSettingsHeading: "设置面板", secSettingsDesc: "点击 <strong>Select</strong> 按钮打开菜单。",
+        txtAudioHeading: "音频控制", audioPlayPoint: "<strong>播放 / 停止全部 (▶ / ⏹):</strong> 开始连续朗诵。",
+        audioPausePoint: "<strong>暂停 / 恢复 (⏸ / ▶):</strong> 暂停或恢复播放。", audioVersePoint: "单句经文播放。",
+        txtVersesHeading: "经文卡片", secVersesDesc: "记录您的进度。",
+        txtViewsHeading: "查看模式", secViewsDesc: "在经文和页面模式之间切换。",
+        backHomeLink: "← 返回应用"
+      },
+      ms: {
+        pageTitle: "Cara Penggunaan — Aplikasi Al-Quran", headerTitle: "Cara Penggunaan", headerSub: "Panduan Pengguna",
+        introHeading: "Selamat datang ke Aplikasi Al-Quran", introDesc: "Panduan ini menerangkan cara konfigurasi dan audio.",
+        txtSettingsHeading: "Panel Tetapan", secSettingsDesc: "Tekan butang <strong>Select</strong> untuk membuka menu.",
+        txtAudioHeading: "Kawalan Audio", audioPlayPoint: "<strong>Main / Henti Semua (▶ / ⏹):</strong> Mulakan bacaan.",
+        audioPausePoint: "<strong>Jeda / Sambung (⏸ / ▶):</strong> Jeda main balik.", audioVersePoint: "Butang dengar ayat individu.",
+        txtVersesHeading: "Kad Ayat", secVersesDesc: "Jejak kemajuan anda.",
+        txtViewsHeading: "Mod Paparan", secViewsDesc: "Tukar mod paparan.",
+        backHomeLink: "← Kembali ke Aplikasi"
+      },
+      ta: {
+        pageTitle: "பயன்பாட்டு வழிகாட்டி — குர்ஆன் செயலி", headerTitle: "பயன்பாட்டு வழிகாட்டி", headerSub: "பயனர் வழிகாட்டி",
+        introHeading: "குர்ஆன் செயலிக்கு வரவேற்கிறோம்", introDesc: "இந்த வழிகாட்டி அமைப்புகளை விளக்குகிறது.",
+        txtSettingsHeading: "அமைப்புகள் குழு", secSettingsDesc: "மெனுவைத் திறக்க <strong>Select</strong> பொத்தானை அழுத்தவும்.",
+        txtAudioHeading: "ஆடியோ கட்டுப்பாடுகள்", audioPlayPoint: "<strong>இயக்கு / நிறுத்து (▶ / ⏹):</strong> தொடர்ச்சியான ஓதுதலைத் தொடங்கும்.",
+        audioPausePoint: "<strong>இடைநிறுத்து / தொடர் (⏸ / ▶):</strong> ஆடியோவை இடைநிறுத்துகிறது.", audioVersePoint: "தனிப்பட்ட ஆயத்தைக் கேட்க.",
+        txtVersesHeading: "ஆயத்து அட்டைகள்", secVersesDesc: "உங்கள் முன்னேற்றத்தைக் கண்காணிக்கிறது.",
+        txtViewsHeading: "காட்சி முறைகள்", secViewsDesc: "முறைகளுக்கு இடையில் மாறுக.",
+        backHomeLink: "← முகப்பு பக்கத்திற்கு செல்ல"
+      },
+      ha: {
+        pageTitle: "Yadda Ake Amfani — Manhajar Al-Qur'ani", headerTitle: "Yadda Ake Amfani", headerSub: "Jagorar Mai Amfani",
+        introHeading: "Barka da zuwa Manhajar Al-Qur'ani", introDesc: "Wannan jagorar tana bayanin yadda ake saitawa da sarrafa sauti.",
+        txtSettingsHeading: "Sashen Saituna", secSettingsDesc: "Danna maɓallin <strong>Select</strong> don buɗe menu.",
+        txtAudioHeading: "Sarrafa Sauti", audioPlayPoint: "<strong>Kunna / Dakatar da Duk (▶ / ⏹):</strong> Fara karatu.",
+        audioPausePoint: "<strong>Dakatar / Ci gaba (⏸ / ▶):</strong> Dakatar da sautin na ɗan lokaci.", audioVersePoint: "Sauraron aya daya.",
+        txtVersesHeading: "Katin Aya", secVersesDesc: "Bibiyar ci gaban ku.",
+        txtViewsHeading: "Hanyoyin Kallo", secViewsDesc: "Canza tsakanin hanyoyin kallo.",
+        backHomeLink: "← Komawa Manhajar"
+      },
+      sw: {
+        pageTitle: "Jinsi ya Kutumia — Programu ya Kurani", headerTitle: "Jinsi ya Kutumia", headerSub: "Mwongozo wa Mtumiaji",
+        introHeading: "Karibu kwenye Programu ya Kurani", introDesc: "Mwongozo huu unaelezea jinsi ya kupanga mipangilio na udhibiti wa sauti.",
+        txtSettingsHeading: "Jopo la Mipangilio", secSettingsDesc: "Gusa kitufe cha <strong>Select</strong> kufungua menyu.",
+        txtAudioHeading: "Udhibiti wa Sauti", audioPlayPoint: "<strong>Cheza / Simamisha Zote (▶ / ⏹):</strong> Anza usomaji.",
+        audioPausePoint: "<strong>Sitisha / Endelea (⏸ / ▶):</strong> Sitisha uchezaji.", audioVersePoint: "Kitufe cha kusikiliza aya mahususi.",
+        txtVersesHeading: "Kadi za Aya", secVersesDesc: "Fuatilia maendeleo yako.",
+        txtViewsHeading: "Njia za Kuangalia", secViewsDesc: "Badilisha kati ya njia za kuangalia.",
+        backHomeLink: "← Rudi kwenye Programu"
+      },
+      so: {
+        pageTitle: "Sida Loo Isticmaalo — App-ka Quraanka", headerTitle: "Sida Loo Isticmaalo", headerSub: "Hagaha Isticmaalaha",
+        introHeading: "Ku soo dhowow App-ka Quraanka", introDesc: "Hagahani wuxuu sharxayaa sida loo habeeyo dejinta.",
+        txtSettingsHeading: "Guddida Dejinta", secSettingsDesc: "Taabo badhanka <strong>Select</strong> si aad u furto liiska.",
+        txtAudioHeading: "Kontaroolada Maqalka", audioPlayPoint: "<strong>Ciaji / Jooji Dhammaan (▶ / ⏹):</strong> Bilow akhriska.",
+        audioPausePoint: "<strong>Haji / Sii wad (⏸ / ▶):</strong> Jooji maqalka ku meel gaar ah.", audioVersePoint: "Badhanka dhegaysiga aayadda.",
+        txtVersesHeading: "Kaarka Aayadaha", secVersesDesc: "La soco horumarkaaga.",
+        txtViewsHeading: "Qaababka Muujinta", secVersesDesc: "Beddel inta u dhaxaysa qaababka.",
+        backHomeLink: "← Ku laabto App-ka"
+      },
+      sq: {
+        pageTitle: "Si të Përdoret — Aplikacioni i Kuranit", headerTitle: "Si të Përdoret", headerSub: "Udhëzuesi i Përdoruesit",
+        introHeading: "Mirësevini në Aplikacionin e Kuranit", introDesc: "Ky udhëzues shpjegon konfigurimin dhe audio kontrollin.",
+        txtSettingsHeading: "Paneli i Cilësimeve", secSettingsDesc: "Prekni butonin <strong>Select</strong> për të hapur menunë.",
+        txtAudioHeading: "Kontrollet e Audiove", audioPlayPoint: "<strong>Luaj / Ndalo Të Gjitha (▶ / ⏹):</strong> Fillon recitimin.",
+        audioPausePoint: "<strong>Pauzë / Vazhdo (⏸ / ▶):</strong> Pezullon përkohësisht.", audioVersePoint: "Butoni i dëgjimit të vargut individual.",
+        txtVersesHeading: "Kartat e Vargjeve", secVersesDesc: "Gjurmon progresin tuaj në mënyrë dinamike.",
+        txtViewsHeading: "Mënyrat e Pamjes", secVersesDesc: "Kalo mes mënyrave të pamjes.",
+        backHomeLink: "← Kthehu te Aplikacioni"
+      },
+      az: {
+        pageTitle: "Necə İstifadə Edilməli — Quran Tətbiqi", headerTitle: "İstifadə qaydası", headerSub: "İstifadəçi Bələdçisi",
+        introHeading: "Quran Tətbiqinə Xoş Gəlmisiniz", introDesc: "Bu bələdçi parametrləri konfiqurasiya etməyi izah edir.",
+        txtSettingsHeading: "Parametrlər Paneli", secSettingsDesc: "Menyunu açmaq üçün <strong>Select</strong> düyməsinə toxunun.",
+        txtAudioHeading: "Audio Nəzarəti", audioPlayPoint: "<strong>Hamısını Oynat / Dayandır (▶ / ⏹):</strong> Davamlı oxutmaya başlayır.",
+        audioPausePoint: "<strong>Pauza / Davam et (⏸ / ▶):</strong> Oxutmanı dayandırır.", audioVersePoint: "Fərdi ayə dinləmə düyməsi.",
+        txtVersesHeading: "Ayə Kartları", secVersesDesc: "İrəliləyişinizi izləyir.",
+        txtViewsHeading: "Görünüş Rejimləri", secVersesDesc: "Rejimlər arasında keçid edin.",
+        backHomeLink: "← Quran Tətbiqinə Qayıt"
+      },
+      bs: {
+        pageTitle: "Kako koristiti — Aplikacija za Kur'an", headerTitle: "Kako koristiti", headerSub: "Korisnički vodič",
+        introHeading: "Dobro došli u aplikaciju za Kur'an", introDesc: "Ovaj vodič objašnjava postavke i kontrolu zvuka.",
+        txtSettingsHeading: "Panel postavki", secSettingsDesc: "Dodirnite dugme <strong>Select</strong> za otvaranje menija.",
+        txtAudioHeading: "Audio kontrole", audioPlayPoint: "<strong>Reprodukuj / Zaustavi sve (▶ / ⏹):</strong> Pokreće učenje.",
+        audioPausePoint: "<strong>Pauza / Nastavi (⏸ / ▶):</strong> Privremeno zaustavlja reprodukciju.", audioVersePoint: "Dugme za slušanje pojedinačnih ajeta.",
+        txtVersesHeading: "Kartice ajeta", secVersesDesc: "Prati vaš napredak dinamički.",
+        txtViewsHeading: "Načini prikaza", secVersesDesc: "Prebacivanje između načina prikaza.",
+        backHomeLink: "← Nazad na aplikaciju"
+      },
+      bg: {
+        pageTitle: "Как да използвате — Приложение за Корана", headerTitle: "Как да използвате", headerSub: "Ръководство на потребителя",
+        introHeading: "Добре дошли в приложението", introDesc: "Това ръководство обяснява настройките и контрола.",
+        txtSettingsHeading: "Панел за настройки", secSettingsDesc: "Докоснете бутона <strong>Select</strong>, за да отворите менюто.",
+        txtAudioHeading: "Аудио контрол", audioPlayPoint: "<strong>Възпроизвеждане / Спиране (▶ / ⏹):</strong> Стартира рецитирането.",
+        audioPausePoint: "<strong>Пауза / Продължаване (⏸ / ▶):</strong> Паузиране на възпроизвеждането.", audioVersePoint: "Бутон за слушане на отделен стих.",
+        txtVersesHeading: "Карти с аяти", secVersesDesc: "Проследява напредъка ви.",
+        txtViewsHeading: "Режими на преглед", secVersesDesc: "Превключване между режимите.",
+        backHomeLink: "← Обратно към приложението"
+      },
+      cs: {
+        pageTitle: "Jak používat — Aplikace Koránu", headerTitle: "Jak používat", headerSub: "Uživatelská příručka",
+        introHeading: "Vítejte v aplikaci Korán", introDesc: "Tato příručka vysvětluje nastavení a ovládání zvuku.",
+        txtSettingsHeading: "Panel nastavení", secSettingsDesc: "Klepnutím na tlačítko <strong>Select</strong> otevřete menu.",
+        txtAudioHeading: "Ovládání zvuku", audioPlayPoint: "<strong>Přehrát / Zastavit vše (▶ / ⏹):</strong> Spustí recitaci.",
+        audioPausePoint: "<strong>Pauza / Pokračovat (⏸ / ▶):</strong> Pozastaví přehrávání.", audioVersePoint: "Tlačítko poslechu verše.",
+        txtVersesHeading: "Karty veršů", secVersesDesc: "Sleduje váš pokrok.",
+        txtViewsHeading: "Režimy zobrazení", secVersesDesc: "Přepínání mezi režimy.",
+        backHomeLink: "← Zpět do aplikace"
+      },
+      nl: {
+        pageTitle: "Hoe te gebruiken — Koran App", headerTitle: "Hoe te gebruiken", headerSub: "Gebruikershandleiding",
+        introHeading: "Welkom bij de Koran App", introDesc: "Deze handleiding legt de instellingen en audiocontrole uit.",
+        txtSettingsHeading: "Instellingenpaneel", secSettingsDesc: "Tik op de knop <strong>Select</strong> om het menu te openen.",
+        txtAudioHeading: "Audiocontrole", audioPlayPoint: "<strong>Afspelen / Alles stoppen (▶ / ⏹):</strong> Start recitatie.",
+        audioPausePoint: "<strong>Pauzeren / Hervatten (⏸ / ▶):</strong> Pauzeert het afspelen.", audioVersePoint: "Afzonderlijke versluisterknop.",
+        txtVersesHeading: "Verskaarten", secVersesDesc: "Volgt uw voortgang dynamisch.",
+        txtViewsHeading: "Weergavemodi", secVersesDesc: "Schakel tussen weergavemodi.",
+        backHomeLink: "← Terug naar Koran App"
+      },
+      it: {
+        pageTitle: "Come usare — App Corano", headerTitle: "Come usare", headerSub: "Guida utente",
+        introHeading: "Benvenuto nell'app Corano", introDesc: "Questa guida spiega come configurare le impostazioni.",
+        txtSettingsHeading: "Pannello impostazioni", secSettingsDesc: "Tocca il pulsante <strong>Select</strong> per aprire il menu.",
+        txtAudioHeading: "Controlli audio", audioPlayPoint: "<strong>Riproduci / Interrompi tutto (▶ / ⏹):</strong> Avvia la recitazione.",
+        audioPausePoint: "<strong>Pausa / Riprendi (⏸ / ▶):</strong> Sospende la riproduzione.", audioVersePoint: "Pulsante di ascolto singolo versetto.",
+        txtVersesHeading: "Schede dei versetti", secVersesDesc: "Traccia i tuoi progressi dinamicamente.",
+        txtViewsHeading: "Modalità di visualizzazione", secVersesDesc: "Passa da una modalità all'altra.",
+        backHomeLink: "← Torna all'app"
+      },
+      ja: {
+        pageTitle: "使い方 — コーランアプリ", headerTitle: "使い方", headerSub: "ユーザーガイド",
+        introHeading: "コーランアプリへようこそ", introDesc: "設定の構成方法とオーディオの制御方法を説明します。",
+        txtSettingsHeading: "設定パネル", secSettingsDesc: "<strong>Select</strong> ボタンをタップしてメニューを開きます。",
+        txtAudioHeading: "オーディオコントロール", audioPlayPoint: "<strong>すべて再生 / 停止 (▶ / ⏹):</strong> 連続朗読を開始します。",
+        audioPausePoint: "<strong>一時停止 / 再開 (⏸ / ▶):</strong> 再生を一時停止または再開します。", audioVersePoint: "個別のアヤを聴くボタン。",
+        txtVersesHeading: "アヤカード", secVersesDesc: "進捗状況を動的に追跡します。",
+        txtViewsHeading: "表示モード", secVersesDesc: "表示モードを切り替えます。",
+        backHomeLink: "← アプリに戻る"
+      },
+      ko: {
+        pageTitle: "사용 방법 — 쿠란 학습 앱", headerTitle: "사용 방법", headerSub: "사용자 가이드",
+        introHeading: "쿠란 학습 앱에 오신 것을 환영합니다", introDesc: "설정 구성 및 오디오 제어 방법을 설명합니다.",
+        txtSettingsHeading: "설정 패널", secSettingsDesc: "<strong>Select</strong> 버튼을 탭하여 메뉴를 엽니다.",
+        txtAudioHeading: "오디오 제어", audioPlayPoint: "<strong>모두 재생 / 중지 (▶ / ⏹):</strong> 암실을 시작합니다.",
+        audioPausePoint: "<strong>일시 정지 / 재개 (⏸ / ▶):</strong> 재생을 일시 정지합니다.", audioVersePoint: "개별 구절 듣기 버튼.",
+        txtVersesHeading: "구절 카드", secVersesDesc: "진행 상황을 동적으로 추적합니다.",
+        txtViewsHeading: "보기 모드", secVersesDesc: "보기 모드 간 전환합니다.",
+        backHomeLink: "← 쿠란 학습 앱으로 돌아가기"
+      },
+      ku: {
+        pageTitle: "چۆنیەتی بەکارهینان — ئەپی قورئان", headerTitle: "چۆنیەتی بەکارهینان", headerSub: "ڕێبەری بەکارهێنەر",
+        introHeading: "بەخێر هاتن بۆ ئەپی قورئان", introDesc: "ئەم ڕێبەرە چۆنیەتی ڕێکخستنەکان ڕووندەکاتەوە.",
+        txtSettingsHeading: "پەنەلی ڕێکخستن", secSettingsDesc: "کرتە لە دوگمەی <strong>Select</strong> بکە بۆ کردنەوەی مینوو.",
+        txtAudioHeading: "کۆنترۆڵی دەنگ", audioPlayPoint: "<strong>لێدان / وەستاندن (▶ / ⏹):</strong> دەستپێکردنی خوێندنەوە.",
+        audioPausePoint: "<strong>وەستانی کاتی / بەردەوامبوون (⏸ / ▶):</strong> وەستانی کاتی دەنگ.", audioVersePoint: "دوگمەی گوێگرتن لە ئایەتی تاک.",
+        txtVersesHeading: "کارتەکانی ئایەت", secVersesDesc: "چاودێری پێشکەوتنت دەکات.",
+        txtViewsHeading: "شێوازەکانی بینین", secVersesDesc: "گۆڕین لە نێوان شێوازەکان.",
+        backHomeLink: "← گەڕانەوە بۆ ئەپی قورئان"
+      },
+      no: {
+        pageTitle: "Hvordan bruke — Koranalæringsapp", headerTitle: "Hvordan bruke", headerSub: "Brukerhåndbok",
+        introHeading: "Velkommen til Koranalæringsappen", introDesc: "Denne guiden forklarer innstillinger og lydkontroll.",
+        txtSettingsHeading: "Innstillingspanel", secSettingsDesc: "Trykk på <strong>Select</strong>-knappen for å åpne menyen.",
+        txtAudioHeading: "Lydkontroller", audioPlayPoint: "<strong>Spill av / Stopp alle (▶ / ⏹):</strong> Starter resitasjonen.",
+        audioPausePoint: "<strong>Pause / Fortsett (⏸ / ▶):</strong> Setter avspillingen på pause.", audioVersePoint: "Individuell versknapp for lytting.",
+        txtVersesHeading: "Verskort", secVersesDesc: "Sporer fremgangen din dynamisk.",
+        txtViewsHeading: "Visningsmoduser", secVersesDesc: "Bytt mellom visningsmoduser.",
+        backHomeLink: "← Tilbake til koranappen"
+      },
+      pl: {
+        pageTitle: "Jak używać — Aplikacja Koranu", headerTitle: "Jak używać", headerSub: "Przewodnik użytkownika",
+        introHeading: "Witaj w aplikacji Koranu", introDesc: "Ten przewodnik wyjaśnia ustawienia i sterowanie audio.",
+        txtSettingsHeading: "Panel ustawień", secSettingsDesc: "Stuknij przycisk <strong>Select</strong>, aby otworzyć menu.",
+        txtAudioHeading: "Sterowanie audio", audioPlayPoint: "<strong>Odtwórz / Zatrzymaj wszystko (▶ / ⏹):</strong> Rozpoczyna recytację.",
+        audioPausePoint: "<strong>Pauza / Wznów (⏸ / ▶):</strong> Wstrzymuje odtwarzanie.", audioVersePoint: "Przycisk odsłuchu pojedynczego wersu.",
+        txtVersesHeading: "Karty wersów", secVersesDesc: "Dynamicznie śledzi Twoje postępy.",
+        txtViewsHeading: "Tryby wyświetlania", secVersesDesc: "Przełączaj między trybami wyświetlania.",
+        backHomeLink: "← Powrót do aplikacji"
+      },
+      pt: {
+        pageTitle: "Como usar — Aplicativo do Alcorão", headerTitle: "Como usar", headerSub: "Guia do Usuário",
+        introHeading: "Bem-vindo ao Aplicativo do Alcorão", introDesc: "Este guia explica as configurações e o controle de áudio.",
+        txtSettingsHeading: "Painel de Configurações", secSettingsDesc: "Toque no botão <strong>Select</strong> para abrir o menu.",
+        txtAudioHeading: "Controles de Áudio", audioPlayPoint: "<strong>Reproduzir / Parar Tudo (▶ / ⏹):</strong> Inicia a recitação.",
+        audioPausePoint: "<strong>Pausar / Retomar (⏸ / ▶):</strong> Pausa a reprodução.", audioVersePoint: "Botão de escuta de versículo individual.",
+        txtVersesHeading: "Cartões de Versículos", secVersesDesc: "Acompanha seu progresso dinamicamente.",
+        txtViewsHeading: "Modos de Visualização", secVersesDesc: "Alterne entre os modos de visualização.",
+        backHomeLink: "← Voltar ao aplicativo"
+      },
+      ro: {
+        pageTitle: "Cum se utilizează — Aplicația Coran", headerTitle: "Cum se utilizează", headerSub: "Ghidul utilizatorului",
+        introHeading: "Bun venit în aplicația Coran", introDesc: "Acest ghid explică setările și controlul audio.",
+        txtSettingsHeading: "Panou de setări", secSettingsDesc: "Atingeți butonul <strong>Select</strong> pentru a deschide meniul.",
+        txtAudioHeading: "Controale audio", audioPlayPoint: "<strong>Redare / Oprire totală (▶ / ⏹):</strong> Pornește recitarea.",
+        audioPausePoint: "<strong>Pauză / Reluare (⏸ / ▶):</strong> Întrerupe redarea.", audioVersePoint: "Buton de ascultare verset individual.",
+        txtVersesHeading: "Carduri de versete", secVersesDesc: "Urmărește progresul dvs. în mod dinamic.",
+        txtViewsHeading: "Moduri de vizualizare", secVersesDesc: "Comutați între modurile de vizualizare.",
+        backHomeLink: "← Înapoi la aplicație"
+      },
+      sd: {
+        pageTitle: "استعمال جو طريقو — قرآن ايپ", headerTitle: "استعمال جو طريقو", headerSub: "صارف جي رهنمائي",
+        introHeading: "قرآن ايپ ۾ ڀليڪار", introDesc: "هي گائيڊ سيٽنگون ۽ آڊيو ڪنٽرول سمجهائي ٿو.",
+        txtSettingsHeading: "سيٽنگس پينل", secSettingsDesc: "مينيو کولڻ لاءِ <strong>Select</strong> بٽڻ دٻايو.",
+        txtAudioHeading: "آڊيو ڪنٽرول", audioPlayPoint: "<strong>هلايو / بند ڪريو (▶ / ⏹):</strong> تلاوت شروع ڪري ٿو.",
+        audioPausePoint: "<strong>وقفو / جاري رکو (⏸ / ▶):</strong> آڊيو عارضي طور روڪي ٿو.", audioVersePoint: "انفرادي آيت ٻڌڻ جو بٽڻ.",
+        txtVersesHeading: "آيت ڪارڊ", secVersesDesc: "توهان جي ترقي کي ٽريڪ ڪري ٿو.",
+        txtViewsHeading: "ڏسڻ جا طريقا", secVersesDesc: "طريقن جي وچ ۾ سوئچ ڪريو.",
+        backHomeLink: "← واپس هوم پيج تي وڃو"
+      },
+      sv: {
+        pageTitle: "Hur man använder — Koraninlärningsapp", headerTitle: "Hur man använder", headerSub: "Användarguide",
+        introHeading: "Välkommen till Koraninlärningsappen", introDesc: "Denna guide förklarar inställningar och ljudkontroll.",
+        txtSettingsHeading: "Inställningspanel", secSettingsDesc: "Tryck på <strong>Select</strong>-knappen för att öppna menyn.",
+        txtAudioHeading: "Ljudkontroller", audioPlayPoint: "<strong>Spela upp / Stoppa alla (▶ / ⏹):</strong> Startar recitationen.",
+        audioPausePoint: "<strong>Paus / Fortsätt (⏸ / ▶):</strong> Pausar uppspelningen.", audioVersePoint: "Individuell verslyssningsknapp.",
+        txtVersesHeading: "Verskort", secVersesDesc: "Spårar dina framsteg dynamiskt.",
+        txtViewsHeading: "Visningslägen", secVersesDesc: "Växla mellan visningslägen.",
+        backHomeLink: "← Tillbaka till koranappen"
+      },
+      tg: {
+        pageTitle: "Тарзи истифода — Барномаи Қуръон", headerTitle: "Тарзи истифода", headerSub: "Дастури корбар",
+        introHeading: "Хуш омадед ба барномаи Қуръон", introDesc: "Ин дастур танзимот ва идораи аудиоро шарҳ медиҳад.",
+        txtSettingsHeading: "Лавҳаи танзимот", secSettingsDesc: "Барои кушодани меню тугмаи <strong>Select</strong>-ро пахш кунед.",
+        txtAudioHeading: "Идораи аудио", audioPlayPoint: "<strong>Бозӣ / Қатъи ҳама (▶ / ⏹):</strong> Оғози тиловат.",
+        audioPausePoint: "<strong>Таваққуф / Давом додан (⏸ / ▶):</strong> Таваққуфи пахш.", audioVersePoint: "Тугмаи шунидани ояти алоҳида.",
+        txtVersesHeading: "Кортҳои оятҳо", secVersesDesc: "Пешравии шуморо пайгирӣ мекунад.",
+        txtViewsHeading: "Усулҳои намоиш", secVersesDesc: "Гузариш байни усулҳо.",
+        backHomeLink: "← Бозгашт ба барнома"
+      },
+      th: {
+        pageTitle: "วิธีใช้งาน — แอปอัลกุรอาน", headerTitle: "วิธีใช้งาน", headerSub: "คู่มือผู้ใช้",
+        introHeading: "ยินดีต้อนรับสู่แอปอัลกุรอาน", introDesc: "คู่มือนี้อธิบายวิธีตั้งค่าและการควบคุมเสียง",
+        txtSettingsHeading: "แผงการตั้งค่า", secSettingsDesc: "แตะปุ่ม <strong>Select</strong> เพื่อเปิดเมนู",
+        txtAudioHeading: "การควบคุมเสียง", audioPlayPoint: "<strong>เล่น / หยุดทั้งหมด (▶ / ⏹):</strong> เริ่มการท่องจำ",
+        audioPausePoint: "<strong>หยุดชั่วคราว / เล่นต่อ (⏸ / ▶):</strong> หยุดเสียงชั่วคราว", audioVersePoint: "ปุ่มฟังอายะฮ์รายบุคคล",
+        txtVersesHeading: "การ์ดอายะฮ์", secVersesDesc: "ติดตามความคืบหน้าของคุณ",
+        txtViewsHeading: "โหมดการแสดงผล", secVersesDesc: "สลับระหว่างโหมดต่างๆ",
+        backHomeLink: "← กลับไปยังแอป"
+      },
+      tt: {
+        pageTitle: "Куллану тәртибе — Коръән кушымтасы", headerTitle: "Куллану тәртибе", headerSub: "Кулланучы кулланмасы",
+        introHeading: "Коръән кушымтасына рәхим итегез", introDesc: "Бу кулланма көйләүләрне һәм тавышны идарә итүне аңлата.",
+        txtSettingsHeading: "Көйләүләр панеле", secSettingsDesc: "Менюны ачу өчен <strong>Select</strong> төймәсенә басыгыз.",
+        txtAudioHeading: "Тавыш идарәсе", audioPlayPoint: "<strong>Барысын да уку / Туктату (▶ / ⏹):</strong> Укуны башлый.",
+        audioPausePoint: "<strong>Пауза / Дәвам итү (⏸ / ▶):</strong> Вакытлыча туктатып тора.", audioVersePoint: "Аерым аятьне тыңлау төймәсе.",
+        txtVersesHeading: "Аять карточкалары", secVersesDesc: "Сезнең уңышларыгызны күзәтә.",
+        txtViewsHeading: "Күрсәтү режимнары", secVersesDesc: "Режимнар арасында күчү.",
+        backHomeLink: "← Кушымтага кире кайту"
+      },
+      ug: {
+        pageTitle: "ئىشلىتىش ئۇسۇلى — قۇرئان ئەپى", headerTitle: "ئىشلىتىش ئۇسۇلى", headerSub: "ئىشلەتكۈچى قوللانمىسى",
+        introHeading: "قۇرئان ئەپىگە خۇش كەپسىز", headerDesc: "بۇ قوللانما تەڭشەكلەر ۋە ئاۋاز كونترول قىلىشنى چۈشەندۈرىدۇ.",
+        txtSettingsHeading: "تەڭشەك تاختىسى", secSettingsDesc: "تىزىملىكنى ئېچىش ئۈچۈن <strong>Select</strong> توپچاكىنى بېسىڭ.",
+        txtAudioHeading: "ئاۋاز كونترول قىلىش", audioPlayPoint: "<strong>ھەممىنى ئويناش / توхтаتىش (▶ / ⏹):</strong> تىلاۋەتنى باشلايدۇ.",
+        audioPausePoint: "<strong>ۋاقىتلىق توхтаتىش / داۋاملاشتۇرۇش (⏸ / ▶):</strong> ئاۋازنى توختىتىپ تۇرىدۇ.", audioVersePoint: "تاق ئايەتنى ئاڭلاش توپچاكى.",
+        txtVersesHeading: "ئايەت كارتىلىرى", secVersesDesc: "تەرەققىياتىڭىزنى ئىز قوغلايدۇ.",
+        txtViewsHeading: "كۆرۈنۈش ھالەتلىرى", secVersesDesc: "ھالەتلەر ئارا ئالماشتۇرۇش.",
+        backHomeLink: "← ئەپكە قايتىش"
+      },
+      uz: {
+        pageTitle: "Qanday foydalanish — Qur'on ilovasi", headerTitle: "Qanday foydalanish", headerSub: "Foydalanuvchi qo'llanmasi",
+        introHeading: "Qur'on ilovasiga xush kelibsiz", introDesc: "Ushbu qo'llanma sozlamalar va audio nazoratini tushuntiradi.",
+        txtSettingsHeading: "Sozlamalar paneli", secSettingsDesc: "Menuni ochish uchun <strong>Select</strong> tugmasini bosing.",
+        txtAudioHeading: "Audio boshqaruvi", audioPlayPoint: "<strong>Barchasini ijro etish / To'xtatish (▶ / ⏹):</strong> Tilovatni boshlaydi.",
+        audioPausePoint: "<strong>Pauza / Davom etish (⏸ / ▶):</strong> Ijroni vaqtincha to'xtatadi.", audioVersePoint: "Alohida oyatni eshitish tugmasi.",
+        txtVersesHeading: "Oyat kartochkalari", secVersesDesc: "Rivojlanishingizni kuzatib boradi.",
+        txtViewsHeading: "Ko'rish rejimleri", secVersesDesc: "Rejimlar o'rtasida o'tish.",
+        backHomeLink: "← Ilovaga qaytish"
+      },
+      am: {
+        pageTitle: "እንዴት እንደሚጠቀሙ — የቁርዓን መተግበሪያ", headerTitle: "እንዴት እንደሚጠቀሙ", headerSub: "የተጠቃሚ መመሪያ",
+        introHeading: "ወደ ቁርዓን መተግበሪያ እንኳን በደህና መጡ", introDesc: "ይህ መመሪያ ቅንብሮችን እና የድምፅ ቁጥጥርን ያብራራል::",
+        txtSettingsHeading: "የቅንብሮች ፓነል", secSettingsDesc: "ምናሌውን ለመክፈት <strong>Select</strong> የሚለውን ቁልፍ ይጫኑ::",
+        txtAudioHeading: "የድምፅ መቆጣጠሪያዎች", audioPlayPoint: "<strong>ሁሉንም አጫውት / አቁም (▶ / ⏹):</strong> ንባብ ይጀምራል::",
+        audioPausePoint: "<strong> ለአፍታ አቁም / ቀጥል (⏸ / ▶):</strong> መልሶ ማጫወቱን ለአፍታ ያቆማል::", audioVersePoint: "የግለሰብ አንቀጽ ማዳመጫ ቁልፍ::",
+        txtVersesHeading: "የቁጥር ካርዶች", secVersesDesc: "ሂደትዎን ይከታተላል::",
+        txtViewsHeading: "የዕይታ ሁነታዎች", secVersesDesc: "በሁነታዎች መካከል ይቀያይሩ::",
+        backHomeLink: "← ወደ መተግበሪያው ይመለሱ"
       }
     };
 
-    // Elements to translate: the element id is also the key in `translations`.
-    // TEXT_IDS are set as plain text; HTML_IDS contain markup (e.g. <b>) written by us in `translations`.
-    const TEXT_IDS = [
-      'headerTitle', 'headerSub', 'introHeading', 'introDesc', 'txtSettingsHeading', 'txtAudioHeading',
-      'txtVersesHeading', 'secVersesDesc', 'txtViewsHeading', 'secViewsDesc', 'backHomeLink'
-    ];
-    const HTML_IDS = ['secSettingsDesc', 'audioPlayPoint', 'audioPausePoint', 'audioVersePoint'];
-    const RTL_LANGS = ['ar', 'ur'];
-    const hasLang = code => typeof code === 'string' && Object.prototype.hasOwnProperty.call(translations, code);
-
-    // The main app (index.html) stores the language with JSON.stringify, i.e. the value on disk is "ar"
-    // WITH quotes. Read it as JSON first, and fall back to a plain string, so both formats work.
-    function readSavedLang() {
-      try {
-        const raw = localStorage.getItem(STORAGE_LANG_KEY);
-        if (!raw) return 'en';
-        let val = raw;
-        try { val = JSON.parse(raw); } catch (e) { /* plain string such as: ar */ }
-        return hasLang(val) ? val : 'en';
-      } catch (e) {
-        return 'en'; // localStorage blocked (private mode / cookies disabled)
-      }
-    }
-
     function applyLanguage() {
-      const t = translations[currentLang];
-      const fallback = translations.en;
-      const pick = key => (t[key] !== undefined ? t[key] : fallback[key]);
-      document.title = pick('pageTitle');
+      const t = translations[currentLang] || translations.en;
+      document.title = t.pageTitle;
       document.documentElement.lang = currentLang;
-      document.documentElement.dir = RTL_LANGS.includes(currentLang) ? 'rtl' : 'ltr';
-      TEXT_IDS.forEach(id => { const el = document.getElementById(id); if (el) el.textContent = pick(id); });
-      HTML_IDS.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = pick(id); });
+      document.documentElement.dir = rtlLangs.includes(currentLang) ? 'rtl' : 'ltr';
+
+      document.getElementById('headerTitle').textContent = t.headerTitle;
+      document.getElementById('headerSub').textContent = t.headerSub;
+      document.getElementById('introHeading').textContent = t.introHeading;
+      document.getElementById('introDesc').textContent = t.introDesc;
+      document.getElementById('txtSettingsHeading').textContent = t.txtSettingsHeading;
+      document.getElementById('secSettingsDesc').innerHTML = t.secSettingsDesc;
+      document.getElementById('txtAudioHeading').textContent = t.txtAudioHeading;
+      document.getElementById('audioPlayPoint').innerHTML = t.audioPlayPoint;
+      document.getElementById('audioPausePoint').innerHTML = t.audioPausePoint;
+      document.getElementById('audioVersePoint').innerHTML = t.audioVersePoint;
+      document.getElementById('txtVersesHeading').textContent = t.txtVersesHeading;
+      document.getElementById('secVersesDesc').textContent = t.secVersesDesc;
+      document.getElementById('txtViewsHeading').textContent = t.txtViewsHeading;
+      document.getElementById('secViewsDesc').textContent = t.secViewsDesc;
+      document.getElementById('backHomeLink').textContent = t.backHomeLink;
     }
 
-    function initLanguage() {
-      currentLang = readSavedLang();
+    window.onload = function() {
+      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
+      if (translations[savedLang]) {
+        currentLang = savedLang;
+      }
       applyLanguage();
-    }
-
-    // Script sits at the end of <body>, so the DOM is ready: apply right away (no flash of the wrong
-    // language, and no waiting for the Tailwind CDN like window.onload would).
-    initLanguage();
-
-    // If the language is changed in another tab/window of the app, follow it live.
-    window.addEventListener('storage', e => {
-      if (e.key === STORAGE_LANG_KEY || e.key === null) initLanguage();
-    });
-    // Restoring the page from the back/forward cache: re-read in case it changed meanwhile.
-    window.addEventListener('pageshow', e => { if (e.persisted) initLanguage(); });
+    };
   </script>
 </body>
 </html>
