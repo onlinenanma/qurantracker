@@ -101,182 +101,539 @@
   <script>
     const STORAGE_LANG_KEY = 'quran_hifz_lang';
     let currentLang = 'en';
+    const rtlLangs = ['ar', 'ur', 'fa', 'ku', 'sd', 'ug'];
 
     const translations = {
       en: {
-        pageTitle: "Memorisation Plans & Guide — Quran Learning App",
-        headerTitle: "Memorisation Plans & Guide",
-        headerSub: "Structured Plans & Teaching Guidelines",
-        introHeading: "Structured Memorisation & Teaching Framework",
-        introDesc: "Consistent revision and structured daily targets are essential for long-term Quran retention (Hifz). This page provides structured plans for independent learners alongside practical coaching strategies for parents and teachers.",
-        txtPlanHeading: "General Memorisation Plans",
-        planBeginnerTitle: "Beginner Plan",
-        planBeginnerDesc: "Focuses on short surahs (Juz Amma). Memorize 3 to 5 lines or 1 short verse per day with high repetition using the app audio tool.",
-        planIntermediateTitle: "Intermediate Plan",
-        planIntermediateDesc: "Target half a page to 1 full page per day. Dedicate 60% of study time to new memorization and 40% to reviewing past lessons.",
-        planAdvancedTitle: "Advanced / Intensive",
-        planAdvancedDesc: "Aim for 1 to 2 pages daily utilizing the daily page range (Wird) tool. Strict weekly consolidation loops to prevent forgetting.",
-        txtGuideHeading: "Guide for Teachers & Parents",
-        guideStep1Title: "1. Establish a Routine",
-        guideStep1Desc: "Practice at the same time every day—ideally early in the morning after Fajr when the mind is fresh and free from distractions.",
-        guideStep2Title: "2. Use Chunking & Repetition",
-        guideStep2Desc: "Break long verses into small phrases. Use the app's repetition counter set to 5 or 10 repeats per phrase before linking them together.",
-        guideStep3Title: "3. Listen Before Reading",
-        guideStep3Desc: "Have the student listen to expert reciters (like Al-Husary or Alafasy) 3 times to absorb correct Makharij (pronunciation) and Tajweed rules before attempting recitation.",
-        guideStep4Title: "4. Daily & Weekly Revision (Muraja'ah)",
-        guideStep4Desc: "Never skip revision. A good student spends more time revising old portions than memorizing new ones. Log daily sessions using the progress tracking table.",
+        pageTitle: "Memorisation Plans & Guide — Quran Learning App", headerTitle: "Memorisation Plans & Guide", headerSub: "Structured Plans & Teaching Guidelines",
+        introHeading: "Structured Memorisation & Teaching Framework", introDesc: "Consistent revision and structured daily targets are essential for long-term Quran retention (Hifz). This page provides structured plans for independent learners alongside practical coaching strategies for parents and teachers.",
+        txtPlanHeading: "General Memorisation Plans", planBeginnerTitle: "Beginner Plan", planBeginnerDesc: "Focuses on short surahs (Juz Amma). Memorize 3 to 5 lines or 1 short verse per day with high repetition using the app audio tool.",
+        planIntermediateTitle: "Intermediate Plan", planIntermediateDesc: "Target half a page to 1 full page per day. Dedicate 60% of study time to new memorization and 40% to reviewing past lessons.",
+        planAdvancedTitle: "Advanced / Intensive", planAdvancedDesc: "Aim for 1 to 2 pages daily utilizing the daily page range (Wird) tool. Strict weekly consolidation loops to prevent forgetting.",
+        txtGuideHeading: "Guide for Teachers & Parents", guideStep1Title: "1. Establish a Routine", guideStep1Desc: "Practice at the same time every day—ideally early in the morning after Fajr when the mind is fresh and free from distractions.",
+        guideStep2Title: "2. Use Chunking & Repetition", guideStep2Desc: "Break long verses into small phrases. Use the app's repetition counter set to 5 or 10 repeats per phrase before linking them together.",
+        guideStep3Title: "3. Listen Before Reading", guideStep3Desc: "Have the student listen to expert reciters (like Al-Husary or Alafasy) 3 times to absorb correct Makharij (pronunciation) and Tajweed rules before attempting recitation.",
+        guideStep4Title: "4. Daily & Weekly Revision (Muraja'ah)", guideStep4Desc: "Never skip revision. A good student spends more time revising old portions than memorizing new ones. Log daily sessions using the progress tracking table.",
         backHomeLink: "← Back to Quran Learning App"
       },
       ar: {
-        pageTitle: "خطط الحفظ والإرشادات — تطبيق حفظ القرآن",
-        headerTitle: "خطط الحفظ وإرشادات التدريس",
-        headerSub: "خطط منظمة وإرشادات للأولياء والمعلمين",
-        introHeading: "إطار عمل منظم للحفظ والتعليم",
-        introDesc: "تعتبر المراجعة المستمرة والأهداف اليومية المنظمة أمرًا أساسيًا لحفظ القرآن الكريم على المدى الطويل. توفر هذه الصفحة خططًا منظمة للمتعلمين إلى جانب استراتيجيات تدريس عملية لأولياء الأمور والمعلمين.",
-        txtPlanHeading: "خطط الحفظ العامة",
-        planBeginnerTitle: "خطة المبتدئين",
-        planBeginnerDesc: "التركيز على السور القصيرة (جزء عم). حفظ من 3 إلى 5 أسطر أو آية قصيرة واحدة يوميًا مع تكرار عالٍ باستخدام أداة التطبيق الصوتية.",
-        planIntermediateTitle: "خطة المتوسطين",
-        planIntermediateDesc: "استهداف نصف صفحة إلى صفحة كاملة يوميًا. تخصيص 60% من وقت الدراسة للحفظ الجديد و 40% لمراجعة الدروس السابقة.",
-        planAdvancedTitle: "المستوى المتقدم / المكثف",
-        planAdvancedDesc: "استهداف صفحة إلى صفحتين يوميًا باستخدام أداة نطاق الصفحات اليومية (الورد). حلقات ترسيخ أسبوعية صارمة لمنع النسيان.",
-        txtGuideHeading: "دليل المعلمين وأولياء الأمور",
-        guideStep1Title: "1. إرساء روتين ثابت",
-        guideStep1Desc: "التدريب في نفس الوقت كل يوم - ويفضل في الصباح الباكر بعد الفجر عندما يكون الذهن صافياً وخالياً من المشتتات.",
-        guideStep2Title: "2. التجزئة والتكرار",
-        guideStep2Desc: "تقسيم الآيات الطويلة إلى مقاطع صغيرة. استخدام عداد التكرار في التطبيق لضبط 5 أو 10 تكرارات لكل مقطع قبل ربطها ببعضها.",
-        guideStep3Title: "3. الاستماع قبل القراءة",
-        guideStep3Desc: "اجعل الطالب يستمع إلى القراء الخبراء (مثل الحصري أو العفاسي) 3 مرات لاستيعاب مخارج الحروف الصحيحة وأحكام التجويد قبل محاولة التلاوة.",
-        guideStep4Title: "4. المراجعة اليومية والأسبوعية (المراجعة)",
-        guideStep4Desc: "لا تهمل المراجعة أبدًا. الطالب المجتهد يقضي وقتًا في مراجعة الأجزاء القديمة أكثر من حفظ أجزاء جديدة. سجل الجلسات اليومية باستخدام جدول تتبع التقدم.",
+        pageTitle: "خطط الحفظ والإرشادات — تطبيق حفظ القرآن", headerTitle: "خطط الحفظ والإرشادات", headerSub: "خطط منظمة وإرشادات للأولياء والمعلمين",
+        introHeading: "إطار عمل منظم للحفظ والتعليم", introDesc: "تعتبر المراجعة المستمرة والأهداف اليومية المنظمة أمرًا أساسيًا لحفظ القرآن الكريم على المدى الطويل. توفر هذه الصفحة خططًا منظمة للمتعلمين إلى جانب استراتيجيات تدريس عملية لأولياء الأمور والمعلمين.",
+        txtPlanHeading: "خطط الحفظ العامة", planBeginnerTitle: "خطة المبتدئين", planBeginnerDesc: "التركيز على السور القصيرة (جزء عم). حفظ من 3 إلى 5 أسطر أو آية قصيرة واحدة يوميًا مع تكرار عالٍ باستخدام أداة التطبيق الصوتية.",
+        planIntermediateTitle: "خطة المتوسطين", planIntermediateDesc: "استهداف نصف صفحة إلى صفحة كاملة يوميًا. تخصيص 60% من وقت الدراسة للحفظ الجديد و 40% لمراجعة الدروس السابقة.",
+        planAdvancedTitle: "المستوى المتقدم / المكثف", planAdvancedDesc: "استهداف صفحة إلى صفحتين يوميًا باستخدام أداة نطاق الصفحات اليومية (الورد). حلقات ترسيخ أسبوعية صارمة لمنع النسيان.",
+        txtGuideHeading: "دليل المعلمين وأولياء الأمور", guideStep1Title: "1. إرساء روتين ثابت", guideStep1Desc: "التدريب في نفس الوقت كل يوم - ويفضل في الصباح الباكر بعد الفجر عندما يكون الذهن صافياً وخالياً من المشتتات.",
+        guideStep2Title: "2. التجزئة والتكرار", guideStep2Desc: "تقسيم الآيات الطويلة إلى مقاطع صغيرة. استخدام عداد التكرار في التطبيق لضبط 5 أو 10 تكرارات لكل مقطع قبل ربطها ببعضها.",
+        guideStep3Title: "3. الاستماع قبل القراءة", guideStep3Desc: "اجعل الطالب يستمع إلى القراء الخبراء (مثل الحصري أو العفاسي) 3 مرات لاستيعاب مخارج الحروف الصحيحة وأحكام التجويد قبل محاولة التلاوة.",
+        guideStep4Title: "4. المراجعة اليومية والأسبوعية (المراجعة)", guideStep4Desc: "لا تهمل المراجعة أبدًا. الطالب المجتهد يقضي وقتًا في مراجعة الأجزاء القديمة أكثر من حفظ أجزاء جديدة. سجل الجلسات اليومية باستخدام جدول تتبع التقدم.",
         backHomeLink: "← العودة إلى تطبيق القرآن"
       },
       ml: {
-        pageTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും — Quran Learning App",
-        headerTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും",
-        headerSub: "പഠന പ്ലാനുകളും അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള മാർഗ്ഗനിർദ്ദേശങ്ങളും",
-        introHeading: "സംഘടിതമായ ഹിഫ്ള് & അധ്യാപന സംവിധാനം",
-        introDesc: "ഖുർആൻ ദീർഘകാലം ഓർമ്മയിൽ സൂക്ഷിക്കുന്നതിന് കൃത്യമായ റിവിഷനും ദിവസേനയുള്ള ലക്ഷ്യങ്ങളും അത്യാവശ്യമാണ്. ഈ പേജ് പഠിതാക്കൾക്കായി വിവിധ പ്ലാനുകളും രക്ഷിതാക്കൾക്കും അധ്യാപകർക്കും സഹായിക്കുന്ന നിർദ്ദേശങ്ങളും നൽകുന്നു.",
-        txtPlanHeading: "പൊതുവായ ഹിഫ്ള് പ്ലാനുകൾ",
-        planBeginnerTitle: "തുടക്കക്കാർക്കുള്ള പ്ലാൻ",
-        planBeginnerDesc: "ചെറിയ സൂറത്തുകളിൽ (ജുസ്അ് അമ്മ) ശ്രദ്ധ കേന്ദ്രീകരിക്കുക. ദിവസവും 3 മുതൽ 5 വരികൾ വരെ അല്ലെങ്കിൽ 1 ചെറിയ ആയത്ത് ആപ്പിലെ ഓഡിയോ ടൂൾ ഉപയോഗിച്ച് ആവർത്തിച്ച് പഠിക്കുക.",
-        planIntermediateTitle: "ഇന്റർമീഡിയറ്റ് പ്ലാൻ",
-        planIntermediateDesc: "ദിവസവും അര പേജ് മുതൽ ഒരു പേജ് വരെ ലക്ഷ്യമിടുക. പഠന സമയത്തിന്റെ 60% പുതിയ ഹിഫ്ളിനും 40% പഴയ പാഠങ്ങൾ റിവിഷൻ ചെയ്യാനും മാറ്റിവെക്കുക.",
-        planAdvancedTitle: "വിപുലമായ / തീവ്രമായ പ്ലാൻ",
-        planAdvancedDesc: "ദൈനംദിന പേജ് റേഞ്ച് (വിർദ്) ടൂൾ ഉപയോഗിച്ച് ദിവസവും 1 മുതൽ 2 പേജ് വരെ പഠിക്കുക. മറവി ഒഴിവാക്കാൻ കൃത്യമായ പ്രതിവാര റിവിഷൻ ഉറപ്പാക്കുക.",
-        txtGuideHeading: "അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള ഗൈഡ്",
-        guideStep1Title: "1. കൃത്യമായ സമയം പാലിക്കുക",
-        guideStep1Desc: "ഓരോ ദിവസവും ഒരേ സമയത്ത് പരിശീലിക്കുക - ഫജ്റിനു ശേഷമുള്ള സമയം മനസ്സ് ശാന്തമായിരിക്കുന്നതിനാൽ ഏറ്റവും അനുയോജ്യമാണ്.",
-        guideStep2Title: "2. ചെറിയ ഭാഗങ്ങളാക്കി ആവർത്തിക്കുക",
-        guideStep2Desc: "നീളമുള്ള ആയത്തുകൾ ചെറിയ ഭാഗങ്ങളായി തിരിക്കുക. ഓരോ ഭാഗവും 5 അല്ലെങ്കിൽ 10 തവണ ആപ്പിലെ റിപ്പീറ്റ് കൗണ്ടർ ഉപയോഗിച്ച് ആവർത്തിക്കുക.",
-        guideStep3Title: "3. വായിക്കുന്നതിന് മുമ്പ് കേൾക്കുക",
-        guideStep3Desc: "വായിക്കാൻ ശ്രമിക്കുന്നതിന് മുമ്പ് ഖാരിഉമാരുടെ (ഹുസരി, അഫാസി തുടങ്ങിയവർ) പാരായണം 3 തവണ കേട്ട് ശരിയായ ഉച്ചാരണവും (മഖാരിജ്) താജ്വീദും മനസ്സിലാക്കുക.",
-        guideStep4Title: "4. ദിവസേനയുള്ള റിവിഷൻ (മുറാജഅ)",
-        guideStep4Desc: "റിവിഷൻ ഒരിക്കലും ഒഴിവാക്കരുത്. പുതിയ ആയത്തുകൾ പഠിക്കുന്നതിനേക്കാൾ കൂടുതൽ സമയം പഴയ ഭാഗങ്ങൾ റിവിഷൻ ചെയ്യാൻ നല്ല വിദ്യാർത്ഥികൾ മാറ്റിവെക്കുന്നു.",
+        pageTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും — Quran Learning App", headerTitle: "ഹിഫ്ള് പ്ലാനുകളും ഗൈഡും", headerSub: "പഠന പ്ലാനുകളും അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള മാർഗ്ഗനിർദ്ദേശങ്ങളും",
+        introHeading: "സംഘടിതമായ ഹിഫ്ള് & അധ്യാപന സംവിധാനം", introDesc: "ഖുർആൻ ദീർഘകാലം ഓർമ്മയിൽ സൂക്ഷിക്കുന്നതിന് കൃത്യമായ റിവിഷനും ദിവസേനയുള്ള ലക്ഷ്യങ്ങളും അത്യാവശ്യമാണ്. ഈ പേജ് പഠിതാക്കൾക്കായി വിവിധ പ്ലാനുകളും രക്ഷിതാക്കൾക്കും അധ്യാപകർക്കും സഹായിക്കുന്ന നിർദ്ദേശങ്ങളും നൽകുന്നു.",
+        txtPlanHeading: "പൊതുവായ ഹിഫ്ള് പ്ലാനുകൾ", planBeginnerTitle: "തുടക്കക്കാർക്കുള്ള പ്ലാൻ", planBeginnerDesc: "ചെറിയ സൂറത്തുകളിൽ (ജുസ്അ് അമ്മ) ശ്രദ്ധ കേന്ദ്രീകരിക്കുക. ദിവസവും 3 മുതൽ 5 വരികൾ വരെ അല്ലെങ്കിൽ 1 ചെറിയ ആയത്ത് ആപ്പിലെ ഓഡിയോ ടൂൾ ഉപയോഗിച്ച് ആവർത്തിച്ച് പഠിക്കുക.",
+        planIntermediateTitle: "ഇന്റർമീഡിയറ്റ് പ്ലാൻ", planIntermediateDesc: "ദിവസവും അര പേജ് മുതൽ ഒരു പേജ് വരെ ലക്ഷ്യമിടുക. പഠന സമയത്തിന്റെ 60% പുതിയ ഹിഫ്ളിനും 40% പഴയ പാഠങ്ങൾ റിവിഷൻ ചെയ്യാനും മാറ്റിവെക്കുക.",
+        planAdvancedTitle: "വിപുലമായ / തീവ്രമായ പ്ലാൻ", planAdvancedDesc: "ദൈനംദിന പേജ് റേഞ്ച് (വിർദ്) ടൂൾ ഉപയോഗിച്ച് ദിവസവും 1 മുതൽ 2 പേജ് വരെ പഠിക്കുക. മറവി ഒഴിവാക്കാൻ കൃത്യമായ പ്രതിവാര റിവിഷൻ ഉറപ്പാക്കുക.",
+        txtGuideHeading: "അധ്യാപകർക്കും രക്ഷിതാക്കൾക്കുമുള്ള ഗൈഡ്", guideStep1Title: "1. കൃത്യമായ സമയം പാലിക്കുക", guideStep1Desc: "ഓരോ ദിവസവും ഒരേ സമയത്ത് പരിശീലിക്കുക - ഫജ്റിനു ശേഷമുള്ള സമയം മനസ്സ് ശാന്തമായിരിക്കുന്നതിനാൽ ഏറ്റവും അനുയോജ്യമാണ്.",
+        guideStep2Title: "2. ചെറിയ ഭാഗങ്ങളാക്കി ആവർത്തിക്കുക", guideStep2Desc: "നീളമുള്ള ആയത്തുകൾ ചെറിയ ഭാഗങ്ങളായി തിരിക്കുക. ഓരോ ഭാഗവും 5 അല്ലെങ്കിൽ 10 തവണ ആപ്പിലെ റിപ്പീറ്റ് കൗണ്ടർ ഉപയോഗിച്ച് ആവർത്തിക്കുക.",
+        guideStep3Title: "3. വായിക്കുന്നതിന് മുമ്പ് കേൾക്കുക", guideStep3Desc: "വായിക്കാൻ ശ്രമിക്കുന്നതിന് മുമ്പ് ഖാരിഉമാരുടെ (ഹുസരി, അഫാസി തുടങ്ങിയവർ) പാരായണം 3 തവണ കേട്ട് ശരിയായ ഉച്ചാരണവും (മഖാരിജ്) താജ്വീദും മനസ്സിലാക്കുക.",
+        guideStep4Title: "4. ദിവസേനയുള്ള റിവിഷൻ (മുറാജഅ)", guideStep4Desc: "റിവിഷൻ ഒരിക്കലും ഒഴിവാക്കരുത്. പുതിയ ആയത്തുകൾ പഠിക്കുന്നതിനേക്കാൾ കൂടുതൽ സമയം പഴയ ഭാഗങ്ങൾ റിവിഷൻ ചെയ്യാൻ നല്ല വിദ്യാർത്ഥികൾ മാറ്റിവെക്കുന്നു.",
         backHomeLink: "← ഹോം പേജിലേക്ക് മടങ്ങുക"
       },
       ur: {
-        pageTitle: "حفظ کے منصوبے اور رہنمائی — قرآن لرننگ ایپ",
-        headerTitle: "حفظ کے منصوبے اور رہنمائی",
-        headerSub: "ترتیب وار منصوبے اور اساتذہ و والدین کے لیے ہدایات",
-        introHeading: "منظم حفظ اور تدریسی فریم ورک",
-        introDesc: "قرآن پاک کو طویل عرصے تک یاد رکھنے کے لیے باقاعدہ دہرائی (تلفظ و مراجعت) اور روزانہ کے مقررہ اہداف بہت ضروری ہیں۔ یہ صفحہ سیکھنے والوں کے لیے جامع منصوبے اور والدین و اساتذہ کے لیے عملی حکمت عملی فراہم کرتا ہے۔",
-        txtPlanHeading: "عمومی حفظ کے منصوبے",
-        planBeginnerTitle: "بتدائی منصوبہ",
-        planBeginnerDesc: "مختصر سورتوں (پارہ عم) پر توجہ دیں۔ ایپ کے آڈیو ٹول کا استعمال کرتے ہوئے روزانہ 3 سے 5 سطریں یا 1 چھوٹی آیت کثرت سے دہرائیں۔",
-        planIntermediateTitle: "متوسط منصوبہ",
-        planIntermediateDesc: "روزانہ آدھے صفحے سے ایک پورے صفحے کا ہدف رکھیں۔ مطالعہ کے وقت کا 60 فیصد حصہ نئے حفظ کے لیے اور 40 فیصد پرانے اسباب کی دہرائی کے لیے وقف کریں۔",
-        planAdvancedTitle: "اعلیٰ / تفصیلی منصوبہ",
-        planAdvancedDesc: "روزانہ صفحہ کی حد (ورد) کے ٹूल کا استعمال کرتے ہوئے روزانہ 1 سے 2 صفحات کا ہدف رکھیں۔ بھولنے سے بچنے کے لیے سختی سے ہفتہ وار دہرائی کریں۔",
-        txtGuideHeading: "اساتذہ اور والدین کے لیے گائیڈ",
-        guideStep1Title: "1. ایک معمول قائم کریں",
-        guideStep1Desc: "ہر روز ایک ہی وقت پر مشق کریں — ترجیحاً فجر کے بعد صبح سویرے جب ذہن تازہ اور خلفشار سے پاک ہو۔",
-        guideStep2Title: "2. ٹکڑوں میں تقسیم اور تکرار",
-        guideStep2Desc: "لمبی آیات کو چھوٹے فقروں میں تقسیم کریں۔ انہیں آپس میں ملانے سے پہلے ایپ کے تکرار کاؤنٹر کو ہر فقرے پر 5 یا 10 بار دہرانے کے لیے استعمال کریں۔",
-        guideStep3Title: "3. پڑھنے سے پہلے سنیں",
-        guideStep3Desc: "طالب علم کو تلاوت کرنے کی کوشش کرنے سے پہلے ماہر قاریوں (جیسے الحصری یا العفاسی) کو 3 بار سنیں تاکہ درست مخارج اور تجوید کے اصول سمجھ آ سکیں۔",
-        guideStep4Title: "4. روزانہ اور ہفتہ وار دہرائی (مراجعت)",
-        guideStep4Desc: "دہرائی کو کبھی نہ چھوڑیں۔ ایک اچھا طالب علم نیا حفظ کرنے سے زیادہ پرانے حصوں کی دہرائی پر وقت صرف کرتا ہے۔ پیشرفت ٹریکنگ ٹیبل کا استعمال کرتے ہوئے روزانہ کے سیشن لاگ کریں۔",
+        pageTitle: "حفظ کے منصوبے اور رہنمائی — قرآن لرننگ ایپ", headerTitle: "حفظ کے منصوبے اور رہنمائی", headerSub: "ترتیب وار منصوبے اور اساتذہ و والدین کے لیے ہدایات",
+        introHeading: "منظم حفظ اور تدریسی فریم ورک", introDesc: "قرآن پاک کو طویل عرصے تک یاد رکھنے کے لیے باقاعدہ دہرائی (تلفظ و مراجعت) اور روزانہ کے مقررہ اہداف بہت ضروری ہیں۔ یہ صفحہ سیکھنے والوں کے لیے جامع منصوبے اور والدین و اساتذہ کے لیے عملی حکمت عملی فراہم کرتا ہے۔",
+        txtPlanHeading: "عمومی حفظ کے منصوبے", planBeginnerTitle: "بتدائی منصوبہ", planBeginnerDesc: "مختصر سورتوں (پارہ عم) پر توجہ دیں۔ ایپ کے آڈیو ٹول کا استعمال کرتے ہوئے روزانہ 3 سے 5 سطریں یا 1 چھوٹی آیت کثرت سے دہرائیں۔",
+        planIntermediateTitle: "متوسط منصوبہ", planIntermediateDesc: "روزانہ آدھے صفحے سے ایک پورے صفحے کا ہدف رکھیں۔ مطالعہ کے وقت کا 60 فیصد حصہ نئے حفظ کے لیے اور 40 فیصد پرانے اسباب کی دہرائی کے لیے وقف کریں۔",
+        planAdvancedTitle: "اعلیٰ / تفصیلی منصوبہ", planAdvancedDesc: "روزانہ صفحہ کی حد (ورد) کے ٹूल کا استعمال کرتے ہوئے روزانہ 1 سے 2 صفحات کا ہدف رکھیں۔ بھولنے سے بچنے کے لیے سختی سے ہفتہ وار دہرائی کریں۔",
+        txtGuideHeading: "اساتذہ اور والدین کے لیے گائیڈ", guideStep1Title: "1. ایک معمول قائم کریں", guideStep1Desc: "ہر روز ایک ہی وقت پر مشق کریں — ترجیحاً فجر کے بعد صبح سویرے جب ذہن تازہ اور خلفشار سے پاک ہو۔",
+        guideStep2Title: "2. ٹکڑوں میں تقسیم اور تکرار", guideStep2Desc: "لمبی آیات کو چھوٹے فقروں میں تقسیم کریں۔ انہیں آپس میں ملانے سے پہلے ایپ کے تکرار کاؤنٹر کو ہر فقرے پر 5 یا 10 بار دہرانے کے لیے استعمال کریں۔",
+        guideStep3Title: "3. پڑھنے سے پہلے سنیں", guideStep3Desc: "طالب علم کو تلاوت کرنے کی کوشش کرنے سے پہلے ماہر قاریوں (جیسے الحصری یا العفاسی) کو 3 بار سنیں تاکہ درست مخارج اور تجوید کے اصول سمجھ آ سکیں۔",
+        guideStep4Title: "4. روزانہ اور ہفتہ وار دہرائی (مراجعت)", guideStep4Desc: "دہرائی کو کبھی نہ چھوڑیں۔ ایک اچھا طالب علم نیا حفظ کرنے سے زیادہ پرانے حصوں کی دہرائی پر وقت صرف کرتا ہے۔ پیشرفت ٹریکنگ ٹیبل کا استعمال کرتے ہوئے روزانہ کے سیشن لاگ کریں۔",
         backHomeLink: "← واپس ہوم پیج پر جائیں"
       },
       bn: {
-        pageTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা — কুরআন লার্নিং অ্যাপ",
-        headerTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা",
-        headerSub: "পরিকল্পিত হিফজ এবং শিক্ষক-অভিভাবকদের জন্য নির্দেশিকা",
-        introHeading: "সুশৃঙ্খল হিফজ ও শিক্ষাদান কাঠামো",
-        introDesc: "দীর্ঘমেয়াদে কুরআন সংরক্ষণের জন্য নিয়মিত পুনরাবৃত্তি এবং দৈনিক লক্ষ্যমাত্রা অত্যন্ত জরুরি। এই পৃষ্ঠাটি স্বাধীন শিক্ষার্থীদের জন্য কাঠামোগত পরিকল্পনা এবং শিক্ষক-অভিভাবকদের জন্য কার্যকর কোচিং কৌশল প্রদান করে।",
-        txtPlanHeading: "সাধারণ হিফজ পরিকল্পনা",
-        planBeginnerTitle: "প্রাথমিক পরিকল্পনা",
-        planBeginnerDesc: "ছোট সুরাগুলোতে (আম্মা পারা) ফোকাস করুন। অ্যাপের অডিও টুল ব্যবহার করে উচ্চ পুনরাবৃত্তির মাধ্যমে প্রতিদিন ৩ থেকে ৫ লাইন বা ১টি ছোট আয়াত মুখস্থ করুন।",
-        planIntermediateTitle: "মধ্যবর্তী পরিকল্পনা",
-        planIntermediateDesc: "প্রতিদিন অর্ধেক পৃষ্ঠা থেকে ১ পূর্ণ পৃষ্ঠা লক্ষ্য করুন। অধ্যয়নের সময়ের ৬০% নতুন হিফজে এবং ৪০% পূর্ববর্তী পাঠ পর্যালোচনার জন্য উৎসর্গ করুন।",
-        planAdvancedTitle: "উন্নত / নিবিড় পরিকল্পনা",
-        planAdvancedDesc: "দৈনিক পৃষ্ঠা পরিসীমা (উর্দ) টুল ব্যবহার করে প্রতিদিন ১ থেকে ২ পৃষ্ঠা লক্ষ্য করুন। ভুলে যাওয়া রোধ করতে কঠোর সাপ্তাহিক রিভিশন লুপ বজায় রাখুন।",
-        txtGuideHeading: "শিক্ষক ও অভিভাবকদের জন্য নির্দেশিকা",
-        guideStep1Title: "1. একটি রুটিন তৈরি করুন",
-        guideStep1Desc: "প্রতিদিন একই সময়ে অভ্যাস করুন—আদর্শভাবে ফজর নামাজের পরে খুব ভোরে যখন মন সতেজ এবং বিভ্রান্তিমুক্ত থাকে।",
-        guideStep2Title: "2. ছোট অংশে ভাগ করে পুনরাবৃত্তি করুন",
-        guideStep2Desc: "দীর্ঘ আয়াতগুলোকে ছোট বাক্যাংশে ভাগ করুন। একত্রিত করার আগে অ্যাপের রিপিট কাউন্টার প্রতি বাক্যাংশে ৫ বা ১০ বার পুনরাবৃত্তিতে সেট করুন।",
-        guideStep3Title: "3. পড়ার আগে শুনুন",
-        guideStep3Desc: "তিলাওয়াত করার চেষ্টা করার আগে শিক্ষার্থীকে দক্ষ কারীদের (যেমন আল-হুসারী বা আল-আফাসী) ৩ বার শুনতে বলুন যাতে সঠিক মাখরাজ ও তাজবীদ আয়ত্ত করা যায়।",
-        guideStep4Title: "4. দৈনিক ও সাপ্তাহিক সংশোধন (মুরাজা'আহ)",
-        guideStep4Desc: "রিভিশন কখনই বাদ দেবেন না। একজন ভালো শিক্ষার্থী নতুন মুখস্থ করার চেয়ে পুরানো অংশ রিভিশন করতে বেশি সময় ব্যয় করে। অগ্রগতি ট্র্যাকিং টেবিল ব্যবহার করে দৈনিক সেশন লগ করুন।",
+        pageTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা — কুরআন লার্নিং অ্যাপ", headerTitle: "হিফজ পরিকল্পনা ও নির্দেশিকা", headerSub: "পরিকল্পিত হিফজ এবং শিক্ষক-অভিভাবকদের জন্য নির্দেশিকা",
+        introHeading: "সুশৃঙ্খল হিফজ ও শিক্ষাদান কাঠামো", introDesc: "দীর্ঘমেয়াদে কুরআন সংরক্ষণের জন্য নিয়মিত পুনরাবৃত্তি এবং দৈনিক লক্ষ্যমাত্রা অত্যন্ত জরুরি। এই পৃষ্ঠাটি স্বাধীন শিক্ষার্থীদের জন্য কাঠামোগত পরিকল্পনা এবং শিক্ষক-অভিভাবকদের জন্য কার্যকর কোচিং কৌশল প্রদান করে।",
+        txtPlanHeading: "সাধারণ হিফজ পরিকল্পনা", planBeginnerTitle: "প্রাথমিক পরিকল্পনা", planBeginnerDesc: "ছোট সুরাগুলোতে (আম্মা পারা) ফোকাস করুন। অ্যাপের অডিও টুল ব্যবহার করে উচ্চ পুনরাবৃত্তির মাধ্যমে প্রতিদিন ৩ থেকে ৫ লাইন বা ১টি ছোট আয়াত মুখস্থ করুন।",
+        planIntermediateTitle: "মধ্যবর্তী পরিকল্পনা", planIntermediateDesc: "প্রতিদিন অর্ধেক পৃষ্ঠা থেকে ১ পূর্ণ পৃষ্ঠা লক্ষ্য করুন। অধ্যয়নের সময়ের ৬০% নতুন হিফজে এবং ৪০% পূর্ববর্তী পাঠ পর্যালোচনার জন্য উৎসর্গ করুন।",
+        planAdvancedTitle: "উন্নত / নিবিড় পরিকল্পনা", planAdvancedDesc: "দৈনিক পৃষ্ঠা পরিসীমা (উর্দ) টুল ব্যবহার করে প্রতিদিন ১ থেকে ২ পৃষ্ঠা লক্ষ্য করুন। ভুলে যাওয়া রোধ করতে কঠোর সাপ্তাহিক রিভিশন লুপ বজায় রাখুন।",
+        txtGuideHeading: "শিক্ষক ও অভিভাবকদের জন্য নির্দেশিকা", guideStep1Title: "1. একটি রুটিন তৈরি করুন", guideStep1Desc: "প্রতিদিন একই সময়ে অভ্যাস করুন—আদর্শভাবে ফজর নামাজের পরে খুব ভোরে যখন মন সতেজ এবং বিভ্রান্তিমুক্ত থাকে।",
+        guideStep2Title: "2. ছোট অংশে ভাগ করে পুনরাবৃত্তি করুন", guideStep2Desc: "দীর্ঘ আয়াতগুলোকে ছোট বাক্যাংশে ভাগ করুন। একত্রিত করার আগে অ্যাপের রিপিট কাউন্টার প্রতি বাক্যাংশে ৫ বা ১০ বার পুনরাবৃত্তিতে সেট করুন।",
+        guideStep3Title: "3. পড়ার আগে শুনুন", guideStep3Desc: "তিলাওয়াত করার চেষ্টা করার আগে শিক্ষার্থীকে দক্ষ কারীদের (যেমন আল-হুসারী বা আল-আফাসী) ৩ বার শুনতে বলুন যাতে সঠিক মাখরাজ ও তাজবীদ আয়ত্ত করা যায়।",
+        guideStep4Title: "4. দৈনিক ও সাপ্তাহিক সংশোধন (মুরাজা'আহ)", guideStep4Desc: "রিভিশন কখনই বাদ দেবেন না। একজন ভালো শিক্ষার্থী নতুন মুখস্থ করার চেয়ে পুরানো অংশ রিভিশন করতে বেশি সময় ব্যয় করে। অগ্রগতি ট্র্যাকিং টেবিল ব্যবহার করে দৈনিক সেশন লগ করুন।",
         backHomeLink: "← মূল পাতায় ফিরে যান"
+      },
+      fr: {
+        pageTitle: "Plans de mémorisation — Application Coran", headerTitle: "Plans de mémorisation", headerSub: "Guides & Directives",
+        introHeading: "Cadre de mémorisation structuré", introDesc: "Ce guide propose des plans pour apprenants et enseignants.",
+        txtPlanHeading: "Plans de mémorisation généraux", planBeginnerTitle: "Plan Débutant", planBeginnerDesc: "Mémorisez 3 à 5 lignes par jour avec répétition.",
+        planIntermediateTitle: "Plan Intermédiaire", planIntermediateDesc: "Objectif de 1/2 à 1 page par jour.",
+        planAdvancedTitle: "Plan Avancé", planAdvancedDesc: "Viser 1 à 2 pages par jour.",
+        txtGuideHeading: "Guide pour enseignants & parents", guideStep1Title: "1. Établir une routine", guideStep1Desc: "Pratiquez chaque jour à la même heure.",
+        guideStep2Title: "2. Découpage et répétition", guideStep2Desc: "Répétez 5 à 10 fois chaque phrase.",
+        guideStep3Title: "3. Écouter avant de lire", guideStep3Desc: "Écoutez les récitateurs 3 fois.",
+        guideStep4Title: "4. Révision quotidienne", guideStep4Desc: "Consacrez du temps à la révision.",
+        backHomeLink: "← Retour à l'application"
+      },
+      es: {
+        pageTitle: "Planes de Memorización — Aplicación del Corán", headerTitle: "Planes de Memorización", headerSub: "Planes estructurados y guía",
+        introHeading: "Marco de memorización estructurado", introDesc: "Esta página proporciona planes para estudiantes y profesores.",
+        txtPlanHeading: "Planes de memorización generales", planBeginnerTitle: "Plan Principiante", planBeginnerDesc: "Memoriza de 3 a 5 líneas por día con repetición.",
+        planIntermediateTitle: "Plan Intermedio", planIntermediateDesc: "Objetivo de media página a 1 página diaria.",
+        planAdvancedTitle: "Plan Avanzado", planAdvancedDesc: "Objetivo de 1 a 2 páginas diarias.",
+        txtGuideHeading: "Guía para profesores y padres", guideStep1Title: "1. Establecer una rutina", guideStep1Desc: "Practique a la misma hora todos los días.",
+        guideStep2Title: "2. Fragmentación y repetición", guideStep2Desc: "Usa el contador de repeticiones.",
+        guideStep3Title: "3. Escuchar antes de leer", guideStep3Desc: "Escuche recitadores expertos.",
+        guideStep4Title: "4. Revisión diaria y semanal", guideStep4Desc: "Dedique tiempo a revisar.",
+        backHomeLink: "← Volver a la aplicación"
+      },
+      de: {
+        pageTitle: "Auswendiglernpläne — Koran-App", headerTitle: "Auswendiglernpläne", headerSub: "Strukturierte Pläne",
+        introHeading: "Strukturiertes Rahmensystem", introDesc: "Regelmäßige Wiederholung ist essenziell.",
+        txtPlanHeading: "Allgemeine Lernpläne", planBeginnerTitle: "Anfängerplan", planBeginnerDesc: "Lernen Sie 3 bis 5 Zeilen täglich.",
+        planIntermediateTitle: "Mittelstufenplan", planIntermediateDesc: "Ziel: 1/2 bis 1 Seite täglich.",
+        planAdvancedTitle: "Fortgeschrittenenplan", planAdvancedDesc: "Ziel: 1 bis 2 Seiten täglich.",
+        txtGuideHeading: "Leitfaden für Lehrer & Eltern", guideStep1Title: "1. Routine etablieren", guideStep1Desc: "Üben Sie täglich zur gleichen Zeit.",
+        guideStep2Title: "2. Wiederholung", guideStep2Desc: "Nutzen Sie Wiederholungszähler.",
+        guideStep3Title: "3. Vor dem Lesen hören", guideStep3Desc: "Hören Sie Rezitatoren zu.",
+        guideStep4Title: "4. Tägliche Revision", guideStep4Desc: "Wiederholen Sie regelmäßig.",
+        backHomeLink: "← Zurück zur Koran-App"
+      },
+      id: {
+        pageTitle: "Rencana Hafalan — Aplikasi Al-Qur'an", headerTitle: "Rencana Hafalan & Panduan", headerSub: "Rencana Terstruktur",
+        introHeading: "Kerangka Hafalan Terstruktur", introDesc: "Muraja'ah konsisten sangat penting untuk hafalan jangka panjang.",
+        txtPlanHeading: "Rencana Hafalan Umum", planBeginnerTitle: "Paket Pemula", planBeginnerDesc: "Hafalkan 3 sampai 5 baris per hari.",
+        planIntermediateTitle: "Paket Menengah", planIntermediateDesc: "Target setengah hingga 1 halaman penuh per hari.",
+        planAdvancedTitle: "Paket Lanjutan", planIntermediateDesc: "Target 1 hingga 2 halaman per hari.",
+        txtGuideHeading: "Panduan Guru & Orang Tua", guideStep1Title: "1. Buat Rutinitas", guideStep1Desc: "Berlatihlah di waktu yang sama setiap hari.",
+        guideStep2Title: "2. Chunking & Pengulangan", guideStep2Desc: "Gunakan penghitung pengulangan.",
+        guideStep3Title: "3. Dengarkan Sebelum Membaca", guideStep3Desc: "Dengarkan qari ahli terlebih dahulu.",
+        guideStep4Title: "4. Muraja'ah Harian", guideStep4Desc: "Jangan pernah lewatkan muraja'ah.",
+        backHomeLink: "← Kembali ke Aplikasi"
+      },
+      tr: {
+        pageTitle: "Ezberleme Planları — Kur'an Uygulaması", headerTitle: "Ezberleme Planları ve Kılavuz", headerSub: "Yapılandırılmış Planlar",
+        introHeading: "Yapılandırılmış Ezber Çerçevesi", introDesc: "Düzenli tekrar uzun vadeli hıfz için esastır.",
+        txtPlanHeading: "Genel Ezber Planları", planBeginnerTitle: "Başlangıç Planı", planBeginnerDesc: "Günde 3-5 satır ezberleyin.",
+        planIntermediateTitle: "Orta Düzey Plan", planIntermediateDesc: "Günde yarım ila 1 sayfa hedefleyin.",
+        planAdvancedTitle: "İleri Düzey Plan", planAdvancedDesc: "Günde 1-2 sayfa hedefleyin.",
+        txtGuideHeading: "Öğretmen ve Ebeveynler İçin Kılavuz", guideStep1Title: "1. Rutin Oluşturun", guideStep1Desc: "Her gün aynı saatte pratik yapın.",
+        guideStep2Title: "2. Parçalara Ayırma", guideStep2Desc: "Tekrar sayacını kullanın.",
+        guideStep3Title: "3. Okumadan Önce Dinleyin", guideStep3Desc: "Uzman karileri dinleyin.",
+        guideStep4Title: "4. Günlük Tekrar (Muracaat)", guideStep4Desc: "Tekrarı asla atlamayın.",
+        backHomeLink: "← Uygulamaya Geri Dön"
+      },
+      ru: {
+        pageTitle: "Планы заучивания — Приложение Корана", headerTitle: "Планы заучивания", headerSub: "Структурированные планы",
+        introHeading: "Структурированная система заучивания", introDesc: "Регулярное повторение необходимо для долгосрочного запоминания.",
+        txtPlanHeading: "Общие планы заучивания", planBeginnerTitle: "План для начинающих", planBeginnerDesc: "Учите по 3–5 строк в день.",
+        planIntermediateTitle: "Средний план", planIntermediateDesc: "Цель: от половины до 1 страницы в день.",
+        planAdvancedTitle: "Продвинутый план", planAdvancedDesc: "Цель: 1–2 страницы ежедневно.",
+        txtGuideHeading: "Руководство для учителей и родителей", guideStep1Title: "1. Установите режим", guideStep1Desc: "Занимайтесь в одно и то же время.",
+        guideStep2Title: "2. Повторение", guideStep2Desc: "Используйте счетчик повторений.",
+        guideStep3Title: "3. Слушайте перед чтением", guideStep3Desc: "Слушайте профессиональных чтецов.",
+        guideStep4Title: "4. Ежедневное повторение", guideStep4Desc: "Никогда не пропускайте повторение.",
+        backHomeLink: "← Назад к приложению"
+      },
+      fa: {
+        pageTitle: "برنامه‌های حفظ — برنامه قرآن", headerTitle: "برنامه‌های حفظ و راهنما", headerSub: "برنامه‌های ساختاریافته",
+        introHeading: "چارچوب حفظ ساختاریافته", introDesc: "مرور مداوم برای حفظ طولانی مدت قرآن ضروری است.",
+        txtPlanHeading: "برنامه‌های عمومی حفظ", planBeginnerTitle: "برنامه مبتدی", planBeginnerDesc: "روزانه ۳ تا ۵ سطر حفظ کنید.",
+        planIntermediateTitle: "برنامه متوسط", planIntermediateDesc: "هدف‌گذاری نصف تا ۱ صفحه در روز.",
+        planAdvancedTitle: "برنامه پیشرفته", planAdvancedDesc: "هدف‌گذاری ۱ تا ۲ صفحه در روز.",
+        txtGuideHeading: "راهنمای معلمان و والدین", guideStep1Title: "1. ایجاد روال ثابت", guideStep1Desc: "هر روز در یک زمان مشخص تمرین کنید.",
+        guideStep2Title: "2. بخش‌بندی و تکرار", guideStep2Desc: "از شمارنده تکرار استفاده کنید.",
+        guideStep3Title: "3. گوش دادن قبل از خواندن", guideStep3Desc: "به قاریان متخصص گوش دهید.",
+        guideStep4Title: "4. مرور روزانه و هفتگی", guideStep4Desc: "مرور را هرگز فراموش نکنید.",
+        backHomeLink: "← بازگشت به برنامه"
+      },
+      hi: {
+        pageTitle: "कंठस्थ करने की योजना — कुरान ऐप", headerTitle: "कंठस्थ करने की योजना", headerSub: "संरचित योजनाएं",
+        introHeading: "संरचित कंठस्थ ढांचा", introDesc: "नियमित संशोधन लंबे समय तक याद रखने के लिए आवश्यक है।",
+        txtPlanHeading: "सामान्य योजनाएं", planBeginnerTitle: "शुरुआती योजना", planBeginnerDesc: "प्रतिदिन 3 से 5 पंक्तियाँ याद करें।",
+        planIntermediateTitle: "मध्यवर्ती योजना", planIntermediateDesc: "प्रतिदिन आधा से 1 पृष्ठ का लक्ष्य रखें।",
+        planAdvancedTitle: "उन्नत योजना", planAdvancedDesc: "प्रतिदिन 1 से 2 पृष्ठ लक्ष्य रखें।",
+        txtGuideHeading: "शिक्षकों और माता-पिता के लिए गाइड", guideStep1Title: "1. एक दिनचर्या स्थापित करें", guideStep1Desc: "प्रतिदिन एक ही समय पर अभ्यास करें।",
+        guideStep2Title: "2. पुनरावृत्ति", guideStep2Desc: "रिपीट काउंटर का उपयोग करें।",
+        guideStep3Title: "3. पढ़ने से पहले सुनें", guideStep3Desc: "विशेषज्ञ कारी को सुनें।",
+        guideStep4Title: "4. दैनिक संशोधन", guideStep4Desc: "संशोधन कभी न छोड़ें।",
+        backHomeLink: "← ऐप पर वापस जाएं"
+      },
+      zh: {
+        pageTitle: "背诵计划与指南 — 古兰经应用", headerTitle: "背诵计划与指南", headerSub: "结构化计划与指导",
+        introHeading: "结构化背诵框架", introDesc: "持续复习对于长期保持古兰经记忆至关重要。",
+        txtPlanHeading: "通用背诵计划", planBeginnerTitle: "初学者计划", planBeginnerDesc: "每天背诵 3 到 5 行。",
+        planIntermediateTitle: "中级计划", planIntermediateDesc: "每天目标半页到1整页。",
+        planAdvancedTitle: "高级/强化计划", planAdvancedDesc: "每天目标 1 到 2 页。",
+        txtGuideHeading: "教师与家长指南", guideStep1Title: "1. 建立常规", guideStep1Desc: "每天在同一时间练习。",
+        guideStep2Title: "2. 拆分与重复", guideStep2Desc: "使用重复计数器。",
+        guideStep3Title: "3. 先听后读", guideStep3Desc: "听专业朗诵者的录音。",
+        guideStep4Title: "4. 每日与每周复习", guideStep4Desc: "切勿跳过复习。",
+        backHomeLink: "← 返回应用"
+      },
+      ms: {
+        pageTitle: "Pelan Hafazan — Aplikasi Al-Quran", headerTitle: "Pelan Hafazan & Panduan", headerSub: "Pelan Terstruktur",
+        introHeading: "Kerangka Hafazan Terstruktur", introDesc: "Semakan konsisten adalah penting untuk ingatan jangka panjang.",
+        txtPlanHeading: "Pelan Hafazan Umum", planBeginnerTitle: "Pelan Pemula", planBeginnerDesc: "Hafal 3 hingga 5 baris sehari.",
+        planIntermediateTitle: "Pelan Pertengahan", planIntermediateDesc: "Sasarkan separuh hingga 1 halaman sehari.",
+        planAdvancedTitle: "Pelan Lanjutan", planAdvancedDesc: "Sasarkan 1 hingga 2 halaman sehari.",
+        txtGuideHeading: "Panduan Guru & Ibu Bapa", guideStep1Title: "1. Wujudkan Rutin", guideStep1Desc: "Latih pada masa yang sama setiap hari.",
+        guideStep2Title: "2. Pengulangan", guideStep2Desc: "Gunakan pembilang pengulangan.",
+        guideStep3Title: "3. Dengar Sebelum Membaca", guideStep3Desc: "Dengar qari pakar.",
+        guideStep4Title: "4. Semakan Harian", guideStep4Desc: "Jangan sekali-kali abaikan semakan.",
+        backHomeLink: "← Kembali ke Aplikasi"
+      },
+      ta: {
+        pageTitle: "மனப்பாட திட்டங்கள் — குர்ஆன் செயலி", headerTitle: "மனப்பாட திட்டங்கள்", headerSub: "கட்டமைக்கப்பட்ட திட்டங்கள்",
+        introHeading: "கட்டமைக்கப்பட்ட மனப்பாட கட்டமைப்பு", introDesc: "தொடர்ச்சியான மீளாய்வு மிக அவசியமானது.",
+        txtPlanHeading: "பொதுவான திட்டங்கள்", planBeginnerTitle: "தொடக்கநிலை திட்டம்", planBeginnerDesc: "தினமும் 3 முதல் 5 வரிகளை மனப்பாடம் செய்யுங்கள்.",
+        planIntermediateTitle: "இடைநிலை திட்டம்", planIntermediateDesc: "தினமும் அரை பக்கம் இலக்கு.",
+        planAdvancedTitle: "உயர்ந்த திட்டம்", planAdvancedDesc: "தினமும் 1 முதல் 2 பக்கங்கள்.",
+        txtGuideHeading: "ஆசிரியர்கள் மற்றும் பெற்றோர்களுக்கான வழிகாட்டி", guideStep1Title: "1. வழக்கத்தை உருவாக்குங்கள்", guideStep1Desc: "தினமும் ஒரே நேரத்தில் பயிற்சி செய்யுங்கள்.",
+        guideStep2Title: "2. மீண்டும் மீண்டும் செய்தல்", guideStep2Desc: "மீண்டும் மீண்டும் கவுண்டரைப் பயன்படுத்தவும்.",
+        guideStep3Title: "3. படிப்பதற்கு முன் கேளுங்கள்", guideStep3Desc: "நிபுணர்களின் ஓதுதலைக் கேளுங்கள்.",
+        guideStep4Title: "4. தினசரி மீளாய்வு", guideStep4Desc: "மீளாய்வு செய்வதை தவிர்க்க வேண்டாம்.",
+        backHomeLink: "← முகப்பு பக்கத்திற்கு செல்ல"
+      },
+      ha: {
+        pageTitle: "Shirye-shiryen Hifzi — Manhajar Al-Qur'ani", headerTitle: "Shirye-shiryen Hifzi", headerSub: "Tsarin Hifzi",
+        introHeading: "Tsarin Hifzi", introDesc: "Maimaitawa yana da muhimmanci sosai.",
+        txtPlanHeading: "Shirye-shirye Gaba Daya", planBeginnerTitle: "Tsarin Mai Farawa", planBeginnerDesc: "Haddace layuka 3 zuwa 5 kowace rana.",
+        planIntermediateTitle: "Tsarin Matsakaici", planIntermediateDesc: "Nufin rabin shafi zuwa shafi ɗaya.",
+        planAdvancedTitle: "Tsarin Babban Mataki", planAdvancedDesc: "Nufin shafuka 1 zuwa 2 kowace rana.",
+        txtGuideHeading: "Jagora ga Malamai da Iyayen", guideStep1Title: "1. Kafa Tsari", guideStep1Desc: "Yi aiki a lokaci guda kowace rana.",
+        guideStep2Title: "2. Maimaitawa", guideStep2Desc: "Yi amfani da mai ƙidayar maimaitawa.",
+        guideStep3Title: "3. Saurari Kafin Karatu", guideStep3Desc: "Saurari ƙwararrun masu karatu.",
+        guideStep4Title: "4. Bita ta Kullum", guideStep4Desc: "Kada ka tsallake bita.",
+        backHomeLink: "← Komawa Manhajar"
+      },
+      sw: {
+        pageTitle: "Mipango ya Hifdhi — Programu ya Kurani", headerTitle: "Mipango ya Hifdhi na Mwongozo", headerSub: "Mipango Iliyopangwa",
+        introHeading: "Mfumo wa Kuhifadhi", introDesc: "Marudio ya mara kwa mara ni muhimu kwa kumbukumbu ya muda mrefu.",
+        txtPlanHeading: "Mipango ya Jumla", planBeginnerTitle: "Mpango wa Wanaoanza", planBeginnerDesc: "Hifadhi mistari 3 hadi 5 kwa siku.",
+        planIntermediateTitle: "Mpango wa Kati", planIntermediateDesc: "Lengo nusu ukurasa hadi ukurasa 1 kila siku.",
+        planAdvancedTitle: "Mpango wa Juu", planAdvancedDesc: "Lengo kurasa 1 hadi 2 kila siku.",
+        txtGuideHeading: "Mwongozo kwa Walimu na Wazazi", guideStep1Title: "1. Weka Ratiba", guideStep1Desc: "Fanya mazoezi wakati ule ule kila siku.",
+        guideStep2Title: "2. Kurudia", guideStep2Desc: "Tumia kihesabu cha marudio.",
+        guideStep3Title: "3. Sikiliza Kabla ya Kusoma", guideStep3Desc: "Sikiliza wasomaji wataalamu.",
+        guideStep4Title: "4. Marudio ya Kila Siku", guideStep4Desc: "Usiruke kamwe marudio.",
+        backHomeLink: "← Rudi kwenye Programu"
+      },
+      so: {
+        pageTitle: "Qorshaha Xifdiga — App-ka Quraanka", headerTitle: "Qorshaha Xifdiga & Hagaha", headerSub: "Qorshayaal Habeysan",
+        introHeading: "Qaab-dhismeedka Xifdiga", introDesc: "Dib-u-eegista joogtada ah waa muhiim.",
+        txtPlanHeading: "Qorshayaasha Guud", planBeginnerTitle: "Qorshaha Bilowga", planBeginnerDesc: "Xifdi 3 ilaa 5 sadar maalintii.",
+        planIntermediateTitle: "Qorshaha Dhexe", planIntermediateDesc: "Bartilmaameedso badh ilaa 1 bog maalintii.",
+        planAdvancedTitle: "Qorshaha Sare", planAdvancedDesc: "Bartilmaameedso 1 ilaa 2 bog.",
+        txtGuideHeading: "Hagaha Macallimiinta & Waalidka", guideStep1Title: "1. Samee Hannaan Joogto ah", guideStep1Desc: "Ku tababbar waqti isku mid ah maalin kasta.",
+        guideStep2Title: "2. Ku Celcelinta", guideStep2Desc: "Isticmaal tiriyaha celcelinta.",
+        guideStep3Title: "3. Dhageyso Intaanadan Akhrin", guideStep3Desc: "Dhageyso quraanka khubarad.",
+        guideStep4Title: "4. Dib-u-eegista Maalinlaha ah", guideStep4Desc: "Hogan ha ka tagin dib-u-eegista.",
+        backHomeLink: "← Ku laabto App-ka"
+      },
+      sq: {
+        pageTitle: "Planet e Memorizimit — Aplikacioni i Kuranit", headerTitle: "Planet e Memorizimit", headerSub: "Udhëzues i Strukturuar",
+        introHeading: "Korniza e Strukturuar e Memorizimit", introDesc: "Përsëritja e qëndrueshme është thelbësore.",
+        txtPlanHeading: "Planet e Përgjithshme", planBeginnerTitle: "Plani Fillestar", planBeginnerDesc: "Memorizoni 3 deri në 5 rreshta në ditë.",
+        planIntermediateTitle: "Plani i Mesëm", planIntermediateDesc: "Synoni gjysmë faqe deri në 1 faqe në ditë.",
+        planAdvancedTitle: "Plani i Avancuar", planAdvancedDesc: "Synoni 1 deri në 2 faqe në ditë.",
+        txtGuideHeading: "Udhëzues për Mësuesit & Prindërit", guideStep1Title: "1. Vendosni një Rutinë", guideStep1Desc: "Ushtrohuni në të njëjtën kohë çdo ditë.",
+        guideStep2Title: "2. Përsëritja", guideStep2Desc: "Përdorni numuruesin e përsëritjes.",
+        guideStep3Title: "3. Dëgjoni para se të Lexoni", guideStep3Desc: "Dëgjoni recitues ekspertë.",
+        guideStep4Title: "4. Rishikimi Ditor", guideStep4Desc: "Mos e anashkaloni kurrë rishikimin.",
+        backHomeLink: "← Kthehu te Aplikacioni"
+      },
+      az: {
+        pageTitle: "Əzbərləmə Planları — Quran Tətbiqi", headerTitle: "Əzbərləmə Planları və Bələdçi", headerSub: "Strukturlaşdırılmış Planlar",
+        introHeading: "Strukturlaşdırılmış Əzbər Çərçivəsi", introDesc: "Daimi təkrarlama uzunmüddətli yaddaş üçün vacibdir.",
+        txtPlanHeading: "Ümumi Əzbər Planları", planBeginnerTitle: "Başlanğıc Planı", planBeginnerDesc: "Gündə 3-5 sətir əzbərləyin.",
+        planIntermediateTitle: "Orta Səviyyə Planı", planIntermediateDesc: "Gündə yarım səhifədən 1 səhifəyə qədər hədəfləyin.",
+        planAdvancedTitle: "İrəliləmiş Plan", planAdvancedDesc: "Gündə 1-2 səhifə hədəfləyin.",
+        txtGuideHeading: "Müəllimlər və Valideynlər üçün Bələdçi", guideStep1Title: "1. Rejim Yaradın", guideStep1Desc: "Hər gün eyni vaxtda məşq edin.",
+        guideStep2Title: "2. Təkrar", guideStep2Desc: "Təkrar sayğacından istifadə edin.",
+        guideStep3Title: "3. Oxumadan Əvvəl Dinləyin", guideStep3Desc: "Mütəxəssis qariləri dinləyin.",
+        guideStep4Title: "4. Gündəlik Təkrar", guideStep4Desc: "Təkrarı heç vaxt unutmayın.",
+        backHomeLink: "← Quran Tətbiqinə Qayıt"
+      },
+      bs: {
+        pageTitle: "Planovi učenja — Aplikacija za Kur'an", headerTitle: "Planovi učenja napamet", headerSub: "Strukturirani planovi",
+        introHeading: "Strukturirani okvir memorisanja", introDesc: "Dosljedna revizija je neophodna za dugotrajno pamćenje.",
+        txtPlanHeading: "Opšti planovi učenja", planBeginnerTitle: "Početni plan", planBeginnerDesc: "Memorirajte 3 do 5 redova dnevno.",
+        planIntermediateTitle: "Srednji plan", planIntermediateDesc: "Ciljajte pola do 1 stranicu dnevno.",
+        planAdvancedTitle: "Napredni plan", planAdvancedDesc: "Ciljajte 1 do 2 stranice dnevno.",
+        txtGuideHeading: "Vodič za nastavnike i roditelje", guideStep1Title: "1. Uspostavite rutinu", guideStep1Desc: "Vježbajte u isto vrijeme svaki dan.",
+        guideStep2Title: "2. Ponavljanje", guideStep2Desc: "Koristite brojač ponavljanja.",
+        guideStep3Title: "3. Slušajte prije čitanja", guideStep3Desc: "Slušajte stručne učače.",
+        guideStep4Title: "4. Dnevna revizija", guideStep4Desc: "Nikada ne preskačite reviziju.",
+        backHomeLink: "← Nazad na aplikaciju"
+      },
+      bg: {
+        pageTitle: "План за запаметяване — Коран", headerTitle: "План за заучаване и ръководство", headerSub: "Структурирани планове",
+        introHeading: "Структурирана рамка за запаметяване", introDesc: "Редовното повтаряне е от съществено значение.",
+        txtPlanHeading: "Общи планове за заучаване", planBeginnerTitle: "План за начинаещи", planBeginnerDesc: "Запаметявайте по 3-5 реда на ден.",
+        planIntermediateTitle: "Средно ниво", planIntermediateDesc: "Цел: от половин до 1 пълна страница.",
+        planAdvancedTitle: "Напреднало ниво", planAdvancedDesc: "Цел: 1 до 2 страници дневно.",
+        txtGuideHeading: "Ръководство за учители и родители", guideStep1Title: "1. Установете рутина", guideStep1Desc: "Практикувайте по едно и също време.",
+        guideStep2Title: "2. Повтаряне", guideStep2Desc: "Използвайте брояча за повторения.",
+        guideStep3Title: "3. Слушайте преди четене", guideStep3Desc: "Слушайте опитни рецитатори.",
+        guideStep4Title: "4. Ежедневно преговорете", guideStep4Desc: "Никога не пропускайте преговора.",
+        backHomeLink: "← Обратно към приложението"
+      },
+      cs: {
+        pageTitle: "Plány memorování — Aplikace Korán", headerTitle: "Plány memorování a průvodce", headerSub: "Strukturované plány",
+        introHeading: "Strukturovaný rámec memorování", introDesc: "Konzistentní opakování je pro dlouhodobou paměť klíčové.",
+        txtPlanHeading: "Obecné plány memorování", planBeginnerTitle: "Začátečnický plán", planBeginnerDesc: "Memorujte 3 až 5 řádků denně.",
+        planIntermediateTitle: "Středně pokročilý plán", planIntermediateDesc: "Cíl: půl až 1 celá stránka denně.",
+        planAdvancedTitle: "Pokročilý plán", planAdvancedDesc: "Cíl: 1 až 2 stránky denně.",
+        txtGuideHeading: "Průvodce pro učitele a rodiče", guideStep1Title: "1. Vytvořte si rutinu", guideStep1Desc: "Cvičte každý den ve stejnou dobu.",
+        guideStep2Title: "2. Opakování", guideStep2Desc: "Používejte počítadlo opakování.",
+        guideStep3Title: "3. Poslouchejte před čtením", guideStep3Desc: "Poslouchejte odborné recitátory.",
+        guideStep4Title: "4. Denní revize", guideStep4Desc: "Nikdy nevynechávejte revizi.",
+        backHomeLink: "← Zpět do aplikace"
+      },
+      nl: {
+        pageTitle: "Memorisatieplannen — Koran App", headerTitle: "Memorisatieplannen & Gids", headerSub: "Gestructureerde plannen",
+        introHeading: "Gestructureerd memorisatieframework", introDesc: "Consistente herhaling is essentieel voor langetermijnbehoud.",
+        txtPlanHeading: "Algemene plannen", planBeginnerTitle: "Beginnersplan", planBeginnerDesc: "Memoriseer 3 tot 5 regels per dag.",
+        planIntermediateTitle: "Tussenliggend plan", planIntermediateDesc: "Doel: een halve tot 1 volledige pagina per dag.",
+        planAdvancedTitle: "Gevorderd plan", planAdvancedDesc: "Doel: 1 tot 2 pagina's per dag.",
+        txtGuideHeading: "Gids voor docenten en ouders", guideStep1Title: "1. Stel een routine vast", guideStep1Desc: "Oefen elke dag op dezelfde tijd.",
+        guideStep2Title: "2. Herhaling", guideStep2Desc: "Gebruik de herhalingsteller.",
+        guideStep3Title: "3. Luister voor het lezen", guideStep3Desc: "Luister naar deskundige recitanten.",
+        guideStep4Title: "4. Dagelijkse herhaling", guideStep4Desc: "Sla herhaling nooit over.",
+        backHomeLink: "← Terug naar Koran App"
+      },
+      it: {
+        pageTitle: "Piani di memorizzazione — App Corano", headerTitle: "Piani di memorizzazione e guida", headerSub: "Piani strutturati",
+        introHeading: "Quadro di memorizzazione strutturato", introDesc: "La revisione costante è essenziale per la conservazione a lungo termine.",
+        txtPlanHeading: "Piani generali", planBeginnerTitle: "Piano Principiante", planBeginnerDesc: "Memorizza da 3 a 5 righe al giorno.",
+        planIntermediateTitle: "Piano Intermedio", planIntermediateDesc: "Obiettivo: da mezza a 1 pagina intera al giorno.",
+        planAdvancedTitle: "Piano Avanzato", planAdvancedDesc: "Obiettivo: da 1 a 2 pagine al giorno.",
+        txtGuideHeading: "Guida per insegnanti e genitori", guideStep1Title: "1. Stabilisci una routine", guideStep1Desc: "Esercitati alla stessa ora ogni giorno.",
+        guideStep2Title: "2. Ripetizione", guideStep2Desc: "Usa il contatore di ripetizioni.",
+        guideStep3Title: "3. Ascolta prima di leggere", guideStep3Desc: "Ascolta recitatori esperti.",
+        guideStep4Title: "4. Revisione giornaliera", guideStep4Desc: "Non saltare mai la revisione.",
+        backHomeLink: "← Torna all'app"
+      },
+      ja: {
+        pageTitle: "暗記プラン — コーランアプリ", headerTitle: "暗記プランとガイド", headerSub: "構造化されたプラン",
+        introHeading: "構造化された暗記フレームワーク", introDesc: "一貫した復習は長期的な記憶に不可欠です。",
+        txtPlanHeading: "一般的な暗記プラン", planBeginnerTitle: "初心者プラン", planBeginnerDesc: "毎日3〜5行を暗記します。",
+        planIntermediateTitle: "中級プラン", planIntermediateDesc: "毎日半ページから1ページを目標にします。",
+        planAdvancedTitle: "上級プラン", planAdvancedDesc: "毎日1〜2ページを目標にします。",
+        txtGuideHeading: "教師と保護者のためのガイド", guideStep1Title: "1. ルーティンの確立", guideStep1Desc: "毎日同じ時間に練習します。",
+        guideStep2Title: "2. 繰り返し", guideStep2Desc: "リピートカウンターを使用します。",
+        guideStep3Title: "3. 読む前に聴く", guideStep3Desc: "専門の朗読者の音声を聴きます。",
+        guideStep4Title: "4. 毎日の復習", guideStep4Desc: "復習を決して怠らないでください。",
+        backHomeLink: "← アプリに戻る"
+      },
+      ko: {
+        pageTitle: "암기 계획 및 가이드 — 쿠란 학습 앱", headerTitle: "암기 계획 및 가이드", headerSub: "체계적인 계획",
+        introHeading: "체계적인 암기 프레임워크", introDesc: "지속적인 복습은 장기적인 쿠란 암기에 필수적입니다.",
+        txtPlanHeading: "일반 암기 계획", planBeginnerTitle: "초보자 계획", planBeginnerDesc: "하루에 3~5줄을 암기합니다.",
+        planIntermediateTitle: "중급자 계획", planIntermediateDesc: "하루 반 페이지에서 1페이지를 목표로 합니다.",
+        planAdvancedTitle: "고급자 계획", planAdvancedDesc: "하루 1~2페이지를 목표로 합니다.",
+        txtGuideHeading: "교사 및 학부모 가이드", guideStep1Title: "1. 루틴 구축", guideStep1Desc: "매일 같은 시간에 연습하세요.",
+        guideStep2Title: "2. 반복", guideStep2Desc: "반복 카운터를 사용하세요.",
+        guideStep3Title: "3. 읽기 전 듣기", guideStep3Desc: "전문 낭송가의 음성을 들으세요.",
+        guideStep4Title: "4. 일일 복습", guideStep4Desc: "복습을 절대 건너뛰지 마세요.",
+        backHomeLink: "← 쿠란 학습 앱으로 돌아가기"
+      },
+      ku: {
+        pageTitle: "پلانی لەبەرکردن — ئەپی قورئان", headerTitle: "پلانی لەبەرکردن و ڕێبەر", headerSub: "پلانی ڕێکخراو",
+        introHeading: "چوارچێوەی ڕێکخراوی لەبەرکردن", introDesc: "دووبارەکردنەوەی بەردەوام زۆر گرنگە بۆ مانەوەی قورئان لە یادگەدا.",
+        txtPlanHeading: "پلانی گشتی لەبەرکردن", planBeginnerTitle: "پلانی دەستپێک", planBeginnerDesc: "ڕۆژانە ٣ بۆ ٥ ڕیز لەبەر بکە.",
+        planIntermediateTitle: "پلانی ناوەند", planIntermediateDesc: "ئامانج نیو پەڕە بۆ ١ پەڕەی تەواو لە ڕۆژێکدا.",
+        planAdvancedTitle: "پلانی پێشکەوتوو", planAdvancedDesc: "ئامانج ١ بۆ ٢ پەڕە لە ڕۆژێکدا.",
+        txtGuideHeading: "ڕێبەر بۆ مامۆستایان و دایک و باوک", guideStep1Title: "1. دامەزراندنی ڕۆتینێک", guideStep1Desc: "هەموو ڕۆژێک لە هەمان کاتدا مەشق بکە.",
+        guideStep2Title: "2. دووبارەکردنەوە", guideStep2Desc: "ئامرازی ژماردنی دووبارەکردنەوە بەکاربهێنە.",
+        guideStep3Title: "3. گوێگرتن پێش خوێندنەوە", guideStep3Desc: "گوێ لە قورئانخوێنانی شارەزا بگرە.",
+        guideStep4Title: "4. پێداچوونەوەی ڕۆژانە", guideStep4Desc: "پێداچوونەوە هەرگیز فەرامۆش مەکە.",
+        backHomeLink: "← گەڕانەوە بۆ ئەپی قورئان"
+      },
+      no: {
+        pageTitle: "Memoriseringsplaner — Koranalæringsapp", headerTitle: "Memoriseringsplaner og guide", headerSub: "Strukturerte planer",
+        introHeading: "Struktureret memoriseringsramme", introDesc: "Konsistent repetisjon er essensielt for langsiktig lagring.",
+        txtPlanHeading: "Generelle planer", planBeginnerTitle: "Nybegynnerplan", planBeginnerDesc: "Memoriser 3 til 5 linjer om dagen.",
+        planIntermediateTitle: "Mellomliggende plan", planIntermediateDesc: "Mål om en halv til 1 hel side per dag.",
+        planAdvancedTitle: "Avansert plan", planAdvancedDesc: "Mål om 1 til 2 sider daglig.",
+        txtGuideHeading: "Guide for lærere og foreldre", guideStep1Title: "1. Etabler en rutine", guideStep1Desc: "Øv til samme tid hver dag.",
+        guideStep2Title: "2. Repetisjon", guideStep2Desc: "Bruk repetisjonstelleren.",
+        guideStep3Title: "3. Lytt før du leser", guideStep3Desc: "Lytt til ekspertdesitatorer.",
+        guideStep4Title: "4. Daglig revisjon", guideStep4Desc: "Skipp aldri revisjonen.",
+        backHomeLink: "← Tilbake til koranappen"
+      },
+      pl: {
+        pageTitle: "Plany zapamiętywania — Aplikacja Koranu", headerTitle: "Plany zapamiętywania i przewodnik", headerSub: "Strukturalne plany",
+        introHeading: "Strukturalne ramy zapamiętywania", introDesc: "Konsekwentna powtórka jest kluczowa dla pamięci długoterminowej.",
+        txtPlanHeading: "Ogólne plany zapamiętywania", planBeginnerTitle: "Plan dla początkujących", planBeginnerDesc: "Zapamiętuj 3 do 5 wierszy dziennie.",
+        planIntermediateTitle: "Plan średniozaawansowany", planIntermediateDesc: "Cel: od pół do 1 pełnej strony dziennie.",
+        planAdvancedTitle: "Plan zaawansowany", planAdvancedDesc: "Cel: 1 do 2 stron dziennie.",
+        txtGuideHeading: "Przewodnik dla nauczycieli i rodziców", guideStep1Title: "1. Ustanów rutynę", guideStep1Desc: "Ćwicz codziennie o tej samej porze.",
+        guideStep2Title: "2. Powtarzanie", guideStep2Desc: "Używaj licznika powtórzeń.",
+        guideStep3Title: "3. Słuchaj przed czytaniem", guideStep3Desc: "Słuchaj profesjonalnych recytatorów.",
+        guideStep4Title: "4. Codzienna powtórka", guideStep4Desc: "Nigdy nie pomijaj powtórek.",
+        backHomeLink: "← Powrót do aplikacji"
+      },
+      pt: {
+        pageTitle: "Planos de Memorização — Aplicativo do Alcorão", headerTitle: "Planos de Memorização e Guia", headerSub: "Planos Estruturados",
+        introHeading: "Estrutura de Memorização Estruturada", introDesc: "A revisão consistente é essencial para a retenção a longo prazo.",
+        txtPlanHeading: "Planos Gerais", planBeginnerTitle: "Plano Iniciante", planBeginnerDesc: "Memorize de 3 a 5 linhas por dia.",
+        planIntermediateTitle: "Plano Intermediário", planIntermediateDesc: "Almeje de meia página a 1 página cheia por dia.",
+        planAdvancedTitle: "Plano Avançado", planAdvancedDesc: "Almeje de 1 a 2 páginas diariamente.",
+        txtGuideHeading: "Guia para Professores e Pais", guideStep1Title: "1. Estabelecer uma rotina", guideStep1Desc: "Pratique no mesmohorário todos os dias.",
+        guideStep2Title: "2. Repetição", guideStep2Desc: "Use o contador de repetições.",
+        guideStep3Title: "3. Ouvir antes de ler", guideStep3Desc: "Ouça recitadores especializados.",
+        guideStep4Title: "4. Revisão Diária", guideStep4Desc: "Nunca pule a revisão.",
+        backHomeLink: "← Voltar ao aplicativo"
+      },
+      ro: {
+        pageTitle: "Planuri de memorizare — Aplicația Coran", headerTitle: "Planuri de memorizare și ghid", headerSub: "Planuri structurate",
+        introHeading: "Cadru de memorizare structurat", introDesc: "Revizuirea consecventă este esențială pentru păstrarea pe termen lung.",
+        txtPlanHeading: "Planuri generale", planBeginnerTitle: "Plan pentru începători", planBeginnerDesc: "Memorizează 3-5 rânduri pe zi.",
+        planIntermediateTitle: "Plan intermediar", planIntermediateDesc: "Țintește o jumătate de pagină până la 1 pagină pe zi.",
+        planAdvancedTitle: "Plan avansat", planAdvancedDesc: "Țintește 1-2 pagini zilnic.",
+        txtGuideHeading: "Ghid pentru profesori și părinți", guideStep1Title: "1. Stabiliți o rutină", guideStep1Desc: "Exersați în fiecare zi la aceeași oră.",
+        guideStep2Title: "2. Repetiție", guideStep2Desc: "Folosiți contorul de repetiții.",
+        guideStep3Title: "3. Ascultați înainte de citire", guideStep3Desc: "Ascultați recitatori experți.",
+        guideStep4Title: "4. Revizuire zilnică", guideStep4Desc: "Nu săriți niciodată peste revizuire.",
+        backHomeLink: "← Înapoi la aplicație"
+      },
+      sd: {
+        pageTitle: "حفظ جا منصوبا — قرآن ايپ", headerTitle: "حفظ جا منصوبا ۽ رهنمائي", headerSub: "ترتيبوار منصوبا",
+        introHeading: "منظم حفظ جو فريم ورڪ", introDesc: "مسلسل دهرائي قرآن جي ڊگهي مدت تائين حفاظت لاءِ ضروري آهي.",
+        txtPlanHeading: "عام حفظ جا منصوبا", planBeginnerTitle: "شروعاتي منصوبو", planBeginnerDesc: "روزانو 3 کان 5 سطرون حفظ ڪريو.",
+        planIntermediateTitle: "متوسط منصوبو", planIntermediateDesc: "روزانو اڌ صفحي کان هڪ پوري صفحي تائين جو هدف رکو.",
+        planAdvancedTitle: "ترقي يافته منصوبو", planAdvancedDesc: "روزانو 1 کان 2 صفحن جو هدف رکو.",
+        txtGuideHeading: "استادن ۽ والدين لاءِ گائيڊ", guideStep1Title: "1. هڪ معمول قائم ڪريو", guideStep1Desc: "هر روز ساڳئي وقت تي مشق ڪريو.",
+        guideStep2Title: "2. تکرار", guideStep2Desc: "تکرار جو ڪائونٽر استعمال ڪريو.",
+        guideStep3Title: "3. پڙهڻ کان اڳ ٻڌو", guideStep3Desc: "ماهر قارين کي ٻڌو.",
+        guideStep4Title: "4. روزاني دهرائي", guideStep4Desc: "دهرائي کي ڪڏهن به نه ଛڏيو.",
+        backHomeLink: "← واپس هوم پيج تي وڃو"
+      },
+      sv: {
+        pageTitle: "Memoriseringsplaner — Koraninlärningsapp", headerTitle: "Memoriseringsplaner & Guide", headerSub: "Strukturerade planer",
+        introHeading: "Strukturerat memoreringsramverk", introDesc: "Konsekvent revision är avgörande för långsiktig behållning.",
+        txtPlanHeading: "Allmänna planer", planBeginnerTitle: "Nybörjarplan", planBeginnerDesc: "Memorera 3 till 5 rader om dagen.",
+        planIntermediateTitle: "Mellannivå", planIntermediateDesc: "Mål: en halv till 1 hel sida per dag.",
+        planAdvancedTitle: "Avancerad plan", planAdvancedDesc: "Mål: 1 till 2 sidor dagligen.",
+        txtGuideHeading: "Guide för lärare och föräldrar", guideStep1Title: "1. Etablera en rutin", guideStep1Desc: "Öva vid samma tid varje dag.",
+        guideStep2Title: "2. Repetition", guideStep2Desc: "Använd repetitionstalaren.",
+        guideStep3Title: "3. Lyssna innan du läser", guideStep3Desc: "Lyssna på expertrecitatörer.",
+        guideStep4Title: "4. Daglig revision", guideStep4Desc: "Hoppa aldrig över revisionen.",
+        backHomeLink: "← Tillbaka till koranappen"
+      },
+      tg: {
+        pageTitle: "Планҳои ҳифз — Барномаи Қуръон", headerTitle: "Планҳои ҳифз ва дастур", headerSub: "Планҳои муназзам",
+        introHeading: "Чорчӯби муназзами ҳифз", introDesc: "Такрори доимӣ барои нигоҳдории дарозмуддат муҳим аст.",
+        txtPlanHeading: "Планҳои умумии ҳифз", planBeginnerTitle: "Планы ибтидоӣ", planBeginnerDesc: "Рӯзона 3 то 5 сатр ҳифз кунед.",
+        planIntermediateTitle: "Планы миёна", planIntermediateDesc: "Ҳадаф: аз нисф то 1 саҳифаи пурра дар рӯз.",
+        planAdvancedTitle: "Планы пешрафта", planAdvancedDesc: "Ҳадаф: 1 то 2 саҳифа ҳар рӯз.",
+        txtGuideHeading: "Дастур барои муаллимон ва волидон", guideStep1Title: "1. Муқаррар кардани реҷа", guideStep1Desc: "Ҳар рӯз дар як вақт машқ кунед.",
+        guideStep2Title: "2. Такрор", guideStep2Desc: "Шумораи такрорҳоро истифода баред.",
+        guideStep3Title: "3. Пеш аз хондан гӯш кунед", guideStep3Desc: "Қориёни ботаҷрибаро гӯш кунед.",
+        guideStep4Title: "4. Такрори ҳаррӯза", guideStep4Desc: "Ҳеҷ гоҳ такрорро фаромӯш накунед.",
+        backHomeLink: "← Бозгашт ба барнома"
+      },
+      th: {
+        pageTitle: "แผนการท่องจำ — แอปอัลกุรอาน", headerTitle: "แผนการท่องจำและคู่มือ", headerSub: "แผนที่มีโครงสร้าง",
+        introHeading: "กรอบการท่องจำที่มีโครงสร้าง", introDesc: "การทบทวนอย่างสม่ำเสมอเป็นสิ่งสำคัญสำหรับการรักษาอัลกุรอานระยะยาว",
+        txtPlanHeading: "แผนการท่องจำทั่วไป", planBeginnerTitle: "แผนสำหรับผู้เริ่มต้น", planBeginnerDesc: "ท่องจำ 3 ถึง 5บรรทัดต่อวัน",
+        planIntermediateTitle: "แผนระดับกลาง", planIntermediateDesc: "เป้าหมายครึ่งหน้าถึง 1 หน้าเต็มต่อวัน",
+        planAdvancedTitle: "แผนขั้นสูง/เข้มข้น", planAdvancedDesc: "เป้าหมาย 1 ถึง 2 หน้าต่อวัน",
+        txtGuideHeading: "คู่มือสำหรับครูและผู้ปกครอง", guideStep1Title: "1. สร้างกิจวัตร", guideStep1Desc: "ฝึกฝนในเวลาเดียวกันทุกวัน",
+        guideStep2Title: "2. การทำซ้ำ", guideStep2Desc: "ใช้ตัวนับการทำซ้ำ",
+        guideStep3Title: "3. ฟังก่อนอ่าน", guideStep3Desc: "ฟังผู้อ่านผู้เชี่ยวชาญ",
+        guideStep4Title: "4. การทบทวนรายวัน", guideStep4Desc: "อย่าข้ามการทบทวนเด็ดขาด",
+        backHomeLink: "← กลับไปยังแอป"
+      },
+      tt: {
+        pageTitle: "Ятлау планнары — Коръән кушымтасы", headerTitle: "Ятлау планнары һәм кулланма", headerSub: "Структур планнар",
+        introHeading: "Структур ятлау чикләре", introDesc: "Даими кабатлау озак вакыт саклау өчен бик мөһим.",
+        txtPlanHeading: "Гомуми ятлау планнары", planBeginnerTitle: "Башлангыч план", planBeginnerDesc: "Көненә 3-5 юл ятлагыз.",
+        planIntermediateTitle: "Уртача план", planIntermediateDesc: "Максат: көненә ярым яки 1 тулы бит.",
+        planAdvancedTitle: "Көчле план", planAdvancedDesc: "Максат: көненә 1-2 бит.",
+        txtGuideHeading: "Укытучылар һәм ата-аналар өчен кулланма", guideStep1Title: "1. Тәртип урнаштырыгыз", guideStep1Desc: "Һәр көнне бер үк вакытта шөгыльләнегез.",
+        guideStep2Title: "2. Кабатлау", guideStep2Desc: "Кабатлау санагычын кулланыгыз.",
+        guideStep3Title: "3. Уку алдыннан тыңлагыз", guideStep3Desc: "Мөһим кариларны тыңлагыз.",
+        guideStep4Title: "4. Көндәлек кабатлау", guideStep4Desc: "Кабатлауны беркайчан да калдырмагыз.",
+        backHomeLink: "← Кушымтага кире кайту"
+      },
+      ug: {
+        pageTitle: "ئەتۋار پىلانلىرى — قۇرئان ئەپى", headerTitle: "يادلاش پىلانلىرى ۋە قوللانما", headerSub: "تۈزۈلگەن پىلانلار",
+        introHeading: "تۈزۈلگەن يادلاش رامكىسى", introDesc: "قەرەللىك تەكرارلاش ئۇزۇن مۇددەت ساقلاشتا ناھايىتى مۇھىم.",
+        txtPlanHeading: "ئومۇمىي يادلاش پىلانلىرى", planBeginnerTitle: "باشلىغۇچىلار پىلانى", planBeginnerDesc: "كۈنىگە 3-5 قۇر يادلاڭ.",
+        planIntermediateTitle: "ئوتتۇرا دەرىجىلىك پىلان", planIntermediateDesc: "كۈنىگە يېرىمدىن 1 بەتلەرنى نىشان قىلىڭ.",
+        planAdvancedTitle: "ئالىي دەرىجىلىك پىلان", planAdvancedDesc: "كۈنىگە 1-2 بەت نىشان قىلىڭ.",
+        txtGuideHeading: "ئۇستاز ۋە ئاتا-ئانىلار قوللانمىسى", guideStep1Title: "1. ئادەت تۇرغۇزۇڭ", guideStep1Desc: "ھەر كۈنى ئوخشاش ۋاقىتتا مەشق قىلىڭ.",
+        guideStep2Title: "2. تەكرارلاش", guideStep2Desc: "تەكرارلاش counter نى ئىشلىتىڭ.",
+        guideStep3Title: "3. ئوقۇشتىن بۇرۇن ئاڭلاڭ", guideStep3Desc: "شاراپەتلىك قارىيلارنى ئاڭلاڭ.",
+        guideStep4Title: "4. كۈندىلىك تەكرار", guideStep4Desc: "تەكرارنى قەتئىي قالدۇرماڭ.",
+        backHomeLink: "← ئەپكە قايتىش"
+      },
+      uz: {
+        pageTitle: "Yod olish rejalari — Qur'on ilovasi", headerTitle: "Yod olish rejalari va qo'llanma", headerSub: "Tuzilgan rejalar",
+        introHeading: "Tuzilgan yod olish tizimi", introDesc: "Doimiy takrorlash uzoq muddat yodda saqlash uchun muhimdir.",
+        txtPlanHeading: "Umumiy rejalar", planBeginnerTitle: "Boshlang'ich reja", planBeginnerDesc: "Kuniga 3-5 qator yod oling.",
+        planIntermediateTitle: "O'rta darajadagi reja", planIntermediateDesc: "Maqsad: yarim yoki 1 sahifa.",
+        planAdvancedTitle: "Ilg'or reja", planAdvancedDesc: "Maqsad: 1-2 sahifa.",
+        txtGuideHeading: "O'qituvchi va ota-onalar uchun qo'llanma", guideStep1Title: "1. Rejim o'rnating", guideStep1Desc: "Har kuni bir xil vaqtda shug'ullaning.",
+        guideStep2Title: "2. Takrorlash", guideStep2Desc: "Takrorlash hisoblagichidan foydalaning.",
+        guideStep3Title: "3. O'qishdan oldin tinglang", guideStep3Desc: "Mutaxassis qorilarni tinglang.",
+        guideStep4Title: "4. Kundalik takrorlash", guideStep4Desc: "Takrorlashni hech qachon qoldirmmang.",
+        backHomeLink: "← Ilovaga qaytish"
+      },
+      am: {
+        pageTitle: "የማስታወስ እቅዶች — የቁርዓን መተግበሪያ", headerTitle: "የማስታወስ እቅዶች እና መመሪያ", headerSub: "የተዋቀሩ እቅዶች",
+        introHeading: "የተዋቀረ የማስታወስ ማዕቀፍ", introDesc: "ተከታታይ ግምገማ ለረጅም ጊዜ ለማቆየት አስፈላጊ ነው::",
+        txtPlanHeading: "አጠቃላይ ዕቅዶች", planBeginnerTitle: "ለጀማሪዎች እቅድ", planBeginnerDesc: "በቀን ከ 3 እስከ 5 መስመሮች ያስታውሱ::",
+        planIntermediateTitle: "መካከለኛ እቅድ", planIntermediateDesc: "ግማሽ ገጽ እስከ 1 ሙሉ ገጽ በቀን::",
+        planAdvancedTitle: " የላቀ እቅድ", planAdvancedDesc: "ከ 1 እስከ 2 ገጾች በቀን::",
+        txtGuideHeading: "ለአስተማሪዎች እና ወላጆች መመሪያ", guideStep1Title: "1. የዕለት ተዕለት ተግባር መመስረት", guideStep1Desc: "በየቀኑ በተመሳሳይ ሰዓት ይለማመዱ::",
+        guideStep2Title: "2. ድግግሞሽ", guideStep2Desc: "የድግግሞሽ ቆጣሪ ይጠቀሙ::",
+        guideStep3Title: "3. ከማንበብዎ በፊት ያዳምጡ", guideStep3Desc: "ባለሙያ አንባቢዎችን ያዳምጡ::",
+        guideStep4Title: "4. ዕለታዊ ክለሳ", guideStep4Desc: "ክለሳውን ፈጽሞ አይዝለሉ::",
+        backHomeLink: "← ወደ መተግበሪያው ይመለሱ"
       }
     };
 
-    // Text elements to translate: the element id is also the key in `translations`.
-    const TEXT_IDS = [
-      'headerTitle', 'headerSub', 'introHeading', 'introDesc', 'txtPlanHeading',
-      'planBeginnerTitle', 'planBeginnerDesc', 'planIntermediateTitle', 'planIntermediateDesc',
-      'planAdvancedTitle', 'planAdvancedDesc', 'txtGuideHeading',
-      'guideStep1Title', 'guideStep1Desc', 'guideStep2Title', 'guideStep2Desc',
-      'guideStep3Title', 'guideStep3Desc', 'guideStep4Title', 'guideStep4Desc', 'backHomeLink'
-    ];
-    const RTL_LANGS = ['ar', 'ur'];
-    const hasLang = code => typeof code === 'string' && Object.prototype.hasOwnProperty.call(translations, code);
-
-    // The main app (index.html) stores the language with JSON.stringify, i.e. the value on disk is "ar"
-    // WITH quotes. Read it as JSON first, and fall back to a plain string, so both formats work.
-    function readSavedLang() {
-      try {
-        const raw = localStorage.getItem(STORAGE_LANG_KEY);
-        if (!raw) return 'en';
-        let val = raw;
-        try { val = JSON.parse(raw); } catch (e) { /* plain string such as: ar */ }
-        return hasLang(val) ? val : 'en';
-      } catch (e) {
-        return 'en'; // localStorage blocked (private mode / cookies disabled)
-      }
-    }
-
     function applyLanguage() {
-      const t = translations[currentLang];
-      const fallback = translations.en;
-      document.title = t.pageTitle || fallback.pageTitle;
+      const t = translations[currentLang] || translations.en;
+      document.title = t.pageTitle;
       document.documentElement.lang = currentLang;
-      document.documentElement.dir = RTL_LANGS.includes(currentLang) ? 'rtl' : 'ltr';
-      TEXT_IDS.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = (t[id] !== undefined ? t[id] : fallback[id]);
-      });
+      document.documentElement.dir = rtlLangs.includes(currentLang) ? 'rtl' : 'ltr';
+
+      document.getElementById('headerTitle').textContent = t.headerTitle;
+      document.getElementById('headerSub').textContent = t.headerSub;
+      document.getElementById('introHeading').textContent = t.introHeading;
+      document.getElementById('introDesc').textContent = t.introDesc;
+      document.getElementById('txtPlanHeading').textContent = t.txtPlanHeading;
+      document.getElementById('planBeginnerTitle').textContent = t.planBeginnerTitle;
+      document.getElementById('planBeginnerDesc').textContent = t.planBeginnerDesc;
+      document.getElementById('planIntermediateTitle').textContent = t.planIntermediateTitle;
+      document.getElementById('planIntermediateDesc').textContent = t.planIntermediateDesc;
+      document.getElementById('planAdvancedTitle').textContent = t.planAdvancedTitle;
+      document.getElementById('planAdvancedDesc').textContent = t.planAdvancedDesc;
+      document.getElementById('txtGuideHeading').textContent = t.txtGuideHeading;
+      document.getElementById('guideStep1Title').textContent = t.guideStep1Title;
+      document.getElementById('guideStep1Desc').textContent = t.guideStep1Desc;
+      document.getElementById('guideStep2Title').textContent = t.guideStep2Title;
+      document.getElementById('guideStep2Desc').textContent = t.guideStep2Desc;
+      document.getElementById('guideStep3Title').textContent = t.guideStep3Title;
+      document.getElementById('guideStep3Desc').textContent = t.guideStep3Desc;
+      document.getElementById('guideStep4Title').textContent = t.guideStep4Title;
+      document.getElementById('guideStep4Desc').textContent = t.guideStep4Desc;
+      document.getElementById('backHomeLink').textContent = t.backHomeLink;
     }
 
-    function initLanguage() {
-      currentLang = readSavedLang();
+    window.onload = function() {
+      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
+      if (translations[savedLang]) {
+        currentLang = savedLang;
+      }
       applyLanguage();
-    }
-
-    // Script sits at the end of <body>, so the DOM is ready: apply right away (no flash of the wrong
-    // language, and no waiting for the Tailwind CDN like window.onload would).
-    initLanguage();
-
-    // If the language is changed in another tab/window of the app, follow it live.
-    window.addEventListener('storage', e => {
-      if (e.key === STORAGE_LANG_KEY || e.key === null) initLanguage();
-    });
-    // Restoring the page from the back/forward cache: re-read in case it changed meanwhile.
-    window.addEventListener('pageshow', e => { if (e.persisted) initLanguage(); });
+    };
   </script>
 </body>
 </html>
