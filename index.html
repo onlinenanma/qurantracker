@@ -32,7 +32,7 @@
     /* clip (not hidden) keeps the off-canvas sidebar hidden without breaking position:sticky */
     .clip-x { overflow: clip; }
     /* letter-spacing breaks joined Arabic/Urdu letters; uppercase is meaningless there */
-    [dir="rtl"] .lbl, .lbl:lang(ml), .lbl:lang(bn) { letter-spacing: 0 !important; text-transform: none !important; }
+    [dir="rtl"] .lbl, .lbl:lang(ml), .lbl:lang(bn), .lbl:lang(hi), .lbl:lang(ta), .lbl:lang(th), .lbl:lang(am), .lbl:lang(zh), .lbl:lang(ja), .lbl:lang(ko) { letter-spacing: 0 !important; text-transform: none !important; }
 
     /* Verse font + line spacing (mobile first, desktop in the media query) */
     .font-quran.verse-arabic { font-family: var(--vfont, 'Scheherazade New'), 'Scheherazade New', serif; }
@@ -102,7 +102,7 @@
           Loading Date...
         </span>
 
-        <!-- Language picker: custom button + menu (no dependence on native <select> overlay) -->
+        <!-- Language picker: custom button + menu -->
         <div class="relative" dir="ltr">
           <button type="button" id="langBtn" onclick="toggleLangMenu(event)" aria-haspopup="listbox" aria-expanded="false" aria-label="Language / اللغة"
                   class="flex items-center gap-1.5 bg-dark-emerald-light px-2.5 py-1.5 rounded-lg border border-dark-emerald hover:border-emerald-500 active:bg-emerald-800 transition-colors cursor-pointer select-none">
@@ -111,12 +111,8 @@
             <span class="text-[9px] text-emerald-300" aria-hidden="true">▼</span>
           </button>
           <div id="langHint" role="status" class="hidden absolute top-full mt-2 w-max max-w-[14rem] bg-emerald-500 text-emerald-950 text-xs font-semibold px-3 py-1.5 rounded-lg shadow-lg z-[60]"></div>
-          <div id="langMenu" role="listbox" class="hidden absolute right-0 top-full mt-1.5 min-w-[9rem] bg-dark-emerald border border-emerald-700 rounded-xl shadow-2xl py-1 z-[60]">
-            <button type="button" role="option" data-lang="en" onclick="pickLanguage('en')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>English</span><span class="tick text-emerald-300"></span></button>
-            <button type="button" role="option" data-lang="ar" onclick="pickLanguage('ar')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>العربية</span><span class="tick text-emerald-300"></span></button>
-            <button type="button" role="option" data-lang="ml" onclick="pickLanguage('ml')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>മലയാളം</span><span class="tick text-emerald-300"></span></button>
-            <button type="button" role="option" data-lang="ur" onclick="pickLanguage('ur')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>اردو</span><span class="tick text-emerald-300"></span></button>
-            <button type="button" role="option" data-lang="bn" onclick="pickLanguage('bn')" class="lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3"><span>বাংলা</span><span class="tick text-emerald-300"></span></button>
+          <div id="langMenu" role="listbox" class="hidden absolute right-0 top-full mt-1.5 min-w-[11rem] max-h-[70vh] overflow-y-auto bg-dark-emerald border border-emerald-700 rounded-xl shadow-2xl py-1 z-[60]">
+            <!-- Rendered dynamically -->
           </div>
         </div>
       </div>
@@ -126,21 +122,17 @@
 
   <!-- First-visit language chooser -->
   <div id="langWelcome" class="hidden fixed inset-0 bg-black/60 z-[70] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="langWelcomeTitle" dir="ltr">
-    <div class="bg-white rounded-2xl p-5 shadow-2xl max-w-sm w-full border border-slate-200 text-center">
+    <div class="bg-white rounded-2xl p-5 shadow-2xl max-w-md w-full border border-slate-200 text-center">
       <div class="text-3xl mb-1" aria-hidden="true">🌐</div>
       <h4 id="langWelcomeTitle" class="font-bold text-base text-slate-800">Choose your language</h4>
-      <p class="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">اختر لغتك · ഭാഷ തിരഞ്ഞെടുക്കുക · اپنی زبان منتخب کریں · আপনার ভাষা বেছে নিন</p>
-      <div class="grid grid-cols-2 gap-2">
-        <button type="button" data-lang="en" onclick="chooseWelcomeLang('en')" class="col-span-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm py-2.5 rounded-xl transition-colors">English</button>
-        <button type="button" data-lang="ar" onclick="chooseWelcomeLang('ar')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">العربية</button>
-        <button type="button" data-lang="ur" onclick="chooseWelcomeLang('ur')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">اردو</button>
-        <button type="button" data-lang="ml" onclick="chooseWelcomeLang('ml')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">മലയാളം</button>
-        <button type="button" data-lang="bn" onclick="chooseWelcomeLang('bn')" class="bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-sm py-2.5 rounded-xl transition-colors">বাংলা</button>
+      <p class="text-xs text-slate-500 mt-1 mb-4 leading-relaxed">اختر لغتك · Choose your language</p>
+      <div id="langWelcomeGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-[50vh] overflow-y-auto p-1">
+        <!-- Rendered dynamically -->
       </div>
     </div>
   </div>
 
-  <!-- Instruction Info Modal Popup (Triggered by ℹ️ Emoji) -->
+  <!-- Instruction Info Modal Popup -->
   <div id="infoModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-white rounded-2xl p-5 shadow-2xl max-w-md w-full border border-slate-200 max-h-[85vh] overflow-y-auto">
       <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
@@ -182,13 +174,12 @@
   <!-- Main Layout Container -->
   <div class="flex flex-col min-h-[calc(100vh-57px)] max-w-[1600px] mx-auto w-full shadow-2xl relative clip-x">
     
-    <!-- Settings panel: fixed under the header so it is always visible (even when the page is scrolled); header with close button stays pinned -->
+    <!-- Settings panel -->
     <div id="sidebarBackdrop" onclick="handleBackdropClick(event)" class="fixed inset-x-0 bottom-0 z-40 bg-black/50 transition-opacity duration-300 pointer-events-none opacity-0" style="top: var(--hdr-h, 57px);">
       <aside id="appSidebar" class="absolute inset-x-0 top-0 transform -translate-y-full transition-transform duration-300 ease-in-out w-full max-w-2xl mx-auto bg-dark-emerald text-emerald-50 rounded-b-2xl border-b border-x border-emerald-950 shadow-2xl pointer-events-auto flex flex-col" style="max-height: calc(100dvh - var(--hdr-h, 57px) - 8px); max-height: calc(100vh - var(--hdr-h, 57px) - 8px); max-height: calc(100dvh - var(--hdr-h, 57px) - 8px);">
 
-        <!-- Pinned panel header with always-visible close button -->
+        <!-- Pinned panel header -->
         <div class="flex items-center justify-between gap-2 px-3 py-2 border-b border-dark-emerald bg-dark-emerald-light rounded-b-none shrink-0">
-          <!-- Hijri date toggle (replaces the old "Settings" title) -->
           <div class="flex items-center gap-2 min-w-0" dir="ltr">
             <span id="lblHijri" class="lbl text-[11px] font-semibold text-emerald-200 uppercase tracking-wider truncate">Hijri Date (التاريخ الهجري)</span>
             <label class="relative inline-flex items-center cursor-pointer">
@@ -219,7 +210,7 @@
             </div>
           </div>
 
-          <!-- Verse range (always side by side) -->
+          <!-- Verse range -->
           <div class="grid grid-cols-2 gap-2">
             <div>
               <label id="lblFromVerse" for="fromVerse" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">From Verse (من آية)</label>
@@ -255,7 +246,7 @@
             </div>
           </div>
 
-          <!-- Reciter + keep screen on (one line) -->
+          <!-- Reciter + keep screen on -->
           <div class="grid grid-cols-2 gap-3 items-end">
             <div class="min-w-0">
               <label id="lblReciter" for="reciterSelect" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Reciter (القارئ)</label>
@@ -281,7 +272,7 @@
             </div>
           </div>
 
-          <!-- Daily page range: one compact row -->
+          <!-- Daily page range -->
           <div class="rounded-xl bg-dark-emerald-light/70 border border-dark-emerald p-2.5">
             <span id="lblDailyWird" class="lbl block text-[10px] font-semibold text-emerald-200 uppercase tracking-wider mb-1">Daily Page Range (الورد اليومي)</span>
             <div class="grid grid-cols-[1fr_1fr_auto] gap-2 items-end">
@@ -315,7 +306,7 @@
     <main class="flex-1 p-4 md:p-8 max-w-6xl mx-auto w-full flex flex-col justify-between">
       
       <div class="space-y-6">
-        <!-- Pinned Audio Controls Section (Zero gap offset, tightly locked under header, fits screen without scroll) -->
+        <!-- Pinned Audio Controls Section -->
         <section class="bg-emerald-50/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl shadow-md border border-emerald-200/90 sticky z-20" style="top: var(--hdr-h, 57px);">
           <div class="flex items-center justify-between gap-2 flex-wrap sm:flex-nowrap">
             <div class="flex items-center space-x-2">
@@ -342,7 +333,7 @@
               </button>
             </div>
 
-            <!-- Status Indicator neatly bounded -->
+            <!-- Status Indicator -->
             <div class="bg-white/90 border border-emerald-200 px-3 py-2 rounded-xl text-xs text-slate-600 flex items-center shadow-sm truncate max-w-full">
               <span id="activeVerseIndicator" class="font-medium text-slate-700 truncate">Not Playing</span>
             </div>
@@ -359,7 +350,6 @@
             
             <div class="flex items-center space-x-2">
               <span id="surahMetaHeader" class="text-xs text-slate-500 font-medium">--</span>
-              <!-- Moved Mus'haf view toggle and Info Button to Verse Information Header Area -->
               <button id="viewToggleBtn" onclick="toggleViewMode()" class="bg-white border border-emerald-200 text-emerald-700 hover:text-emerald-900 text-sm px-2 py-1 rounded-xl shadow-sm hover:bg-emerald-50 transition-all cursor-pointer flex items-center gap-1" title="Switch view" aria-pressed="false">
                 <span>📜</span>
               </button>
@@ -490,522 +480,76 @@
       "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
     ];
 
-    // Translations Dictionary
+    // Languages Metadata (41 Languages Supported by Al-Quran Cloud API)
+    const LANG_NAMES = {
+      en: 'English', ar: 'العربية', ml: 'മലയാളം', ur: 'اردو', bn: 'বাংলা',
+      fr: 'Français', es: 'Español', de: 'Deutsch', id: 'Bahasa Indonesia', tr: 'Türkçe',
+      ru: 'Русский', fa: 'فارسی', hi: 'हिन्दी', zh: '中文', ms: 'Bahasa Melayu',
+      ta: 'தமிழ்', ha: 'Hausa', sw: 'Kiswahili', so: 'Soomaali', sq: 'Shqip',
+      az: 'Azərbaycan', bs: 'Bosanski', bg: 'Български', cs: 'Čeština', nl: 'Nederlands',
+      it: 'Italiano', ja: '日本語', ko: '한국어', ku: 'کوردی', no: 'Norsk',
+      pl: 'Polski', pt: 'Português', ro: 'Română', sd: 'سنڌي', sv: 'Svenska',
+      tg: 'Тоҷикӣ', th: 'ไทย', tt: 'Татарча', ug: 'ئۇيغۇرچە', uz: 'Oʻzbekcha', am: 'አማርኛ'
+    };
+
+    const LANG_LOCALES = {
+      en: 'en-US', ar: 'ar', ml: 'ml-IN', ur: 'ur-PK', bn: 'bn-BD',
+      fr: 'fr-FR', es: 'es-ES', de: 'de-DE', id: 'id-ID', tr: 'tr-TR',
+      ru: 'ru-RU', fa: 'fa-IR', hi: 'hi-IN', zh: 'zh-CN', ms: 'ms-MY',
+      ta: 'ta-IN', ha: 'ha-NG', sw: 'sw-KE', so: 'so-SO', sq: 'sq-AL',
+      az: 'az-AZ', bs: 'bs-BA', bg: 'bg-BG', cs: 'cs-CZ', nl: 'nl-NL',
+      it: 'it-IT', ja: 'ja-JP', ko: 'ko-KR', ku: 'ckb-IQ', no: 'nb-NO',
+      pl: 'pl-PL', pt: 'pt-PT', ro: 'ro-RO', sd: 'sd-PK', sv: 'sv-SE',
+      tg: 'tg-TJ', th: 'th-TH', tt: 'tt-RU', ug: 'ug-CN', uz: 'uz-UZ', am: 'am-ET'
+    };
+
+    const RTL_LANGS = ['ar', 'ur', 'fa', 'ku', 'sd', 'ug'];
+    const LANG_HTML = { ku: 'ckb', no: 'nb' };
+
+    // Base English Translations fallback dictionary
     const translations = {
       en: {
-        viewShortVerse: "Verses",
-        viewShortMushaf: "Mus'haf",
-        lblSettingsTitle: "Settings",
-        lblHijri: "Hijri Date (التاريخ الهجري)",
-        btnCloseSettingsText: "Close",
-        pageTitle: "Quran Learning App",
-        brandTitle: "Quran Learning App",
-        brandSub: "تطبيق حفظ القرآن الكريم",
-        btnSettingsText: "Select",
-        lblSurah: "Select Surah (السورة)",
-        lblFromVerse: "From Verse (من آية)",
-        lblToVerse: "To Verse (إلى آية)",
-        lblRepetition: "Repetition Target (التكرار)",
-        lblReciter: "Reciter (القارئ)",
-        lblKeepAwake: "Keep screen ON",
-        lblDailyWird: "Daily Page Range (الورد اليومي)",
-        lblFromPage: "From Page",
-        lblToPage: "To Page",
-        btnSaveProgress: "Save Today's Progress",
-        globalPlayText: "Play All Verses", 
-        pauseResumeBtn: "Pause",
-        lblActiveVerseTitle: "Active Verse:",
-        notPlaying: "Not Playing",
-        lblSelectedVersesHeading: "Selected Verses",
-        loadingVersesText: "Loading verses...",
-        lblWeeklyLogTitle: "Weekly Log & Progress",
+        viewShortVerse: "Verses", viewShortMushaf: "Mus'haf", lblSettingsTitle: "Settings",
+        lblHijri: "Hijri Date (التاريخ الهجري)", btnCloseSettingsText: "Close", pageTitle: "Quran Learning App",
+        brandTitle: "Quran Learning App", brandSub: "تطبيق حفظ القرآن الكريم", btnSettingsText: "Select",
+        lblSurah: "Select Surah (السورة)", lblFromVerse: "From Verse (من آية)", lblToVerse: "To Verse (إلى آية)",
+        lblRepetition: "Repetition Target (التكرار)", lblReciter: "Reciter (القارئ)", lblKeepAwake: "Keep screen ON",
+        lblDailyWird: "Daily Page Range (الورد اليومي)", lblFromPage: "From Page", lblToPage: "To Page",
+        btnSaveProgress: "Save Today's Progress", globalPlayText: "Play All Verses", pauseResumeBtn: "Pause",
+        lblActiveVerseTitle: "Active Verse:", notPlaying: "Not Playing", lblSelectedVersesHeading: "Selected Verses",
+        loadingVersesText: "Loading verses...", lblWeeklyLogTitle: "Weekly Log & Progress",
         lblWeeklyLogDesc: "Your daily lessons and repetition records (Saved on your browser)",
-        btnClearHistory: "Clear History",
-        btnAddRowText: "Add New Row",
-        thDate: "Date / Day",
-        thPortion: "Surah & Portion",
-        thReps: "Reps",
-        thCompleted: "Completed",
-        thNotes: "Notes",
-        thAction: "Action",
-        footerCopy: "❤️ QuranLearning.app Please share Quran Learning App Link to your friends and family members..",
-        playBtnText: "Listen",
-        playingText: "Playing...",
-        repsLabel: "Target:",
-        repsCountLabel: "Reps:",
-        meaningLabel: "Meaning:",
-        toastSaved: "Progress saved successfully!",
-        toastNewRow: "New row saved successfully!",
-        confirmClear: "Are you sure you want to clear all history?",
-        noLogs: "No saved logs found.",
-        defaultNote: "Learning completed",
-        stopText: "Stop Playback",
-        pausedText: "Paused",
-        continueText: "Resume",
-        resumeText: "Pause",
-        deleteText: "Delete",
-        saveText: "Save",
-        cancelText: "Cancel",
-        verseLabel: "Verse",
-        verseRange: "Verse {from} to {to}",
-        loadFailed: "Failed to load data. Please check your internet connection.",
-        placeholderPortion: "e.g. Al-Fatihah (1-7)",
-        placeholderNotes: "Write notes...",
-        audioFallbackToast: "Selected reciter's audio is unavailable - switched to Mishary Alafasy",
-        audioFailed: "Audio could not be loaded. Please check your connection.",
-        introAudhu: "A'udhu billah",
-        introBismillah: "Bismillah",
-        lblSessionTitle: "Current Session",
+        btnClearHistory: "Clear History", btnAddRowText: "Add New Row", thDate: "Date / Day",
+        thPortion: "Surah & Portion", thReps: "Reps", thCompleted: "Completed", thNotes: "Notes",
+        thAction: "Action", footerCopy: "❤️ QuranLearning.app Please share Quran Learning App Link to your friends and family members..",
+        playBtnText: "Listen", playingText: "Playing...", repsLabel: "Target:", repsCountLabel: "Reps:",
+        meaningLabel: "Meaning:", toastSaved: "Progress saved successfully!", toastNewRow: "New row saved successfully!",
+        confirmClear: "Are you sure you want to clear all history?", noLogs: "No saved logs found.",
+        defaultNote: "Learning completed", stopText: "Stop Playback", pausedText: "Paused",
+        continueText: "Resume", resumeText: "Pause", deleteText: "Delete", saveText: "Save",
+        cancelText: "Cancel", verseLabel: "Verse", verseRange: "Verse {from} to {to}",
+        loadFailed: "Failed to load data. Please check your internet connection.", placeholderPortion: "e.g. Al-Fatihah (1-7)",
+        placeholderNotes: "Write notes...", audioFallbackToast: "Selected reciter's audio is unavailable - switched to Mishary Alafasy",
+        audioFailed: "Audio could not be loaded. Please check your connection.", introAudhu: "A'udhu billah",
+        introBismillah: "Bismillah", lblSessionTitle: "Current Session",
         lblSessionHint: "Saving adds this session's actual repetitions to your log and resets the counters.",
-        btnResetCounters: "Reset Counters",
-        confirmReset: "Reset the repetition counters for the selected verses?",
-        toastNothingToSave: "No repetitions completed yet - nothing to save.",
-        runComplete: "Round complete! Don't forget to save your progress.",
-        statusDone: "Done",
-        statusPartial: "Partial",
-        btnShareProgress: "Share Today's Progress",
-        shareTitle: "Learning Progress",
-        shareTotal: "Total repetitions",
-        shareEmail: "Email",
-        shareCopy: "Copy",
-        toastCopied: "Copied to clipboard",
-        toastNoTodayLogs: "No progress saved today yet.",
-        repsShort: "reps",
-        lblShareVia: "Share via",
-        btnLoadPages: "Load Pages",
-        pageShort: "Page",
+        btnResetCounters: "Reset Counters", confirmReset: "Reset the repetition counters for the selected verses?",
+        toastNothingToSave: "No repetitions completed yet - nothing to save.", runComplete: "Round complete! Don't forget to save your progress.",
+        statusDone: "Done", statusPartial: "Partial", btnShareProgress: "Share Today's Progress",
+        shareTitle: "Learning Progress", shareTotal: "Total repetitions", shareEmail: "Email", shareCopy: "Copy",
+        toastCopied: "Copied to clipboard", toastNoTodayLogs: "No progress saved today yet.", repsShort: "reps",
+        lblShareVia: "Share via", btnLoadPages: "Load Pages", pageShort: "Page",
         pageModeNote: "Showing your daily page range. Changing the surah or verses switches back.",
-        pageRangeTooLong: "Please choose at most 20 pages at a time.",
-        lblViewMode: "View Mode",
-        btnVerseMode: "Verses",
-        btnMushafMode: "Mus'haf Page",
-        mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
+        pageRangeTooLong: "Please choose at most 20 pages at a time.", lblViewMode: "View Mode",
+        btnVerseMode: "Verses", btnMushafMode: "Mus'haf Page", mushafLoadFailed: "This page image could not be loaded. Please check your connection.",
         settingsInstruction: "Use the Select button to configure the reciter, repetition count, Surah selection, and display mode.",
         zoomInstruction: "🔍 To zoom the page or screen, pinch with two fingers: spread them apart to zoom in, bring them together to zoom out. Double-tap a Mus'haf page image to zoom quickly. When zoomed in, drag with one finger to move around.",
         updateInstruction: "🔄 Updating the app: the app updates itself when you are online. When a new version is ready, a banner appears — tap “Update now”. No need to reinstall.",
-        updTitle: "New version available",
-        updMsg: "An improved version of Quran Learning App is ready.",
-        updNow: "Update now",
-        updLater: "Later",
-        updHow: "How to update?",
+        updTitle: "New version available", updMsg: "An improved version of Quran Learning App is ready.",
+        updNow: "Update now", updLater: "Later", updHow: "How to update?",
         updSteps: "Tap “Update now” — the app reloads with the new version.|If nothing changes, fully close the app (swipe it away from recent apps) and open it again.|Still old? Open the site once in your browser, then reopen the app. You do not need to reinstall.",
-        shareTip: "Share this verse",
-        shareSurah: "Surah",
-        shareRequest: "Please share this with all your friends and relatives. 🤲",
-        shareCopied: "Verse copied. Paste it to share.",
-        promptRepTarget: "Enter repetition target count for verse {verse}:"
-      },
-      ar: {
-        viewShortVerse: "آيات",
-        viewShortMushaf: "المصحف",
-        lblSettingsTitle: "الإعدادات",
-        lblHijri: "التاريخ الهجري",
-        btnCloseSettingsText: "إغلاق",
-        pageTitle: "Quran Learning App",
-        brandTitle: "تطبيق حفظ القرآن الكريم",
-        brandSub: "Quran Learning App",
-        btnSettingsText: "اختر",
-        lblSurah: "اختر السورة",
-        lblFromVerse: "من آية",
-        lblToVerse: "إلى آية",
-        lblRepetition: "عدد التكرار",
-        lblReciter: "القارئ",
-        lblKeepAwake: "إبقاء الشاشة مضيئة",
-        lblDailyWird: "الورد اليومي (نطاق الصفحات)",
-        lblFromPage: "من صفحة",
-        lblToPage: "إلى صفحة",
-        btnSaveProgress: "حفظ تقدم اليوم",
-        globalPlayText: "تشغيل كل الآيات",
-        pauseResumeBtn: "إيقاف مؤقت",
-        lblActiveVerseTitle: "الآية الحالية:",
-        notPlaying: "لا يتم التشغيل",
-        lblSelectedVersesHeading: "الآيات المختارة",
-        loadingVersesText: "جاري تحميل الآيات...",
-        lblWeeklyLogTitle: "السجل الأسبوعي والتقدم",
-        lblWeeklyLogDesc: "دروسك اليومية وسجلات التكرار (محفوظة على متصفحك)",
-        btnClearHistory: "مسح السجل",
-        btnAddRowText: "إضافة صف جديد",
-        thDate: "التاريخ / اليوم",
-        thPortion: "السورة والآيات",
-        thReps: "التكرار",
-        thCompleted: "مكتمل",
-        thNotes: "ملاحظات",
-        thAction: "الإجراء",
-        promptRepTarget: "أدخل عدد التكرار المطلوب للآية {verse}:",
-        footerCopy: "❤️ QuranLearning.app نرجو مشاركة رابط تطبيق حفظ القرآن مع أصدقائكم وأفراد أسرتكم..",
-        playBtnText: "استماع",
-        playingText: "جاري التشغيل...",
-        repsLabel: "الهدف:",
-        repsCountLabel: "التكرار:",
-        meaningLabel: "المعنى:",
-        toastSaved: "تم حفظ التقدم بنجاح!",
-        toastNewRow: "تم حفظ الصف الجديد بنجاح!",
-        confirmClear: "هل أنت متأكد من رغبتك في مسح كل السجل؟",
-        noLogs: "لا توجد سجلات محفوظة.",
-        defaultNote: "تم إكمال الدرس",
-        stopText: "إيقاف التشغيل",
-        pausedText: "متوقف مؤقتاً",
-        continueText: "استئناف",
-        resumeText: "إيقاف مؤقت",
-        deleteText: "حذف",
-        saveText: "حفظ",
-        cancelText: "إلغاء",
-        verseLabel: "آية",
-        verseRange: "من الآية {from} إلى {to}",
-        loadFailed: "تعذر تحميل البيانات. يرجى التحقق من اتصالك بالإنترنت.",
-        placeholderPortion: "مثال: الفاتحة (1-7)",
-        placeholderNotes: "اكتب ملاحظاتك...",
-        audioFallbackToast: "صوت القارئ المختار غير متاح - تم التحويل إلى مشاري العفاسي",
-        audioFailed: "تعذر تحميل الصوت. يرجى التحقق من اتصالك.",
-        introAudhu: "أعوذ بالله",
-        introBismillah: "بسم الله",
-        lblSessionTitle: "الجلسة الحالية",
-        lblSessionHint: "يضيف الحفظ تكرارات هذه الجلسة الفعلية إلى سجلك ويعيد ضبط العدادات.",
-        btnResetCounters: "إعادة ضبط العدادات",
-        confirmReset: "هل تريد إعادة ضبط عدادات التكرار للآيات المختارة؟",
-        toastNothingToSave: "لم يتم إكمال أي تكرار بعد - لا يوجد ما يُحفظ.",
-        runComplete: "اكتملت الجولة! لا تنسَ حفظ تقدمك.",
-        statusDone: "تم",
-        statusPartial: "جزئي",
-        btnShareProgress: "مشاركة تقدم اليوم",
-        shareTitle: "تقدم التعلم",
-        shareTotal: "إجمالي التكرارات",
-        shareEmail: "البريد الإلكتروني",
-        shareCopy: "نسخ",
-        toastCopied: "تم النسخ إلى الحافظة",
-        toastNoTodayLogs: "لم يتم حفظ أي تقدم اليوم بعد.",
-        repsShort: "تكرار",
-        lblShareVia: "المشاركة عبر",
-        btnLoadPages: "تحميل الصفحات",
-        pageShort: "صفحة",
-        pageModeNote: "يتم عرض نطاق صفحاتك اليومي. تغيير السورة أو الآيات يعيدك للعرض السابق.",
-        pageRangeTooLong: "يرجى اختيار 20 صفحة كحد أقصى في المرة الواحدة.",
-        lblViewMode: "وضع العرض",
-        btnVerseMode: "الآيات",
-        btnMushafMode: "صفحة المصحف",
-        mushafLoadFailed: "تعذر تحميل صورة هذه الصفحة. يرجى التحقق من اتصالك.",
-        settingsInstruction: "استخدم زر «اختر» لضبط القارئ وعدد التكرار واختيار السورة ووضع العرض.",
-        zoomInstruction: "🔍 للتكبير أو التصغير، المس الشاشة بإصبعين: باعد بينهما للتكبير وقرّب بينهما للتصغير. انقر مرتين على صورة صفحة المصحف للتكبير السريع. وعند التكبير، حرّك إصبعاً واحداً للتنقل.",
-        updateInstruction: "🔄 تحديث التطبيق: يتحدث التطبيق تلقائياً عند الاتصال بالإنترنت. عند توفر إصدار جديد يظهر شريط تنبيه - اضغط «حدّث الآن». لا حاجة لإعادة التثبيت.",
-        updTitle: "يتوفر إصدار جديد",
-        updMsg: "إصدار محسّن من تطبيق حفظ القرآن جاهز.",
-        updNow: "حدّث الآن",
-        updLater: "لاحقاً",
-        updHow: "كيف أحدّث؟",
-        updSteps: "اضغط «حدّث الآن» - سيُعاد تحميل التطبيق بالإصدار الجديد.|إذا لم يتغير شيء، أغلق التطبيق تماماً (اسحبه من التطبيقات الأخيرة) ثم افتحه من جديد.|ما زال قديماً؟ افتح الموقع مرة واحدة في المتصفح ثم أعد فتح التطبيق. لا حاجة لإعادة التثبيت.",
-        shareTip: "مشاركة هذه الآية",
-        shareSurah: "سورة",
-        shareRequest: "يرجى مشاركة هذا مع جميع أصدقائكم وأقاربكم. 🤲",
-        shareCopied: "تم نسخ الآية. الصقها للمشاركة."
-      },
-      ml: {
-        viewShortVerse: "വാക്യങ്ങൾ",
-        viewShortMushaf: "മുസ്ഹഫ്",
-        lblSettingsTitle: "ക്രമീകരണങ്ങൾ",
-        lblHijri: "ഹിജ്റ തീയതി",
-        btnCloseSettingsText: "അടയ്ക്കുക",
-        pageTitle: "Quran Learning App",
-        brandTitle: "Quran Learning App",
-        brandSub: "ഖുർആൻ പഠന സഹായി ",
-        btnSettingsText: "Select",
-        lblSurah: "സൂറത്ത് തിരഞ്ഞെടുക്കുക",
-        lblFromVerse: "ആദ്യ ആയത്ത്",
-        lblToVerse: "അവസാന ആയത്ത്",
-        lblRepetition: "ആവർത്തനം",
-        lblReciter: "ഖാരിഅ്",
-        lblKeepAwake: "സ്ക്രീൻ ഓൺ",
-        lblDailyWird: "ദൈനംദിന ലക്ഷ്യം",
-        lblFromPage: "പേജ് മുതൽ",
-        lblToPage: "പേജ് വരെ",
-        btnSaveProgress: "ഇന്നത്തെ പുരോഗതി സേവ് ചെയ്യുക",
-        globalPlayText: "തുടരെ കേൾക്കാം ",
-        pauseResumeBtn: "ഇടക്ക് വെച്ച് നിർത്താം ",
-        lblActiveVerseTitle: "നിലവിലെ ആയത്ത്:",
-        notPlaying: "പ്ലേ ചെയ്തിട്ടില്ല",
-        lblSelectedVersesHeading: "ആയത്തുകൾ",
-        loadingVersesText: "ആയത്തുകൾ ലോഡ് ചെയ്യുന്നു...",
-        lblWeeklyLogTitle: "ആഴ്ചയിലെ പുരോഗതിയും കുറിപ്പുകളും",
-        lblWeeklyLogDesc: "നിങ്ങളുടെ പ്രതിദിന പാഠങ്ങളും ആവർത്തന റെക്കോർഡുകളും",
-        btnClearHistory: "ഹിസ്റ്ററി നീക്കം ചെയ്യുക",
-        btnAddRowText: "പുതിയ വരി ചേർക്കുക",
-        thDate: "തീയതി / ദിവസം",
-        thPortion: "സൂറത്ത് & ആയത്ത്",
-        thReps: "ആവർത്തനം",
-        thCompleted: "പൂർത്തിയായി",
-        thNotes: "കുറിപ്പുകൾ",
-        thAction: "നടപടി",
-        footerCopy: "❤️ QuranLearning.app ഈ ആപ്പിന്റെ ലിങ്ക് നിങ്ങളുടെ സുഹൃത്തുക്കളുമായും ബന്ധുക്കളുമായും ഷെയർ ചെയ്യുമല്ലോ",
-        playBtnText: "കേൾക്കുക",
-        playingText: "പ്ലേ ചെയ്യുന്നു...",
-        repsLabel: "ലക്ഷ്യം:",
-        repsCountLabel: "ആവർത്തനം:",
-        meaningLabel: "അർത്ഥം:",
-        toastSaved: "വിവരങ്ങൾ പേജിൽ സേവ് ചെയ്തു!",
-        toastNewRow: "പുതിയ വരി വിജയകരമായി സേവ് ചെയ്തു!",
-        confirmClear: "സേവ് ചെയ്ത എല്ലാ ഹിസ്റ്ററിയും നീക്കം ചെയ്യണമെന്നുറപ്പാണോ?",
-        noLogs: "സേവ് ചെയ്ത വിവരങ്ങൾ ഇല്ല.",
-        defaultNote: "ഹിഫ്ള് പൂർത്തിയാക്കി",
-        stopText: "സ്റ്റോപ്പ് ചെയ്യുക",
-        pausedText: "പോസ് ചെയ്തു",
-        continueText: "തുടരുക",
-        resumeText: "പോസ്",
-        deleteText: "നീക്കം ചെയ്യുക",
-        saveText: "സേവ്",
-        cancelText: "റദ്ദാക്കുക",
-        verseLabel: "ആയത്ത്",
-        verseRange: "ആയത്ത് {from} മുതൽ {to} വരെ",
-        loadFailed: "ഡാറ്റ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
-        placeholderPortion: "ഉദാ: അൽ-ഫാതിഹ (1-7)",
-        placeholderNotes: "കുറിപ്പുകൾ എഴുതുക...",
-        audioFallbackToast: "തിരഞ്ഞെടുത്ത ഖാരിഇന്റെ ഓഡിയോ ലഭ്യമല്ല - മിഷാരി അൽ-അഫാസിയിലേക്ക് മാറ്റി",
-        audioFailed: "ഓഡിയോ ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
-        introAudhu: "അഊദു ബില്ലാഹ്",
-        introBismillah: "ബിസ്മില്ലാഹ്",
-        lblSessionTitle: "നിലവിലെ സെഷൻ",
-        lblSessionHint: "സേവ് ചെയ്യുമ്പോൾ ഈ സെഷനിലെ യഥാർത്ഥ ആവർത്തനങ്ങൾ ലോഗിൽ ചേർക്കുകയും കൗണ്ടറുകൾ പൂജ്യമാക്കുകയും ചെയ്യും.",
-        btnResetCounters: "കൗണ്ടർ റീസെറ്റ്",
-        confirmReset: "തിരഞ്ഞെടുത്ത ആയത്തുകളുടെ ആവർത്തന കൗണ്ടറുകൾ റീസെറ്റ് ചെയ്യണോ?",
-        toastNothingToSave: "ഇതുവരെ ആവർത്തനങ്ങൾ പൂർത്തിയായിട്ടില്ല - സേവ് ചെയ്യാനൊന്നുമില്ല.",
-        runComplete: "റൗണ്ട് പൂർത്തിയായി! പുരോഗതി സേവ് ചെയ്യാൻ മറക്കരുത്.",
-        statusDone: "പൂർത്തിയായി",
-        statusPartial: "ഭാഗികം",
-        btnShareProgress: "ഇന്നത്തെ പുരോഗതി ഷെയർ ചെയ്യുക",
-        shareTitle: "പഠന പുരോഗതി",
-        shareTotal: "ആകെ ആവർത്തനം",
-        shareEmail: "ഇമെയിൽ",
-        shareCopy: "കോപ്പി",
-        toastCopied: "കോപ്പി ചെയ്തു",
-        toastNoTodayLogs: "ഇന്ന് സേവ് ചെയ്ത പുരോഗതി ഇല്ല.",
-        repsShort: "ആവർത്തനം",
-        lblShareVia: "ഷെയർ ചെയ്യുക",
-        btnLoadPages: "പേജുകൾ ലോഡ് ചെയ്യുക",
-        pageShort: "പേജ്",
-        pageModeNote: "ദൈനംദിന പേജ് പരിധി കാണിക്കുന്നു. സൂറത്തോ ആയത്തോ മാറ്റിയാൽ തിരികെ പോകും.",
-        pageRangeTooLong: "ഒരു സമയം പരമാവധി 20 പേജുകൾ തിരഞ്ഞെടുക്കുക.",
-        lblViewMode: "ആയത്തുകൾ കാണേണ്ട രൂപം",
-        btnVerseMode: "ആയത്തുകൾ",
-        btnMushafMode: "മുസ്ഹഫ് പേജ്",
-        mushafLoadFailed: "പേജ് ചിത്രം ലോഡ് ചെയ്യാനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.",
-        settingsInstruction: "ഖാരിഅ്, ആവർത്തന എണ്ണം, സൂറത്ത് തിരഞ്ഞെടുക്കൽ, വ്യൂ മോഡ് എന്നിവ ക്രമീകരിക്കാൻ Select ബട്ടൺ ഉപയോഗിക്കുക.",
-        zoomInstruction: "🔍 പേജ്/സ്ക്രീൻ സൂം ചെയ്യാൻ രണ്ട് വിരലുകൾ കൊണ്ട് സ്ക്രീനിൽ തൊട്ട് വിരലുകൾ അകറ്റിയാൽ സൂം ഇൻ, അടുപ്പിച്ചാൽ സൂം ഔട്ട്. മുസ്ഹഫ് പേജ് ചിത്രത്തിൽ ഡബിൾ ടാപ്പ് ചെയ്താൽ വേഗത്തിൽ സൂം ചെയ്യാം. സൂം ചെയ്ത ശേഷം ഒരു വിരൽ കൊണ്ട് നീക്കി കാണാം.",
-        updateInstruction: "🔄 ആപ്പ് അപ്ഡേറ്റ്: ഇന്റർനെറ്റ് ഉള്ളപ്പോൾ ആപ്പ് സ്വയം അപ്ഡേറ്റ് ആകും. പുതിയ വേർഷൻ തയ്യാറാകുമ്പോൾ ഒരു ബാനർ കാണും — “ഇപ്പോൾ അപ്ഡേറ്റ് ചെയ്യുക” അമർത്തുക. വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യേണ്ടതില്ല.",
-        updTitle: "പുതിയ വേർഷൻ ലഭ്യമാണ്",
-        updMsg: "ഖുർആൻ ലേണിംഗ് ആപ്പിന്റെ മെച്ചപ്പെട്ട വേർഷൻ തയ്യാറാണ്.",
-        updNow: "ഇപ്പോൾ അപ്ഡേറ്റ് ചെയ്യുക",
-        updLater: "പിന്നീട്",
-        updHow: "എങ്ങനെ അപ്ഡേറ്റ് ചെയ്യാം?",
-        updSteps: "“ഇപ്പോൾ അപ്ഡേറ്റ് ചെയ്യുക” അമർത്തുക — ആപ്പ് പുതിയ വേർഷനിൽ വീണ്ടും ലോഡ് ആകും.|മാറ്റമില്ലെങ്കിൽ ആപ്പ് പൂർണ്ണമായി ക്ലോസ് ചെയ്ത് (റീസന്റ് ആപ്പുകളിൽ നിന്ന് സ്വൈപ്പ് ചെയ്ത്) വീണ്ടും തുറക്കുക.|എന്നിട്ടും പഴയതാണെങ്കിൽ ബ്രൗസറിൽ സൈറ്റ് ഒരു തവണ തുറന്ന ശേഷം ആപ്പ് വീണ്ടും തുറക്കുക. റീഇൻസ്റ്റാൾ ആവശ്യമില്ല.",
-        shareTip: "ഈ ആയത്ത് പങ്കിടുക",
-        shareSurah: "സൂറത്ത്",
-        shareRequest: "ഇത് നിങ്ങളുടെ എല്ലാ സുഹൃത്തുക്കളുമായും ബന്ധുക്കളുമായും പങ്കിടണമെന്ന് അഭ്യർത്ഥിക്കുന്നു. 🤲",
-        shareCopied: "ആയത്ത് കോപ്പി ചെയ്തു. പങ്കിടാൻ പേസ്റ്റ് ചെയ്യുക.",
-        promptRepTarget: "ആയത്ത് {verse} നുള്ള ആവർത്തന എണ്ണം നൽകുക:"
-      },
-      ur: {
-        viewShortVerse: "آیات",
-        viewShortMushaf: "مصحف",
-        lblSettingsTitle: "ترتیبات",
-        lblHijri: "ہجری تاریخ",
-        btnCloseSettingsText: "بند کریں",
-        pageTitle: "قرآن حفظ ٹریکر",
-        brandTitle: "قرآن حفظ ٹریکر",
-        brandSub: "Quran Learning App",
-        btnSettingsText: "منتخب کریں",
-        lblSurah: "سورۃ منتخب کریں",
-        lblFromVerse: "آیت نمبر سے",
-        lblToVerse: "آیت نمبر تک",
-        lblRepetition: "تکرار کا ہدف",
-        lblReciter: "قاری",
-        lblKeepAwake: "اسکرین آن رکھیں",
-        lblDailyWird: "روزانہ کا ورد (صفحات)",
-        lblFromPage: "صفحہ از",
-        lblToPage: "صفحہ تا",
-        btnSaveProgress: "آج کی پیشرفت محفوظ کریں",
-        globalPlayText: "تمام آیات چلائیں",
-        pauseResumeBtn: "وقفہ",
-        lblActiveVerseTitle: "موجودہ آیت:",
-        notPlaying: "نہیں چل رہا",
-        lblSelectedVersesHeading: "منتخب کردہ آیات",
-        loadingVersesText: "آیات لوڈ ہو رہی ہیں...",
-        lblWeeklyLogTitle: "ہفتہ وار لاگ اور پیشرفت",
-        lblWeeklyLogDesc: "آپ کے روزانہ کے اسباق اور تکرار کے ریکارڈز",
-        btnClearHistory: "تاریخچہ صاف کریں",
-        btnAddRowText: "نئی سطر شامل کریں",
-        thDate: "تاریخ / دن",
-        thPortion: "سورۃ اور حصہ",
-        thReps: "تکرار",
-        thCompleted: "مکمل",
-        thNotes: "نوٹس",
-        thAction: "عمل",
-        footerCopy: "براہ کرم اس ایپ کا لنک اپنے دوستوں اور رشتہ داروں کے ساتھ شیئر کریں۔ quranlearning.app❤️",
-        playBtnText: "سنیں",
-        playingText: "چل رہا ہے...",
-        repsLabel: "ہدف:",
-        repsCountLabel: "تکرار:",
-        meaningLabel: "معنی:",
-        toastSaved: "پیشرفت کامیابی سے محفوظ ہو گئی!",
-        toastNewRow: "نئی سطر کامیابی سے محفوظ ہو گئی!",
-        confirmClear: "کیا آپ تمام ہسٹری حذف کرنا چاہتے ہیں؟",
-        noLogs: "کوئی محفوظ شدہ لاگ نہیں ملا۔",
-        defaultNote: "حفظ مکمل ہو گیا",
-        stopText: "روکیں",
-        pausedText: "روکا گیا",
-        continueText: "جاری رکھیں",
-        resumeText: "وقفہ",
-        deleteText: "حذف کریں",
-        saveText: "محفوظ",
-        cancelText: "منسوخ",
-        verseLabel: "آیت",
-        verseRange: "آیت {from} تا {to}",
-        loadFailed: "ڈیٹا لوڈ نہیں ہو سکا۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
-        placeholderPortion: "مثلاً: الفاتحہ (1-7)",
-        placeholderNotes: "نوٹس لکھیں...",
-        audioFallbackToast: "منتخب قاری کی آڈیو دستیاب نہیں - مشاری العفاسی پر منتقل کر دیا گیا",
-        audioFailed: "آڈیو لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
-        introAudhu: "اعوذ باللہ",
-        introBismillah: "بسم اللہ",
-        lblSessionTitle: "موجودہ سیشن",
-        lblSessionHint: "محفوظ کرنے پر اس سیشن کے اصل تکرار لاگ میں شامل ہوں گے اور کاؤنٹر صفر ہو جائیں گے۔",
-        btnResetCounters: "کاؤنٹر ری سیٹ کریں",
-        confirmReset: "کیا منتخب آیات کے تکرار کاؤنٹر ری سیٹ کریں؟",
-        toastNothingToSave: "ابھی کوئی تکرار مکمل نہیں ہوا - محفوظ کرنے کو کچھ نہیں۔",
-        runComplete: "دور مکمل ہوا! اپنی پیشرفت محفوظ کرنا نہ بھولیں۔",
-        statusDone: "مکمل",
-        statusPartial: "جزوی",
-        btnShareProgress: "آج کی پیشرفت شیئر کریں",
-        shareTitle: "حفظ کی پیشرفت",
-        shareTotal: "کل تکرار",
-        shareEmail: "ای میل",
-        shareCopy: "کاپی",
-        toastCopied: "کاپی ہو گیا",
-        toastNoTodayLogs: "آج کی کوئی پیشرفت محفوظ نہیں۔",
-        repsShort: "تکرار",
-        lblShareVia: "شیئر کریں",
-        btnLoadPages: "صفحات لوڈ کریں",
-        pageShort: "صفحہ",
-        pageModeNote: "روزانہ صفحات کی حد دکھائی جا رہی ہے۔ سورۃ یا آیات بدلنے پر واپس چلا جائے گا۔",
-        pageRangeTooLong: "ایک وقت میں زیادہ سے زیادہ 20 صفحات منتخب کریں۔",
-        lblViewMode: "منظر کا انداز",
-        btnVerseMode: "آیات",
-        btnMushafMode: "مصحف صفحہ",
-        mushafLoadFailed: "صفحے کی تصویر لوڈ نہیں ہو سکی۔ اپنا انٹرنیٹ کنکشن چیک کریں۔",
-        settingsInstruction: "قاری، تکرار کی تعداد، سورۃ کے انتخاب، اور ڈسپلے موڈ کو ترتیب دینے کے لیے Select کا بٹن استعمال کریں۔",
-        zoomInstruction: "🔍 صفحہ/اسکرین زوم کرنے کے لیے دو انگلیاں اسکرین پر رکھ کر پھیلائیں تو زوم ان، اور قریب لائیں تو زوم آؤٹ۔ مصحف کے صفحے کی تصویر پر ڈبل ٹیپ کریں تو فوراً زوم ہو جائے گا۔ زوم کے بعد ایک انگلی سے کھسکا کر دیکھیں۔",
-        updateInstruction: "🔄 ایپ اپ ڈیٹ: انٹرنیٹ ہونے پر ایپ خود اپ ڈیٹ ہو جاتی ہے۔ نیا ورژن تیار ہونے پر ایک بینر آئے گا — «ابھی اپ ڈیٹ کریں» دبائیں۔ دوبارہ انسٹال کرنے کی ضرورت نہیں۔",
-        updTitle: "نیا ورژن دستیاب ہے",
-        updMsg: "قرآن لرننگ ایپ کا بہتر ورژن تیار ہے۔",
-        updNow: "ابھی اپ ڈیٹ کریں",
-        updLater: "بعد میں",
-        updHow: "اپ ڈیٹ کیسے کریں؟",
-        updSteps: "«ابھی اپ ڈیٹ کریں» دبائیں — ایپ نئے ورژن کے ساتھ دوبارہ لوڈ ہو جائے گی۔|اگر کچھ نہ بدلے تو ایپ مکمل بند کریں (حالیہ ایپس سے ہٹا دیں) اور دوبارہ کھولیں۔|پھر بھی پرانی ہو تو براؤزر میں ایک بار سائٹ کھولیں، پھر ایپ دوبارہ کھولیں کریں۔ دوبارہ انسٹال کی ضرورت نہیں۔",
-        shareTip: "یہ آیت شیئر کریں",
-        shareSurah: "سورۃ",
-        shareRequest: "براہِ کرم اسے اپنے تمام دوستوں اور رشتہ داروں کے ساتھ شیئر کریں۔ 🤲",
-        shareCopied: "آیت کاپی ہو گئی۔ شیئر کرنے کے لیے پیسٹ کریں۔",
-        promptRepTarget: "آیت {verse} کے لیے تکرار کی تعداد درج کریں:"
-      },
-      bn: {
-        viewShortVerse: "আয়াত",
-        viewShortMushaf: "মুসহাফ",
-        lblSettingsTitle: "সেটিংস",
-        lblHijri: "হিজরি তারিখ",
-        btnCloseSettingsText: "বন্ধ করুন",
-        pageTitle: "কুরআন হিফজ ট্র্যাকার",
-        brandTitle: "কুরআন হিফজ ট্র্যাকার",
-        brandSub: "Quran Learning App",
-        btnSettingsText: "নির্বাচন",
-        lblSurah: "সুরা নির্বাচন করুন",
-        lblFromVerse: "যে আয়াত থেকে",
-        lblToVerse: "যে আয়াত পর্যন্ত",
-        lblRepetition: "পুনরাবৃত্তির লক্ষ্য",
-        lblReciter: "কারী",
-        lblKeepAwake: "স্ক্রিন চালু রাখুন",
-        lblDailyWird: "দৈনিক পাঠের পৃষ্ঠা পরিসীমা",
-        lblFromPage: "পৃষ্ঠা থেকে",
-        lblToPage: "পৃষ্ঠা পর্যন্ত",
-        btnSaveProgress: "আজকের অগ্রগতি সংরক্ষণ করুন",
-        globalPlayText: "সমস্ত আয়াত চালান",
-        pauseResumeBtn: "বিরতি",
-        lblActiveVerseTitle: "সক্রিয় আয়াত:",
-        notPlaying: "চলছে না",
-        lblSelectedVersesHeading: "নির্বাচিত আয়াতসমূহ",
-        loadingVersesText: "আয়াত লোড হচ্ছে...",
-        lblWeeklyLogTitle: "সাপ্তাহিক লগ এবং অগ্রগতি",
-        lblWeeklyLogDesc: "আপনার প্রতিদিনের পাঠ এবং পুনরাবৃত্তি রেকর্ড",
-        btnClearHistory: "ইতিহাস মুছুন",
-        btnAddRowText: "নতুন সারি যোগ করুন",
-        thDate: "তারিখ / দিন",
-        thPortion: "সুরা এবং অংশ",
-        thReps: "রিপিট",
-        thCompleted: "সম্পন্ন",
-        thNotes: "নোট",
-        thAction: "কার্যক্রম",
-        footerCopy: "❤️ quranlearning.app অনুগ্রহ করে এই অ্যাপটির লিঙ্ক আপনার বন্ধু ও আত্মীয়দের সাথে শেয়ার করুন।",
-        playBtnText: "শুনুন",
-        playingText: "চলছে...",
-        repsLabel: "লক্ষ্য:",
-        repsCountLabel: "রিপিট:",
-        meaningLabel: "অর্থ:",
-        toastSaved: "অগ্রগতি সফলভাবে সংরক্ষিত হয়েছে!",
-        toastNewRow: "নতুন সারি সফলভাবে সংরক্ষিত হয়েছে!",
-        confirmClear: "আপনি কি সমস্ত ইতিহাস মুছে ফেলতে চান?",
-        noLogs: "কোন সংরক্ষিত লগ পাওয়া যায়নি।",
-        defaultNote: "হিফজ সম্পন্ন হয়েছে",
-        stopText: "থামান",
-        pausedText: "বিরতি দেওয়া হয়েছে",
-        continueText: "চালিয়ে যান",
-        resumeText: "বিরতি",
-        deleteText: "মুছে ফেলুন",
-        saveText: "সংরক্ষণ",
-        cancelText: "বাতিল",
-        verseLabel: "আয়াত",
-        verseRange: "আয়াত {from} থেকে {to}",
-        loadFailed: "ডেটা লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।",
-        placeholderPortion: "যেমন: আল-ফাতিহা (1-7)",
-        placeholderNotes: "নোট লিখুন...",
-        audioFallbackToast: "নির্বাচিত কারীর অডিও পাওয়া যায়নি - মিশারী আলাফাসিতে পরিবর্তন করা হয়েছে",
-        audioFailed: "অডিও লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।",
-        introAudhu: "আউযুবিল্লাহ",
-        introBismillah: "বিসমিল্লাহ",
-        lblSessionTitle: "বর্তমান সেশন",
-        lblSessionHint: "সংরক্ষণ করলে এই সেশনের প্রকৃত পুনরাবৃত্তি লগে যুক্ত হবে এবং কাউন্টার শূন্য হবে।",
-        btnResetCounters: "কাউন্টার রিসেট",
-        confirmReset: "নির্বাচিত আয়াতের পুনরাবৃত্তি কাউন্টার রিসেট করবেন?",
-        toastNothingToSave: "এখনও কোনো পুনরাবৃত্তি সম্পন্ন হয়নি - সংরক্ষণের কিছু নেই।",
-        runComplete: "রাউন্ড সম্পন্ন! অগ্রগতি সংরক্ষণ করতে ভুলবেন না।",
-        statusDone: "সম্পন্ন",
-        statusPartial: "আংশিক",
-        btnShareProgress: "আজকের অগ্রগতি শেয়ার করুন",
-        shareTitle: "হিফজ অগ্রগতি",
-        shareTotal: "মোট পুনরাবৃত্তি",
-        shareEmail: "ইমেইল",
-        shareCopy: "কপি",
-        toastCopied: "কপি করা হয়েছে",
-        toastNoTodayLogs: "আজ কোনো অগ্রগতি সংরক্ষিত হয়নি।",
-        repsShort: "রিপিট",
-        lblShareVia: "শেয়ার করুন",
-        btnLoadPages: "পৃষ্ঠা লোড করুন",
-        pageShort: "পৃষ্ঠা",
-        pageModeNote: "দৈনিক পৃষ্ঠা পরিসীমা দেখানো হচ্ছে। সুরা বা আয়াত বদলালে আগের অবস্থায় ফিরবে।",
-        pageRangeTooLong: "একবারে সর্বোচ্চ 20টি পৃষ্ঠা নির্বাচন করুন।",
-        lblViewMode: "দেখার মোড",
-        btnVerseMode: "আয়াত",
-        btnMushafMode: "মুসহাফ পৃষ্ঠা",
-        mushafLoadFailed: "পৃষ্ঠার ছবি লোড করা যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন.",
-        settingsInstruction: "কারী, পুনরাবৃত্তির সংখ্যা, সুরা নির্বাচন এবং প্রদর্শন মোড কনফিগার করতে Select বাটন ব্যবহার করুন।",
-        zoomInstruction: "🔍 পেজ/স্ক্রিন জুম করতে দুই আঙুল স্ক্রিনে রেখে ফাঁক করলে জুম ইন, কাছে আনলে জুম আউট হবে। মুসহাফ পেজের ছবিতে ডাবল ট্যাপ করলে দ্রুত জুম হয়। জুম করার পর এক আঙুলে টেনে ঘুরে দেখুন।",
-        updateInstruction: "🔄 অ্যাপ আপডেট: ইন্টারনেট থাকলে অ্যাপ নিজে থেকেই আপডেট হয়। নতুন সংস্করণ প্রস্তুত হলে একটি ব্যানার দেখা যাবে — “এখনই আপডেট করুন” চাপুন। আবার ইনস্টল করার দরকার নেই।",
-        updTitle: "নতুন সংস্করণ পাওয়া যাচ্ছে",
-        updMsg: "কুরআন লার্নিং অ্যাপের উন্নত সংস্করণ প্রস্তুত।",
-        updNow: "এখনই আপডেট করুন",
-        updLater: "পরে",
-        updHow: "কীভাবে আপডেট করবেন?",
-        updSteps: "“এখনই আপডেট করুন” চাপুন — অ্যাপ নতুন সংস্করণে আবার লোড হবে।|কিছু না বদলালে অ্যাপ পুরোপুরি বন্ধ করুন (সাম্প্রতিক অ্যাপ থেকে সরিয়ে দিন) এবং আবার খুলুন।|তবুও পুরোনো থাকলে ব্রাউজারে একবার সাইটটি খুলুন, তারপর অ্যাপ আবার খুলুন। আবার ইনস্টলের দরকার নেই।",
-        shareTip: "এই আয়াত শেয়ার করুন",
-        shareSurah: "সূরা",
-        shareRequest: "অনুগ্রহ করে এটি আপনার সব বন্ধু ও আত্মীয়দের সাথে শেয়ার করুন। 🤲",
-        shareCopied: "আয়াত কপি হয়েছে। শেয়ার করতে পেস্ট করুন.",
-        promptRepTarget: "আয়াত {verse} এর পুনরাবৃত্তির সংখ্যা লিখুন:"
+        shareTip: "Share this verse", shareSurah: "Surah", shareRequest: "Please share this with all your friends and relatives. 🤲",
+        shareCopied: "Verse copied. Paste it to share.", promptRepTarget: "Enter repetition target count for verse {verse}:"
       }
     };
 
@@ -1025,7 +569,6 @@
       keepAwake: 'quran_hifz_keepawake'
     };
     const LEGACY_RECITERS = { Ayman_Sowaid_64kbps: 'ar.aymanswoaid' };
-    const LANG_LOCALES = { en: 'en-US', ar: 'ar', ml: 'ml-IN', ur: 'ur-PK', bn: 'bn-BD' };
 
     function loadJSON(key, fallback) {
       try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
@@ -1043,8 +586,7 @@
     let isHijriActive = false;
 
     const $ = id => document.getElementById(id);
-    // Falls back to English for any key missing in the active language
-    const T = () => Object.assign({}, translations.en, translations[currentLang]);
+    const T = () => Object.assign({}, translations.en, translations[currentLang] || {});
     function setText(id, text) { const el = $(id); if (el && text !== undefined) el.textContent = text; }
     function escapeHtml(str) {
       return String(str == null ? '' : str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1075,7 +617,8 @@
           return now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
         }
       } else {
-        return now.toLocaleDateString(LANG_LOCALES[currentLang], { weekday: 'short', month: 'short', day: 'numeric' });
+        const locale = LANG_LOCALES[currentLang] || 'en-US';
+        return now.toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric' });
       }
     }
 
@@ -1085,8 +628,9 @@
     }
 
     function formatLogDate(log) {
+      const locale = LANG_LOCALES[currentLang] || 'en-US';
       if (log.iso) {
-        return new Date(log.iso + 'T00:00:00').toLocaleDateString(LANG_LOCALES[currentLang], { weekday: 'short', month: 'short', day: 'numeric' });
+        return new Date(log.iso + 'T00:00:00').toLocaleDateString(locale, { weekday: 'short', month: 'short', day: 'numeric' });
       }
       return log.date || '';
     }
@@ -1113,27 +657,57 @@
       updateAudioControlUI();
       if (!isRunning) setText('activeVerseIndicator', t.notPlaying);
       setText('currentDateBadge', getFormattedDate());
-      document.documentElement.lang = currentLang;
+      document.documentElement.lang = LANG_HTML[currentLang] || currentLang;
       syncLangPicker();
       syncNavMenu();
-      document.documentElement.dir = (currentLang === 'ar' || currentLang === 'ur') ? 'rtl' : 'ltr';
+      document.documentElement.dir = RTL_LANGS.includes(currentLang) ? 'rtl' : 'ltr';
       updateModeUI();
       updateViewToggleUI();
-      populateSurahDropdown(); // Update Surah names in the selected language
+      populateSurahDropdown();
       if (typeof updateTotalVersesBadge === 'function' && surahList.length) updateTotalVersesBadge();
       if (typeof renderUpdateBanner === 'function' && $('updateBanner') && !$('updateBanner').classList.contains('hidden')) renderUpdateBanner();
     }
 
+    // Dynamic Generation of Language Menus
+    function renderLanguageMenus() {
+      const langMenu = $('langMenu');
+      const langGrid = $('langWelcomeGrid');
+      if (!langMenu || !langGrid) return;
+
+      langMenu.innerHTML = '';
+      langGrid.innerHTML = '';
+
+      Object.keys(LANG_NAMES).forEach(code => {
+        const name = LANG_NAMES[code];
+
+        // Header Menu Button
+        const btnMenu = document.createElement('button');
+        btnMenu.type = 'button';
+        btnMenu.role = 'option';
+        btnMenu.dataset.lang = code;
+        btnMenu.onclick = () => pickLanguage(code);
+        btnMenu.className = 'lang-opt w-full text-left px-3 py-2 text-sm text-white hover:bg-emerald-800 flex items-center justify-between gap-3';
+        btnMenu.innerHTML = `<span>${escapeHtml(name)}</span><span class="tick text-emerald-300"></span>`;
+        langMenu.appendChild(btnMenu);
+
+        // Welcome Modal Button
+        const btnGrid = document.createElement('button');
+        btnGrid.type = 'button';
+        btnGrid.dataset.lang = code;
+        btnGrid.onclick = () => chooseWelcomeLang(code);
+        btnGrid.className = 'bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-emerald-400 text-slate-800 font-semibold text-xs py-2 px-1 rounded-xl transition-colors truncate';
+        btnGrid.textContent = name;
+        langGrid.appendChild(btnGrid);
+      });
+    }
 
     // ==================================================================
     // LANGUAGE MENU
     // ==================================================================
-    const LANG_NAMES = { en: 'English', ar: 'العربية', ml: 'മലയാളം', ur: 'اردو', bn: 'বাংলা' };
     function syncLangPicker() {
-      // In RTL the language button sits at the left edge, so open its menu rightwards (anchor to its left edge)
       const lm = $('langMenu');
       if (lm) {
-        const rtl = (currentLang === 'ar' || currentLang === 'ur');
+        const rtl = RTL_LANGS.includes(currentLang);
         lm.style.left = rtl ? '0' : 'auto';
         lm.style.right = rtl ? 'auto' : '0';
         lm.style.maxWidth = 'calc(100vw - 1.5rem)';
@@ -1156,7 +730,6 @@
       const m = $('langMenu'); if (!m) return;
       const open = m.classList.contains('hidden');
       if (open) {
-        // close the settings panel if it is open so the menu is never hidden behind it
         const sb = $('appSidebar');
         if (sb && !sb.classList.contains('-translate-y-full')) toggleSidebar();
         closeNavMenu();
@@ -1169,25 +742,57 @@
     document.addEventListener('click', e => { if (!e.target.closest('#langMenu') && !e.target.closest('#langBtn')) closeLangMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLangMenu(); });
 
-
-    // ==================================================================
-    // NAV MENU (book icon)
-    // ==================================================================
+    // Nav Menu labels
     const NAV_LABELS = {
       en: ['How to use the app?', 'Memorization Plan', 'Write to us'],
       ar: ['كيف تستخدم التطبيق؟', 'خطة الحفظ', 'راسلنا'],
       ml: ['ആപ്പ് എങ്ങനെ ഉപയോഗിക്കാം?', 'മനഃപാഠ പദ്ധതി', 'ഞങ്ങൾക്ക് എഴുതുക'],
       ur: ['ایپ کیسے استعمال کریں؟', 'حفظ کا منصوبہ', 'ہمیں لکھیں'],
-      bn: ['অ্যাপ কীভাবে ব্যবহার করবেন?', 'মুখস্থ পরিকল্পনা', 'আমাদের লিখুন']
+      bn: ['অ্যাপটি কীভাবে ব্যবহার করবেন?', 'মুখস্থ পরিকল্পনা', 'আমাদের লিখুন'],
+      fr: ['Comment utiliser l’application ?', 'Plan de mémorisation', 'Écrivez-nous'],
+      es: ['¿Cómo usar la app?', 'Plan de memorización', 'Escríbenos'],
+      de: ['Wie benutze ich die App?', 'Auswendiglernplan', 'Schreiben Sie uns'],
+      id: ['Cara menggunakan aplikasi?', 'Rencana Hafalan', 'Hubungi kami'],
+      tr: ['Uygulama nasıl kullanılır?', 'Ezber Planı', 'Bize yazın'],
+      ru: ['Как пользоваться приложением?', 'План заучивания', 'Напишите нам'],
+      fa: ['نحوه استفاده از برنامه؟', 'برنامه حفظ', 'به ما بنویسید'],
+      hi: ['ऐप का उपयोग कैसे करें?', 'याद करने की योजना', 'हमें लिखें'],
+      zh: ['如何使用本应用？', '背诵计划', '联系我们'],
+      ms: ['Cara menggunakan aplikasi?', 'Pelan Hafazan', 'Hubungi kami'],
+      ta: ['செயலியை எப்படிப் பயன்படுத்துவது?', 'மனப்பாடத் திட்டம்', 'எங்களுக்கு எழுதுங்கள்'],
+      ha: ['Yadda ake amfani da manhajar?', 'Tsarin Haddace', 'Rubuta mana'],
+      sw: ['Jinsi ya kutumia programu?', 'Mpango wa Kuhifadhi', 'Tuandikie'],
+      so: ['Sida loo isticmaalo app-ka?', 'Qorshaha Xifdinta', 'Noo qor'],
+      sq: ['Si ta përdorni aplikacionin?', 'Plani i memorizimit', 'Na shkruani'],
+      az: ['Tətbiqdən necə istifadə etməli?', 'Əzbərləmə planı', 'Bizə yazın'],
+      bs: ['Kako koristiti aplikaciju?', 'Plan učenja napamet', 'Pišite nam'],
+      bg: ['Как да използвам приложението?', 'План за заучаване', 'Пишете ни'],
+      cs: ['Jak aplikaci používat?', 'Plán učení nazpaměť', 'Napište nám'],
+      nl: ['Hoe gebruik ik de app?', 'Memorisatieplan', 'Schrijf ons'],
+      it: ['Come usare l’app?', 'Piano di memorizzazione', 'Scrivici'],
+      ja: ['アプリの使い方', '暗記プラン', 'お問い合わせ'],
+      ko: ['앱 사용 방법', '암송 계획', '문의하기'],
+      ku: ['چۆن ئەپەکە بەکاربهێنم؟', 'پلانی لەبەرکردن', 'پێمان بنووسە'],
+      no: ['Hvordan bruke appen?', 'Memoreringsplan', 'Skriv til oss'],
+      pl: ['Jak korzystać z aplikacji?', 'Plan zapamiętywania', 'Napisz do nas'],
+      pt: ['Como usar o aplicativo?', 'Plano de memorização', 'Fale connosco'],
+      ro: ['Cum folosesc aplicația?', 'Plan de memorare', 'Scrieți-ne'],
+      sd: ['ايپ ڪيئن استعمال ڪجي؟', 'حفظ جو منصوبو', 'اسان کي لکو'],
+      sv: ['Hur använder jag appen?', 'Memoreringsplan', 'Skriv till oss'],
+      tg: ['Чӣ тавр истифода бурдан?', 'Нақшаи ҳифз', 'Ба мо нависед'],
+      th: ['วิธีใช้แอป', 'แผนการท่องจำ', 'เขียนถึงเรา'],
+      tt: ['Кушымтаны ничек куллану?', 'Яттан өйрәнү планы', 'Безгә языгыз'],
+      ug: ['ئەپنى قانداق ئىشلىتىمىز؟', 'يادلاش پىلانى', 'بىزگە يېزىڭىز'],
+      uz: ['Ilovadan qanday foydalanish?', 'Yodlash rejasi', 'Bizga yozing'],
+      am: ['መተግበሪያውን እንዴት መጠቀም?', 'የሒፍዝ እቅድ', 'ይጻፉልን']
     };
     function syncNavMenu() {
       const l = NAV_LABELS[currentLang] || NAV_LABELS.en;
       ['navLinkHow', 'navLinkPlan', 'navLinkContact'].forEach((id, k) => { const el = $(id); if (el) el.textContent = l[k]; });
       const m = $('navMenu'); if (m) {
-        const rtl = (currentLang === 'ar' || currentLang === 'ur');
+        const rtl = RTL_LANGS.includes(currentLang);
         m.classList.toggle('text-right', rtl);
         m.setAttribute('dir', rtl ? 'rtl' : 'ltr');
-        // In RTL the book icon sits at the right edge, so open the menu leftwards (anchor to its right edge)
         m.style.left = rtl ? 'auto' : '0';
         m.style.right = rtl ? '0' : 'auto';
         m.style.maxWidth = 'calc(100vw - 1.5rem)';
@@ -1214,26 +819,11 @@
     document.addEventListener('click', e => { if (!e.target.closest('#navMenu') && !e.target.closest('#navBtn')) closeNavMenu(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNavMenu(); });
 
-
-    // ==================================================================
-    // FIRST-VISIT LANGUAGE CHOOSER + HINT
-    // English stays the default; this only invites a first-time visitor to pick another language.
-    // ==================================================================
     const WELCOME_FLAG = 'quran_hifz_lang_prompted';
-    const HINT_LABELS = {
-      en: 'Change language here anytime',
-      ar: 'يمكنك تغيير اللغة من هنا في أي وقت',
-      ml: 'ഭാഷ ഇവിടെ നിന്ന് എപ്പോൾ വേണമെങ്കിലും മാറ്റാം',
-      ur: 'زبان یہاں سے کسی بھی وقت بدلیں',
-      bn: 'ভাষা এখান থেকে যেকোনো সময় বদলান'
-    };
-    let hintTimer = null;
-
     function isFirstVisit() {
       try {
-        localStorage.setItem('__t', '1'); localStorage.removeItem('__t'); // storage must work, or we would nag every visit
+        localStorage.setItem('__t', '1'); localStorage.removeItem('__t');
         if (localStorage.getItem(WELCOME_FLAG)) return false;
-        // Returning users (already have saved language, progress, logs or counters) are never prompted
         return ![STORE.lang, STORE.state, STORE.logs, STORE.counts].some(k => localStorage.getItem(k) !== null);
       } catch (e) { return false; }
     }
@@ -1241,45 +831,21 @@
       if (!isFirstVisit()) return;
       const w = $('langWelcome'); if (!w) return;
       w.classList.remove('hidden');
-      const first = w.querySelector('button'); if (first) first.focus();
     }
     function closeLangWelcome() {
       const w = $('langWelcome');
       if (!w || w.classList.contains('hidden')) return false;
       w.classList.add('hidden');
       try { localStorage.setItem(WELCOME_FLAG, '1'); } catch (e) {}
-      showLangHint();
       return true;
     }
     function chooseWelcomeLang(lang) {
-      saveJSON(STORE.lang, lang); // remember the choice (English too), shared with all sub pages
+      saveJSON(STORE.lang, lang);
       if (lang !== currentLang) changeLanguage(lang);
       closeLangWelcome();
     }
-    function hideLangHint() {
-      clearTimeout(hintTimer);
-      const h = $('langHint'), b = $('langBtn');
-      if (h) h.classList.add('hidden');
-      if (b) b.classList.remove('lang-pulse');
-    }
-    function showLangHint() {
-      const h = $('langHint'), b = $('langBtn'), lm = $('langMenu');
-      if (!h || !b) return;
-      h.textContent = HINT_LABELS[currentLang] || HINT_LABELS.en;
-      if (lm) { h.style.left = lm.style.left; h.style.right = lm.style.right; } // same side as the menu (RTL aware)
-      h.classList.remove('hidden');
-      b.classList.add('lang-pulse');
-      clearTimeout(hintTimer);
-      hintTimer = setTimeout(hideLangHint, 7000);
-    }
-    document.addEventListener('click', e => {
-      if (e.target.id === 'langWelcome') closeLangWelcome();      // tap outside the box = keep English
-      else if (e.target.closest('#langBtn')) hideLangHint();
-    });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLangWelcome(); });
 
     function changeLanguage(lang) {
-      if (!translations[lang]) return;
       currentLang = lang;
       saveJSON(STORE.lang, lang);
       applyLanguage();
@@ -1287,7 +853,6 @@
       refreshVerses();
     }
 
-    // Dynamic UI Update for Controls & Colors
     function updateAudioControlUI() {
       syncWakeLock();
       const playBtn = $('globalPlayBtn');
@@ -1316,9 +881,6 @@
       }
     }
 
-    // ==================================================================
-    // TOGGLE SETTINGS SIDEBAR & INFO MODAL
-    // ==================================================================
     function toggleSidebar() {
       const sidebar = $('appSidebar');
       const backdrop = $('sidebarBackdrop');
@@ -1345,9 +907,6 @@
       modal.classList.toggle('hidden');
     }
 
-    // ==================================================================
-    // REMEMBER LAST PAGE
-    // ==================================================================
     function saveState() {
       const surah = parseInt($('surahSelect').value);
       if (!surah) return;
@@ -1383,7 +942,6 @@
       return st;
     }
 
-    // ---- Keep screen on (Screen Wake Lock API) ----
     let wakeLockSentinel = null;
     async function syncWakeLock() {
       const want = !!($('keepAwakeToggle') && $('keepAwakeToggle').checked) && isRunning && !isPaused && document.visibilityState === 'visible';
@@ -1416,13 +974,14 @@
     }
 
     window.onload = async function () {
+      renderLanguageMenus();
       applyVerseFont(loadJSON(STORE.vfont, 'Scheherazade New'));
       if ($('keepAwakeToggle')) {
         $('keepAwakeToggle').checked = !!loadJSON(STORE.keepAwake, true);
         if (!('wakeLock' in navigator)) $('keepAwakeToggle').closest('div.flex').parentElement.classList.add('hidden');
       }
       const savedLang = loadJSON(STORE.lang, 'en');
-      currentLang = translations[savedLang] ? savedLang : 'en';
+      currentLang = LANG_NAMES[savedLang] ? savedLang : 'en';
       applyLanguage();
       maybeShowLangWelcome();
 
@@ -1435,9 +994,7 @@
     };
 
     function getSurahLocalizedName(sd) {
-      if (currentLang === 'ar' || currentLang === 'ur') return sd.name;
-      if (currentLang === 'ml') return SURAH_NAMES_ML[sd.number - 1] || sd.englishName;
-      if (currentLang === 'bn') return SURAH_NAMES_BN[sd.number - 1] || sd.englishName;
+      if (['ar', 'ur', 'fa', 'ku', 'sd', 'ug'].includes(currentLang)) return sd.name;
       return sd.englishName;
     }
 
@@ -1445,12 +1002,7 @@
       const num = s.number;
       const arabicName = s.name;
       const localizedName = getSurahLocalizedName(s);
-      if (currentLang === 'ar') {
-        return `${num}. ${arabicName} (${s.englishName})`;
-      }
-      if (currentLang === 'ur') {
-        return `${num}. ${localizedName} (${arabicName})`;
-      }
+      if (currentLang === 'ar') return `${num}. ${arabicName} (${s.englishName})`;
       return `${num}. ${localizedName} (${arabicName})`;
     }
 
@@ -1488,7 +1040,7 @@
       const surahNum = parseInt($('surahSelect').value);
       const surahData = surahList.find(s => s.number === surahNum);
       if (surahData) {
-        setText('totalVersesBadge', `${surahData.numberOfAyahs} ${({en:'Verses',ar:'آية',ml:'വാക്യങ്ങൾ',ur:'آیات',bn:'আয়াত'})[currentLang] || 'Verses'}`);
+        setText('totalVersesBadge', `${surahData.numberOfAyahs} Verses`);
       }
     }
 
@@ -1516,7 +1068,6 @@
 
     function onTargetChange() {
       saveState();
-      // Apply the new global target to every verse that has no per-verse custom target
       const t = getTarget();
       currentVerses.forEach((v, i) => {
         if (!repCounts[repKey(v.surah, v.numberInSurah) + '_target']) {
@@ -1527,9 +1078,20 @@
       updateSessionSummary();
     }
 
-    // ==================================================================
-    // VERSES
-    // ==================================================================
+    // Comprehensive 41 Translation Editions Mapping for Al-Quran Cloud API
+    const TRANSLATION_EDITIONS = {
+      en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali',
+      fr: 'fr.hamidullah', es: 'es.cortes', de: 'de.aburida', id: 'id.indonesian',
+      tr: 'tr.ates', ru: 'ru.kuliev', fa: 'fa.ayati', hi: 'hi.hindi',
+      zh: 'zh.jian', ms: 'ms.basmeih', ta: 'ta.jainulabdeen', ha: 'ha.gumi',
+      sw: 'sw.barwani', so: 'so.abduh', sq: 'sq.ahmeti', az: 'az.mammadaliyev',
+      bs: 'bs.korkut', bg: 'bg.theophanov', cs: 'cs.hrabek', nl: 'nl.keyzer',
+      it: 'it.piccardo', ja: 'ja.japanese', ko: 'ko.korean', ku: 'ku.asan',
+      no: 'no.berg', pl: 'pl.bielawskiego', pt: 'pt.elhayek', ro: 'ro.grigore',
+      sd: 'sd.amrohi', sv: 'sv.bernstrom', tg: 'tg.ayati', th: 'th.thai',
+      tt: 'tt.nugman', ug: 'ug.saleh', uz: 'uz.sodik', am: 'am.sadiq'
+    };
+
     let versesFetchId = 0;
     async function validateAndFetchVerses() {
       const fetchId = ++versesFetchId;
@@ -1557,8 +1119,7 @@
         </div>`;
 
       try {
-        const editions = { en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali' };
-        const translationEdition = currentLang === 'ar' ? null : (editions[currentLang] || null);
+        const translationEdition = currentLang === 'ar' ? null : (TRANSLATION_EDITIONS[currentLang] || 'en.sahih');
 
         const requests = [apiFetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)];
         if (translationEdition) {
@@ -1656,14 +1217,12 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.7 10.7l6.6-3.4M8.7 13.3l6.6 3.4M18 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM6 14.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM18 21a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path></svg>
               </button>
               
-              <!-- Play / Stop Toggle Button -->
               <button id="verse-play-btn-${idx}" onclick="onListenClick(${idx})" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 p-1.5 rounded-xl transition-all" title="Play">
                 <svg id="verse-play-icon-${idx}" class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                 </svg>
               </button>
 
-              <!-- Repeat Emoji Button & Count -->
               <button onclick="bumpRep(${idx})" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-xs font-medium border border-slate-200 flex items-center space-x-1" title="Click to repeat / configure">
                 <span>🔁</span>
                 <span id="rep-count-${idx}" class="font-bold text-emerald-800">${verse.repetitionCount}</span>
@@ -1683,9 +1242,6 @@
       });
     }
 
-    // ==================================================================
-    // DAILY PAGE RANGE
-    // ==================================================================
     const MAX_PAGE = 604;
     const MAX_PAGES_PER_LOAD = 20;
 
@@ -1749,8 +1305,7 @@
         </div>`;
 
       try {
-        const editions = { en: 'en.sahih', ml: 'ml.abdulhameed', ur: 'ur.jalandhry', bn: 'bn.bengali' };
-        const edition = currentLang === 'ar' ? null : (editions[currentLang] || null);
+        const edition = currentLang === 'ar' ? null : (TRANSLATION_EDITIONS[currentLang] || 'en.sahih');
         const pages = [];
         for (let p = from; p <= to; p++) pages.push(p);
 
@@ -1807,9 +1362,6 @@
       }
     }
 
-    // ==================================================================
-    // VIEW MODE: Verses | Mus'haf Page
-    // ==================================================================
     const MUSHAF_IMAGE_SOURCES = [
       p => `https://android.quran.com/data/width_1024/page${String(p).padStart(3, '0')}.png`,
       p => `https://mushaf.quran.com/png/page${String(p).padStart(3, '0')}.png`,
@@ -1827,7 +1379,6 @@
       if (qt) {
         const inMushaf = currentViewMode === 'mushaf';
         const t = T();
-        // Shows the view you will switch TO
         const word = inMushaf ? t.viewShortVerse : t.viewShortMushaf;
         qt.innerHTML = '<span>' + (inMushaf ? '📖' : '📜') + '</span><span class="text-xs font-semibold">' + escapeHtml(word) + '</span>';
         qt.title = word;
@@ -1921,7 +1472,7 @@
         pageCard.innerHTML = `
           <div class="flex justify-center items-center border-b border-slate-100 pb-3 mb-4">
             <span class="bg-dark-emerald text-emerald-100 font-bold text-xs px-3 py-1 rounded-lg">
-              ${escapeHtml(t.pageShort)} ${page}${currentLang === 'ar' ? '' : ` (صفحة ${page})`}
+              ${escapeHtml(t.pageShort)} ${page}
             </span>
           </div>
           ${caption ? `<p class="text-xs text-slate-500 mb-3">${escapeHtml(caption)}</p>` : ''}
@@ -1956,9 +1507,6 @@
       if (k > mushafSourceStart) mushafSourceStart = k;
     }
 
-    // ==================================================================
-    // REPETITION COUNTERS (Individual Verse Repeat Target)
-    // ==================================================================
     function bumpRep(i) {
       const verse = currentVerses[i];
       if (!verse) return;
@@ -2019,9 +1567,7 @@
       setText('sessionReps', `${done} / ${total}`);
     }
 
-    // ==================================================================
-    // AUDIO & ACTIVE CARDS
-    // ==================================================================
+    // AUDIO & PLAYBACK ENGINE
     const FALLBACK_RECITER = 'ar.alafasy';
     const AUDIO_START_TIMEOUT = 8000;
     const AUDHUBILLAH_FALLBACK_URL = 'https://everyayah.com/data/Alafasy_128kbps/audhubillah.mp3';
@@ -2332,7 +1878,6 @@
       setText('activeVerseIndicator', text);
     }
 
-    // Active Card Highlight & Scroll Focus
     let lastScrolledPage = null;
     function markActive(i) {
       if (activeVerseIndex !== -1 && activeVerseIndex !== i) resetCardUI(activeVerseIndex);
@@ -2459,9 +2004,7 @@
       setText('activeVerseIndicator', t.notPlaying);
     }
 
-    // ==================================================================
     // LOG
-    // ==================================================================
     function getStoredLogs() {
       const logs = loadJSON(STORE.logs, []);
       return Array.isArray(logs) ? logs : [];
@@ -2561,9 +2104,7 @@
       }
     }
 
-    // ==================================================================
     // SHARE
-    // ==================================================================
     function buildShareText() {
       const t = T();
       const todays = getStoredLogs().filter(l => l.iso === todayISO());
@@ -2584,21 +2125,13 @@
       return lines.join('\n');
     }
 
-    // ==================================================================
-    // SHARE A SINGLE VERSE
-    // ==================================================================
-    const SURAH_NAMES_ML = ["അൽ ഫാതിഹ", "അൽ ബഖറ", "ആലു ഇംറാൻ", "അന്നിസാഅ്", "അൽ മാഇദ", "അൽ അൻആം", "അൽ അഅ്റാഫ്", "അൽ അൻഫാൽ", "അത്തൗബ", "യൂനുസ്", "ഹൂദ്", "യൂസുഫ്", "അർറഅ്ദ്", "ഇബ്റാഹീം", "അൽ ഹിജ്ർ", "അന്നഹ്ൽ", "അൽ ഇസ്റാഅ്", "അൽ കഹ്ഫ്", "മർയം", "ത്വാഹാ", "അൽ അമ്പിയാഅ്", "അൽ ഹജ്ജ്", "അൽ മുഅ്മിനൂൻ", "അന്നൂർ", "അൽ ഫുർഖാൻ", "അശ്ശുഅറാഅ്", "അന്നംൽ", "അൽ ഖസ്വസ്വ്", "അൽ അൻകബൂത്ത്", "അർറൂം", "ലുഖ്മാൻ", "അസ്സജ്ദ", "അൽ അഹ്സാബ്", "സബഅ്", "ഫാത്വിർ", "യാസീൻ", "അസ്സ്വാഫ്ഫാത്ത്", "സ്വാദ്", "അസ്സുമർ", "ഗാഫിർ", "ഫുസ്സിലത്ത്", "അശ്ശൂറാ", "അസ്സുഖ്റുഫ്", "അദ്ദുഖാൻ", "അൽ ജാസിയ", "അൽ അഹ്ഖാഫ്", "മുഹമ്മദ്", "അൽ ഫത്ഹ്", "അൽ ഹുജുറാത്ത്", "ഖാഫ്", "അദ്ദാരിയാത്ത്", "അത്ത്വൂർ", "അന്നജ്മ്", "അൽ ഖമർ", "അർറഹ്മാൻ", "അൽ വാഖിഅ", "അൽ ഹദീദ്", "അൽ മുജാദില", "അൽ ഹശ്ർ", "അൽ മുംതഹിന", "അസ്സ്വഫ്ഫ്", "അൽ ജുമുഅ", "അൽ മുനാഫിഖൂൻ", "അത്തഗാബുൻ", "അത്ത്വലാഖ്", "അത്തഹ്രീം", "അൽ മുൽക്ക്", "അൽ ഖലം", "അൽ ഹാഖ്ഖ", "അൽ മആരിജ്", "നൂഹ്", "അൽ ജിന്ന്", "അൽ മുസ്സമ്മിൽ", "അൽ മുദ്ദസ്സിർ", "അൽ ഖിയാമ", "അൽ ഇൻസാൻ", "അൽ മുർസലാത്ത്", "അന്നബഅ്", "അന്നാസിആത്ത്", "അബസ", "അത്തക്വീർ", "അൽ ഇൻഫിത്വാർ", "അൽ മുത്വഫ്ഫിഫീൻ", "അൽ ഇൻശിഖാഖ്", "അൽ ബുറൂജ്", "അത്ത്വാരിഖ്", "അൽ അഅ്ലാ", "അൽ ഗാശിയ", "അൽ ഫജ്ർ", "അൽ ബലദ്", "അശ്ശംസ്", "അല്ലൈൽ", "അള്ളുഹാ", "അലം നശ്റഹ്", "അത്തീൻ", "അൽ അലഖ്", "അൽ ഖദ്ർ", "അൽ ബയ്യിന", "അസ്സിൽസാൽ", "അൽ ആദിയാത്ത്", "അൽ ഖാരിഅ", "അത്തകാസുർ", "അൽ അസ്ർ", "അൽ ഹുമസ", "അൽ ഫീൽ", "ഖുറൈശ്", "അൽ മാഊൻ", "അൽ കൗസർ", "അൽ കാഫിറൂൻ", "അന്നസ്ർ", "അൽ മസദ്", "അൽ ഇഖ്ലാസ്", "അൽ ഫലഖ്", "അന്നാസ്"];
-    const SURAH_NAMES_BN = ["আল-ফাতিহা", "আল-বাকারা", "আলে ইমরান", "আন-নিসা", "আল-মায়িদা", "আল-আনআম", "আল-আ'রাফ", "আল-আনফাল", "আত-তাওবা", "ইউনুস", "হুদ", "ইউসুফ", "আর-রা'দ", "ইবরাহীম", "আল-হিজর", "আন-নাহল", "আল-ইসরা", "আল-কাহফ", "মারইয়াম", "ত্বা-হা", "আল-আম্বিয়া", "আল-হাজ্জ", "আল-মু'মিনূন", "আন-নূর", "আল-ফুরকান", "আশ-শু'আরা", "আন-নামল", "আল-কাসাস", "আল-আনকাবূত", "আর-রূম", "লুকমান", "আস-সাজদা", "আল-আহযাব", "সাবা", "ফাতির", "ইয়াসীন", "আস-সাফফাত", "সোয়াদ", "আয-যুমার", "গাফির", "ফুসসিলাত", "আশ-শূরা", "আয-যুখরুফ", "আদ-দুখান", "আল-জাসিয়া", "আল-আহকাফ", "মুহাম্মদ", "আল-ফাতহ", "আল-হুজুরাত", "কাফ", "আয-যারিয়াত", "আত-তূর", "আন-নাজম", "আল-কামার", "আর-রহমান", "আল-ওয়াকিয়া", "আল-হাদীদ", "আল-মুজাদালা", "আল-হাশর", "আল-মুমতাহিনা", "আস-সফ", "আল-জুমুআ", "আল-মুনাফিকূন", "আত-তাগাবুন", "আত-তালাক", "আত-তাহরীম", "আল-মুলক", "আল-কলম", "আল-হাক্কাহ", "আল-মা'আরিজ", "নূহ", "আল-জিন", "আল-মুযযাম্মিল", "আল-মুদ্দাসসির", "আল-কিয়ামাহ", "আল-ইনসান", "আল-মুরসালাত", "আন-নাবা", "আন-নাযিআত", "আবাসা", "আত-তাকভীর", "আল-ইনফিতার", "আল-মুতাফফিফীন", "আল-ইনশিকাক", "আল-বুরূজ", "আত-তারিক", "আল-আ'লা", "আল-গাশিয়াহ", "আল-ফজর", "আল-বালাদ", "আশ-শামস", "আল-লাইল", "আদ-দুহা", "আল-ইনশিরাহ", "আত-তীন", "আল-আলাক", "আল-কদর", "আল-বাইয়্যিনাহ", "আয-যিলযাল", "আল-আদিয়াত", "আল-কারিআ", "আত-তাকাসুর", "আল-আসর", "আল-হুমাযাহ", "আল-ফীল", "কুরাইশ", "আল-মাঊন", "আল-কাওসার", "আল-কাফিরূন", "আন-নাসর", "আল-লাহাব", "আল-ইখলাস", "আল-ফালাক", "আন-নাস"];
     const APP_SITE_URL = 'https://quranlearning.app/';
 
     function surahNameForShare(num) {
       const sd = surahList.find(x => x.number === num);
       if (!sd) return `${T().shareSurah} ${num}`;
-      if (currentLang === 'ar' || currentLang === 'ur') return sd.name;
-      let name = sd.englishName;
-      if (currentLang === 'ml') name = SURAH_NAMES_ML[num - 1] || name;
-      if (currentLang === 'bn') name = SURAH_NAMES_BN[num - 1] || name;
-      return `${T().shareSurah} ${name}`;
+      if (currentLang === 'ar' || currentLang === 'ur' || currentLang === 'fa') return sd.name;
+      return `${T().shareSurah} ${sd.englishName}`;
     }
 
     function buildVerseShareText(verse) {
@@ -2676,9 +2209,6 @@
       document.body.appendChild(overlay);
     }
 
-    // ==================================================================
-    // TOAST
-    // ==================================================================
     function showToast(msg, isWarning = false) {
       const toast = document.createElement('div');
       toast.className = 'fixed bottom-5 right-5 border px-5 py-3 rounded-xl shadow-2xl z-50 text-xs font-semibold flex items-center space-x-2 transition-all '
@@ -2748,7 +2278,6 @@
       });
     }
 
-    // Keep the audio panel pinned right under the (possibly wrapping) header
     (function trackHeaderHeight() {
       const hdr = document.querySelector('header');
       if (!hdr) return;
