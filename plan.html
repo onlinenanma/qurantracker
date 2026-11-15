@@ -628,7 +628,15 @@
     }
 
     window.onload = function() {
-      const savedLang = localStorage.getItem(STORAGE_LANG_KEY) || 'en';
+      let savedLang = 'en';
+      try {
+        const raw = localStorage.getItem(STORAGE_LANG_KEY);
+        if (raw) {
+          // index.html stores the language JSON-encoded (e.g. "ml" with quotes); older/plain values (ml) are accepted too
+          try { savedLang = JSON.parse(raw); } catch (e) { savedLang = raw; }
+        }
+      } catch (e) {}
+      savedLang = String(savedLang || 'en').replace(/^["']|["']$/g, '').trim();
       if (translations[savedLang]) {
         currentLang = savedLang;
       }
