@@ -65,6 +65,13 @@
     /* First-visit hint: gentle pulse on the language button */
     @keyframes langPulse { 0% { box-shadow: 0 0 0 0 rgba(52,211,153,.75); } 100% { box-shadow: 0 0 0 12px rgba(52,211,153,0); } }
     .lang-pulse { border-color: #34d399 !important; animation: langPulse 1.2s ease-out 5; }
+    @keyframes selectGlow {
+      0%, 100% { box-shadow: 0 0 6px 2px rgba(239,68,68,.75), 0 0 0 0 rgba(239,68,68,.6); }
+      50%      { box-shadow: 0 0 20px 7px rgba(239,68,68,.95), 0 0 0 9px rgba(239,68,68,0); }
+    }
+    .select-glow { outline: 2px solid #fecaca; outline-offset: 1px; animation: selectGlow 1.2s ease-in-out infinite; }
+    #selectHint { inset-inline-start: 0; }
+    #selectHint::before { content: ''; position: absolute; top: -5px; inset-inline-start: 16px; width: 10px; height: 10px; background: inherit; transform: rotate(45deg); }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
@@ -327,10 +334,13 @@
               </button>
 
               <!-- Settings Button ("Select") -->
-              <button onclick="toggleSidebar()" class="bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center space-x-1 shrink-0">
-                <span>⚙️</span>
-                <span id="btnSettingsText">Select</span>
-              </button>
+              <div class="relative shrink-0">
+                <button id="selectBtn" onclick="toggleSidebar()" class="bg-rose-600 hover:bg-rose-500 text-white px-3 py-2 rounded-xl text-xs font-semibold transition-all shadow-sm flex items-center space-x-1 shrink-0">
+                  <span>⚙️</span>
+                  <span id="btnSettingsText">Select</span>
+                </button>
+                <div id="selectHint" role="status" class="hidden absolute top-full mt-3 w-max max-w-[15rem] bg-red-600 text-white text-xs font-semibold px-3 py-2 rounded-lg shadow-lg z-30"></div>
+              </div>
             </div>
 
             <!-- Status Indicator -->
@@ -4984,6 +4994,50 @@
       am: 'ቋንቋን እዚህ በማንኛውም ጊዜ ይቀይሩ'
     };
     let hintTimer = null;
+    const SELECT_HINTS = {
+      en: 'Tap Select to choose the reciter, repetitions & surah',
+      ar: 'اضغط «اختر» لضبط القارئ والتكرار والسورة',
+      ml: 'ഖാരിഅ്, ആവർത്തനം, സൂറത്ത് എന്നിവ തിരഞ്ഞെടുക്കാൻ Select അമർത്തുക',
+      ur: 'قاری، تکرار اور سورۃ منتخب کرنے کے لیے «منتخب کریں» دبائیں',
+      bn: 'কারী, পুনরাবৃত্তি ও সুরা বেছে নিতে «নির্বাচন» চাপুন',
+      id: 'Ketuk Pilih untuk mengatur qari, pengulangan, dan surah',
+      ms: 'Ketik Pilih untuk menetapkan qari, ulangan dan surah',
+      ta: 'காரி, திரும்பச் சொல்லல், சூராவைத் தேர்ந்தெடுக்க “தேர்வு” தட்டவும்',
+      hi: 'क़ारी, दोहराव और सूरह चुनने के लिए «चुनें» दबाएँ',
+      ha: 'Danna Zaɓi don zaɓar mai karatu, maimaitawa da sura',
+      tr: 'Kâri, tekrar ve sureyi seçmek için Seç’e dokun',
+      fa: 'برای انتخاب قاری، تکرار و سوره روی «انتخاب» بزنید',
+      fr: 'Touchez Choisir pour régler le récitateur, les répétitions et la sourate',
+      sw: 'Gusa Chagua kuweka msomaji, marudio na sura',
+      so: 'Taabo Dooro si aad u doorato akhristaha, soo noqnoqoshada iyo suuradda',
+      uz: 'Qori, takror va surani tanlash uchun Tanlash tugmasini bosing',
+      az: 'Qari, təkrar və surəni seçmək üçün Seç düyməsinə toxunun',
+      ru: 'Нажмите «Выбрать», чтобы настроить чтеца, повторения и суру',
+      ku: 'کلیک لە «هەڵبژێرە» بکە بۆ هەڵبژاردنی قاری، دووبارەکردنەوە و سورەت',
+      sd: 'قاري، ورجاءَ ۽ سورت چونڊڻ لاءِ «چونڊيو» تي ٽيپ ڪريو',
+      ug: 'قارىي، تەكرار ۋە سۈرە تاللاش ئۈچۈن «تاللاش» نى چېكىڭ',
+      es: 'Toca Elegir para ajustar recitador, repeticiones y sura',
+      de: 'Tippe auf Auswählen für Rezitator, Wiederholungen und Sure',
+      zh: '点击“选择”设置诵读者、重复次数和章',
+      sq: 'Prek Zgjidh për recituesin, përsëritjet dhe sureja',
+      bs: 'Dodirni Odaberi za učača, ponavljanja i suru',
+      bg: 'Докоснете Избор за четец, повторения и сура',
+      cs: 'Klepněte na Vybrat pro recitátora, opakování a súru',
+      nl: 'Tik op Kiezen voor reciteerder, herhalingen en soera',
+      it: 'Tocca Scegli per recitatore, ripetizioni e sura',
+      ja: '「選択」で朗誦者・反復回数・スーラを設定',
+      ko: '선택을 눌러 낭송자, 반복 횟수, 수라를 설정하세요',
+      no: 'Trykk Velg for resitator, repetisjoner og sure',
+      pl: 'Dotknij Wybierz, aby ustawić recytatora, powtórzenia i surę',
+      pt: 'Toque em Escolher para definir recitador, repetições e surata',
+      ro: 'Atinge Alege pentru recitator, repetări și sura',
+      sv: 'Tryck på Välj för reciterare, repetitioner och sura',
+      tg: 'Барои қорӣ, такрор ва сура тугмаи Интихобро пахш кунед',
+      th: 'แตะเลือกเพื่อตั้งค่าผู้อ่าน จำนวนการทวน และซูเราะฮ์',
+      tt: 'Кыйраәтче, кабатлау һәм сүрәне сайлау өчен Сайлауга басыгыз',
+      am: 'አንባቢ፣ ድግግሞሽ እና ሱራ ለመምረጥ «ምረጥ» ይንኩ'
+    };
+    let selHintTimer = null;
     function isFirstVisit() {
       try {
         localStorage.setItem('__t', '1'); localStorage.removeItem('__t');
@@ -5002,13 +5056,30 @@
       if (!w || w.classList.contains('hidden')) return false;
       w.classList.add('hidden');
       try { localStorage.setItem(WELCOME_FLAG, '1'); } catch (e) {}
-      showLangHint();
+      showSelectHint();   // red tip on Select first, then the green language tip
       return true;
     }
     function chooseWelcomeLang(lang) {
       saveJSON(STORE.lang, lang);
       if (lang !== currentLang) changeLanguage(lang);
       closeLangWelcome();
+    }
+    function hideSelectHint(thenShowLangHint) {
+      clearTimeout(selHintTimer);
+      const h = $('selectHint'), b = $('selectBtn');
+      const wasShown = h && !h.classList.contains('hidden');
+      if (h) h.classList.add('hidden');
+      if (b) b.classList.remove('select-glow');
+      if (wasShown && thenShowLangHint) showLangHint();
+    }
+    function showSelectHint() {
+      const h = $('selectHint'), b = $('selectBtn');
+      if (!h || !b) { showLangHint(); return; }
+      h.textContent = SELECT_HINTS[currentLang] || SELECT_HINTS.en;
+      h.classList.remove('hidden');
+      b.classList.add('select-glow');
+      clearTimeout(selHintTimer);
+      selHintTimer = setTimeout(() => hideSelectHint(true), 6000);   // after ~6 s the green language tip follows (7 s)
     }
     function hideLangHint() {
       clearTimeout(hintTimer);
@@ -5028,7 +5099,8 @@
     }
     document.addEventListener('click', e => {
       if (e.target.id === 'langWelcome') closeLangWelcome();      // tap outside the box = keep English
-      else if (e.target.closest('#langBtn')) hideLangHint();
+      else if (e.target.closest('#langBtn')) { hideSelectHint(false); hideLangHint(); }
+      else if (e.target.closest('#selectBtn')) hideSelectHint(true);
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLangWelcome(); });
 
