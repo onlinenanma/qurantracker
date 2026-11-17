@@ -1,13 +1,15 @@
 /* quranlearning.app - service worker */
-const VERSION = 'v1.0.6';
+const VERSION = 'v1.0.7';
 const CACHE_NAME = 'quranlearning.app-' + VERSION;
 const CACHE_PREFIX = 'quranlearning.app-';
-const AUDIO_CACHE = 'hifz-audio-v1';   // used by the page for verse audio - must NOT be deleted
-const OFFLINE_CACHE = "pwabuilder-offline-page";
+const AUDIO_CACHE = 'hifz-audio-v1';       // used by the page for verse audio - must NOT be deleted
+const OFFLINE_CACHE = 'pwabuilder-offline-page';
+const API_CACHE = 'hifz-api-v1';           // Quran text / translations (kept across app versions, size-limited)
+const API_CACHE_MAX_ENTRIES = 600;
+// Hosts that supply verses and translations. Audio hosts are deliberately NOT listed: the page caches audio itself.
+const API_HOSTS = ['api.alquran.cloud', 'quranenc.com'];
 
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-
-const offlineFallbackPage = "index.html";
+const offlineFallbackPage = 'index.html';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -17,8 +19,8 @@ const ASSETS_TO_CACHE = [
   './icon-512.png'
 ];
 
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
 });
@@ -34,29 +36,18 @@ self.addEventListener('install', (event) => {
   );
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(
+    Promise.all([
+      caches.keys().then(keys => Promise.all(
         keys
-          .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME && key !== OFFLINE_CACHE)
+          .filter(key => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
           .map(key => caches.delete(key))
-      ))
-      .then(() => self.clients.claim())
+      )),
+      self.registration.navigationPreload ? self.registration.navigationPreload.enable() : Promise.resolve()
+    ]).then(() => self.clients.claim())
   );
 });
-
-// PWABuilder Workbox Navigation Preload & Routing integration
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
-
-workbox.routing.registerRoute(
-  new RegExp('/*'),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: OFFLINE_CACHE
-  })
-);
 
 // --- PUSH NOTIFICATIONS SUPPORT ---
 self.addEventListener('push', (event) => {
@@ -116,29 +107,67 @@ self.addEventListener('sync', (event) => {
   }
 });
 
+// --- helpers ---
+async function trimCache(cache, maxEntries) {
+  const keys = await cache.keys();
+  for (let i = 0; i < keys.length - maxEntries; i++) await cache.delete(keys[i]);   // oldest first
+}
+
+// Verses / translations: always try the network first (fresh data), fall back to the last good copy when offline.
+async function apiNetworkFirst(req) {
+  const cache = await caches.open(API_CACHE);
+  try {
+    const res = await fetch(req);
+    if (res && res.ok) {
+      cache.put(req, res.clone()).then(() => trimCache(cache, API_CACHE_MAX_ENTRIES)).catch(() => {});
+    }
+    return res;
+  } catch (err) {
+    const hit = await cache.match(req);
+    if (hit) return hit;
+    throw err;
+  }
+}
+
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
   const url = new URL(req.url);
+
+  if (API_HOSTS.includes(url.hostname)) {
+    event.respondWith(apiNetworkFirst(req));
+    return;
+  }
+
+  // Everything else on other origins (audio, fonts, CDNs...) is left to the browser
   if (url.origin !== self.location.origin) return;
+
+  // Media range requests (audio/video seeking) cannot be cached as whole files
+  if (req.headers.has('range')) return;
 
   if (req.mode === 'navigate') {
     event.respondWith((async () => {
       try {
         const preloadResp = await event.preloadResponse;
-        if (preloadResp) {
-          return preloadResp;
+        const networkResp = preloadResp || await fetch(req);
+        if (networkResp && networkResp.ok) {
+          // Cache each page under its OWN address (the home page also as ./index.html)
+          const isHome = url.pathname === '/' || url.pathname.endsWith('/index.html') || url.pathname.endsWith('/');
+          const c1 = networkResp.clone();
+          const c2 = networkResp.clone();
+          event.waitUntil(caches.open(CACHE_NAME).then(c => {
+            const jobs = [c.put(req, c1)];
+            if (isHome) jobs.push(c.put('./index.html', c2));
+            return Promise.all(jobs);
+          }).catch(() => {}));
         }
-
-        const networkResp = await fetch(req);
-        const copy = networkResp.clone();
-        caches.open(CACHE_NAME).then(c => c.put('./index.html', copy));
         return networkResp;
       } catch (error) {
-        const cache = await caches.open(OFFLINE_CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage) || await caches.match('./index.html');
-        return cachedResp;
+        const cached = await caches.match(req, { ignoreSearch: true });
+        if (cached) return cached;
+        const offline = await caches.open(OFFLINE_CACHE).then(c => c.match(offlineFallbackPage));
+        return offline || await caches.match('./index.html');
       }
     })());
     return;
