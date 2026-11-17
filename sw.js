@@ -1,5 +1,5 @@
 /* quranlearning.app - service worker */
-const VERSION = 'v1.0.7';
+const VERSION = 'v1.0.8';
 const CACHE_NAME = 'quranlearning.app-' + VERSION;
 const CACHE_PREFIX = 'quranlearning.app-';
 const AUDIO_CACHE = 'hifz-audio-v1';       // used by the page for verse audio - must NOT be deleted
