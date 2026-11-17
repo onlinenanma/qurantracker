@@ -499,7 +499,26 @@
       az: 'Azərbaycan', bs: 'Bosanski', bg: 'Български', cs: 'Čeština', nl: 'Nederlands',
       it: 'Italiano', ja: '日本語', ko: '한국어', ku: 'کوردی', no: 'Norsk',
       pl: 'Polski', pt: 'Português', ro: 'Română', sd: 'سنڌي', sv: 'Svenska',
-      tg: 'Тоҷикӣ', th: 'ไทย', tt: 'Татарча', ug: 'ئۇيغۇرچە', uz: 'Oʻzbekcha', am: 'አማርኛ'
+      tg: 'Тоҷикӣ', th: 'ไทย', tt: 'Татарча', ug: 'ئۇيغۇرچە', uz: 'Oʻzbekcha', am: 'አማርኛ',
+      tl: 'Tagalog',
+      vi: 'Tiếng Việt',
+      si: 'සිංහල',
+      ps: 'پښتو',
+      km: 'ភាសាខ្មែរ',
+      yo: 'Yoruba',
+      om: 'Oromoo',
+      te: 'తెలుగు',
+      mr: 'मराठी',
+      gu: 'ગુજરાતી',
+      kn: 'ಕನ್ನಡ',
+      as: 'অসমীয়া',
+      pa: 'ਪੰਜਾਬੀ',
+      ne: 'नेपाली',
+      el: 'Ελληνικά',
+      uk: 'Українська',
+      kk: 'Қазақша',
+      ky: 'Кыргызча',
+      rw: 'Kinyarwanda'
     };
 
     const LANG_LOCALES = {
@@ -510,10 +529,11 @@
       az: 'az-AZ', bs: 'bs-BA', bg: 'bg-BG', cs: 'cs-CZ', nl: 'nl-NL',
       it: 'it-IT', ja: 'ja-JP', ko: 'ko-KR', ku: 'ckb-IQ', no: 'nb-NO',
       pl: 'pl-PL', pt: 'pt-PT', ro: 'ro-RO', sd: 'sd-PK', sv: 'sv-SE',
-      tg: 'tg-TJ', th: 'th-TH', tt: 'tt-RU', ug: 'ug-CN', uz: 'uz-UZ', am: 'am-ET'
+      tg: 'tg-TJ', th: 'th-TH', tt: 'tt-RU', ug: 'ug-CN', uz: 'uz-UZ', am: 'am-ET',
+      tl: 'tl-PH', vi: 'vi-VN', si: 'si-LK', ps: 'ps-AF', km: 'km-KH', yo: 'yo-NG', om: 'om-ET', te: 'te-IN', mr: 'mr-IN', gu: 'gu-IN', kn: 'kn-IN', as: 'as-IN', pa: 'pa-IN', ne: 'ne-NP', el: 'el-GR', uk: 'uk-UA', kk: 'kk-KZ', ky: 'ky-KG', rw: 'rw-RW'
     };
 
-    const RTL_LANGS = ['ar', 'ur', 'fa', 'ku', 'sd', 'ug'];
+    const RTL_LANGS = ['ar', 'ur', 'fa', 'ku', 'sd', 'ug', 'ps'];
     const LANG_HTML = { ku: 'ckb', no: 'nb' };
 
     // Base English Translations fallback dictionary
@@ -4914,7 +4934,26 @@
       tt: ['Кушымтаны ничек куллану?', 'Яттан өйрәнү планы', 'Безгә языгыз'],
       ug: ['ئەپنى قانداق ئىشلىتىمىز؟', 'يادلاش پىلانى', 'بىزگە يېزىڭىز'],
       uz: ['Ilovadan qanday foydalanish?', 'Yodlash rejasi', 'Bizga yozing'],
-      am: ['መተግበሪያውን እንዴት መጠቀም?', 'የሒፍዝ እቅድ', 'ይጻፉልን']
+      am: ['መተግበሪያውን እንዴት መጠቀም?', 'የሒፍዝ እቅድ', 'ይጻፉልን'],
+      tl: ["Paano gamitin ang app?", "Plano sa Pagsasaulo", "Sumulat sa amin"],
+      vi: ["Cách sử dụng ứng dụng?", "Kế hoạch ghi nhớ", "Viết thư cho chúng tôi"],
+      si: ["යෙදුම භාවිතා කරන්නේ කෙසේද?", "කටපාඩම් සැලැස්ම", "අපට ලියන්න"],
+      ps: ["اپلیکېشن څنګه وکاروو؟", "د حفظ پلان", "موږ ته ولیکئ"],
+      km: ["របៀបប្រើកម្មវិធី?", "ផែនការទន្ទេញ", "សរសេរមកយើង"],
+      yo: ["Báwo ni a ṣe ń lo àpù náà?", "Ètò Ìkọ́sórí", "Kọ̀wé sí wa"],
+      om: ["Appii akkamitti fayyadamuu?", "Karoora Hifzii", "Nuuf barreessi"],
+      te: ["యాప్‌ను ఎలా ఉపయోగించాలి?", "కంఠస్థ ప్రణాళిక", "మాకు రాయండి"],
+      mr: ["अ‍ॅप कसे वापरावे?", "पाठांतर योजना", "आम्हाला लिहा"],
+      gu: ["એપ્લિકેશનનો ઉપયોગ કેવી રીતે કરવો?", "યાદ કરવાની યોજના", "અમને લખો"],
+      kn: ["ಆ್ಯಪ್ ಅನ್ನು ಹೇಗೆ ಬಳಸುವುದು?", "ಕಂಠಪಾಠ ಯೋಜನೆ", "ನಮಗೆ ಬರೆಯಿರಿ"],
+      as: ["এপ কেনেকৈ ব্যৱহাৰ কৰিব?", "মুখস্থ পৰিকল্পনা", "আমাক লিখক"],
+      pa: ["ਐਪ ਦੀ ਵਰਤੋਂ ਕਿਵੇਂ ਕਰੀਏ?", "ਯਾਦ ਕਰਨ ਦੀ ਯੋਜਨਾ", "ਸਾਨੂੰ ਲਿਖੋ"],
+      ne: ["एप कसरी प्रयोग गर्ने?", "कण्ठस्थ योजना", "हामीलाई लेख्नुहोस्"],
+      el: ["Πώς να χρησιμοποιήσετε την εφαρμογή;", "Πλάνο απομνημόνευσης", "Γράψτε μας"],
+      uk: ["Як користуватися застосунком?", "План заучування", "Напишіть нам"],
+      kk: ["Қолданбаны қалай пайдалану керек?", "Жаттау жоспары", "Бізге жазыңыз"],
+      ky: ["Колдонмону кантип колдонуу керек?", "Жаттоо планы", "Бизге жазыңыз"],
+      rw: ["Ni gute wakoresha porogaramu?", "Gahunda yo gufata mu mutwe", "Twandikire"]
     };
     function syncNavMenu() {
       const l = NAV_LABELS[currentLang] || NAV_LABELS.en;
@@ -4991,7 +5030,26 @@
       tg: 'Забонро аз ин ҷо дар ҳар вақт тағйир диҳед',
       th: 'เปลี่ยนภาษาได้ที่นี่ทุกเมื่อ',
       tt: 'Телне монда теләсә кайчан үзгәртегез',
-      am: 'ቋንቋን እዚህ በማንኛውም ጊዜ ይቀይሩ'
+      am: 'ቋንቋን እዚህ በማንኛውም ጊዜ ይቀይሩ',
+      tl: "Palitan ang wika dito anumang oras",
+      vi: "Đổi ngôn ngữ tại đây bất cứ lúc nào",
+      si: "භාෂාව ඕනෑම වේලාවක මෙතැනින් වෙනස් කරන්න",
+      ps: "ژبه دلته هر وخت بدله کړئ",
+      km: "ប្ដូរភាសានៅទីនេះបានគ្រប់ពេល",
+      yo: "Yí èdè padà níbí nígbàkigbà",
+      om: "Afaan asitti yeroo kamiyyuu jijjiiraa",
+      te: "భాషను ఇక్కడ ఎప్పుడైనా మార్చండి",
+      mr: "भाषा येथून कधीही बदला",
+      gu: "ભાષા અહીંથી ગમે ત્યારે બદલો",
+      kn: "ಭಾಷೆಯನ್ನು ಇಲ್ಲಿಂದ ಯಾವಾಗ ಬೇಕಾದರೂ ಬದಲಿಸಿ",
+      as: "ভাষা ইয়াৰ পৰা যিকোনো সময়তে সলনি কৰক",
+      pa: "ਭਾਸ਼ਾ ਇੱਥੋਂ ਕਦੇ ਵੀ ਬਦਲੋ",
+      ne: "भाषा यहाँबाट जुनसुकै बेला बदल्नुहोस्",
+      el: "Αλλάξτε τη γλώσσα εδώ οποιαδήποτε στιγμή",
+      uk: "Змінити мову можна тут у будь-який час",
+      kk: "Тілді осы жерден кез келген уақытта өзгертіңіз",
+      ky: "Тилди ушул жерден каалаган убакта өзгөртүңүз",
+      rw: "Hindura ururimi hano igihe cyose"
     };
     let hintTimer = null;
     const SELECT_HINTS = {
@@ -5035,7 +5093,26 @@
       tg: 'Барои қорӣ, такрор ва сура тугмаи Интихобро пахш кунед',
       th: 'แตะเลือกเพื่อตั้งค่าผู้อ่าน จำนวนการทวน และซูเราะฮ์',
       tt: 'Кыйраәтче, кабатлау һәм сүрәне сайлау өчен Сайлауга басыгыз',
-      am: 'አንባቢ፣ ድግግሞሽ እና ሱራ ለመምረጥ «ምረጥ» ይንኩ'
+      am: 'አንባቢ፣ ድግግሞሽ እና ሱራ ለመምረጥ «ምረጥ» ይንኩ',
+      tl: "I-tap ang Piliin para sa qari, pag-uulit at surah",
+      vi: "Nhấn Chọn để chọn người đọc, số lần lặp và chương",
+      si: "කාරි, පුනරාවර්තන සහ සූරාව තේරීමට «තෝරන්න» ඔබන්න",
+      ps: "د قاري، تکرار او سورت لپاره «ټاکل» کېکاږئ",
+      km: "ចុច «ជ្រើសរើស» ដើម្បីជ្រើសអ្នកសូត្រ ចំនួនម្តងទៀត និងជំពូក",
+      yo: "Tẹ Yan láti yan olùkàwé, ìgbà àtúnwí àti sūrah",
+      om: "Dubbisaa, irra deebi’uu fi suuraa filachuuf Filadhu tuqi",
+      te: "ఖారీ, పునరావృతాలు, సూరాను ఎంచుకోవడానికి «ఎంచుకో» నొక్కండి",
+      mr: "कारी, पुनरावृत्ती आणि सूरह निवडण्यासाठी «निवडा» दाबा",
+      gu: "કારી, પુનરાવર્તન અને સૂરહ પસંદ કરવા «પસંદ કરો» દબાવો",
+      kn: "ಖಾರಿ, ಪುನರಾವರ್ತನೆ ಮತ್ತು ಸೂರಾ ಆಯ್ಕೆ ಮಾಡಲು «ಆರಿಸಿ» ಒತ್ತಿ",
+      as: "কাৰী, পুনৰাবৃত্তি আৰু ছুৰা বাছনি কৰিবলৈ «বাছনি» টিপক",
+      pa: "ਕ਼ਾਰੀ, ਦੁਹਰਾਓ ਅਤੇ ਸੂਰਤ ਚੁਣਨ ਲਈ «ਚੁਣੋ» ਦਬਾਓ",
+      ne: "कारी, दोहोर्‍याइ र सूरा छान्न «छान्नुहोस्» थिच्नुहोस्",
+      el: "Πατήστε Επιλογή για αναγνώστη, επαναλήψεις και σούρα",
+      uk: "Натисніть «Вибрати» для читця, повторень і сури",
+      kk: "Қари, қайталау және сүрені таңдау үшін «Таңдау» түймесін басыңыз",
+      ky: "Окурман, кайталоо жана сүрөнү тандоо үчүн «Тандоо» баскычын басыңыз",
+      rw: "Kanda Hitamo ushyireho umusomyi, uko usubiramo na surat"
     };
     let selHintTimer = null;
     function isFirstVisit() {
@@ -5253,7 +5330,7 @@
     };
 
     function getSurahLocalizedName(sd) {
-      if (['ar', 'ur', 'fa', 'ku', 'sd', 'ug'].includes(currentLang)) return sd.name;
+      if (['ar', 'ur', 'fa', 'ku', 'sd', 'ug', 'ps'].includes(currentLang)) return sd.name;
       return sd.englishName;
     }
 
@@ -5351,6 +5428,80 @@
       tt: 'tt.nugman', ug: 'ug.saleh', uz: 'uz.sodik', am: 'am.sadiq'
     };
 
+    // Languages served by the QuranEnc API (https://quranenc.com). The first key is tried first;
+    // if QuranEnc answers 404/empty for it, the next key is tried. If none work, English (Sahih) is shown instead.
+    const QURANENC_EDITIONS = {
+      tl: ['tagalog_rwwad'],
+      vi: ['vietnamese_rwwad'],
+      si: ['sinhalese_mahir'],
+      ps: ['pashto_zakaria'],
+      km: ['khmer_rwwad'],
+      yo: ['yoruba_mikail'],
+      om: ['oromo_rwwad', 'oromo_ababor'],
+      te: ['telugu_abdurrahim', 'telugu_muhammad'],
+      mr: ['marathi_ansari'],
+      gu: ['gujarati_omari'],
+      kn: ['kannada_bashir', 'kannada_hamza'],
+      as: ['assamese_rafeeq'],
+      pa: ['punjabi_arif', 'punjabi_haleem'],
+      ne: ['nepali_central', 'nepali_ahlulhadith'],
+      el: ['greek_rwwad'],
+      uk: ['ukrainian_yakubovych'],
+      kk: ['kazakh_altai'],
+      ky: ['kyrgyz_hakimov'],
+      rw: ['kinyarwanda_assoc', 'kinyarwanda_rma']
+    };
+    const isQuranEncLang = l => !!QURANENC_EDITIONS[l];
+    const qeKeyCache = {};          // lang -> key that worked
+    const qeSuraCache = new Map();  // "key:sura" -> Map(ayaNumber -> translation)
+
+    // One request per sura (instead of one per aya): { result: [ { sura, aya, translation, footnotes } ] }
+    async function fetchQuranEncSura(key, sura) {
+      const ck = key + ':' + sura;
+      if (qeSuraCache.has(ck)) return qeSuraCache.get(ck);
+      const res = await fetch(`https://quranenc.com/api/v1/translation/sura/${key}/${sura}`);
+      if (!res.ok) throw new Error('QuranEnc ' + res.status);
+      const json = await res.json();
+      const rows = Array.isArray(json) ? json : (json.result || []);
+      const map = new Map();
+      rows.forEach(r => { const t = (r.translation || '').trim(); if (t) map.set(parseInt(r.aya, 10), t); });
+      if (!map.size) throw new Error('QuranEnc empty');
+      qeSuraCache.set(ck, map);
+      return map;
+    }
+    async function loadQuranEncSura(lang, sura) {
+      const keys = qeKeyCache[lang] ? [qeKeyCache[lang]] : (QURANENC_EDITIONS[lang] || []);
+      for (const key of keys) {
+        try { const m = await fetchQuranEncSura(key, sura); qeKeyCache[lang] = key; return m; } catch (e) {}
+      }
+      return null;
+    }
+
+    // Single-verse helper: QuranEnc languages use /translation/aya/..., others use Al-Quran Cloud.
+    async function fetchVerseTranslation(surahNumber, ayahNumber, langCode) {
+      try {
+        if (isQuranEncLang(langCode)) {
+          const m = await loadQuranEncSura(langCode, surahNumber);
+          if (m && m.get(ayahNumber)) return m.get(ayahNumber);
+          for (const key of QURANENC_EDITIONS[langCode]) {
+            const res = await fetch(`https://quranenc.com/api/v1/translation/aya/${key}/${surahNumber}/${ayahNumber}`);
+            if (!res.ok) continue;
+            const data = await res.json();
+            const t = data.result ? data.result.translation : data.translation;
+            if (t) return t;
+          }
+          return '';
+        }
+        const edition = TRANSLATION_EDITIONS[langCode] || 'en.sahih';
+        const res = await apiFetch(`https://api.alquran.cloud/v1/ayah/${surahNumber}:${ayahNumber}/${edition}`);
+        const data = await res.json();
+        return data.data ? data.data.text : '';
+      } catch (error) {
+        console.error(`Error fetching translation for ${langCode}:`, error);
+        return '';
+      }
+    }
+
     let versesFetchId = 0;
     async function validateAndFetchVerses() {
       const fetchId = ++versesFetchId;
@@ -5378,7 +5529,9 @@
         </div>`;
 
       try {
-        const translationEdition = currentLang === 'ar' ? null : (TRANSLATION_EDITIONS[currentLang] || 'en.sahih');
+        const qe = currentLang !== 'ar' && isQuranEncLang(currentLang);
+        const translationEdition = currentLang === 'ar' || qe ? null : (TRANSLATION_EDITIONS[currentLang] || 'en.sahih');
+        const qePromise = qe ? loadQuranEncSura(currentLang, surahNum) : null;
 
         const requests = [apiFetch(`https://api.alquran.cloud/v1/surah/${surahNum}/quran-uthmani`)];
         if (translationEdition) {
@@ -5389,6 +5542,13 @@
         let transData = null;
         if (responses[1]) {
           try { transData = await responses[1].json(); } catch (e) {}
+        }
+        let qeMap = null;
+        if (qe) {
+          qeMap = await qePromise;
+          if (!qeMap) {   // QuranEnc unreachable / key not found: show the English translation instead of nothing
+            try { transData = await (await apiFetch(`https://api.alquran.cloud/v1/surah/${surahNum}/en.sahih`)).json(); } catch (e) {}
+          }
         }
         if (fetchId !== versesFetchId) return;
         if (arData.code !== 200) throw new Error('Unexpected API response');
@@ -5405,7 +5565,7 @@
             globalNumber: allAr[i].number,
             page: allAr[i].page,
             arabic: allAr[i].text,
-            translation: allTrans && allTrans[i] ? allTrans[i].text : null,
+            translation: qeMap ? (qeMap.get(n) || null) : (allTrans && allTrans[i] ? allTrans[i].text : null),
             repetitionCount: repCounts[repKey(surahNum, n)] || 0,
             customTarget: repCounts[repKey(surahNum, n) + '_target'] || getTarget()
           });
@@ -5564,7 +5724,8 @@
         </div>`;
 
       try {
-        const edition = currentLang === 'ar' ? null : (TRANSLATION_EDITIONS[currentLang] || 'en.sahih');
+        const qe = currentLang !== 'ar' && isQuranEncLang(currentLang);
+        const edition = currentLang === 'ar' || qe ? null : (TRANSLATION_EDITIONS[currentLang] || 'en.sahih');
         const pages = [];
         for (let p = from; p <= to; p++) pages.push(p);
 
@@ -5573,6 +5734,15 @@
         const [arRes, trRes] = await Promise.all([Promise.all(arReqs), Promise.all(trReqs)]);
         const arJson = await Promise.all(arRes.map(r => r.json()));
         const trJson = await Promise.all(trRes.map(async r => { try { return r ? await r.json() : null; } catch (e) { return null; } }));
+        let qeMaps = null, enPages = null;
+        if (qe) {
+          const sNums = [...new Set(arJson.flatMap(pj => pj.code === 200 ? pj.data.ayahs.map(a => a.surah && a.surah.number ? a.surah.number : surahFromGlobal(a.number)) : []))];
+          const maps = await Promise.all(sNums.map(n => loadQuranEncSura(currentLang, n)));
+          qeMaps = new Map(sNums.map((n, i) => [n, maps[i]]));
+          if (maps.some(m => !m)) {   // fall back to English for anything QuranEnc could not supply
+            enPages = await Promise.all(pages.map(p => apiFetch(`https://api.alquran.cloud/v1/page/${p}/en.sahih`).then(r => r.json()).catch(() => null)));
+          }
+        }
         if (fetchId !== versesFetchId) return;
 
         const verses = [];
@@ -5580,6 +5750,7 @@
         arJson.forEach((pj, pi) => {
           if (pj.code !== 200) throw new Error('Unexpected API response');
           const trAyahs = trJson[pi] && trJson[pi].code === 200 ? trJson[pi].data.ayahs : null;
+          const enAy = enPages && enPages[pi] && enPages[pi].code === 200 ? enPages[pi].data.ayahs : null;
           pj.data.ayahs.forEach((a, k) => {
             if (seen.has(a.number)) return;
             seen.add(a.number);
@@ -5590,7 +5761,9 @@
               globalNumber: a.number,
               page: a.page || pages[pi],
               arabic: a.text,
-              translation: trAyahs && trAyahs[k] ? trAyahs[k].text : null,
+              translation: qeMaps
+                ? (qeMaps.get(surahNum) ? (qeMaps.get(surahNum).get(a.numberInSurah) || null) : (enAy && enAy[k] ? enAy[k].text : null))
+                : (trAyahs && trAyahs[k] ? trAyahs[k].text : null),
               repetitionCount: repCounts[repKey(surahNum, a.numberInSurah)] || 0,
               customTarget: repCounts[repKey(surahNum, a.numberInSurah) + '_target'] || getTarget()
             });
