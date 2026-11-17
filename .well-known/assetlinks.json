@@ -3,6 +3,6 @@
       "target": {
         "namespace": "android_app",
         "package_name": "app.quranlearning.twa",
-        "sha256_cert_fingerprints": ["2E:DF:CC:AB:35:27:CB:2C:1F:4F:70:37:FF:D6:92:3C:2C:0E:A4:96:C5:DC:CE:5E:82:76:4D:AB:4C:FC:D0:23"]
+        "sha256_cert_fingerprints": ["2E:DF:CC:AB:35:27:CB:2C:1F:4F:70:37:FF:D6:92:3C:2C:0E:A4:96:C5:DC:CE:5E:82:76:4D:AB:4C:FC:D0:23","00:B9:72:0D:D6:E5:30:74:DE:5A:B4:41:41:03:65:BA:21:43:76:D3:74:DE:CA:7C:89:3F:54:2F:39:A4:38:13"]
       }
     }]
